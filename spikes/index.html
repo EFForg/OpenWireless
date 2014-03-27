@@ -1,0 +1,83 @@
+<html>
+
+<head>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script type="text/javascript">
+
+	var authorizationToken = "";	
+	
+	function getAuthToken() {
+
+		var username = $('#username').val();
+		var password = $('#password').val();
+
+		var authRequest = {
+			"jsonrpc": "2.0",
+			"method": "login",
+			"params": [username, password],
+			"id": 1
+		}
+
+		var success = function (response){
+			authorizationToken = response.result;
+			$('#authToken').val(authorizationToken);
+		};
+
+		$.ajax({
+			type: "POST",
+			url: "http://192.168.1.1/cgi-bin/luci/rpc/auth",
+			data: JSON.stringify(authRequest),
+			success: success
+		});
+
+		return false;
+	}
+
+	function execJSON() {
+
+		var library = $('#library').val();
+		var method = $('#method').val();
+		var param = $('#param').val();
+
+		var request = {
+			"jsonrpc": "2.0",
+			"method": method,
+			"params": [param],
+			"id": 1
+		}
+
+		var url = "http://192.168.1.1/cgi-bin/luci/rpc/" + library + "?auth=" + authorizationToken;
+
+		var showResult = function (response){
+			$('#result').val(response.result);
+		}
+
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: JSON.stringify(request),
+			success: showResult
+		});
+		return false;
+	}
+
+	</script>
+</head>
+<body>
+	<form onsubmit="return getAuthToken();" method="POST">
+		Username: <input type="text" value="root" id="username"></input><br>
+		Password: <input type="text" value="password" id="password"></input><br>
+		<input type="submit" value="Submit"></input>
+	</form><br>
+	Token: <input id="authToken" type="text"></input>
+</body>
+<hr><br>
+<form onsubmit="return execJSON();" method="POST">
+	Library: <input type="text" id="library"></input><br>
+	Method: <input type="text" id="method"></input><br>
+	param: <input type="text" id="param"></input><br>
+	<input type="submit" value="Submit"></input>
+</form>
+RESULT: <input id="result" type="text" style="width:500px; height:50px;"></input>
+</html>
