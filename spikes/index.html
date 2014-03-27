@@ -38,12 +38,12 @@
 
 		var library = $('#library').val();
 		var method = $('#method').val();
-		var param = $('#param').val();
+		var params = $('#param').val().split(" ");
 
 		var request = {
 			"jsonrpc": "2.0",
 			"method": method,
-			"params": [param],
+			"params": params,
 			"id": 1
 		}
 
