@@ -79,15 +79,32 @@
 
 		var uciUrl = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth=" + authorizationToken;
     
-		var showSSIDResult = function (response){
-			$('#newSSID').val(response.result);
+		var commitSSIDResult = function (response){
+			if(response.result) {  
+      var commitRequest = {
+        "jsonrpc": "2.0",
+        "method": "commit",
+        "params": ["wireless"],
+        "id": 1
+      }
+        $.ajax({
+			    type: "POST",
+			    url: uciUrl,
+			    data: JSON.stringify(commitRequest),
+			    success: function(response) {
+              if(response.result) {
+            $('#newSSID').val("SSID updated");} },
+			    contentType: "application/json",
+			    dataType: "json"
+		    });
+      }
 		}
 		
     $.ajax({
 			type: "POST",
 			url: uciUrl,
 			data: JSON.stringify(ssidRequest),
-			success: showSSIDResult,
+			success: commitSSIDResult,
 			contentType: "application/json",
 			dataType: "json"
 		});
