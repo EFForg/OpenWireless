@@ -93,7 +93,8 @@
 			    data: JSON.stringify(commitRequest),
 			    success: function(response) {
               if(response.result) {
-            $('#newSSID').val("SSID updated");} },
+            $('#newSSID').val("SSID updated");
+            } },
 			    contentType: "application/json",
 			    dataType: "json"
 		    });
@@ -131,8 +132,11 @@
 RESULT: <input id="result" type="text" style="width:500px; height:50px;"></input><br>
 <hr><br>
 <form onSubmit="return setSSID();" method="POST">
-  SSID: <input type="text" id="ssid" value="openWireless"></input><br>
+  SSID: <input type="text" id="ssid" value="openWireless"></input>
   <input type="submit" value="Submit"></input><br>
+  <font color="red">Clicking submit will create the new network (SSID).<br>
+  You will then be required to reconnect any wireless devices<br>
+  You had previously connected to the router.</font><br>
 </form>
-New SSID: <input id="newSSID" type="text"></input>
+Status: <input id="newSSID" type="text"></input>
 </html>
