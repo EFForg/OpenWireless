@@ -1,0 +1,142 @@
+<html>
+
+<head>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script type="text/javascript">
+
+	var authorizationToken = "";	
+	
+	function getAuthToken() {
+
+		var username = $('#username').val();
+		var password = $('#password').val();
+
+		var authRequest = {
+			"jsonrpc": "2.0",
+			"method": "login",
+			"params": [username, password],
+			"id": 1
+		}
+
+		var success = function (response){
+			authorizationToken = response.result;
+			$('#authToken').val(authorizationToken);
+		};
+
+		$.ajax({
+			type: "POST",
+			url: "http://192.168.1.1/cgi-bin/luci/rpc/auth",
+			data: JSON.stringify(authRequest),
+			success: success
+		});
+
+		return false;
+	};
+
+	function execJSON() {
+
+		var library = $('#library').val();
+		var method = $('#method').val();
+		var params = $('#param').val();
+    var paramArray = [];
+    paramArray.push(params);
+
+		var request = {
+			"jsonrpc": "2.0",
+			"method": method,
+			"params": paramArray,
+			"id": 1
+		}
+
+		var url = "http://192.168.1.1/cgi-bin/luci/rpc/" + library + "?auth=" + authorizationToken;
+
+		var showResult = function (response){
+			$('#result').val(response.result);
+		}
+
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: JSON.stringify(request),
+			success: showResult,
+			contentType: "application/json",
+			dataType: "json"
+		});
+		return false;
+	};
+
+  function setSSID() {
+    var ssid = $('#ssid').val();
+    var ssidArray = [];
+    ssidArray.push("wireless.@wifi-iface[0].ssid="+ssid);
+    var ssidRequest = {
+        "jsonrpc": "2.0",
+        "method": "set",
+        "params": ssidArray,
+        "id": 1
+    }
+
+		var uciUrl = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth=" + authorizationToken;
+    
+		var commitSSIDResult = function (response){
+			if(response.result) {  
+      var commitRequest = {
+        "jsonrpc": "2.0",
+        "method": "commit",
+        "params": ["wireless"],
+        "id": 1
+      }
+        $.ajax({
+			    type: "POST",
+			    url: uciUrl,
+			    data: JSON.stringify(commitRequest),
+			    success: function(response) {
+              if(response.result) {
+            $('#newSSID').val("SSID updated");
+            } },
+			    contentType: "application/json",
+			    dataType: "json"
+		    });
+      }
+		}
+		
+    $.ajax({
+			type: "POST",
+			url: uciUrl,
+			data: JSON.stringify(ssidRequest),
+			success: commitSSIDResult,
+			contentType: "application/json",
+			dataType: "json"
+		});
+		return false;
+  };
+
+	</script>
+</head>
+<body>
+	<form onsubmit="return getAuthToken();" method="POST">
+		Username: <input type="text" value="root" id="username"></input><br>
+		Password: <input type="text" value="asdf1234" id="password"></input><br>
+		<input type="submit" value="Submit"></input>
+	</form><br>
+	Token: <input id="authToken" type="text"></input>
+</body>
+<hr><br>
+<form onsubmit="return execJSON();" method="POST">
+	Library: <input type="text" id="library" value="sys"></input><br>
+	Method: <input type="text" id="method" value="exec"></input><br>
+	param: <input type="text" id="param" value="/usr/bin/luci-bwc -i eth0"></input><br>
+	<input type="submit" value="Submit"></input>
+</form>
+RESULT: <input id="result" type="text" style="width:500px; height:50px;"></input><br>
+<hr><br>
+<form onSubmit="return setSSID();" method="POST">
+  SSID: <input type="text" id="ssid" value="openWireless"></input>
+  <input type="submit" value="Submit"></input><br>
+  <font color="red">Clicking submit will create the new network (SSID).<br>
+  You will then be required to reconnect any wireless devices<br>
+  You had previously connected to the router.</font><br>
+</form>
+Status: <input id="newSSID" type="text"></input>
+</html>
