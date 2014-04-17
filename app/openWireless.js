@@ -29,3 +29,27 @@ function login() {
 	});
 	return false;
 };
+
+function setSSID() {
+	var ssid = $('#ssid').val();
+
+	var ssidRequest = {
+		"jsonrpc": "2.0",
+    "method": "set",
+    "params": [ssid],
+    "id": 1
+	}
+
+	$.ajax({
+		type: "POST",
+		url: "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken,
+		contentType: "application/json",
+		dataType: "json",
+		data: JSON.stringify(ssidRequest),
+		success: function() {
+			alert("It worked!");
+		},
+	});
+
+	return false;
+}
