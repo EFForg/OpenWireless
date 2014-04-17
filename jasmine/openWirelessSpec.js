@@ -1,3 +1,10 @@
+describe("All pages", function() {
+	it("should get the last sysauth cookie", function() {
+		var cookie="sysauth=8f098ad358d003; sysauth=a1b2c3d456ef7890";
+		expect(getSysauthFromCookie(cookie)).toEqual("a1b2c3d456ef7890");
+	});
+});
+
 describe("Login page", function() {
 	beforeEach(function() {
 		$("body").append("<div id='test'><input type='text' id='username'></input><input type='text' id='password'></input></div>");
