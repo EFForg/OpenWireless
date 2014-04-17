@@ -23,8 +23,8 @@ function login() {
 		contentType: "application/json",
 	  dataType: "json",
 		data: JSON.stringify(authRequest),
-		success: function() {
-			alert("It worked!");
+		success: function(response) {
+			window.location.href = "changePassword.html";
 		}
 	});
 	return false;
