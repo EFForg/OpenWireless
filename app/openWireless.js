@@ -26,16 +26,39 @@ function login() {
 };
 
 function setSSID() {
-	var ssid = $('#ssid').val();
+  var uciUrl = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken;
+	var newSsid = $('#ssid').val();
 
 	var ssidRequest = {
 		"jsonrpc": "2.0",
     "method": "set",
-    "params": ["wireless.@wifi-iface[0].ssid="+ssid],
+    "params": ["wireless.@wifi-iface[0].ssid="+newSsid],
     "id": 1
 	}
 
-	createAjaxRequest("http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken, ssidRequest, function() { alert("It worked!"); });
+  var commitRequest = {
+		"jsonrpc": "2.0",
+    "method": "commit",
+    "params": ["wireless"],
+    "id": 1
+	}
+
+	var getRequest = {
+		"jsonrpc": "2.0",
+    "method": "get",
+    "params": ["wireless.@wifi-iface[0].ssid"],
+    "id": 1
+	}
+
+	function getSSID(response){
+		createAjaxRequest(uciUrl, getRequest, function(response){ $("#updatedSSID").val(response.result); });
+	}
+  
+	function commitSsid() {
+		createAjaxRequest(uciUrl, commitRequest, getSSID);
+	}
+
+	createAjaxRequest(uciUrl, ssidRequest, commitSsid);
 	return false;
 }
 
