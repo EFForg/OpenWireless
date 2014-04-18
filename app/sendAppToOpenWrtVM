@@ -1,1 +1,1 @@
-scp -P 2200 openWireless.html openWireless.js changePassword.html root@localhost:/www/
+scp -P 2200 openWireless.js login.html changePassword.html setSSID.html root@localhost:/www/
