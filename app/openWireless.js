@@ -10,12 +10,7 @@ function login() {
 	var username = $('#username').val();
 	var password = $('#password').val();
 
-	var authRequest = {
-		"jsonrpc": "2.0",
-		"method": "login",
-		"params": [username, password],
-		"id": 1
-	}
+	var authRequest = createJsonRequest("login", [username, password])
 
 	function loginSuccess(response) {
 		window.location.href = "changePassword.html";
@@ -29,26 +24,9 @@ function setSSID() {
   var uciUrl = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken;
 	var newSsid = $('#ssid').val();
 
-	var ssidRequest = {
-		"jsonrpc": "2.0",
-    "method": "set",
-    "params": ["wireless.@wifi-iface[0].ssid="+newSsid],
-    "id": 1
-	}
-
-  var commitRequest = {
-		"jsonrpc": "2.0",
-    "method": "commit",
-    "params": ["wireless"],
-    "id": 1
-	}
-
-	var getRequest = {
-		"jsonrpc": "2.0",
-    "method": "get",
-    "params": ["wireless.@wifi-iface[0].ssid"],
-    "id": 1
-	}
+	var ssidRequest = createJsonRequest("set", ["wireless.@wifi-iface[0].ssid="+newSsid]);
+	var commitRequest = createJsonRequest("commit", ["wireless"]);
+	var getRequest = createJsonRequest("get", ["wireless.@wifi-iface[0].ssid"]);
 
 	function getSSID(response){
 		createAjaxRequest(uciUrl, getRequest, function(response){ $("#updatedSSID").val(response.result); });
@@ -71,4 +49,13 @@ function createAjaxRequest(url, requestData, successFunction) {
 		data: JSON.stringify(requestData),
 		success: successFunction
 	});
+}
+
+function createJsonRequest(method, parameters) {
+	return {
+		"jsonrpc": "2.0",
+    "method": method,
+    "params": parameters,
+    "id": 1
+	}
 }
