@@ -6,27 +6,27 @@ function checkPassword(str)
 
 function checkForm()
 {
-    if($("#password1").val() == "") {
+    if($("#newPassword").val() == " ") {
         alert("Please enter a password!");
-        $("#password1").focus();
+        $("#newPassword").focus();
         return false;
     }
 
-    if($("#password1").val() != "" && !checkPassword($("#password1").val())) {
+    if($("#newPassword").val() != "" && !checkPassword($("#newPassword").val())) {
         alert("The password you have entered is not valid!");
-        $("#password1").focus();
+        $("#newPassword").focus();
         return false;
     }
 
-    if($("#password2").val() == "") {
+    if($("#retypePassword").val() == "") {
         alert("Please re-enter your password");
-        $("#password2").focus();
+        $("#retypePassword").focus();
         return false;
     }
 
-    if($("#password1").val() != $("#password2").val()) {
+    if($("#newPassword").val() != $("#retypePassword").val()) {
        alert("The passwords do not match!");
-       $("#password2").focus();
+       $("#retypePassword").focus();
        return false;
     }
 
