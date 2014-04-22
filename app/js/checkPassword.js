@@ -4,29 +4,29 @@ function checkPassword(str)
     return re.test(str);
 }
 
-function checkForm(form)
+function checkForm()
 {
-    if(form.password1.value == "") {
+    if($("#password1").val() == "") {
         alert("Please enter a password!");
-        form.password1.focus();
+        $("#password1").focus();
         return false;
     }
 
-    if(form.password1.value != "" && !checkPassword(form.password1.value)) {
+    if($("#password1").val() != "" && !checkPassword($("#password1").val())) {
         alert("The password you have entered is not valid!");
-        form.password1.focus();
+        $("#password1").focus();
         return false;
     }
 
-    if(form.password2.value == "") {
+    if($("#password2").val() == "") {
         alert("Please re-enter your password");
-        form.password2.focus();
+        $("#password2").focus();
         return false;
     }
 
-    if(form.password1.value != form.password2.value) {
+    if($("#password1").val() != $("#password2").val()) {
        alert("The passwords do not match!");
-       form.password1.focus();
+       $("#password2").focus();
        return false;
     }
 
