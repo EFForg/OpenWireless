@@ -1,10 +1,17 @@
 describe("Change password page", function() {
+	beforeEach(function() {
+		$('body').append("<div id='test'><input type='password' id='newPassword'></input><input type='password' id='retypePassword'></input></div>");
+	});
+
+	afterEach(function() {
+		$('#test').remove();
+	});
+
 	it("should return false when new password field is empty", function() {
         var newPassword = $("#newPassword");
 		spyOn(newPassword, "val").andReturn(" ");
         checkForm();
-        console.log(newPassword.val());
-//		expect(checkForm()).toBeFalsy();
+		expect(checkForm()).toBeFalsy();
 	});
 
 //	it("should submit AJAX request with proper data", function() {
