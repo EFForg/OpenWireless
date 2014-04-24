@@ -4,28 +4,36 @@ describe("Change password page", function() {
 	});
 
 	afterEach(function() {
-		$('#test').remove();
+		$('#newPassword').val("qwerty");
 	});
 
 	it("should return false when new password field is empty", function() {
+        var newPassword = $("#newPassword");
+		spyOn(newPassword, "val").andReturn("");
+        checkForm();
+		expect(checkForm()).toBeFalsy();
+	});
+
+	it("should return false when new password field is an empty string", function() {
         var newPassword = $("#newPassword");
 		spyOn(newPassword, "val").andReturn(" ");
         checkForm();
 		expect(checkForm()).toBeFalsy();
 	});
 
-//	it("should submit AJAX request with proper data", function() {
-//		var loginData = "{\"jsonrpc\":\"2.0\",\"method\":\"login\",\"params\":[\"root\",\"asdf1234\"],\"id\":1}";
-//		$('#username').val("root");
-//		$('#password').val("asdf1234");
-//		spyOn($, "ajax");
-//		login();
-//		expect($.ajax.mostRecentCall.args[0]["data"]).toEqual(loginData);
-//	});
-//
-//	afterEach(function() {
-//		$('#test').remove();
-//	});
+	it("should submit AJAX request with proper data", function() {
+		authorizationToken = "abcdef123456";
+		var changePasswordData = "{\"jsonrpc\":\"2.0\",\"method\":\"user.setpasswd\",\"params\":[\"root\",\"qwerty\"],\"id\":1}";
+		var newPassword = $("#newPassword");
+		var retypePassword = $("#retypePassword");
+		spyOn(newPassword, "val").andReturn("qwerty");
+		spyOn(retypePassword, "val").andReturn("qwerty");
+		console.log(newPassword.val());
+		console.log(retypePassword.val());
+		spyOn($, "ajax");
+		checkForm();
+		expect($.ajax.mostRecentCall.args[0]["data"]).toEqual(changePasswordData);
+	});
 });
 
 //describe("SSID page", function() {
