@@ -1,6 +1,6 @@
 function checkPassword(str)
 {
-    var re = /^([a-z]*)$/;
+    var re = /^([a-z]+)$/;
     return re.test(str);
 }
 
@@ -9,10 +9,12 @@ function checkForm()
     if($("#newPassword").val() == " ") {
         alert("Please enter a password!");
         $("#newPassword").focus();
+        console.log("got here!");
         return false;
     }
 
-    if($("#newPassword").val() != "" && !checkPassword($("#newPassword").val())) {
+    if(!checkPassword($("#newPassword").val())) {
+        console.log($("#newPassword").val());
         alert("The password you have entered is not valid!");
         $("#newPassword").focus();
         return false;
@@ -30,6 +32,14 @@ function checkForm()
        return false;
     }
 
-    alert("Password updated!")
+    function changePasswordSuccess() {
+        alert("Password updated!");
+    }
+
+    var changePasswordUrl = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken;
+    var changePasswordRequest = createJsonRequest("user.setpasswd", ["root", $("#newPassword").val()]);
+    console.log("Reached here!" + authorizationToken);
+    createAjaxRequest(changePasswordUrl, changePasswordRequest, changePasswordSuccess);
+
     return true;
 }
