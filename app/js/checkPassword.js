@@ -9,18 +9,16 @@ function checkForm()
     if($("#newPassword").val() == " ") {
         alert("Please enter a password!");
         $("#newPassword").focus();
-        console.log("got here!");
         return false;
     }
 
     if(!checkPassword($("#newPassword").val())) {
-        console.log($("#newPassword").val());
         alert("The password you have entered is not valid!");
         $("#newPassword").focus();
         return false;
     }
 
-    if($("#retypePassword").val() == "") {
+    if($("#retypePassword").val() == " ") {
         alert("Please re-enter your password");
         $("#retypePassword").focus();
         return false;
@@ -38,7 +36,6 @@ function checkForm()
 
     var changePasswordUrl = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken;
     var changePasswordRequest = createJsonRequest("user.setpasswd", ["root", $("#newPassword").val()]);
-    console.log("Reached here!" + authorizationToken);
     createAjaxRequest(changePasswordUrl, changePasswordRequest, changePasswordSuccess);
 
     return true;
