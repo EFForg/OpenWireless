@@ -16,13 +16,13 @@ body {
 }
 
 #header {
-	height: 40%;
+	height: 30%;
 	background-image: url("../images/buildings.jpg");
 	background-position: right bottom;
-	border-radius: 5px 5px 0px 0px;
+	border-radius: 4px 4px 0px 0px;
 }
 
-form {
+.formDiv {
 	height: 60%;
-	padding: 10%;
+	padding: 2%;
 }

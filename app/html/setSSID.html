@@ -9,11 +9,15 @@
 	<body>
 		<div id="outerContainer">
 			<div id="header"></div>
-			<form onsubmit="return setSSID();" method="POST">
-				New SSID: <input type="text" value="myPrivateNetwork" id="ssid"></input><br>
-				<input type="submit" value="Submit"></input>
-			</form><br>
-			Updated SSID: <input id="updatedSSID" type="text"></input>
+			<div class="formDiv">
+				<h1>Set the SSID</h1>
+				<p>This is the SSID for your personal use. It is what you will see when you connect to the wireless.</p>
+				<form onsubmit="return setSSID();" method="POST">
+					New SSID: <input type="text" value="myPrivateNetwork" id="ssid"></input><br>
+					<input type="submit" value="Submit"></input>
+				</form><br>
+				Updated SSID: <input id="updatedSSID" type="text"></input>
+			</div>
 		</div>
 	</body>
 </html>
