@@ -1,16 +1,19 @@
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" media="screen" />
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<!-- <script src="../lib/jquery-2.1.0.min.js"></script> -->
 		<script type="text/javascript" src="../js/openWireless.js"></script>
 	</head>
 
 	<body>
-		<form onsubmit="return setSSID();" method="POST">
-			New SSID: <input type="text" value="myPrivateNetwork" id="ssid"></input><br>
-			<input type="submit" value="Submit"></input>
-		</form><br>
-		Updated SSID: <input id="updatedSSID" type="text"></input>
-		<hr><br>
+		<div id="outerContainer">
+			<div id="header"></div>
+			<form onsubmit="return setSSID();" method="POST">
+				New SSID: <input type="text" value="myPrivateNetwork" id="ssid"></input><br>
+				<input type="submit" value="Submit"></input>
+			</form><br>
+			Updated SSID: <input id="updatedSSID" type="text"></input>
+		</div>
 	</body>
 </html>
