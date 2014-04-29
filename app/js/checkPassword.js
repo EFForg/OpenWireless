@@ -1,6 +1,6 @@
 function checkPassword(str)
 {
-    var re = /^([a-z]+)$/;
+    var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,}$/;
     return re.test(str);
 }
 
@@ -31,7 +31,7 @@ function checkForm()
     }
 
     function changePasswordSuccess() {
-        alert("Password updated!");
+        window.location.href="setSSID.html";
     }
 
     var changePasswordUrl = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken;
