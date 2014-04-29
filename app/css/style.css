@@ -1,5 +1,6 @@
 body {
 	background-image: url("../images/backgroundCube.png");
+	font-family: sans-serif;
 }
 
 #outerContainer {
@@ -25,4 +26,20 @@ body {
 .formDiv {
 	height: 60%;
 	padding: 2%;
+}
+
+input[type="text"], input[type="password"] {
+	border: 2px solid #1B9AF7;
+	padding: 4px;
+}
+
+input[type="submit"] {
+	background-color: #1B9AF7;
+	border: 2px #1B9AF7;
+}
+
+input {
+	font-size: 14;
+	border-radius: 8px;
+	margin-bottom: 5px;
 }
