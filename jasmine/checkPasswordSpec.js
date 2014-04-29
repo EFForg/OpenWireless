@@ -1,35 +1,37 @@
 describe("Change password page", function() {
+  var newPassword, retypePassword 
 	beforeEach(function() {
-		$('body').append("<div id='test'><input type='password' id='newPassword'></input><input type='password' id='retypePassword'></input></div>");
-	});
-
-	afterEach(function() {
-		$('#newPassword').val("asdfghjkl12P");
-		$('#retypePassword').val("asdfghjkl12P");
+    affix('#test input#newPassword+input#retypePassword');
+    newPassword = $("#newPassword");
+    retypePassword = $("#retypePassword");
+		spyOn($, "ajax");
 	});
 
 	it("should return false when new password field is empty", function() {
-        var newPassword = $("#newPassword");
-		spyOn(newPassword, "val").andReturn("");
+    newPassword.val("");
+    retypePassword.val("asdfghjkl12P");
 		expect(checkForm()).toBeFalsy();
-        $('#test').remove();
 	});
 
 	it("should return false when retype password field is an empty string", function() {
-        var retypePassword = $("#retypePassword");
-		spyOn(retypePassword, "val").andReturn(" ");
+    newPassword.val("asdfghjkl12P");
+    retypePassword.val("");
 		expect(checkForm()).toBeFalsy();
 	});
 
-	it("should submit AJAX request with proper data", function() {
-		authorizationToken = "abcdef123456";
-		var changePasswordData = "{\"jsonrpc\":\"2.0\",\"method\":\"user.setpasswd\",\"params\":[\"root\",\"asdfghjkl12P\"],\"id\":1}";
-		var newPassword = $("#newPassword");
-		var retypePassword = $("#retypePassword");
-		spyOn($, "ajax");
+	it("should return true when both passwords are entered", function() {
+    newPassword.val("asdfghjkl12P");
+    retypePassword.val("asdfghjkl12P");
 		expect(checkForm()).toBeTruthy();
+	});
+
+	it("should submit AJAX request with proper data", function() {
+    newPassword.val("asdfghjkl12P");
+    retypePassword.val("asdfghjkl12P");
+		var changePasswordData = "{\"jsonrpc\":\"2.0\",\"method\":\"user.setpasswd\",\"params\":[\"root\",\"asdfghjkl12P\"],\"id\":1}";
+
+    checkForm();
 		expect($.ajax.mostRecentCall.args[0]["data"]).toEqual(changePasswordData);
-        $('#test').remove();
 	});
 });
 
