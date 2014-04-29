@@ -1,8 +1,9 @@
 describe("All pages", function() {
-  var username, password, ssid;
+  var username, password, loginForm, ssid;
 
-	beforeEach(function() {
-    affix('#test input#username+input#password+input#ssid');
+  beforeEach(function() {
+    affix('#test form#loginForm input#username+input#password+input#ssid');
+    loginForm = $('#loginForm');
     username = $('#username');
     password = $('#password');
     ssid     = $('#ssid');
@@ -10,10 +11,10 @@ describe("All pages", function() {
     spyOn($, "ajax");
   });
 
-	it("should get the last sysauth cookie", function() {
-		var cookie="sysauth=8f098ad358d003; sysauth=a1b2c3d456ef7890";
-		expect(getSysauthFromCookie(cookie)).toEqual("a1b2c3d456ef7890");
-	});
+  it("should get the last sysauth cookie", function() {
+    var cookie="sysauth=8f098ad358d003; sysauth=a1b2c3d456ef7890";
+    expect(getSysauthFromCookie(cookie)).toEqual("a1b2c3d456ef7890");
+  });
 
   describe("Login page", function() {
     it("should submit AJAX request to proper URL", function() {
@@ -26,6 +27,7 @@ describe("All pages", function() {
       username.val("root");
       password.val("asdf1234");
       login();
+
       expect($.ajax.mostRecentCall.args[0]["data"]).toEqual(loginData);
     });
   });
