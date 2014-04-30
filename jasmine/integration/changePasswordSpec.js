@@ -33,5 +33,13 @@ describe("Change password page", function() {
     expect(checkForm()).toBeFalsy();
     expect($.ajax.mostRecentCall.args[0]["data"]).toEqual(changePasswordData);
   });
+
+  it("should submit AJAX request to proper URL", function() {
+    authorizationToken = "abcdef123456";
+    newPassword.val("asdfghjkl12P");
+    retypePassword.val("asdfghjkl12P");
+    checkForm();
+    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken);
+  });
 });
 
