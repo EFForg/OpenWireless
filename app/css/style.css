@@ -1,41 +1,39 @@
 body {
 	background-image: url("../images/backgroundCube.png");
 	font-family: sans-serif;
-}
-
-#outerContainer {
-	margin-left: auto;
-	margin-right: auto;
+	background: black;
+	color: white;
+	margin: 0;
 	text-align: center;
-	width: 70%;
-	height: 90%;
-	border-width: 5px;
-	border-style: solid;
-	border-color: #000000;
-	border-radius: 10px;
-	background:rgba(255,255,255,0.75);
 }
 
-#header {
+header {
 	height: 30%;
 	background-image: url("../images/buildings.jpg");
 	background-position: right bottom;
-	border-radius: 4px 4px 0px 0px;
 }
 
 .formDiv {
 	height: 60%;
 	padding: 2%;
+	max-width: 280px;
+	margin: 0 auto;
+}
+
+input[type="text"], input[type="password"], input[type="submit"] {
+	padding: .5em 1em;
+	border: 2px solid #1B9AF7;
 }
 
 input[type="text"], input[type="password"] {
 	border: 2px solid #1B9AF7;
-	padding: 4px;
 }
 
 input[type="submit"] {
-	background-color: #1B9AF7;
-	border: 2px #1B9AF7;
+	background: none;
+	line-height: normal;
+	outline: 0;
+	color: white;
 }
 
 input {
