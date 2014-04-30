@@ -17,6 +17,19 @@ describe("All pages", function() {
   });
 
   describe("Login page", function() {
+
+    it("should return true when username field is empty", function() {
+      username.val(" ");
+      expect(login()).toBeTruthy();
+    });
+
+    it("should return true when password field is empty", function() {
+      username.val("root");
+      password.val(" ");
+      expect(login()).toBeTruthy();
+    });
+
+
     it("should submit AJAX request to proper URL", function() {
       login();
       expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://192.168.1.1/cgi-bin/luci/rpc/auth");

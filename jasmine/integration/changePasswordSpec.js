@@ -8,7 +8,7 @@ describe("Change password page", function() {
   });
 
   it("should return true when new password field is empty", function() {
-    newPassword.val("");
+    newPassword.val(" ");
     retypePassword.val("asdfghjkl12P");
     expect(checkForm()).toBeTruthy();
   });
