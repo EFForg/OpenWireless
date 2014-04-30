@@ -7,22 +7,22 @@ describe("Change password page", function() {
     spyOn($, "ajax");
   });
 
-  it("should return false when new password field is empty", function() {
+  it("should return true when new password field is empty", function() {
     newPassword.val("");
     retypePassword.val("asdfghjkl12P");
-    expect(checkForm()).toBeFalsy();
+    expect(checkForm()).toBeTruthy();
   });
 
-  it("should return false when retype password field is an empty string", function() {
+  it("should return true when retype password field is an empty string", function() {
     newPassword.val("asdfghjkl12P");
     retypePassword.val("");
-    expect(checkForm()).toBeFalsy();
+    expect(checkForm()).toBeTruthy();
   });
 
-  it("should return true when both passwords are entered", function() {
+  it("should return false when both passwords match", function() {
     newPassword.val("asdfghjkl12P");
     retypePassword.val("asdfghjkl12P");
-    expect(checkForm()).toBeTruthy();
+    expect(checkForm()).toBeFalsy();
   });
 
   it("should submit AJAX request with proper data", function() {
@@ -30,7 +30,7 @@ describe("Change password page", function() {
     retypePassword.val("asdfghjkl12P");
     var changePasswordData = "{\"jsonrpc\":\"2.0\",\"method\":\"user.setpasswd\",\"params\":[\"root\",\"asdfghjkl12P\"],\"id\":1}";
 
-    checkForm();
+    expect(checkForm()).toBeFalsy();
     expect($.ajax.mostRecentCall.args[0]["data"]).toEqual(changePasswordData);
   });
 });
