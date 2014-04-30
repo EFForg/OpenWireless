@@ -10,6 +10,18 @@ function login() {
 	var username = $('#username').val();
 	var password = $('#password').val();
 
+    if($("#username").val() == " ") {
+        alert("Please enter a username!");
+        $("#username").focus();
+        return true;
+    }
+
+    if($("#password").val() == " ") {
+        alert("Please enter a password!");
+        $("#password").focus();
+        return true;
+    }
+
 	var authRequest = createJsonRequest("login", [username, password])
 
 	function loginSuccess(response) {
