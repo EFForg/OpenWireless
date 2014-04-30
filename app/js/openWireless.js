@@ -29,7 +29,10 @@ function setSSID() {
 	var getRequest = createJsonRequest("get", ["wireless.@wifi-iface[0].ssid"]);
 
 	function getSSID(response){
-		createAjaxRequest(uciUrl, getRequest, function(response){ $("#updatedSSID").val(response.result); });
+		createAjaxRequest(uciUrl, getRequest, function(response){ 
+			$("#updatedSSID").html("SSID updated to " + response.result);
+			$('#ssid').val("");
+		});
 	}
   
 	function commitSsid() {

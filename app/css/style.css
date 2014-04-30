@@ -14,30 +14,42 @@ header {
 }
 
 .formDiv {
-	height: 60%;
 	padding: 2%;
-	max-width: 280px;
-	margin: 0 auto;
 }
 
 input[type="text"], input[type="password"], input[type="submit"] {
 	padding: .5em 1em;
-	border: 2px solid #1B9AF7;
+	min-width: 200px;
 }
 
 input[type="text"], input[type="password"] {
-	border: 2px solid #1B9AF7;
+	border: 0;
+	background: rgba(255,255,255, 0.2);
 }
 
 input[type="submit"] {
 	background: none;
 	line-height: normal;
 	outline: 0;
-	color: white;
+	border: 2px solid #1B9AF7;
+	margin-top: 1em;
 }
 
 input {
 	font-size: 14;
-	border-radius: 8px;
+	border-radius: 3px;
 	margin-bottom: 5px;
+	color: white;
+}
+
+p {
+	max-width: 25em;
+	margin: 0 auto 1em;
+}
+
+@media only screen and (max-width: 599px) {
+	input[type="text"], input[type="password"], input[type="submit"] {	
+		display: block;
+		width: 100%;
+	}
 }
