@@ -15,9 +15,19 @@
 				<form onsubmit="return setSSID();" method="POST">
 					<input type="text" placeholder="New SSID" id="ssid"></input><br>
 					<input type="submit" value="Submit"></input>
-				</form><br>
-				Updated SSID: <input id="updatedSSID" type="text"></input>
+				</form>
 			</div>
+
+			<div class="updating" style="display:none;">
+				<h1>Updating</h1>
+				<p>When the update completes, your router will restart.</p>
+			</div>
+
+			<div class="restarting" style="display:none;">
+				<h1>Restarting</h1>
+				<p>Update successful &#x2713;<br>Your router is now restarting. When it reboots, connect your device to the new wireless network.</p>
+			</div>
+			<div class="restartSuccess" style="display:none;"></div>
 		</div>
 	</body>
 </html>
