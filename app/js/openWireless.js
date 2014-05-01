@@ -45,6 +45,9 @@ function login() {
 function setSSID() {
     var uciUrl = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken;
 	var newSsid = $('#ssid').val();
+	//TODO: First validate the input before hiding
+	$('.formDiv').hide();
+	$('.updating').show();
 
 	var ssidRequest = createJsonRequest("set", ["wireless.@wifi-iface[0].ssid="+newSsid]);
 	var commitRequest = createJsonRequest("commit", ["wireless"]);
@@ -52,12 +55,14 @@ function setSSID() {
 
 	function getSSID(response){
 		createAjaxRequest(uciUrl, getRequest, function(response){ 
-			$("#updatedSSID").html("SSID updated to " + response.result);
-			$('#ssid').val("");
+			$(".restartSuccess").html("Restart successful &#x2713;<br>SSID updated to " + response.result);
+			// $('#ssid').val("");
 		});
 	}
   
 	function commitSsid() {
+		$('.updating').hide();
+		$('.restarting').show();
 		createAjaxRequest(uciUrl, commitRequest, getSSID);
 	}
 
