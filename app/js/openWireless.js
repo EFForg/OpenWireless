@@ -47,7 +47,7 @@ function setSSID() {
 	var newSsid = $('#ssid').val();
 	//TODO: First validate the input before hiding
 	$('.formDiv').hide();
-	$('.updating').show();
+	$('#restarting').show();
 
 	var ssidRequest = createJsonRequest("set", ["wireless.@wifi-iface[0].ssid="+newSsid]);
 	var commitRequest = createJsonRequest("commit", ["wireless"]);
@@ -55,14 +55,15 @@ function setSSID() {
 
 	function getSSID(response){
 		createAjaxRequest(uciUrl, getRequest, function(response){ 
-			$(".restartSuccess").html("Restart successful &#x2713;<br>SSID updated to " + response.result);
-			// $('#ssid').val("");
+			setTimeout(function() {
+				$('#restarting').hide();
+				$("#restartSuccess").html("<h1>Restart Successful</h1><p>SSID updated to <b>" + response.result + "</b>.<br>Please connect to this network now.</p>");
+				$('#restartSuccess').show();
+			}, 3000);
 		});
 	}
   
 	function commitSsid() {
-		$('.updating').hide();
-		$('.restarting').show();
 		createAjaxRequest(uciUrl, commitRequest, getSSID);
 	}
 
