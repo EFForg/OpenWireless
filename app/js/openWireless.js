@@ -22,18 +22,28 @@ function login() {
         return true;
     }
 
-	var authRequest = createJsonRequest("login", [username, password])
+    var authRequest = createJsonRequest("login", [username, password]);
+    createAjaxRequest("http://192.168.1.1/cgi-bin/luci/rpc/auth", authRequest, loginSuccess);
 
-	function loginSuccess(response) {
-		window.location.href = "changePassword.html";
-	}
-
-	createAjaxRequest("http://192.168.1.1/cgi-bin/luci/rpc/auth", authRequest, loginSuccess);
+    function loginSuccess() {
+        var validateCredentialsUrl = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+getSysauthFromCookie(document.cookie);
+        var checkValidity = createJsonRequest("user.checkpasswd", [username, password]);
+        createAjaxRequest(validateCredentialsUrl, checkValidity, validCredentialsSuccess);
+        function validCredentialsSuccess(response) {
+            if(response.result){
+                window.location.href = "changePassword.html";
+            } else {
+                alert("Username/password is incorrect");
+                $("#username").focus();
+                return true;
+            }
+        }
+    }
 	return false;
 };
 
 function setSSID() {
-  var uciUrl = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken;
+    var uciUrl = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken;
 	var newSsid = $('#ssid').val();
 
 	var ssidRequest = createJsonRequest("set", ["wireless.@wifi-iface[0].ssid="+newSsid]);
@@ -69,9 +79,9 @@ function createAjaxRequest(url, requestData, successFunction) {
 function createJsonRequest(method, parameters) {
 	return {
 		"jsonrpc": "2.0",
-    "method": method,
-    "params": parameters,
-    "id": 1
+        "method": method,
+        "params": parameters,
+        "id": 1
 	}
 }
 
