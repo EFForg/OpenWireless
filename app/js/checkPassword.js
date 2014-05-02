@@ -6,7 +6,10 @@ function checkPassword(str)
 
 function checkForm()
 {
-    if($("#newPassword").val() == " ") {
+    var newPassword = $('#newPassword');
+    var retypePassword = $('#retypePassword');
+
+    if(isEmpty(newPassword.val())) {
         alert("Please enter a password!");
         $("#newPassword").focus();
         return true;
@@ -18,7 +21,7 @@ function checkForm()
         return true;
     }
 
-    if($("#retypePassword").val() == " ") {
+    if(isEmpty(retypePassword.val())) {
         alert("Please re-enter your password");
         $("#retypePassword").focus();
         return true;
@@ -31,7 +34,7 @@ function checkForm()
     }
 
     function changePasswordSuccess() {
-        window.location.href="setSSID.html";
+        redirectTo("setSSID.html");
     }
 
     var changePasswordUrl = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken;

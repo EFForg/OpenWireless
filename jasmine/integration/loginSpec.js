@@ -44,23 +44,26 @@ describe("Login page", function() {
       expect($.ajax.mostRecentCall.args[0]["data"]).toEqual(loginData);
     });
 
-    it("should redirect the user to the change password page if login was successful", function() {
-      spyOn($, "ajax");
-      username.val("root");
-      password.val("asdf1234");
-      login();
-      expect(redirect).toEqual("changePassword.html");
+    it("should validate the login credentials if auth token was retrieved successfully", function() {
+      document.cookie = "sysauth=abcdef123456";
+      spyOn($, "ajax").andCallFake(function(params){
+        params.success({});
+        });
+        username.val("root");
+        password.val("asdfghjkl12P");
+        login();
+        expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://192.168.1.1/cgi-bin/luci/rpc/sys?auth=" +authorizationToken);
     });
 
     it("should not redirect user if login fails", function() {
       spyOn($, "ajax").andCallFake(function(params){
         params.error({});
+        });
         username.val("baduser");
         password.val('basspass');
         login();
         expect(redirect).toEqual(null);
-      });
-    });
+        });
   });
 });
 
