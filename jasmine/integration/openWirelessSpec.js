@@ -1,14 +1,17 @@
 describe("All pages", function() {
-  var username, password, loginForm, ssid;
+  var username, password, loginForm, ssid, alert_msg, redirect ;
 
   beforeEach(function() {
-    affix('#test form#loginForm input#username+input#password+input#ssid');
-    loginForm = $('#loginForm');
+    alert_msg = null;
+    affix('form input#username+input#password+input#ssid');
+    loginForm = $('form');
     username = $('#username');
     password = $('#password');
     ssid     = $('#ssid');
-    window.alert = function(){return;};
-    spyOn($, "ajax");
+    window.alert = function(msg){alert_msg = msg;};
+    window.redirectTo = function(url) { redirect = url; }
+    spyOn($, 'ajax');
+    login();
   });
 
   it("should get the last sysauth cookie", function() {
@@ -16,34 +19,6 @@ describe("All pages", function() {
     expect(getSysauthFromCookie(cookie)).toEqual("a1b2c3d456ef7890");
   });
 
-  describe("Login page", function() {
-
-    it("should return true when username field is empty", function() {
-      username.val(" ");
-      expect(login()).toBeTruthy();
-    });
-
-    it("should return true when password field is empty", function() {
-      username.val("root");
-      password.val(" ");
-      expect(login()).toBeTruthy();
-    });
-
-
-    it("should submit AJAX request to proper URL", function() {
-      login();
-      expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://192.168.1.1/cgi-bin/luci/rpc/auth");
-    });
-
-    it("should submit AJAX request with proper data", function() {
-      var loginData = "{\"jsonrpc\":\"2.0\",\"method\":\"login\",\"params\":[\"root\",\"asdf1234\"],\"id\":1}";
-      username.val("root");
-      password.val("asdf1234");
-      login();
-
-      expect($.ajax.mostRecentCall.args[0]["data"]).toEqual(loginData);
-    });
-  });
 
   describe("SSID page", function() {
     it("should submit AJAX request to proper URL", function() {
