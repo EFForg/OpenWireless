@@ -1,13 +1,9 @@
-var authorizationToken = getSysauthFromCookie(document.cookie);	
+var authorizationToken = getSysauthFromCookie(document.cookie);
 
 function login() {
-  var form = $('form');
   var username = $('#username');
   var password = $('#password');
 
-
-  form.on('submit', function(event){
-    event.preventDefault();
     if(isEmpty(username.val())) {
       alert("Please enter a username!");
       username.focus();
@@ -16,9 +12,13 @@ function login() {
       alert("Please enter a password!");
       password.focus();
     }
+
+    var authRequest = createJsonRequest("login", [username.val(), password.val()]);
+    createAjaxRequest("http://192.168.1.1/cgi-bin/luci/rpc/auth", authRequest, loginSuccess);
+
     function loginSuccess() {
         var validateCredentialsUrl = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+getSysauthFromCookie(document.cookie);
-        var checkValidity = createJsonRequest("user.checkpasswd", [username, password]);
+        var checkValidity = createJsonRequest("user.checkpasswd", [username.val(), password.val()]);
         createAjaxRequest(validateCredentialsUrl, checkValidity, validCredentialsSuccess);
         function validCredentialsSuccess(response) {
             if(response.result){
@@ -30,10 +30,7 @@ function login() {
             }
         }
     }
-    var authRequest = createJsonRequest("login", [username.val(), password.val()]);
-    createAjaxRequest("http://192.168.1.1/cgi-bin/luci/rpc/auth", authRequest, loginSuccess);
-    createAjaxRequest("http://192.168.1.1/cgi-bin/luci/rpc/auth", authRequest, loginSuccess());
-  });
+    return false;
 };
 
 function setSSID() {
@@ -48,7 +45,7 @@ function setSSID() {
 	var getRequest = createJsonRequest("get", ["wireless.@wifi-iface[0].ssid"]);
 
 	function getSSID(response){
-		createAjaxRequest(uciUrl, getRequest, function(response){ 
+		createAjaxRequest(uciUrl, getRequest, function(response){
 			setTimeout(function() {
 				$('#restarting').hide();
 				$("#restartSuccess").html("<h1>Restart Successful</h1><p>SSID updated to <b>" + response.result + "</b>.<br>Please connect to this network now.</p>");
@@ -56,7 +53,7 @@ function setSSID() {
 			}, 3000);
 		});
 	}
-  
+
 	function commitSsid() {
 		createAjaxRequest(uciUrl, commitRequest, getSSID);
 	}
@@ -66,28 +63,26 @@ function setSSID() {
 }
 
 function createAjaxRequest(url, requestData, successFunction) {
-  console.log('here');
-  console.log(successFunction);
-  $.ajax({
-    type: "POST",
-    url: url,
-    contentType: "application/json",
-    dataType: "json",
-    data: JSON.stringify(requestData),
-    success: successFunction,
-    error: function(request, errorType, errorMessage) {
-      console.log('Error: ' + errorType + ': Message : ' + errorMessage);
-    }
-  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		contentType: "application/json",
+	    dataType: "json",
+		data: JSON.stringify(requestData),
+        success: successFunction,
+        error: function(request, errorType, errorMessage) {
+            console.log('Error: ' + errorType + ': Message : ' + errorMessage);
+        }
+	});
 }
 
 function createJsonRequest(method, parameters) {
-  return {
-    "jsonrpc": "2.0",
-    "method": method,
-    "params": parameters,
-    "id": 1
-  }
+	return {
+		"jsonrpc": "2.0",
+        "method": method,
+        "params": parameters,
+        "id": 1
+	}
 }
 
 function getSysauthFromCookie(cookieString) {
