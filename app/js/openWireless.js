@@ -26,3 +26,25 @@ function setSSID() {
 	createAjaxRequest(uciUrl, ssidRequest, commitSsid);
 	return false;
 }
+function createJsonRequest(method, parameters) {
+  return {
+    "jsonrpc": "2.0",
+    "method": method,
+    "params": parameters,
+    "id": 1
+  }
+}
+
+function createAjaxRequest(url, requestData, successFunction) {
+  $.ajax({
+    type: "POST",
+    url: url,
+    contentType: "application/json",
+    dataType: "json",
+    data: JSON.stringify(requestData),
+    success: successFunction,
+    error: function(request, errorType, errorMessage) {
+      console.log('Error: ' + errorType + ': Message : ' + errorMessage);
+    }
+  });
+}
