@@ -6,28 +6,38 @@ function checkForm() {
 
   form.on('submit', function(event){
     event.preventDefault();
+    $("#newPasswordError").hide();
+    $("#retypePasswordError").hide();
     var changePasswordRequest = { "jsonrpc": "2.0", "method": "user.setpasswd", "params": ["root", newPassword.val()], "id": 1 };
 
     if(isEmpty(newPassword.val())) {
-      alert("Please enter a password!");
+      $("#newPassword").addClass("error");
+      $("#newPasswordError").html("Please enter a password.");
+      $("#newPasswordError").show();
       $("#newPassword").focus();
-      return
+      return;
     };
 
     if(!checkPassword(newPassword.val())) {
-      alert("The password you have entered is not valid!");
+      $("#newPassword").addClass("error");
+      $("#newPasswordError").html("Password must contain at least 12 characters, including UPPER/lowercase and numbers.");
+      $("#newPasswordError").show();
       $("#newPassword").focus();
       return;
     };
 
     if(isEmpty(retypePassword.val())) {
-      alert("Please re-enter your password");
+      $("#retypePassword").addClass("error");
+      $("#retypePasswordError").html("Please re-enter your password.");
+      $("#retypePasswordError").show();
       $("#retypePassword").focus();
       return;
     };
 
     if(newPassword.val() != retypePassword.val()) {
-      alert("The passwords do not match!");
+      $("#retypePassword").addClass("error");
+      $("#retypePasswordError").html("Passwords must match.");
+      $("#retypePasswordError").show();
       $("#retypePassword").focus();
       return;
     };

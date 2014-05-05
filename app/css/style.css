@@ -8,7 +8,7 @@ body {
 }
 
 header {
-	height: 30%;
+	height: 200px;
 	background-image: url("../images/buildings.jpg");
 	background-position: right bottom;
 }
@@ -41,6 +41,18 @@ input {
 	margin-bottom: 5px;
 	color: white;
 }
+
+.error {
+  box-shadow: 0 0 0px red;
+  -moz-box-shadow:    0 0 0px red;
+  -webkit-box-shadow: 0 0 0px red;
+}
+
+.inputError {
+  margin: 0 0 .75em 0;
+  color: red;
+}
+
 
 p {
 	max-width: 25em;
