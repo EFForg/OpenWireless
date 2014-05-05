@@ -1,15 +1,3 @@
-var authorizationToken = getSysauthFromCookie(document.cookie);
-function getSysauthFromCookie(cookieString) {
-  var sysauthPairs = cookieString.split(";");
-  var lastCookieValue = sysauthPairs[sysauthPairs.length - 1].split("=");
-  return lastCookieValue[1];
-};
-function redirectTo(url) { window.location.href = url; }
-function checkPassword(str) {
-    var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,}$/;
-    return re.test(str);
-};
-
 function checkForm() {
   var form = $('form');
   var newPassword = $('#newPassword');
@@ -57,8 +45,22 @@ function checkForm() {
         console.log('Error: ' + errorType + ': Message : ' + errorMessage);
       }
     });
-
   });
+};
+
+var authorizationToken = getSysauthFromCookie(document.cookie);
+
+function getSysauthFromCookie(cookieString) {
+  var sysauthPairs = cookieString.split(";");
+  var lastCookieValue = sysauthPairs[sysauthPairs.length - 1].split("=");
+  return lastCookieValue[1];
+};
+
+function redirectTo(url) { window.location.href = url; }
+
+function checkPassword(str) {
+    var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,}$/;
+    return re.test(str);
 };
 
 function isEmpty(value) { return !value || value.length === 0 || value == " " }
