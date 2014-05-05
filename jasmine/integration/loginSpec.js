@@ -1,5 +1,5 @@
 describe("Login page", function() {
-  var username, password, loginForm, ssid, alert_msg, redirect ;
+  var username, password, loginForm, ssid, alert_msg, redirect;
 
   beforeEach(function() {
     alert_msg = null;
