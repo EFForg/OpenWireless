@@ -1,30 +1,30 @@
 describe("Login page", function() {
-  var username, password, loginForm, ssid, alert_msg, redirect;
+  var username, password, loginForm, ssid, redirect, usernameError, passwordError;
 
   beforeEach(function() {
-    alert_msg = null;
-    affix('form input#username+input#password+input#ssid');
-    loginForm =$('form');
+    affix('form input#username+input#password+input#ssid+input#usernameError+input#passwordError');
+    loginForm = $('form');
     username = $('#username');
     password = $('#password');
     ssid     = $('#ssid');
-    window.alert = function(msg){alert_msg = msg;};
+    usernameError = $("#usernameError");
+    passwordError = $("#passwordError");
     window.redirectTo = function(url) { redirect = url; }
     login();
   });
 
-  it("should alert the user when username field is empty", function() {
+  it("should show the user an error if username field is empty", function() {
     username.val(" ");
     password.val("password");
     loginForm.trigger('submit');
-    expect(alert_msg).toEqual("Please enter a username!");
+    expect(usernameError.text()).toEqual("Please enter a username!");
   });
 
-  it("should alert the user when password field is empty", function() {
+  it("should show the user an error if password field is empty", function() {
     username.val("root");
     password.val(" ");
     loginForm.trigger('submit');
-    expect(alert_msg).toEqual("Please enter a password!");
+    expect(passwordError.text()).toEqual("Please enter a password!");
   });
 
   it("should submit AJAX request to proper URL", function() {

@@ -4,16 +4,28 @@ function login() {
   var username = $('#username');
   var form =     $('form');
   var password = $('#password');
+  var usernameError = $("#usernameError");
+  var passwordError = $("#passwordError");
 
   form.on('submit', function(event) {
-    event.preventDefault();
-    if(isEmpty(username.val())) {
-      alert("Please enter a username!");
+     event.preventDefault();
+     usernameError.hide();
+     passwordError.hide();
+
+     if(isEmpty(username.val())) {
+      username.addClass("error");
+      usernameError.html("Please enter a username!");
+      usernameError.show();
       username.focus();
+      return;
     }
+
     if(isEmpty(password.val())){
-      alert("Please enter a password!");
+      password.addClass("error");
+      passwordError.html("Please enter a password!");
+      passwordError.show();
       password.focus();
+      return;
     }
 
     var data =  { "jsonrpc": "2.0", "method": "login", "params": [username.val(), password.val()], "id": 1 }

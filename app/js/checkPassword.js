@@ -2,43 +2,45 @@ function checkForm() {
   var form = $('form');
   var newPassword = $('#newPassword');
   var retypePassword = $('#retypePassword');
+  var newPasswordError= $("#newPasswordError");
+  var retypePasswordError= $("#retypePasswordError");
   var changePasswordUrl = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken;
 
   form.on('submit', function(event){
     event.preventDefault();
-    $("#newPasswordError").hide();
-    $("#retypePasswordError").hide();
+    newPasswordError.hide();
+    retypePasswordError.hide();
     var changePasswordRequest = { "jsonrpc": "2.0", "method": "user.setpasswd", "params": ["root", newPassword.val()], "id": 1 };
 
     if(isEmpty(newPassword.val())) {
-      $("#newPassword").addClass("error");
-      $("#newPasswordError").html("Please enter a password.");
-      $("#newPasswordError").show();
-      $("#newPassword").focus();
+      newPassword.addClass("error");
+      newPasswordError.html("Please enter a password.");
+      newPasswordError.show();
+      newPassword.focus();
       return;
     };
 
     if(!checkPassword(newPassword.val())) {
-      $("#newPassword").addClass("error");
-      $("#newPasswordError").html("Password must contain at least 12 characters, including UPPER/lowercase and numbers.");
-      $("#newPasswordError").show();
-      $("#newPassword").focus();
+      newPassword.addClass("error");
+      newPasswordError.html("Password must contain at least 12 characters, including UPPER/lowercase and numbers.");
+      newPasswordError.show();
+      newPassword.focus();
       return;
     };
 
     if(isEmpty(retypePassword.val())) {
-      $("#retypePassword").addClass("error");
-      $("#retypePasswordError").html("Please re-enter your password.");
-      $("#retypePasswordError").show();
-      $("#retypePassword").focus();
+      retypePassword.addClass("error");
+      retypePasswordError.html("Please re-enter your password.");
+      retypePasswordError.show();
+      retypePassword.focus();
       return;
     };
 
     if(newPassword.val() != retypePassword.val()) {
-      $("#retypePassword").addClass("error");
-      $("#retypePasswordError").html("Passwords must match.");
-      $("#retypePasswordError").show();
-      $("#retypePassword").focus();
+      retypePassword.addClass("error");
+      retypePasswordError.html("Passwords must match.");
+      retypePasswordError.show();
+      retypePassword.focus();
       return;
     };
 
