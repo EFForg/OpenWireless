@@ -6,11 +6,13 @@ function login() {
   var password = $('#password');
   var usernameError = $("#usernameError");
   var passwordError = $("#passwordError");
+  var genericError =  $('#genericError');
 
   form.on('submit', function(event) {
      event.preventDefault();
      usernameError.hide();
      passwordError.hide();
+     genericError.hide();
 
      if(isEmpty(username.val())) {
       username.addClass("error");
@@ -36,44 +38,20 @@ function login() {
       dataType: "json",
       data: JSON.stringify(data),
       success: function(response) {
-        loginSuccess(response);
+        if(response.result == null){
+           genericError.html("Username/password is incorrect");
+           genericError.show();
+           return;
+        }
+        redirectTo("changePassword.html");
       },
-      error: function(request, errorType, errorMessage) {
-        console.log('Error: ' + errorType + ': Message : ' + errorMessage);
+      error: function() {
+        genericError.html("Error occurred");
+        genericError.show();
       }
     });
   });
 };
-
-function loginSuccess(response) {
-  var username = $('#username');
-  var password = $('#password');
-  var validateCredentialsUrl = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+getSysauthFromCookie(document.cookie);
-  var checkValidity =  { "jsonrpc": "2.0", "method": "user.checkpasswd", "params": [username.val(), password.val()], "id": 1 }
-  $.ajax({
-    type: "POST",
-    url: validateCredentialsUrl,
-    contentType: "application/json",
-    dataType: "json",
-    data: JSON.stringify(checkValidity),
-    success: function(response) {
-      validCredentialsSuccess(response);
-    },
-    error: function(request, errorType, errorMessage) {
-      console.log('Error: ' + errorType + ': Message : ' + errorMessage);
-    }
-  });
-};
-
-function validCredentialsSuccess(response) {
-  if(response.result){
-    redirectTo("changePassword.html");
-  } else {
-    alert("Username/password is incorrect");
-    $("#username").focus();
-  }
-};
-
 
 function getSysauthFromCookie(cookieString) {
   var sysauthPairs = cookieString.split(";");

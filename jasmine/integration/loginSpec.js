@@ -1,14 +1,15 @@
 describe("Login page", function() {
-  var username, password, loginForm, ssid, redirect, usernameError, passwordError;
+  var username, password, loginForm, ssid, redirect, usernameError, passwordError, genericError;
 
   beforeEach(function() {
-    affix('form input#username+input#password+input#ssid+input#usernameError+input#passwordError');
+    affix('form input#username+input#password+input#ssid+input#usernameError+input#passwordError+input#genericError');
     loginForm = $('form');
     username = $('#username');
     password = $('#password');
     ssid     = $('#ssid');
     usernameError = $("#usernameError");
     passwordError = $("#passwordError");
+    genericError = $("#genericError");
     window.redirectTo = function(url) { redirect = url; }
     login();
   });
@@ -44,15 +45,24 @@ describe("Login page", function() {
     expect($.ajax.mostRecentCall.args[0]["data"]).toEqual(loginData);
   });
 
-  it("should validate the login credentials if auth token was retrieved successfully", function() {
-    document.cookie = "sysauth=abcdef123456";
+  it("should redirect to changePassword page if auth token was retrieved successfully", function() {
     spyOn($, "ajax").andCallFake(function(params){
-      params.success({});
+      params.success({result: "document.cookie"});
     });
     username.val("root");
     password.val("asdfghjkl12P");
     loginForm.trigger('submit');
-    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://192.168.1.1/cgi-bin/luci/rpc/sys?auth=" +authorizationToken);
+    expect(redirect).toEqual("changePassword.html");
+  });
+
+  it("should show error if username/password do not match auth token was not retrieved successfully", function() {
+    spyOn($, "ajax").andCallFake(function(params){
+      params.success({});
+    });
+    username.val("root");
+    password.val("asdf");
+    loginForm.trigger('submit');
+    expect(genericError.text()).toEqual("Username/password is incorrect");
   });
 
   it("should not redirect user if login fails", function() {
@@ -60,9 +70,9 @@ describe("Login page", function() {
       params.error({});
     });
     username.val("baduser");
-    password.val('basspass');
+    password.val('badpass');
     loginForm.trigger('submit');
-    expect(redirect).toEqual(null);
+    expect(genericError.text()).toEqual("Error occurred");
   });
 });
 
