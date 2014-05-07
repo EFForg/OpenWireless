@@ -8,7 +8,7 @@ function login() {
   var passwordError = $("#passwordError");
   var genericError =  $('#genericError');
 
-  form.on('submit', function(event) {
+  form.submit(function(event) {
      event.preventDefault();
      usernameError.hide();
      passwordError.hide();
@@ -47,8 +47,8 @@ function login() {
         }
         redirectTo("changePassword.html");
       },
-      error: function() {
-        genericError.html("Error occurred");
+      error: function(errorType, errorMessage) {
+        genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
         genericError.show();
       }
     });

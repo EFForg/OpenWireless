@@ -2,7 +2,7 @@ var uciUrl, newSsid;
 function setSSID() {
   var ssidform = $('form');  
 
-  ssidform.on('submit', function(event){
+  ssidform.submit(function(event){
     uciUrl   = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken;
     newSsid  = $('#ssid').val();
     event.preventDefault();

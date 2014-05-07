@@ -6,7 +6,7 @@ function checkForm() {
   var retypePasswordError= $("#retypePasswordError");
   var changePasswordUrl = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken;
 
-  form.on('submit', function(event){
+  form.submit(function(event){
     event.preventDefault();
     newPasswordError.hide();
     retypePasswordError.hide();
@@ -57,6 +57,7 @@ function checkForm() {
       },
       error: function(request, errorType, errorMessage) {
         console.log('Error: ' + errorType + ': Message : ' + errorMessage);
+        redirectTo("login.html");
       }
     });
   });

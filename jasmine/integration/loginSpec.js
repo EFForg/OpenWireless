@@ -17,14 +17,14 @@ describe("Login page", function() {
   it("should show the user an error if username field is empty", function() {
     username.val(" ");
     password.val("password");
-    loginForm.trigger('submit');
+    loginForm.submit();
     expect(usernameError.text()).toEqual("Please enter a username!");
   });
 
   it("should show the user an error if password field is empty", function() {
     username.val("root");
     password.val(" ");
-    loginForm.trigger('submit');
+    loginForm.submit();
     expect(passwordError.text()).toEqual("Please enter a password!");
   });
 
@@ -32,7 +32,7 @@ describe("Login page", function() {
     spyOn($, "ajax");
     username.val("root");
     password.val("password");
-    loginForm.trigger('submit');
+    loginForm.submit();
     expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://192.168.1.1/cgi-bin/luci/rpc/auth");
   });
 
@@ -41,7 +41,7 @@ describe("Login page", function() {
     var loginData = "{\"jsonrpc\":\"2.0\",\"method\":\"login\",\"params\":[\"root\",\"asdf1234\"],\"id\":1}";
     username.val("root");
     password.val("asdf1234");
-    loginForm.trigger('submit');
+    loginForm.submit();
     expect($.ajax.mostRecentCall.args[0]["data"]).toEqual(loginData);
   });
 
@@ -51,7 +51,7 @@ describe("Login page", function() {
     });
     username.val("root");
     password.val("asdfghjkl12P");
-    loginForm.trigger('submit');
+    loginForm.submit();
     expect(redirect).toEqual("changePassword.html");
   });
 
@@ -61,18 +61,18 @@ describe("Login page", function() {
     });
     username.val("root");
     password.val("asdf");
-    loginForm.trigger('submit');
+    loginForm.submit();
     expect(genericError.text()).toEqual("Username/password is incorrect");
   });
 
   it("should not redirect user if login fails", function() {
     spyOn($, "ajax").andCallFake(function(params){
-      params.error({});
+      params.error("Error", "Forbidden");
     });
     username.val("baduser");
     password.val('badpass');
-    loginForm.trigger('submit');
-    expect(genericError.text()).toEqual("Error occurred");
+    loginForm.submit();
+    expect(genericError.text()).toEqual("Error: Error: Message : Forbidden");
   });
 });
 

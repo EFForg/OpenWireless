@@ -1,5 +1,5 @@
 describe("Set SSID page", function() {
-  var username, password, loginForm, ssid, alert_msg, redirect ;
+  var username, password, ssidForm, ssid, alert_msg, redirect ;
 
   beforeEach(function() {
     alert_msg = null;
@@ -22,14 +22,14 @@ describe("Set SSID page", function() {
 
   it("should submit AJAX request to proper URL", function() {
     authorizationToken = "abcdef123456";
-    ssidForm.trigger('submit');
+    ssidForm.submit();
     expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken);
   });
 
   it("should submit AJAX request with proper data", function() {
     var ssidData = "{\"jsonrpc\":\"2.0\",\"method\":\"set\",\"params\":[\"wireless.@wifi-iface[0].ssid=myPrivateNetwork\"],\"id\":1}";
     ssid.val("myPrivateNetwork");
-    ssidForm.trigger('submit');
+    ssidForm.submit();
     expect($.ajax.mostRecentCall.args[0]["data"]).toEqual(ssidData);
   });
 });
