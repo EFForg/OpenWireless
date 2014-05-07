@@ -13,6 +13,8 @@ function login() {
      usernameError.hide();
      passwordError.hide();
      genericError.hide();
+     username.removeClass('error');
+     password.removeClass('error');
 
      if(isEmpty(username.val())) {
       username.addClass("error");

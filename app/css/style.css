@@ -42,10 +42,11 @@ input {
 	color: white;
 }
 
-.error {
-  box-shadow: 0 0 0px red;
-  -moz-box-shadow:    0 0 0px red;
-  -webkit-box-shadow: 0 0 0px red;
+input.error {
+  outline: 0;
+  outline-offset: 0px;
+  border: 2px solid red;
+  border-radius: 3px;
 }
 
 .inputError {

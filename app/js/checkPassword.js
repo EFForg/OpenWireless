@@ -10,6 +10,8 @@ function checkForm() {
     event.preventDefault();
     newPasswordError.hide();
     retypePasswordError.hide();
+    newPassword.removeClass("error");
+    retypePassword.removeClass("error");
     var changePasswordRequest = { "jsonrpc": "2.0", "method": "user.setpasswd", "params": ["root", newPassword.val()], "id": 1 };
 
     if(isEmpty(newPassword.val())) {
