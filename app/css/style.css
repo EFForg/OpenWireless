@@ -1,5 +1,4 @@
 body {
-	background-image: url("../images/backgroundCube.png");
 	font-family: sans-serif;
 	background: black;
 	color: white;
@@ -58,6 +57,50 @@ input.error {
 p {
 	max-width: 25em;
 	margin: 0 auto 1em;
+}
+
+#antenna {
+	height: 30px;
+}
+
+.x.axis line {
+  shape-rendering: auto;
+}
+
+.line {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.domain {
+	stroke: white;
+}
+
+.tick text {
+	fill: white;
+}
+
+.devices {
+	padding: 0;
+
+}
+
+.devices li {
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+			box-sizing: border-box;
+	display: inline-block;
+	width: 49%;
+	padding: .5em 1em;
+}
+
+.devices li:nth-of-type(odd) {
+	text-align: right;
+}
+
+.devices li:nth-of-type(even) {
+	text-align: left;
 }
 
 @media only screen and (max-width: 599px) {

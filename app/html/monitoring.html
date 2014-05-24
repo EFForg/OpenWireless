@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" media="screen" />
+    	<script src="../lib/jquery-2.1.0.min.js"></script>
+    	<script type="text/javascript" src="../lib/d3/d3.min.js"></script>
+		<script type="text/javascript" src="../js/monitoring.js"></script>
+	</head>
+
+	<body>
+		<header></header>
+		<img id="antenna" src="../images/antenna.svg">
+		<h1>MyNetwork</h1>
+		<div id="bandwidthGraph">
+		<script>
+
+chart([0, n - 1], "linear", function tick(path, line, data, x) {
+
+  // push a new data point onto the back
+  data.push(random());
+
+  // redraw the line, and then slide it to the left
+  path
+      .attr("d", line)
+      .attr("transform", null)
+    .transition()
+      .duration(750)
+      .ease("linear")
+      .attr("transform", "translate(" + x(-1) + ")")
+      .each("end", function() { tick(path, line, data, x); });
+
+  // pop the old data point off the front
+  data.shift();
+
+});
+
+</script>
+		</div>
+		<h3>Devices</h3>
+		<ul class="devices">
+			<li>shelley's mac</li>
+			<li>shelley's ipad</li>
+			<li>rachel's macair</li>
+			<li>rachel's iphone</li>
+		</ul>
+		</div>
+	</body>
+</html>
