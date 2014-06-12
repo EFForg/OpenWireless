@@ -4,6 +4,8 @@ function checkForm() {
   var retypePassword = $('#retypePassword');
   var newPasswordError= $("#newPasswordError");
   var retypePasswordError= $("#retypePasswordError");
+  //TODO: Sending auth tokens over plain http is baaaad
+  //TODO: Hard coding ip address and http is not what we want heret@github.com:TWEFF/OpenWireless.git
   var changePasswordUrl = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken;
 
   form.submit(function(event){
@@ -24,6 +26,7 @@ function checkForm() {
 
     if(!checkPassword(newPassword.val())) {
       newPassword.addClass("error");
+      //TODO: Is this really the best password scheme to enfore on people?
       newPasswordError.html("Password must contain at least 12 characters, including UPPER/lowercase and numbers.");
       newPasswordError.show();
       newPassword.focus();
@@ -45,7 +48,8 @@ function checkForm() {
       retypePassword.focus();
       return;
     };
-
+    
+    //TODO: we are seding the root password over http!
     $.ajax({
       type: "POST",
       url: changePasswordUrl,
@@ -65,6 +69,7 @@ function checkForm() {
 
 var authorizationToken = getSysauthFromCookie(document.cookie);
 
+//TODO: can this be corrupted?
 function getSysauthFromCookie(cookieString) {
   var sysauthPairs = cookieString.split(";");
   var lastCookieValue = sysauthPairs[sysauthPairs.length - 1].split("=");

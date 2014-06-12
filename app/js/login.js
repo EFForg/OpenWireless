@@ -31,7 +31,10 @@ function login() {
       password.focus();
       return;
     }
-
+    
+    //TODO: sending passwords over plain text
+    //TODO: Is there a timing attack in password validation?
+    //TODO: hardcoded IP address
     var data =  { "jsonrpc": "2.0", "method": "login", "params": [username.val(), password.val()], "id": 1 }
     $.ajax({
       type: "POST",
@@ -45,8 +48,10 @@ function login() {
            genericError.show();
            return;
         }
+        //TODO: we redirect to change password every time?
         redirectTo("changePassword.html");
       },
+      //TODO: what type of errors do we get here? is it possible to leverage error message to produce XSS
       error: function(errorType, errorMessage) {
         genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
         genericError.show();
@@ -55,12 +60,14 @@ function login() {
   });
 };
 
+//TODO: don't we have one of these in the password reset code? DRY this up.
 function getSysauthFromCookie(cookieString) {
   var sysauthPairs = cookieString.split(";");
   var lastCookieValue = sysauthPairs[sysauthPairs.length - 1].split("=");
   return lastCookieValue[1];
 };
 
+//TODO: don't we have one of these in the password reset code? DRY this up.
 function redirectTo(url) { window.location.href = url; }
 function isEmpty(value) { return !value || value.length === 0 || value == " " }
 

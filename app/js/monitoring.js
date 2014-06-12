@@ -1,5 +1,6 @@
 var n = 40,
     // random = d3.random.normal(25, );
+// TODO: do not use global variable for this function
     random = function() {
       return Math.floor(Math.random() * 50);
     };
