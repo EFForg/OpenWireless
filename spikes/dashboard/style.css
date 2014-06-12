@@ -1,0 +1,165 @@
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,700,300);
+header, .network, footer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html, body {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+}
+
+body {
+  font-family: 'Oswald', 'Open Sans', 'Helvetic Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: white;
+  background-image: url("images/city-tile.png"), url("images/stars.png"), -webkit-gradient(linear, left bottom, left top, from(#0084af), to(#0c152a));
+  background-image: url("images/city-tile.png"), url("images/stars.png"), -webkit-linear-gradient(bottom, #0084af, #0c152a);
+  background-image: url("images/city-tile.png"), url("images/stars.png"), linear-gradient(bottom, #0084af, #0c152a);
+  background-position: center bottom, center top;
+  background-repeat: repeat-x;
+  -webkit-background-size: 320px auto, 320px auto, auto;
+  background-size: 320px auto, 320px auto, auto;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+}
+
+h1 {
+  text-align: center;
+}
+
+h1, h2 {
+  font-size: 17px;
+}
+
+img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+small {
+  font-size: 0.9em;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.icon {
+  height: 44px;
+  width: 44px;
+}
+
+.container {
+  position: relative;
+  margin: 0 auto;
+  max-width: 480px;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: column;
+  -ms-flex-flow: column;
+  flex-flow: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+#main {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.network {
+  margin-bottom: 32px;
+  padding-right: 8px;
+}
+.network > * {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+.network header {
+  -webkit-flex-basis: 120px;
+  -ms-flex-preferred-size: 120px;
+  flex-basis: 120px;
+  padding-right: 20px;
+}
+.network .title {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.speed .upload {
+  color: #00adee;
+}
+.speed .download {
+  color: #eb008b;
+}
+.off .speed .upload, .off .speed .download, .off .speed small {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.devices {
+  background: url(images/devices.png) left center no-repeat;
+  -webkit-background-size: 44px;
+  background-size: 44px;
+  padding-left: 44px;
+  color: #8bc53f;
+}
+
+.status {
+  color: rgba(255, 255, 255, 0.6);
+}
+.on .status .on {
+  color: #8bc53f;
+}
+.off .status .off {
+  color: #f3bf20;
+}
+
+footer {
+  -webkit-flex-basis: 44px;
+  -ms-flex-preferred-size: 44px;
+  flex-basis: 44px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: #f3bf20;
+}
+footer p {
+  padding-right: 0.5em;
+}
+footer img {
+  height: 30px;
+  width: 30px;
+}

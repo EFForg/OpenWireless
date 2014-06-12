@@ -1,0 +1,45 @@
+{
+	"id": null,
+	"jsonrpc": "2.0",
+	"result": {
+		"internet": {
+			"name": "internet",
+			"uploadSpeed": "27.4",
+			"uploadSpeedMetric": "mb/s",
+			"downloadSpeed": "37.5",
+			"downloadSpeedMetric": "mb/s",
+			"pingSpeed": "800",
+			"pingSpeedMetric": "ms",
+			"connected": true
+		},
+		"lanNetwork": {
+			"name": "lanNetwork",
+			"uploadSpeed": "32.4",
+			"uploadSpeedMetric": "mb/s",
+			"downloadSpeed": "12.5",
+			"downloadSpeedMetric": "mb/s",
+			"devices": "3"
+		},
+		"privateWifi": {
+			"name": "privateWifi",
+			"uploadSpeed": "17.4",
+			"uploadSpeedMetric": "mb/s",
+			"downloadSpeed": "15.5",
+			"downloadSpeedMetric": "mb/s",
+			"devices": "3",
+			"on": true
+		},
+		"openWireless": {
+			"name": "openWireless",
+			"uploadSpeed": "17.4",
+			"uploadSpeedMetric": "mb/s",
+			"downloadSpeed": "15.5",
+			"downloadSpeedMetric": "mb/s",
+			"maxBandwithPercent": "5",
+			"maxMonthlyBandwith": "100",
+			"maxMonthlyBandwithMetric": "mb",
+			"on": true
+		}
+	}
+			
+}

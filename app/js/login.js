@@ -1,3 +1,4 @@
+
 var authorizationToken = getSysauthFromCookie(document.cookie);
 
 var submitRequest = function(data, successCallback, errorCallback){
