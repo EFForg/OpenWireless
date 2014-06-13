@@ -13,13 +13,11 @@ var submitRequest = function(data, successCallback, errorCallback){
 };
 
 var displayInterface = function(interface) {
-  var template = $('#interfaces').html();
-  Mustache.parse(template);
+  var source = $('#interface-template').html();
+  var template = Handlebars.compile(source);
   interface.imageSource = getImage(interface.name); 
   console.log(interface.image)
-  var rendered = Mustache.render(template, interface);
-	var main = $('#main');
-  main.append(rendered);
+	$('#main').append(template(interface));
 };
 
 var getImage = function(name){

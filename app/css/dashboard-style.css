@@ -134,6 +134,23 @@ small {
   background-size: 44px;
   padding-left: 44px;
   color: #8bc53f;
+  text-transform: uppercase;
+}
+
+.ping {
+  color: #8bc53f;
+  text-transform: uppercase;
+}
+
+.bandwith {
+  color: #f3bf20;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.devices small, .ping small, .bandwith small{
+  font-size: 10px;
 }
 
 .status {
