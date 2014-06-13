@@ -16,9 +16,27 @@ var displayInterface = function(interface) {
   var source = $('#interface-template').html();
   var template = Handlebars.compile(source);
   interface.imageSource = getImage(interface.name); 
-  console.log(interface.image)
+  interface.connectivity = getConnectivity(interface.connected); 
+  interface.state = getState(interface.on); 
 	$('#main').append(template(interface));
 };
+
+var getConnectivity = function(connected){
+  if (connected) {
+    return "Connected";
+  } else if (connected == false){
+    return "Disconnected";
+  }
+};
+
+var getState = function(on){
+  if (on) {
+    return "On";
+  } else if (on == false){
+    return "Off";
+  }
+}
+
 
 var getImage = function(name){
   imageMap = {"Internet" : "../images/router.png",
@@ -27,6 +45,16 @@ var getImage = function(name){
               "Openwireless.org": "../images/antenna-on.png"};
   return imageMap[name] || "../images/antenna-on.png"; 
 }
+
+var displayDate = function(){
+  var m_names = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+  var d = new Date();
+  var curr_date = d.getDate();
+  var curr_month = d.getMonth();
+  var curr_year = d.getFullYear();
+  $('#date').text(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+}
+
 
 var fakeRequest = function(data, successCallback, errorCallback){
 	$.getJSON("../js/status-data.json", function(data){
@@ -43,7 +71,8 @@ var displayInterfaces = function(){
 	  	displayInterface(interfaces.lanNetwork);
 	  	displayInterface(interfaces.privateWifi);
 	  	displayInterface(interfaces.openWireless);
-	    return;
+      displayDate();
+      return;
 	  }
 	};
 	var errorCallback = function(errorType, errorMessage) {

@@ -36,12 +36,19 @@
             <div class="bandwith">{{maxBandwithPercent}}%<small> max <br> bandwith </small></div>
           {{/if}}
           {{#if maxMonthlyBandwith}}
-          <div class="bandwith">{{maxMonthlyBandwith}}<small> {{maxMonthlyBandwithMetric}} max <br> per month </small></div>
+            <div class="bandwith">{{maxMonthlyBandwith}}<small> {{maxMonthlyBandwithMetric}} max <br> per month </small></div>
           {{/if}}
 
         </div>
 
-        <div class="status"><span class="on">Connected</span></div>
+        {{#if connectivity }}
+        <div class="status"><span class="{{connectivity}}">{{connectivity}}</span></div>
+        {{/if}}
+
+        {{#if state }}
+          <div class="status"><span class="{{state}}">{{state}}</span></div>
+        {{/if}}
+
       </div>
   </script>
 
@@ -105,7 +112,7 @@
   </section>
 
   <footer>
-    <p>Up to date. Last checked Today June 11, 2014</p>
+  <p>Up to date. Last checked <span id="date">June 11, 2014</span></p>
     <img src="../images/update.png" alt="update" />
   </footer>
 </div>

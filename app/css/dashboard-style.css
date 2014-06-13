@@ -156,10 +156,10 @@ small {
 .status {
   color: rgba(255, 255, 255, 0.6);
 }
-.on .status .on {
+.on .status .on, .connected {
   color: #8bc53f;
 }
-.off .status .off {
+.off .status .off, .disconnected {
   color: #f3bf20;
 }
 

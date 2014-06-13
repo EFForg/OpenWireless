@@ -10,7 +10,7 @@
 			"downloadSpeedMetric": "mb/s",
 			"pingSpeed": "800",
 			"pingSpeedMetric": "ms",
-			"connected": true
+			"connected": false
 		},
 		"lanNetwork": {
 			"name": "LAN Network",
@@ -27,7 +27,7 @@
 			"downloadSpeed": "15.5",
 			"downloadSpeedMetric": "mb/s",
 			"devices": "3",
-			"on": true
+			"on": false
 		},
 		"openWireless": {
 			"name": "Openwireless.org",
