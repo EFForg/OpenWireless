@@ -3,7 +3,7 @@
 	"jsonrpc": "2.0",
 	"result": {
 		"internet": {
-			"name": "internet",
+			"name": "Internet",
 			"uploadSpeed": "27.4",
 			"uploadSpeedMetric": "mb/s",
 			"downloadSpeed": "37.5",
@@ -13,7 +13,7 @@
 			"connected": true
 		},
 		"lanNetwork": {
-			"name": "lanNetwork",
+			"name": "LAN Network",
 			"uploadSpeed": "32.4",
 			"uploadSpeedMetric": "mb/s",
 			"downloadSpeed": "12.5",
@@ -21,7 +21,7 @@
 			"devices": "3"
 		},
 		"privateWifi": {
-			"name": "privateWifi",
+			"name": "Private Wifi",
 			"uploadSpeed": "17.4",
 			"uploadSpeedMetric": "mb/s",
 			"downloadSpeed": "15.5",
@@ -30,7 +30,7 @@
 			"on": true
 		},
 		"openWireless": {
-			"name": "openWireless",
+			"name": "Openwireless.org",
 			"uploadSpeed": "17.4",
 			"uploadSpeedMetric": "mb/s",
 			"downloadSpeed": "15.5",

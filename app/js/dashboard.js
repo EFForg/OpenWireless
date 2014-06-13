@@ -13,13 +13,25 @@ var submitRequest = function(data, successCallback, errorCallback){
 };
 
 var displayInterface = function(interface) {
+  var template = $('#interfaces').html();
+  Mustache.parse(template);
+  interface.imageSource = getImage(interface.name); 
+  console.log(interface.image)
+  var rendered = Mustache.render(template, interface);
 	var main = $('#main');
-	main.append("<div class='network'> <header> <div class='speed'> <div class='upload'>" + interface.uploadSpeed + " <span>mb/s</span></div><div class='download'>" + interface.downloadSpeed + "<span>mb/s</span></div></div></header> " +
-				"<div class='title'><h2> " + interface.name + "</h2></div> <div class='status'></div> </div>");
+  main.append(rendered);
 };
 
+var getImage = function(name){
+  imageMap = {"Internet" : "../images/router.png",
+              "LAN Network": "../images/lan.png",
+              "Private Wifi": "../images/antenna-on.png",
+              "Openwireless.org": "../images/antenna-on.png"};
+  return imageMap[name] || "../images/antenna-on.png"; 
+}
+
 var fakeRequest = function(data, successCallback, errorCallback){
-	$.getJSON("./js/status-data.json", function(data){
+	$.getJSON("../js/status-data.json", function(data){
 		successCallback(data);	
 	});
 };

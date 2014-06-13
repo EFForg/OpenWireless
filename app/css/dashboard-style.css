@@ -34,9 +34,9 @@ body {
   font-family: 'Oswald', 'Open Sans', 'Helvetic Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: white;
-  background-image: url("images/city-tile.png"), url("images/stars.png"), -webkit-gradient(linear, left bottom, left top, from(#0084af), to(#0c152a));
-  background-image: url("images/city-tile.png"), url("images/stars.png"), -webkit-linear-gradient(bottom, #0084af, #0c152a);
-  background-image: url("images/city-tile.png"), url("images/stars.png"), linear-gradient(bottom, #0084af, #0c152a);
+  background-image: url("../images/city-tile.png"), url("../images/stars.png"), -webkit-gradient(linear, left bottom, left top, from(#0084af), to(#0c152a));
+  background-image: url("../images/city-tile.png"), url("../images/stars.png"), -webkit-linear-gradient(bottom, #0084af, #0c152a);
+  background-image: url("../images/city-tile.png"), url("../images/stars.png"), linear-gradient(bottom, #0084af, #0c152a);
   background-position: center bottom, center top;
   background-repeat: repeat-x;
   -webkit-background-size: 320px auto, 320px auto, auto;
@@ -129,7 +129,7 @@ small {
 }
 
 .devices {
-  background: url(images/devices.png) left center no-repeat;
+  background: url(../images/devices.png) left center no-repeat;
   -webkit-background-size: 44px;
   background-size: 44px;
   padding-left: 44px;
