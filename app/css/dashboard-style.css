@@ -24,6 +24,11 @@ header, .network, footer {
   margin: 0;
 }
 
+a {
+  text-decoration: underline;
+  color: white;
+}
+
 html, body {
   position: relative;
   height: 100%;
@@ -65,6 +70,11 @@ small {
   letter-spacing: 0.05em;
   color: rgba(255, 255, 255, 0.6);
 }
+
+.editable form {
+  display: inline;
+}
+
 
 .icon {
   height: 44px;
