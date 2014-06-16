@@ -3,6 +3,8 @@ function setSSID() {
   var ssidform = $('form');  
 
   ssidform.submit(function(event){
+    //TODO: sending info over plain http
+    //TODO: hard coded ip address
     uciUrl   = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken;
     newSsid  = $('#ssid').val();
     event.preventDefault();
@@ -20,6 +22,7 @@ function setSSID() {
       success: function(response) {
         commitSsid(response);
       },
+      //is there a xss attack with this error?
       error: function(request, errorType, errorMessage) {
         console.log('Error: ' + errorType + ': Message : ' + errorMessage);
       }
@@ -65,8 +68,10 @@ function getSSID(response){
   });
 };
 
+//TODO: make sure this cookie is secure
 var authorizationToken = getSysauthFromCookie(document.cookie);
 
+//TODO: dry this up
 function getSysauthFromCookie(cookieString) {
   var sysauthPairs = cookieString.split(";");
   var lastCookieValue = sysauthPairs[sysauthPairs.length - 1].split("=");
