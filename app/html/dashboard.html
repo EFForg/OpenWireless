@@ -1,0 +1,122 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="../css/dashboard-style.css" />
+    <script type="text/javascript" src="../lib/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="../lib/handlebars.js"></script>
+    <script type="text/javascript" src="../js/dashboard.js"></script>
+
+  </head>
+  <body>
+
+<div class="container">
+  <header>
+    <span class="icon"></span>
+    <h1>Dashboard</h1>
+    <span><img src="../images/settings.png" class="icon" alt="Settings" /></span>
+  </header>
+
+  <script id="interface-template" type="text/x-handlebars-template">
+      <div class="network on">
+        <header>
+          <img src="{{imageSource}}" alt="router-on" class="icon" />
+          <div class="speed">
+            <div class="upload">{{uploadSpeed}}<span> {{uploadSpeedMetric}}</span></div>
+            <div class="download">{{downloadSpeed}}<span> {{downloadSpeedMetric}}</span></div>
+          </div>
+        </header>
+        <div class="title">
+          <h2>{{name}}</h2>
+          {{#if pingSpeed}} 
+            <div class="ping">{{pingSpeed}}<small> {{pingSpeedMetric}} ping</small></div>
+          {{/if}}
+          {{#if devices}}
+            <div class="devices">{{devices}}<small> devices</small></div>
+          {{/if}}
+          {{#if maxBandwithPercent}}
+            <div class="bandwith">{{maxBandwithPercent}}%<small> max <br> bandwith </small></div>
+          {{/if}}
+          {{#if maxMonthlyBandwith}}
+            <div class="bandwith">{{maxMonthlyBandwith}}<small> {{maxMonthlyBandwithMetric}} max <br> per month </small></div>
+          {{/if}}
+
+        </div>
+
+        {{#if connectivity }}
+        <div class="status"><span class="{{connectivity}}">{{connectivity}}</span></div>
+        {{/if}}
+
+        {{#if state }}
+          <div class="status"><span class="{{state}}">{{state}}</span></div>
+        {{/if}}
+
+      </div>
+  </script>
+
+  <section id="main">
+
+  <!--
+    <div class="network on">
+      <header>
+        <img src="images/router.png" alt="router-on" class="icon" />
+        <div class="speed">
+          <div class="upload">27.4 <span>mb/s</span></div>
+          <div class="download">27.4 <span>mb/s</span></div>
+        </div>
+      </header>
+      <div class="title"><h2>Internet</h2></div>
+      <div class="status"><span class="on">Connected</span></div>
+    </div>
+
+    <div class="network">
+      <header>
+        <img src="images/lan.png" alt="LAN" class="icon" />
+        <div class="speed">
+          <div class="upload">27.4 <small>mb/s</small></div>
+          <div class="download">27.4 <small>mb/s</small> </div>
+        </div>
+      </header>
+      <div class="title">
+        <h2>LAN Network</h2>
+      </div>
+      <div class="status"></div>
+    </div>
+
+    <div class="network on">
+      <header>
+        <img src="images/antenna-on.png" alt="wifi-on" class="icon" />
+        <div class="speed">
+          <div class="upload">27.4 <small>mb/s</small></div>
+          <div class="download">27.4 <small>mb/s</small></div>
+        </div>
+      </header>
+      <div class="title">
+        <h2>Private Wifi</h2>
+        <div class="devices">2 <small>devices</small></div>
+      </div>
+      <div class="status"><span class="on">On</span> | <span class="off">Off</span></div>
+    </div>
+
+    <div class="network off">
+      <header>
+        <img src="images/antenna-off.png" alt="wifi-off" class="icon" />
+        <div class="speed">
+          <div class="upload">0 <small>mb/s</small></div>
+          <div class="download">0 <small>mb/s</small></div>
+        </div>
+      </header>
+      <div class="title"><h2>Openwireless.org</h2></div>
+      <div class="status"><span class="on">On</span> | <span class="off">Off</span></div>
+    </div>
+  -->
+
+  </section>
+
+  <footer>
+  <p>Up to date. Last checked <span id="date">June 11, 2014</span></p>
+    <img src="../images/update.png" alt="update" />
+  </footer>
+</div>
+
+
+  </body>
+</html>
