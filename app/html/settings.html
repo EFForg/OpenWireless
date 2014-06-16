@@ -5,6 +5,7 @@
     <script type="text/javascript" src="../lib/handlebars.js"></script>
 
     <script type="text/javascript" src="../lib/jeditable.js"></script>
+    <script type="text/javascript" src="../js/security.js"></script>
     <script type="text/javascript" src="../js/settings.js"></script>
   </head>
   <body>
@@ -19,7 +20,34 @@
         <h2>Router</h2>
         <a href="./changePassword.html">Change Router Credentials - username and password</a>
         <p>Software Version: {{softwareVersion}}</p>
-        <p>ISP Download Speed: <span id="ispDownloadSpeed" class="editable">{{ispDownloadSpeed}}</span></p>
+        <p>Date of version update: {{softwareVersionUpdateDate}}</p>
+        <p>Date last checked for update: {{lastCheckedDate}}</p>
+        <p><a href="#">Check for update</a></p>
+        <br>
+        <br>
+
+        <h2>ISP Speeds</h2>
+        <p>ISP Download Speed: <span id="ispDownloadSpeed" class="editable">{{ispDownloadSpeed}}</span> mb/s</p>
+        <p>ISP Upload Speed: <span id="ispUploadSpeed" class="editable">{{ispUploadSpeed}}</span> mb/s</p>
+        <br>
+        <br>
+
+        <h2>Private Wifi</h2>
+        <p><a href="#">Set network SSID</a></p>
+        <p><a href="#">Set network password</a></p>
+        <br>
+        <p>Choose band</p>
+        <p><span class="selector" id="routerBand">{{routerBand}}</span> ghz</p>
+        <p>Channel selector <span class="selector" id="routerChannel">{{routerChannel}}</span></p>
+        <p>Channel selector <span class="selector" id="routerCustomChannel">???custom channel????</span></p>
+        <p>Channel bandwidth <span class="selector" id="routerChannelBandwidth">{{routerChannelBandwidth}}</span> ghz</p>
+        <br>
+        <br>
+        <h2>VPN/TOR Configuration</h2>
+        <p><span class="selector" id="routerVpnConfiguration">{{routerVpnConfiguration}}</span></p>
+      
+
+        
       </script>
 
       <section id="main"></section>

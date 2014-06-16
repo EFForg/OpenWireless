@@ -71,10 +71,13 @@ small {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.editable form {
+.editable form, .selector form {
   display: inline;
 }
 
+.editable, .selector {
+  text-decoration: underline;
+}
 
 .icon {
   height: 44px;
