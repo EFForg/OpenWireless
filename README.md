@@ -13,6 +13,6 @@ The default username is __root__ with password __asdf1234__.
 11. Run the `sendToOpenWrtVM` script from the repo app/ directory to transfer the directory to the (router's) /www directory in the OpenWrt VM
 12. Point your browser to 192.168.1.1/app/html/login.html and enjoy!
 
-Steps 2-5 eliminate the need for a the OpenWireless-ClientVM
+Steps 2-5 and 7-10 eliminate the need for a the OpenWireless-ClientVM
 
 =======
