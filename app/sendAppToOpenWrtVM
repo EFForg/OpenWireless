@@ -1,1 +1,2 @@
 scp -P 2200 -r ../app root@localhost:/www
+scp -P 2200 -r ../spikes root@localhost:/www
