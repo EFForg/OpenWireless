@@ -16,12 +16,12 @@ header {
 	padding: 2%;
 }
 
-input[type="text"], input[type="password"], input[type="submit"] {
+input[type="text"], input[type="password"], input[type="submit"], input[type="username"]{
 	padding: .5em 1em;
 	min-width: 200px;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], input[type="username"]{
 	border: 0;
 	background: rgba(255,255,255, 0.2);
 }
