@@ -14,6 +14,6 @@ The default username is __root__ with password __asdf1234__.
 12. Point your browser to http://192.168.1.1/app/html/login.html and enjoy!
 13. If you cannot hit the login page, go back to step 5 and try `192.168.1.XX` where `XX` = any other number between 2-100.
 
-Steps 2-5 and 7-10 eliminate the need for a the OpenWireless-ClientVM
+Steps 2-5 and 7-10 eliminate the need for a the OpenWireless-ClientVM (https://github.com/TWEFF/OpenWireless-ClientVM)
 
 =======
