@@ -31,7 +31,12 @@ var settingsModule = (function(){
     createEditableSelector('#routerBand', "{'2.4':'2.4', '5': '5', selected : '5'}"); 
     createEditableSelector('#routerChannel', "{'auto':'auto', 'custom': 'custom', selected : 'auto'}"); 
     createEditableSelector('#routerChannelBandwidth', "{'20':'20', '40': '40', selected : '20'}"); 
-    createEditableSelector('#routerVpnConfiguration', "{'None':'None', 'TOR': 'TOR', 'VPN': 'VPN', selected : 'None'}"); 
+    createEditableSelector('#routerVpnConfiguration', "{'None':'None', 'TOR': 'TOR', 'VPN': 'VPN', 'VPN 2': 'VPN 2', selected : 'None'}"); 
+
+    createEditableSelector('#openwirelessBand', "{'2.4':'2.4', '5': '5', selected : '5'}"); 
+    createEditableSelector('#openwirelessChannel', "{'auto':'auto', 'custom': 'custom', selected : 'auto'}"); 
+    createEditableSelector('#openwirelessChannelBandwidth', "{'20':'20', '40': '40', selected : '20'}"); 
+    createEditableSelector('#openwirelessVpnConfiguration', "{'None':'None', 'TOR': 'TOR', 'VPN 1': 'VPN 1', 'VPN 2': 'VPN 2', selected : 'None'}"); 
   };
 
   var createEditableSelector = function(selectorId, selectorData) {

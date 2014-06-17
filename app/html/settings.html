@@ -10,13 +10,15 @@
   </head>
   <body>
     <div class="container">
+      <br>
       <header>
-      <span></span>
-      <h1>Settings</h1>
-      <span>Close</span>
+        <span></span>
+        <h1>Settings</h1>
+        <span>Close</span>
       </header>
 
       <script id="settings-template" type="text/x-handlebars-template">
+
         <h2>Router</h2>
         <a href="./changeUsernameAndPassword.html">Change Router Credentials - username and password</a>
         <p>Software Version: {{softwareVersion}}</p>
@@ -26,28 +28,59 @@
         <br>
         <br>
 
-        <h2>ISP Speeds</h2>
+        <h3>ISP Speeds</h3>
         <p>ISP Download Speed: <span id="ispDownloadSpeed" class="editable">{{ispDownloadSpeed}}</span> mb/s</p>
         <p>ISP Upload Speed: <span id="ispUploadSpeed" class="editable">{{ispUploadSpeed}}</span> mb/s</p>
         <br>
         <br>
 
-        <h2>Private Wifi</h2>
+        <h3>Private Wifi</h3>
         <p><a href="./changeSSID.html">Set network SSID</a></p>
         <p><a href="./changeNetworkPassword.html">Set network password</a></p>
         <br>
         <p>Choose band</p>
         <p><span class="selector" id="routerBand">{{routerBand}}</span> ghz</p>
-        <p>Channel selector <span class="selector" id="routerChannel">{{routerChannel}}</span></p>
-        <p>Channel selector <span class="selector" id="routerCustomChannel">???custom channel????</span></p>
+        <p>Channel <span class="selector" id="routerChannel">{{routerChannel}}</span></p>
         <p>Channel bandwidth <span class="selector" id="routerChannelBandwidth">{{routerChannelBandwidth}}</span> ghz</p>
         <br>
         <br>
-        <h2>VPN/TOR Configuration</h2>
-        <p><span class="selector" id="routerVpnConfiguration">{{routerVpnConfiguration}}</span></p>
-      
 
+        <h3>VPN/TOR Configuration</h3>
+        <p><span class="selector" id="routerVpnConfiguration">{{routerVpnConfiguration}}</span></p>
+        <br>
+        <br>
         
+      
+        <h2>Open Wireless</h2> 
+        <p>Real min time bandwidth <span class="editable" id="openwirelessBandwidth">{{openwirelessBandwidth}} </span>%</p>
+        <p>*I'm willing to tolerate up to 15% degradation in internet speeds so that I can contribute to openwireless</p>
+        <br>
+        <p>Maximum total data/month <span class="editable" id="openwirelessData">{{openwirelessData}} gb</span></p>
+        <p><a href="#">Reset total data used this month</a></p>
+        <br>
+        <p>Choose band</p>
+        <p><span class="selector" id="openwirelessBand">{{openwirelessBand}}</span> ghz</p>
+        <p>Channel <span class="selector" id="openwirelessChannel">{{openwirelessChannel}}</span></p>
+        <p>Channel bandwidth <span class="selector" id="openwirelessChannelBandwidth">{{openwirelessChannelBandwidth}}</span> ghz</p>
+        <br>
+        <br>
+
+        <h3>VPN/TOR Configuration</h3>
+        <p><span class="selector" id="openwirelessVpnConfiguration">{{openwirelessVpnConfiguration}}</span></p>
+        <br>
+        <br>
+        
+        <h3>IP Info</h3>
+        <p>WAN IP: {{wanIp}}</p>
+        <p>LAN IP: {{lanIp}}</p>
+        <br>
+        <br>
+
+        <h3>SSH Keys</h3>
+        <a href="#">Upload your ssh keys for command line access</a>
+        <br>
+        <br>
+
       </script>
 
       <section id="main"></section>
