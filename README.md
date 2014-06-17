@@ -12,7 +12,7 @@ The default username is __root__ with password __asdf1234__.
 10. This should automatically select `vboxnet0` in the "Name:" drop down menu below. If it hasn't, do this now. *If you do not see `vboxnet0` as an option in this menu, go back to step 2.
 11. Run the `sendToOpenWrtVM` script from the repo app/ directory to transfer the directory to the (router's) /www directory in the OpenWrt VM
 12. Point your browser to http://192.168.1.1/app/html/login.html and enjoy!
-13. If you cannot hit the login page, go back to step 5 and try `192.168.1.XX` where `XX` = else anything between 2-100.
+13. If you cannot hit the login page, go back to step 5 and try `192.168.1.XX` where `XX` = any other number between 2-100.
 
 Steps 2-5 and 7-10 eliminate the need for a the OpenWireless-ClientVM
 
