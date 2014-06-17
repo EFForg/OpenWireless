@@ -30,20 +30,21 @@ describe("Login", function() {
     });
 
     it("should submit AJAX request to proper URL", function() {
-      spyOn(window, "submitRequest");
+      spyOn(requestModule, "submitRequest");
       username.val("root");
       password.val("password");
       loginForm.submit();
-      expect(window.submitRequest).toHaveBeenCalled();
+      expect(requestModule.submitRequest).toHaveBeenCalled();
     });
 
     it("should submit AJAX request with proper data", function() {
-      spyOn(window, "submitRequest");
+      spyOn(requestModule, "submitRequest");
+      username.val("root");
       var loginData = {jsonrpc:"2.0",method: "login", params:["root","asdf1234"],id:1};
       username.val("root");
       password.val("asdf1234");
       loginForm.submit();
-      expect(window.submitRequest).toHaveBeenCalledWith(loginData, jasmine.any(Function), jasmine.any(Function));
+      expect(requestModule.submitRequest).toHaveBeenCalledWith({'data':loginData, 'url': "http://192.168.1.1/cgi-bin/luci/rpc/auth", 'successCallback': jasmine.any(Function), 'errorCallback': jasmine.any(Function)});
     });
 
     it("should redirect to changePassword page if auth token was retrieved successfully", function() {
@@ -81,8 +82,8 @@ describe("Login", function() {
     it("should submit request with proper URL", function() {
       spyOn($, "ajax");
       var loginData = "{\"jsonrpc\":\"2.0\"}";
-      submitRequest(loginData);
-      expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://192.168.1.1/cgi-bin/luci/rpc/auth");    
+      requestModule.submitRequest({'data':loginData, url:"http://192.168.1.1/cgi-bin/luci/rpc/auth", 'successCallback': {}, 'errorCallback': {}});
+      expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://192.168.1.1/cgi-bin/luci/rpc/auth");
     });
   });
 

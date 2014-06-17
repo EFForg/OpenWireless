@@ -1,17 +1,5 @@
 var authorizationToken = getSysauthFromCookie(document.cookie);
 
-var submitRequest = function(data, successCallback, errorCallback){
-  $.ajax({
-    type: "POST",
-    url: "http://192.168.1.1/cgi-bin/luci/rpc/auth",
-    contentType: "application/json",
-    dataType: "json",
-    data: JSON.stringify(data),
-    success: successCallback,
-    error: errorCallback
-  });
-};
-
 var submitLogin = function() {
   var username = $('#username');
   var form =     $('form');
@@ -39,12 +27,12 @@ var submitLogin = function() {
     var data =  { "jsonrpc": "2.0", "method": "login", "params": [username.val(), password.val()], "id": 1 }
     var successCallback = function(response) {
       if(response.result == null){
-           genericError.html("Username/password is incorrect");
-           genericError.show();
-           return;
-        }
-        //TODO: we redirect to change password every time?
-        redirectTo("changePassword.html");
+        genericError.html("Username/password is incorrect");
+        genericError.show();
+        return;
+      }
+      //TODO: we redirect to change password every time?
+      redirectTo("changePassword.html");
 
     };
 
@@ -53,19 +41,21 @@ var submitLogin = function() {
       genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
       genericError.show();
     };
-    submitRequest(data, successCallback, errorCallback);
+    requestModule.submitRequest({'data':data, url:"http://192.168.1.1/cgi-bin/luci/rpc/auth", 'successCallback': successCallback, 'errorCallback': errorCallback});
   });
-};
 
-var checkEmptyField = function(field, errorField, fieldName) {
-  if(isEmpty(field.val())) {
+  var checkEmptyField = function(field, errorField, fieldName) {
+    if(isEmpty(field.val())) {
       field.addClass('error');
       errorField.html("Please enter a " + fieldName + "!");
       errorField.show();
       field.focus();
       return;
     }
-}
+  };
+
+
+};
 
 function getSysauthFromCookie(cookieString) {
   var sysauthPairs = cookieString.split(";");

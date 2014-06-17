@@ -1,14 +1,16 @@
 var requestModule = (function(){
 
-  var submitRequest = function(data, successCallback, errorCallback){
+  var submitRequest = function(request){
+    //data,url, successCallback, errorCallback
+    // var url = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken
     $.ajax({
       type: "POST",
-      url: "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken,
+      url: request.url,
       contentType: "application/json",
       dataType: "json",
-      data: JSON.stringify(data),
-      success: successCallback,
-      error: errorCallback
+      data: JSON.stringify(request.data),
+      success: request.successCallback,
+      error: request.errorCallback
     });
   };
 
