@@ -18,8 +18,14 @@
         <span><a class="close" href="./dashboard.html">Close</a></span>
       </header>
 
+      <script id="dropdown-template" type="text/x-handlebars-template">
+        {{#each options}}
+          <option>{{this}}</option>
+        {{/each}}
+      </script>
+
       <script id="settings-template" type="text/x-handlebars-template">
-        
+
         <br>
         <br>
         <h4>Router</h4>
@@ -43,38 +49,38 @@
         <p><a href="./changeNetworkPassword.html">Set network password &gt;</a></p>
         <br>
         <h4>Choose band</h4>
-        <p><span class="selector" id="routerBand">{{routerBand}}</span> ghz</p>
-        <p>Channel <span class="selector" id="routerChannel">{{routerChannel}}</span></p>
-        <p>Channel bandwidth <span class="selector" id="routerChannelBandwidth">{{routerChannelBandwidth}}</span> ghz</p>
+        <p><span class="selector"><select id="routerBand">RouterBand</select></span> ghz</p>
+        <p>Channel <span class="selector"><select id="routerChannel">RouterChannel</select></span> ghz</p>
+        <p>Channel bandwidth <span class="selector"><select id="routerChannelBandwidth">RouterChannelBandwidth</select></span> ghz</p>
         <br>
         <br>
 
-        <h4>VPN/TOR Configuration</h4>
-        <p><span class="selector" id="routerVpnConfiguration">{{routerVpnConfiguration}}</span></p>
+        <h3>VPN/TOR Configuration</h3>
+        <p><span class="selector"><select id="routerVpnConfiguration">RouterVpnConfiguration</select></span></p>
         <br>
         <br>
-        
-      
-        <h4>Open Wireless</h4> 
-        <p>Real min time bandwidth <span class="editable" id="openwirelessBandwidth">{{openwirelessBandwidth}} </span>%</p>
+
+
+        <h4>Open Wireless</h4>
+        <p>Real min time bandwidth <span class="editable" id="openwirelessBandwidth">{{openwirelessBandwidth}}</span>%</p>
         <p>*I'm willing to tolerate up to 15% degradation in internet speeds so that I can contribute to openwireless</p>
         <br>
-        <p>Maximum total data/month <span class="editable" id="openwirelessData">{{openwirelessData}} gb</span></p>
+        <p>Maximum total data/month <span class="editable" id="openwirelessData">{{openwirelessData}}</span> ghz</p>
         <p><a href="#">Reset total data used this month &gt;</a></p>
         <p>Change data auto-reset date [Datepicker]</p>
         <br>
         <h4>Choose band</h4>
-        <p><span class="selector" id="openwirelessBand">{{openwirelessBand}}</span> ghz</p>
-        <p>Channel <span class="selector" id="openwirelessChannel">{{openwirelessChannel}}</span></p>
-        <p>Channel bandwidth <span class="selector" id="openwirelessChannelBandwidth">{{openwirelessChannelBandwidth}}</span> ghz</p>
+        <p><span class="selector"><select id="openwirelessBand">OpenwirelessBand</select></span> ghz</p>
+        <p>Channel <span class="selector"><select id="openwirelessChannel">OpenwirelessChannel</select></span> ghz</p>
+        <p>Channel bandwidth <span class="selector"><select id="openwirelessChannelBandwidth">OpenwirelessChannelBandwidth</select></span> ghz</p>
         <br>
         <br>
 
         <h4>VPN/TOR Configuration</h4>
-        <p><span class="selector" id="openwirelessVpnConfiguration">{{openwirelessVpnConfiguration}}</span></p>
+        <p><span class="selector"><select id="openwirelessVpnConfiguration">OpenwirelessVpnConfiguration</select></span></p>
         <br>
         <br>
-        
+
         <h4>IP Info</h4>
         <p>WAN IP: {{wanIp}}</p>
         <p>LAN IP: {{lanIp}}</p>

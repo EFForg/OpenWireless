@@ -2,6 +2,19 @@ var settingsModule = (function(){
 
   var config = {};
   var authorizationToken;
+  var routerBandOptions = ["5", "2.4"];
+  var router5ChannelOptions = ['auto',
+    '36 (5.180 GHz)', '40 (5.200 GHz)', '44 (5.220 GHz)', '48 (5.240 GHz)',
+    '149 (5.745 GHz)', '153 (5.765 GHz)', '159 (5.785 GHz)', '161 (5.805 GHz)',
+    '165 (5.825 GHz)',
+    '-- custom --'];
+  var router24ChannelOptions = ['auto',
+    '1 (2.412 GHz)', '2 (2.417 GHz)', '3 (2.422 GHz)', '4 (2.427 GHz)',
+    '5 (2.432 GHz)', '6 (2.437 GHz)', '7 (2.442 GHz)', '8 (2.447 GHz)',
+    '9 (2.452 GHz)', '10 (2.457 GHz)', '11 (2.462 GHz)', '12 (2.467 GHz)',
+    '-- custom --'];
+  var routerChannelBandwidthOptions = ['20', '40'];
+  var routerVpnConfigurationOptions = ['None', 'TOR', 'VPN', 'VPN 2'];
 
   var init = function(data, authToken){
     authorizationToken = authToken;
@@ -15,6 +28,15 @@ var settingsModule = (function(){
     var template = Handlebars.compile(source);
     $('#main').empty();
     $('#main').append(template(settings));
+
+    setDropDownMenu("routerBand", routerBandOptions);
+    setDropDownMenu("routerChannelBandwidth", routerChannelBandwidthOptions);
+    setDropDownMenu("routerVpnConfiguration", routerVpnConfigurationOptions);
+    setDropDownMenu("openwirelessBand", routerBandOptions);
+    setDropDownMenu("openwirelessChannelBandwidth", routerChannelBandwidthOptions);
+    setDropDownMenu("openwirelessVpnConfiguration", routerVpnConfigurationOptions);
+
+    setDependentBandwidthDropDownMenus();
   };
 
   var initializeEditableFields = function(){
@@ -25,33 +47,41 @@ var settingsModule = (function(){
     }, { 
       type    : 'text',
       width   : '100',
-      submit  : 'OK',
+      submit  : 'OK'
     });
-
-    createEditableSelector('#routerBand', "{'2.4':'2.4', '5': '5', selected : '5'}"); 
-    createEditableSelector('#routerChannel', "{'auto':'auto', 'custom': 'custom', selected : 'auto'}"); 
-    createEditableSelector('#routerChannelBandwidth', "{'20':'20', '40': '40', selected : '20'}"); 
-    createEditableSelector('#routerVpnConfiguration', "{'None':'None', 'TOR': 'TOR', 'VPN': 'VPN', 'VPN 2': 'VPN 2', selected : 'None'}"); 
-
-    createEditableSelector('#openwirelessBand', "{'2.4':'2.4', '5': '5', selected : '5'}"); 
-    createEditableSelector('#openwirelessChannel', "{'auto':'auto', 'custom': 'custom', selected : 'auto'}"); 
-    createEditableSelector('#openwirelessChannelBandwidth', "{'20':'20', '40': '40', selected : '20'}"); 
-    createEditableSelector('#openwirelessVpnConfiguration', "{'None':'None', 'TOR': 'TOR', 'VPN 1': 'VPN 1', 'VPN 2': 'VPN 2', selected : 'None'}"); 
   };
 
-  var createEditableSelector = function(selectorId, selectorData) {
-   $(selectorId).editable(function(value, settings) {
-      config[$(this).attr('id')] = value;
-      return(value);
-    }, {
-      data    : selectorData,
-      type    : 'select',
-      submit  : 'OK'
-    }); 
-};
+  var setDependentBandwidthDropDownMenus = function() {
+    var tags = ["router", "openwireless"];
+    for (var index in tags){
+      console.log(tags[index]);
+      var dropDown = $('#' + tags[index] + 'Band');
+      if (dropDown.val() === "5"){
+        setDropDownMenu(tags[index] + "Channel", router5ChannelOptions);
+      } else {
+        setDropDownMenu(tags[index] + "Channel", router24ChannelOptions);
+      }
+    }
+  };
+
+  var setDropDownMenu = function(tag, options){
+    var source = $('#dropdown-template').html();
+    var template = Handlebars.compile(source);
+    var dropDown = $('#' + tag);
+    dropDown.empty();
+    dropDown.append(template({options: options}));
+    $('#' + tag + 'option:contains(' + config[tag] + ')').prop('selected', true);
+    dropDown.change(function(){
+      config[tag] = dropDown.val();
+      if (tag.substr(-4,4) === "Band") {
+        config[tag.replace("Band", "Channel")] = "auto";
+        setDependentBandwidthDropDownMenus();
+      }
+    });
+  };
 
   return {
-    init: init  
+    init: init
   };
 
 })();
