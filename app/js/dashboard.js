@@ -63,10 +63,10 @@ var fakeRequest = function(data, successCallback, errorCallback){
 };
 
 var displayInterfaces = function(){
-	var data =  { "jsonrpc": "2.0", "method": "net.routes"}
+	var data =  { "jsonrpc": "2.0", "method": "dashboard"}
 	var successCallback = function(response) {
 	  if(response.result != null){
-	  	var interfaces = response.result;
+	  	var interfaces = JSON.parse(response.result);
 	  	displayInterface(interfaces.internet);
 	  	displayInterface(interfaces.lanNetwork);
 	  	displayInterface(interfaces.privateWifi);
@@ -79,8 +79,7 @@ var displayInterfaces = function(){
 	  genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
 	  genericError.show();
 	};
-	// submitRequest(data, successCallback, errorCallback);
-	fakeRequest(data, successCallback, errorCallback);
+	submitRequest(data, successCallback, errorCallback);
 };
 
 function getSysauthFromCookie(cookieString) {
