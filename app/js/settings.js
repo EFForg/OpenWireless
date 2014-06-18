@@ -20,7 +20,7 @@ var settingsModule = (function(){
   var initializeEditableFields = function(){
     $('.editable').editable(function(value, settings) { 
       config[$(this).attr('id')] =  value;
-      //submit request here
+
       return(value);
     }, { 
       type    : 'text',
@@ -57,8 +57,23 @@ var settingsModule = (function(){
 })();
 
 $(function() {
-  $.getJSON("../js/settings-data.json", function(data){ 
+    var data =  { "jsonrpc": "2.0", "method": "settings"};
     var authToken = securityModule.getAuthToken();
-    settingsModule.init(data, authToken);
-  });
+    var url = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authToken;
+    var successCallback = function(response){
+        settingsModule.init(JSON.parse(response.result), authToken);
+    };
+    var errorCallback = function(errorType, errorMessage) {
+        //todo: make generic error display
+        genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
+        genericError.show();
+    };
+
+    requestModule.submitRequest({
+        "data"              :data,
+        "url"               :url,
+        "errorCallback"     :errorCallback,
+        "successCallback"   :successCallback
+    });
+
 });

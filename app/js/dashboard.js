@@ -55,13 +55,6 @@ var displayDate = function(){
   $('#date').text(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
 }
 
-
-var fakeRequest = function(data, successCallback, errorCallback){
-	$.getJSON("../js/status-data.json", function(data){
-		successCallback(data);	
-	});
-};
-
 var displayInterfaces = function(){
 	var data =  { "jsonrpc": "2.0", "method": "dashboard"};
 	var successCallback = function(response) {
@@ -76,6 +69,7 @@ var displayInterfaces = function(){
 	  }
 	};
 	var errorCallback = function(errorType, errorMessage) {
+      //todo: make generic error display
 	  genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
 	  genericError.show();
 	};
