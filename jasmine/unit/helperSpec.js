@@ -1,20 +1,20 @@
-describe("Utility Functions", function() {
+describe("Helper Functions", function() {
 
   describe("Is Empty", function(){
     it("should return false if there is a value", function(){
-      expect(isEmpty("value")).toBeFalsy();
+      expect(helperModule.isEmpty("value")).toBeFalsy();
     });
 
     it("should return true if the value is null", function(){
-      expect(isEmpty(null)).toBeTruthy();
+      expect(helperModule.isEmpty(null)).toBeTruthy();
     });
 
     it("should return true if the value is empty spaces", function(){
-      expect(isEmpty(" ")).toBeTruthy();
+      expect(helperModule.isEmpty(" ")).toBeTruthy();
     });
 
     it("should return true if the value is empty string", function(){
-      expect(isEmpty("")).toBeTruthy();
+      expect(helperModule.isEmpty("")).toBeTruthy();
     });
   });
 });

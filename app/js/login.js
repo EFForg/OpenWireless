@@ -1,13 +1,10 @@
-var authorizationToken = getSysauthFromCookie(document.cookie);
-
-var submitLogin = function() {
+var submitLogin = (function() {
   var username = $('#username');
   var form =     $('form');
   var password = $('#password');
   var usernameError = $("#usernameError");
   var passwordError = $("#passwordError");
   var genericError =  $('#genericError');
-
 
   form.submit(function(event) {
     event.preventDefault();
@@ -17,8 +14,8 @@ var submitLogin = function() {
     username.removeClass('error');
     password.removeClass('error');
 
-    checkEmptyField(username, usernameError, "username");
-    checkEmptyField(password, passwordError, "password");
+    helperModule.checkEmptyField(username, usernameError, "username");
+    helperModule.checkEmptyField(password, passwordError, "password");
 
     //TODO: sending passwords over plain text
     //TODO: Is there a timing attack in password validation?
@@ -32,7 +29,7 @@ var submitLogin = function() {
         return;
       }
       //TODO: we redirect to change password every time?
-      redirectTo("changePassword.html");
+      helperModule.redirectTo("changePassword.html");
 
     };
 
@@ -41,32 +38,12 @@ var submitLogin = function() {
       genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
       genericError.show();
     };
-    requestModule.submitRequest({'data':data, url:"http://192.168.1.1/cgi-bin/luci/rpc/auth", 'successCallback': successCallback, 'errorCallback': errorCallback});
+
+    var request = { 'data': data, url: 'http://192.168.1.1/cgi-bin/luci/rpc/auth', 'successCallback': successCallback, 'errorCallback': errorCallback };
+    requestModule.submitRequest(request);
   });
 
-  var checkEmptyField = function(field, errorField, fieldName) {
-    if(isEmpty(field.val())) {
-      field.addClass('error');
-      errorField.html("Please enter a " + fieldName + "!");
-      errorField.show();
-      field.focus();
-      return;
-    }
-  };
-
-
-};
-
-function getSysauthFromCookie(cookieString) {
-  var sysauthPairs = cookieString.split(";");
-  var lastCookieValue = sysauthPairs[sysauthPairs.length - 1].split("=");
-  return lastCookieValue[1];
-};
-
-//TODO: don't we have one of these in the password reset code? DRY this up.
-function redirectTo(url) { window.location.href = url; }
-function isEmpty(value) { return !value || value.length === 0 || value == " " }
-
+});
 
 $(function() {
   submitLogin();
