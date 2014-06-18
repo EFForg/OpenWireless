@@ -1,6 +1,7 @@
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="../css/dashboard-style.css" media="screen" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" >
+    <link rel="stylesheet" type="text/css" href="../css/admin-style.css" media="screen" />
     <script src="../lib/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="../lib/handlebars.js"></script>
 
@@ -12,9 +13,9 @@
     <div class="container">
       <br>
       <header>
-        <span></span>
+        <span class="icon"></span>
         <h1>Settings</h1>
-        <span><a href="./dashboard.html">Close</a></span>
+        <span><a class="close" href="./dashboard.html">Close</a></span>
       </header>
 
       <script id="settings-template" type="text/x-handlebars-template">
@@ -31,6 +32,7 @@
         <br>
 
         <h4>ISP Speeds</h4>
+        <p>*This helps us optimize your router.</p>
         <p>ISP Download Speed: <span id="ispDownloadSpeed" class="editable">{{ispDownloadSpeed}}</span> mb/s</p>
         <p>ISP Upload Speed: <span id="ispUploadSpeed" class="editable">{{ispUploadSpeed}}</span> mb/s</p>
         <br>
@@ -59,6 +61,7 @@
         <br>
         <p>Maximum total data/month <span class="editable" id="openwirelessData">{{openwirelessData}} gb</span></p>
         <p><a href="#">Reset total data used this month</a></p>
+        <p>Change data auto-reset date [Datepicker]</p>
         <br>
         <h4>Choose band</h4>
         <p><span class="selector" id="openwirelessBand">{{openwirelessBand}}</span> ghz</p>

@@ -75,6 +75,15 @@ small {
   color: rgba(255, 255, 255, 0.6);
 }
 
+.close {
+  text-decoration: none;
+}
+
+.editable, .selector {
+  color: #8bc53f;
+  font-weight: 400;
+}
+
 .editable form, .selector form {
   display: inline;
 }
