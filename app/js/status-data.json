@@ -35,10 +35,10 @@
 			"uploadSpeedMetric": "mb/s",
 			"downloadSpeed": "15.5",
 			"downloadSpeedMetric": "mb/s",
-			"maxBandwithPercent": "5",
-			"maxMonthlyBandwith": "100",
-			"maxMonthlyBandwithMetric": "mb",
-      "monthlyBandwithUsage": "23",
+			"maxBandwidthPercent": "5",
+			"maxMonthlyBandwidth": "100",
+			"maxMonthlyBandwidthMetric": "mb",
+      "monthlyBandwidthUsage": "23",
 			"on": true
 		}
 	}

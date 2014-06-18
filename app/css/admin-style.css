@@ -168,14 +168,14 @@ small {
   text-transform: uppercase;
 }
 
-.bandwith {
+.bandwidth {
   color: #f3bf20;
   text-transform: uppercase;
   display: inline-block;
   margin-right: 20px;
 }
 
-.devices small, .ping small, .bandwith small{
+.devices small, .ping small, .bandwidth small{
   font-size: 10px;
 }
 
