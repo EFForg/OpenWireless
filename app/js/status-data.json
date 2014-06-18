@@ -38,6 +38,7 @@
 			"maxBandwithPercent": "5",
 			"maxMonthlyBandwith": "100",
 			"maxMonthlyBandwithMetric": "mb",
+      "monthlyBandwithUsage": "23",
 			"on": true
 		}
 	}
