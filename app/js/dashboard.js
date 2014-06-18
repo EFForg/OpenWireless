@@ -63,7 +63,7 @@ var fakeRequest = function(data, successCallback, errorCallback){
 };
 
 var displayInterfaces = function(){
-	var data =  { "jsonrpc": "2.0", "method": "dashboard"}
+	var data =  { "jsonrpc": "2.0", "method": "dashboard"};
 	var successCallback = function(response) {
 	  if(response.result != null){
 	  	var interfaces = JSON.parse(response.result);
