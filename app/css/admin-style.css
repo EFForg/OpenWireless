@@ -100,6 +100,7 @@ small {
 .container {
   position: relative;
   margin: 0 auto;
+  padding: 0px 17px;
   max-width: 480px;
   height: 100%;
   display: -webkit-box;
