@@ -54,7 +54,6 @@ var settingsModule = (function(){
   var setDependentBandwidthDropDownMenus = function() {
     var tags = ["router", "openwireless"];
     for (var index in tags){
-      console.log(tags[index]);
       var dropDown = $('#' + tags[index] + 'Band');
       if (dropDown.val() === "5"){
         setDropDownMenu(tags[index] + "Channel", router5ChannelOptions);
