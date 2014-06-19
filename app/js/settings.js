@@ -16,27 +16,38 @@ var settingsModule = (function(){
   var routerChannelBandwidthOptions = ['20', '40'];
   var routerVpnConfigurationOptions = ['None', 'TOR', 'VPN', 'VPN 2'];
 
+  var menus = [
+    { tag: "routerBand",                    options: routerBandOptions },
+    { tag: "routerChannelBandwidth",        options: routerChannelBandwidthOptions },
+    { tag: "routerVpnConfiguration",        options: routerVpnConfigurationOptions },
+    { tag: "openwirelessBand",              options: routerBandOptions },
+    { tag: "openwirelessChannelBandwidth",  options: routerChannelBandwidthOptions },
+    { tag: "openwirelessVpnConfiguration",  options: routerVpnConfigurationOptions }
+  ];
+
   var init = function(data, authToken){
     authorizationToken = authToken;
     config = data;
-    displaySettings(data);
+    displaySettings();
     initializeEditableFields();
   };
 
-  var displaySettings = function(settings){
+  var displaySettings = function(){
     var source = $('#settings-template').html();
     var template = Handlebars.compile(source);
     $('#main').empty();
-    $('#main').append(template(settings));
+    $('#main').append(template(config));
 
-    setDropDownMenu("routerBand", routerBandOptions);
-    setDropDownMenu("routerChannelBandwidth", routerChannelBandwidthOptions);
-    setDropDownMenu("routerVpnConfiguration", routerVpnConfigurationOptions);
-    setDropDownMenu("openwirelessBand", routerBandOptions);
-    setDropDownMenu("openwirelessChannelBandwidth", routerChannelBandwidthOptions);
-    setDropDownMenu("openwirelessVpnConfiguration", routerVpnConfigurationOptions);
+    initializeDropDownMenus();
 
-    setDependentBandwidthDropDownMenus();
+    var tags = ["router", "openwireless"];
+    setDependentDropDownMenus(tags);
+  };
+
+  var initializeDropDownMenus = function(){
+    for (var index in menus) {
+      setDropDownMenu(menus[index].tag, menus[index].options);
+    }
   };
 
   var initializeEditableFields = function(){
@@ -51,8 +62,7 @@ var settingsModule = (function(){
     });
   };
 
-  var setDependentBandwidthDropDownMenus = function() {
-    var tags = ["router", "openwireless"];
+  var setDependentDropDownMenus = function(tags) {
     for (var index in tags){
       var dropDown = $('#' + tags[index] + 'Band');
       if (dropDown.val() === "5"){
@@ -74,7 +84,7 @@ var settingsModule = (function(){
       config[tag] = dropDown.val();
       if (tag.substr(-4,4) === "Band") {
         config[tag.replace("Band", "Channel")] = "auto";
-        setDependentBandwidthDropDownMenus();
+        setDependentDropDownMenus([tag.replace("Band", "")]);
       }
     });
   };
