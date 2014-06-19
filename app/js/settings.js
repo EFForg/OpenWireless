@@ -52,8 +52,9 @@ var settingsModule = (function(){
 
   var initializeEditableFields = function(){
     $('.editable').editable(function(value, settings) { 
-      config[$(this).attr('id')] =  value;
-
+      var tag = $(this).attr('id');
+      config[tag] =  value;
+      updateSettings(tag, config[tag]);
       return(value);
     }, { 
       type    : 'text',
@@ -82,11 +83,38 @@ var settingsModule = (function(){
     $('#' + tag + 'option:contains(' + config[tag] + ')').prop('selected', true);
     dropDown.change(function(){
       config[tag] = dropDown.val();
+      updateSettings(tag, config[tag]);
       if (tag.substr(-4,4) === "Band") {
         config[tag.replace("Band", "Channel")] = "auto";
         setDependentDropDownMenus([tag.replace("Band", "")]);
       }
     });
+  };
+
+  var updateSettings = function(setting, value){
+    var data = { "jsonrpc": "2.0", "method": "update_settings", "params": [setting, value]};
+    var url = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken;
+    var successCallback = function(response){
+      if(response.result == null){
+        console.log("update successfull " + response);
+      } else {
+        console.log(response);
+      }
+    };
+    var errorCallback = function(errorType, errorMessage) {
+        //todo: make generic error display
+        genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
+        genericError.show();
+        console.log('Error: ' + errorType + ': Message : ' + errorMessage);
+    };
+
+    requestModule.submitRequest({
+        "data"              :data,
+        "url"               :url,
+        "errorCallback"     :errorCallback,
+        "successCallback"   :successCallback
+    });
+
   };
 
   return {

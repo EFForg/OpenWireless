@@ -54,7 +54,7 @@ var changePassword = (function(authToken) {
       }
 
     var request = { 'data': changePasswordRequest, 'url': changePasswordUrl, 'successCallback': successCallback, 'errorCallback': errorCallback };
-    requestModule.submitRequest(request);
+      requestModule.submitRequest(request);
 
   });
 });
