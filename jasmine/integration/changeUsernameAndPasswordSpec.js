@@ -1,4 +1,4 @@
-describe("Change password page", function() {
+describe("Change username and password page", function() {
   var newPassword, retypePassword, passwordForm, newPasswordError, retypePasswordError, authToken;
 
   beforeEach(function() {
@@ -10,7 +10,7 @@ describe("Change password page", function() {
     retypePasswordError = $("#retypePasswordError");
     authToken = "abcdef123456";
     helperModule.redirectTo = function(url) { redirect = url; }
-    changePassword(authToken);
+    changeUsernameAndPassword(authToken);
   });
 
   it("should show the user an error if the password field is empty", function() {
@@ -76,7 +76,7 @@ describe("Change password page", function() {
     newPassword.val("asdfghjkl12P");
     retypePassword.val("asdfghjkl12P");
     passwordForm.submit();
-    expect(redirect).toEqual("setSSID.html");
+    expect(redirect).toEqual("settings.html");
   });
 
   it("should redirect to login page if login was not successful", function() {
@@ -86,7 +86,7 @@ describe("Change password page", function() {
     newPassword.val("asdfghjkl12P");
     retypePassword.val("asdfghjkl12P");
     passwordForm.submit();
-    expect(redirect).toEqual("login.html");
+    expect(redirect).toEqual("changeUsernameAndPassword.html");
   });
 });
 

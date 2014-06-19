@@ -8,15 +8,22 @@ var helperModule = (function(){
       errorField.html("Please enter a " + fieldName + "!");
       errorField.show();
       field.focus();
-      return;
+      return true;
     }
+    return false;
   };
 
   var redirectTo = function(url) { window.location.href = url; };
 
+  var checkPassword = function(str) {
+      var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,}$/;
+      return re.test(str);
+  };
+
   return {
     isEmpty: isEmpty,
     checkEmptyField: checkEmptyField,
-    redirectTo: redirectTo
+    redirectTo: redirectTo,
+    checkPassword: checkPassword
   };
 })();

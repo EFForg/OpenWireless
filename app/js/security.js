@@ -12,7 +12,7 @@ var securityModule = (function(){
 
   return {
     getAuthToken : getAuthToken
- }
+  }
 
 })();
 

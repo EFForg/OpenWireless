@@ -14,8 +14,13 @@ var submitLogin = (function() {
     username.removeClass('error');
     password.removeClass('error');
 
-    helperModule.checkEmptyField(username, usernameError, "username");
-    helperModule.checkEmptyField(password, passwordError, "password");
+    if(helperModule.checkEmptyField(username, usernameError, "username")){
+      return;
+    }
+
+    if(helperModule.checkEmptyField(password, passwordError, "password")){
+      return;
+    }
 
     //TODO: sending passwords over plain text
     //TODO: Is there a timing attack in password validation?
