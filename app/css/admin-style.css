@@ -79,16 +79,26 @@ small {
   text-decoration: none;
 }
 
-.editable, .selector {
+.selector select {
+    outline: none;
+    background: transparent;
+    border: 1px solid rgb(139, 197, 63);
+    color: white;
+    -webkit-appearance: none;
+    padding: 0em .2em 0em .2em;
+    font-size: 13px;
+}
+
+.editable {
   color: #8bc53f;
   font-weight: 400;
 }
 
-.editable form, .selector form {
+.editable form {
   display: inline;
 }
 
-.editable, .selector {
+.editable {
   text-decoration: underline;
 }
 
