@@ -198,6 +198,10 @@ small {
   color: #8bc53f;
 }
 
+.toggle:hover{
+  cursor: pointer;
+}
+
 .status .off.off-button, .disconnected {
   color: #f3bf20;
 }
