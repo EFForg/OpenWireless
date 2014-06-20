@@ -1,31 +1,32 @@
 <html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="../css/style.css" media="screen" />
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" >
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen" />
     <script src="../lib/jquery-2.1.0.min.js"></script>
-        <script type="text/javascript" src="../js/request.js"></script>
-        <script type="text/javascript" src="../js/ssid.js"></script>
-	</head>
+    <script type="text/javascript" src="../js/request.js"></script>
+    <script type="text/javascript" src="../js/ssid.js"></script>
+  </head>
 
-	<body>
-		<div id="outerContainer">
-			<header></header>
-			<div class="formDiv">
-				<h1>Set the SSID</h1>
-				<p>This is the SSID for your personal use. It is what you will see when you connect to the wireless.</p>
-				<form>
-					<input type="text" placeholder="New SSID" id="ssid"></input><br>
-					<div id="ssidError" class="inputError" style="display:none;"></div>
-					<input type="text" placeholder="Passphrase" id="ssidPassphrase"></input><br>
-					<div id="ssidPassphraseError" class="inputError" style="display:none;"></div>
-					<input type="submit" value="Submit"></input>
-				</form>
-			</div>
-			<div id="restarting" style="display:none;">
-				<h1>Restarting</h1>
-				<p>SSID update successful &#x2713;<br>Your router is now restarting. When it reboots, connect your device to the new wireless network.</p>
-			</div>
-			<div id="restartSuccess" style="display:none;">
-			</div>
-		</div>
-	</body>
+  <body>
+    <div id="outerContainer">
+      <header></header>
+      <div class="formDiv">
+        <h1>Set the SSID</h1>
+        <p>This is the SSID for your personal use. It is what you will see when you connect to the wireless.</p>
+        <form>
+          <input type="text" placeholder="New SSID" id="ssid"></input><br>
+          <div id="ssidError" class="inputError" style="display:none;"></div>
+          <input type="text" placeholder="Passphrase" id="ssidPassphrase"></input><br>
+          <div id="ssidPassphraseError" class="inputError" style="display:none;"></div>
+          <input type="submit" value="Submit"></input>
+        </form>
+      </div>
+      <div id="restarting" style="display:none;">
+        <h1>Restarting</h1>
+        <p>SSID update successful &#x2713;<br>Your router is now restarting. When it reboots, connect your device to the new wireless network.</p>
+      </div>
+      <div id="restartSuccess" style="display:none;">
+      </div>
+    </div>
+  </body>
 </html>
