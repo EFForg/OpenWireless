@@ -13,60 +13,33 @@ function setSSID() {
     $('#restarting').show();
 
     var ssidRequest = { "jsonrpc": "2.0", "method": "set", "params": ["wireless.@wifi-iface[0].ssid="+newSsid], "id": 1 };
-    $.ajax({
-      type: "POST",
-      url: uciUrl,
-      contentType: "application/json",
-      dataType: "json",
-      data: JSON.stringify(ssidRequest),
-      success: function(response) {
-        commitSsid(response);
-      },
-      //is there a xss attack with this error?
-      error: function(request, errorType, errorMessage) {
-        console.log('Error: ' + errorType + ': Message : ' + errorMessage);
-      }
-    });
+
+    requestModule.submitRequest({url: uciUrl, successCallback: commitSsid, errorCallback: errorHandler, data: ssidRequest});
   });
-};
+}
+
+function errorHandler(request, errorType, errorMessage) {
+  console.log('Error: ' + errorType + ': Message : ' + errorMessage);
+}
 
 function commitSsid() {
   var commitRequest = { "jsonrpc": "2.0", "method": "commit", "params": ["wireless"], "id": 1 };
-  $.ajax({
-    type: "POST",
-    url: uciUrl,
-    contentType: "application/json",
-    dataType: "json",
-    data: JSON.stringify(commitRequest),
-    success: function(response) {
-      getSSID(response);
-    },
-    error: function(request, errorType, errorMessage) {
-      console.log('Error: ' + errorType + ': Message : ' + errorMessage);
-    }
-  });
+
+  requestModule.submitRequest({url: uciUrl, successCallback: getSSID, errorCallback: errorHandler, data: commitRequest});
 }
 
 function getSSID(response){
   var getRequest = { "jsonrpc": "2.0", "method": "get", "params": ["wireless.@wifi-iface[0].ssid"], "id": 1 };
-  $.ajax({
-    type: "POST",
-    url: uciUrl,
-    contentType: "application/json",
-    dataType: "json",
-    data: JSON.stringify(getRequest),
-    success: function(response) {
-      setTimeout(function() {
-        $('#restarting').hide();
-        $("#restartSuccess").html("<h1>Restart Successful</h1><p>SSID updated to <b>" + response.result + "</b>.<br>Please connect to this network now.</p>");
-        $('#restartSuccess').show();
-      }, 3000);
-    },
-    error: function(request, errorType, errorMessage) {
-      console.log('Error: ' + errorType + ': Message : ' + errorMessage);
-    }
-  });
-};
+  requestModule.submitRequest({url: uciUrl, successCallback: getSSIDSuccess, errorCallback: errorHandler, data: getRequest});
+}
+
+function getSSIDSuccess(response) {
+  setTimeout(function() {
+    $('#restarting').hide();
+    $("#restartSuccess").html("<h1>Restart Successful</h1><p>SSID updated to <b>" + response.result + "</b>.<br>Please connect to this network now.</p>");
+    $('#restartSuccess').show();
+  }, 3000);
+}
 
 //TODO: make sure this cookie is secure
 var authorizationToken = getSysauthFromCookie(document.cookie);
@@ -76,7 +49,7 @@ function getSysauthFromCookie(cookieString) {
   var sysauthPairs = cookieString.split(";");
   var lastCookieValue = sysauthPairs[sysauthPairs.length - 1].split("=");
   return lastCookieValue[1];
-};
+}
 
 function redirectTo(url) { window.location.href = url; };
 

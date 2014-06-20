@@ -1,8 +1,6 @@
 var requestModule = (function(){
 
   var submitRequest = function(request){
-    //data,url, successCallback, errorCallback
-    // var url = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken
     $.ajax({
       type: "POST",
       url: request.url,

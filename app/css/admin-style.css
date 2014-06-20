@@ -82,7 +82,7 @@ small {
 .selector select {
     outline: none;
     background: transparent;
-    border: 1px solid rgb(139, 197, 63);
+    border: 2px solid rgb(139, 197, 63);
     color: white;
     -webkit-appearance: none;
     padding: 0em .2em 0em .2em;
