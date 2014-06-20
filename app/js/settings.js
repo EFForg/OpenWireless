@@ -94,13 +94,7 @@ var settingsModule = (function(){
   var updateSettings = function(setting, value){
     var data = { "jsonrpc": "2.0", "method": "update_settings", "params": [setting, value]};
     var url = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken;
-    var successCallback = function(response){
-      if(response.result == null){
-        console.log("update successfull " + response);
-      } else {
-        console.log(response);
-      }
-    };
+    var successCallback = function(response){};
     var errorCallback = function(errorType, errorMessage) {
         //todo: make generic error display
         genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
