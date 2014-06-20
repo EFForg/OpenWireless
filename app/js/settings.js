@@ -96,7 +96,7 @@ var settingsModule = (function(){
     var url = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken;
     var successCallback = function(response){};
     var errorCallback = function(errorType, errorMessage) {
-        //todo: make generic error display
+        var genericError = $('.inputError');
         genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
         genericError.show();
         console.log('Error: ' + errorType + ': Message : ' + errorMessage);
@@ -125,7 +125,7 @@ $(function() {
         settingsModule.init(JSON.parse(response.result), authToken);
     };
     var errorCallback = function(errorType, errorMessage) {
-        //todo: make generic error display
+        var genericError = $('.inputError');
         genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
         genericError.show();
     };
@@ -134,7 +134,7 @@ $(function() {
         "data"              :data,
         "url"               :url,
         "errorCallback"     :errorCallback,
-        "successCallback"   :successCallback
+        "successCallback"   :successCallback 
     });
 
 });

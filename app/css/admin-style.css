@@ -75,6 +75,12 @@ small {
   color: rgba(255, 255, 255, 0.6);
 }
 
+
+.inputError {
+  margin: 0 0 .75em 0;
+  color: red;
+}
+
 .close {
   text-decoration: none;
 }
