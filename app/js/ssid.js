@@ -1,58 +1,106 @@
-var uciUrl, newSsid;
-function setSSID() {
-  var ssidform = $('form');  
+var ssidModule = (function() {
+  var form;
+  var ssid;
+  var ssidPassphrase;
+  var ssidError;
+  var ssidPassphraseError;
+  var genericError;
 
-  ssidform.submit(function(event){
-    //TODO: sending info over plain http
-    //TODO: hard coded ip address
-    uciUrl   = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken;
-    newSsid  = $('#ssid').val();
-    event.preventDefault();
-    //TODO: First validate the input before hiding
-    $('.formDiv').hide();
-    $('#restarting').show();
+  //TODO: make sure this cookie is secure
+  var uciUrl;
 
-    var ssidRequest = { "jsonrpc": "2.0", "method": "set", "params": ["wireless.@wifi-iface[0].ssid="+newSsid], "id": 1 };
+  var init = function() {
+    uciUrl = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth=" + getSysauthFromCookie(document.cookie);
+    initializeFields();
+    initializeForm();
+  };
+
+  var initializeFields = function(){
+    form = $('form');
+    ssid = $('#ssid');
+    ssidPassphrase = $('#ssidPassphrase');
+    ssidError = $('#ssidError');
+    ssidPassphraseError = $('#ssidPassphraseError');
+    genericError = $('#genericError');
+  };
+
+  var initializeForm = function(){
+    form.submit(function(event){
+      event.preventDefault();
+      ssidError.hide();
+      ssidPassphraseError.hide();
+      genericError.hide();
+      ssid.removeClass('error');
+      ssidPassphrase.removeClass('error');
+
+      if(helperModule.checkEmptyField(ssid, ssidError, "SSID")){
+        return;
+      }
+
+      if(helperModule.checkEmptyField(ssidPassphrase, ssidPassphraseError, "passphrase")){
+        return;
+      }
+
+      $('.formDiv').hide();
+      $('#restarting').show();
+
+      //TODO: sending info over plain http
+      //TODO: hard coded ip address
+      //TODO: First validate the input before hiding
+
+      setSSID(setPassphrase);
+    });
+  };
+
+  var setSSID = function(successCallback) {
+    var ssidRequest = { "jsonrpc": "2.0", "method": "set", "params": ["wireless.@wifi-iface[0].ssid=" + ssid.val()], "id": 1 };
+
+    requestModule.submitRequest({url: uciUrl, successCallback: successCallback, errorCallback: errorHandler, data: ssidRequest});
+  };
+
+  var setPassphrase = function() {
+    var ssidRequest = { "jsonrpc": "2.0", "method": "set", "params": ["wireless.@wifi-iface[0].key=" + ssidPassphrase.val()], "id": 1 };
 
     requestModule.submitRequest({url: uciUrl, successCallback: commitSsid, errorCallback: errorHandler, data: ssidRequest});
-  });
-}
+  };
 
-function errorHandler(request, errorType, errorMessage) {
-  console.log('Error: ' + errorType + ': Message : ' + errorMessage);
-}
+  var commitSsid = function() {
+    var commitRequest = { "jsonrpc": "2.0", "method": "commit", "params": ["wireless"], "id": 1 };
 
-function commitSsid() {
-  var commitRequest = { "jsonrpc": "2.0", "method": "commit", "params": ["wireless"], "id": 1 };
+    requestModule.submitRequest({url: uciUrl, successCallback: getSSID, errorCallback: errorHandler, data: commitRequest});
+  };
 
-  requestModule.submitRequest({url: uciUrl, successCallback: getSSID, errorCallback: errorHandler, data: commitRequest});
-}
+  var getSSID = function(response) {
+    var getRequest = { "jsonrpc": "2.0", "method": "get", "params": ["wireless.@wifi-iface[0].ssid"], "id": 1 };
+    requestModule.submitRequest({url: uciUrl, successCallback: getSSIDSuccess, errorCallback: errorHandler, data: getRequest});
+  };
 
-function getSSID(response){
-  var getRequest = { "jsonrpc": "2.0", "method": "get", "params": ["wireless.@wifi-iface[0].ssid"], "id": 1 };
-  requestModule.submitRequest({url: uciUrl, successCallback: getSSIDSuccess, errorCallback: errorHandler, data: getRequest});
-}
+  var getSSIDSuccess = function(response) {
+    setTimeout(function () {
+      $('#restarting').hide();
+      $("#restartSuccess").html("<h1>Restart Successful</h1><p>SSID updated to <b>" + response.result +
+          "</b>.<br>Please connect to this network now.</p> <a href='/app/html/dashboard.html'>View Router Dashboard</a>");
+      $('#restartSuccess').show();
+    }, 3000);
+  };
 
-function getSSIDSuccess(response) {
-  setTimeout(function() {
-    $('#restarting').hide();
-    $("#restartSuccess").html("<h1>Restart Successful</h1><p>SSID updated to <b>" + response.result + "</b>.<br>Please connect to this network now.</p>");
-    $('#restartSuccess').show();
-  }, 3000);
-}
+  var errorHandler = function(request, errorType, errorMessage) {
+    console.log('Error: ' + errorType + ': Message : ' + errorMessage);
+  };
 
-//TODO: make sure this cookie is secure
-var authorizationToken = getSysauthFromCookie(document.cookie);
+  //TODO: dry this up
+  var getSysauthFromCookie = function(cookieString) {
+    var sysauthPairs = cookieString.split(";");
+    var lastCookieValue = sysauthPairs[sysauthPairs.length - 1].split("=");
+    return lastCookieValue[1];
+  };
 
-//TODO: dry this up
-function getSysauthFromCookie(cookieString) {
-  var sysauthPairs = cookieString.split(";");
-  var lastCookieValue = sysauthPairs[sysauthPairs.length - 1].split("=");
-  return lastCookieValue[1];
-}
+  return {
+    init: init
+  }
 
-function redirectTo(url) { window.location.href = url; };
+})();
 
-$(function() {
-  setSSID();
+$(document).ready(function() {
+  ssidModule.init();
 });

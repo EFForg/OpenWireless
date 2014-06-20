@@ -1,5 +1,4 @@
 var requestModule = (function(){
-
   var submitRequest = function(request){
     $.ajax({
       type: "POST",
@@ -17,5 +16,3 @@ var requestModule = (function(){
   };
 
 })();
-
-
