@@ -11,7 +11,7 @@ describe("Login Module", function() {
     passwordError = $("#passwordError");
     genericError = $("#genericError");
     helperModule.redirectTo = function(url) { redirect = url; }
-    submitLogin();
+    loginModule.init();
   });
 
   it("should show the user an error if username field is empty", function() {
