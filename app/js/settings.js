@@ -59,7 +59,33 @@ var settingsModule = (function(){
     }, { 
       type    : 'text',
       width   : '100',
-      submit  : 'OK'
+      submit  : 'OK',
+      onsubmit: function() {
+        var validation = { 
+          "ispDownloadSpeed":{
+            rule : function(){ return { number: true, max: 1000 }},
+            message : function(){ return { number: 'Must be a number', max: 'Must be less than 1000.' }}
+          },
+          "ispUploadSpeed":{
+            rule : function(){ return { number: true, max: 1000 }},
+            message : function(){ return { number: 'Must be a number', max: 'Must be less than 1000.' }}
+          }
+        };
+        
+        var fieldName = $(this).parent().attr("id");
+        $(this).validate({
+            rules: {
+                'value':validation[fieldName].rule()
+
+            },
+
+            messages: {
+                'value': validation[fieldName].message()
+            }
+        });
+
+        return ($(this).valid());
+    }
     });
   };
 

@@ -76,10 +76,19 @@ small {
 }
 
 
-.inputError {
+.inputError{
+  text-decoration: none;
   margin: 0 0 .75em 0;
   color: red;
 }
+
+.error {
+  text-decoration: underline;
+  font-size: .75em;
+  margin: 0 0 .75em 0;
+  color: red;
+}
+
 
 .close {
   text-decoration: none;
