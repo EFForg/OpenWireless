@@ -69,6 +69,14 @@ var settingsModule = (function(){
           "ispUploadSpeed":{
             rule : function(){ return { number: true, max: 1000 }},
             message : function(){ return { number: 'Must be a number', max: 'Must be less than 1000.' }}
+          },
+          "openwirelessBandwidth":{
+            rule : function(){ return { number: true, max: 100 }},
+            message : function(){ return { number: 'Must be a number', max: 'Must be less than 100.' }}
+          },
+          "openwirelessData":{
+            rule : function(){ return { number: true, max: 1000 }},
+            message : function(){ return { number: 'Must be a number', max: 'Must be less than 1000.' }}
           }
         };
         
@@ -83,6 +91,10 @@ var settingsModule = (function(){
                 'value': validation[fieldName].message()
             }
         });
+
+        if( (fieldName == "openwirelessBandwidth") && ($(this).find("input").val() < 5)){
+          return confirm("Are you sure that you want your open wireless bandwidth percentage to be less than 5?");
+        }
 
         return ($(this).valid());
     }
