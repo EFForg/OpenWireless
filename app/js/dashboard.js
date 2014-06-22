@@ -53,7 +53,7 @@ var dashboardModule = (function(){
     var data =  { "jsonrpc": "2.0", "method": "dashboard"};
     var successCallback = function(response) {
       if(response.result != null){
-        var interfaces = JSON.parse(response.result);
+        var interfaces = response.result;
         displayInterface(interfaces.internet);
         displayInterface(interfaces.lanNetwork);
         displayInterface(interfaces.privateWifi);
@@ -93,7 +93,7 @@ var dashboardModule = (function(){
     requestModule.submitRequest({ "data": data,
       "successCallback":successCallback,
       "errorCallback": errorCallback,
-      "url":"http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken
+      "url":"http://192.168.1.1/cgi-bin/routerapi/dashboard?auth=" + authorizationToken
     });
   };
 

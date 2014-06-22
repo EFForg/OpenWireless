@@ -51,17 +51,17 @@ var settingsModule = (function(){
   };
 
   var initializeEditableFields = function(){
-    $('.editable').editable(function(value, settings) { 
+    $('.editable').editable(function(value, settings) {
       var tag = $(this).attr('id');
       config[tag] =  value;
       updateSettings(tag, config[tag]);
       return(value);
-    }, { 
+    }, {
       type    : 'text',
       width   : '100',
       submit  : 'OK',
       onsubmit: function() {
-        var validation = { 
+        var validation = {
           "ispDownloadSpeed":{
             rule : function(){ return { number: true, max: 1000 }},
             message : function(){ return { number: 'Must be a number', max: 'Must be less than 1000.' }}
@@ -79,7 +79,7 @@ var settingsModule = (function(){
             message : function(){ return { number: 'Must be a number', max: 'Must be less than 1000.' }}
           }
         };
-        
+
         var fieldName = $(this).parent().attr("id");
         $(this).validate({
             rules: {
@@ -158,9 +158,9 @@ var settingsModule = (function(){
 $(function() {
     var data =  { "jsonrpc": "2.0", "method": "settings"};
     var authToken = securityModule.getAuthToken();
-    var url = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authToken;
+    var url = "http://192.168.1.1/cgi-bin/routerapi/settings?auth=" + authToken;
     var successCallback = function(response){
-        settingsModule.init(JSON.parse(response.result), authToken);
+        settingsModule.init(response.result, authToken);
     };
     var errorCallback = function(errorType, errorMessage) {
         var genericError = $('.inputError');
@@ -172,7 +172,7 @@ $(function() {
         "data"              :data,
         "url"               :url,
         "errorCallback"     :errorCallback,
-        "successCallback"   :successCallback 
+        "successCallback"   :successCallback
     });
 
 });
