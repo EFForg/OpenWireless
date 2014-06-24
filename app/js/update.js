@@ -1,32 +1,61 @@
+var updateModule = (function(){
+
+  var authorizationToken = securityModule.getAuthToken();
+
+  var checkUpdateData = {
+    "jsonrpc": "2.0",
+    "method" : "check_updates"
+  };
+
+  var checkUpdateCallback = function(response){
+    if(response.result.status == "up-to-date"){
+      alert("Your software is up-to-date!");
+    } else {
+      if(confirm("A new version is available. Would you like to update now?")){
+        requestModule.submitRequest(updateRequest);
+      }
+    }
+  };
+
+  var checkUpdateRequest = {
+    "url":"http://192.168.1.1/cgi-bin/routerapi/check_updates?auth=" + authorizationToken,
+    "successCallback":checkUpdateCallback,
+    "errorCallback":errorCallback,
+    "data": checkUpdateData
+  };
+
+  var updateData = {
+    "jsonrpc": "2.0",
+    "method" : "update"
+  };
+
+  var updateRequest = {
+    "url":"http://192.168.1.1/cgi-bin/routerapi/update?auth=" + authorizationToken,
+    "successCallback": function(){},
+    "errorCallback":errorCallback,
+    "data": updateData
+  };
+ 
+  var errorCallback = function(errorType, errorMessage) {
+    var genericError = $('.inputError');
+    genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
+    genericError.show();
+  };
+
+  var submitUpdateRequest = function(){
+    requestModule.submitRequest(checkUpdateRequest);
+  };
+
+  return {
+    submitUpdateRequest: submitUpdateRequest 
+  };
+
+})();
+
+
 $(function() {
   $('#checkForUpdate').click(function(){
-    var authorizationToken = securityModule.getAuthToken();
-    var data = {
-      "jsonrpc": "2.0",
-      "method" : "check_updates",
-    };
-    var successCallback = function(response){
-      if(response.result.status == "up-to-date"){
-        alert("Your software is up-to-date!");
-      } else {
-        confirm("A new version is available. Would you like to update now?")
-      }
-    };
-
-    var errorCallback = function(errorType, errorMessage) {
-      var genericError = $('.inputError');
-      genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
-      genericError.show();
-    };
-
-    var request = {
-      "url":"http://192.168.1.1/cgi-bin/routerapi/update?auth=" + authorizationToken,
-      "successCallback":successCallback,
-      "errorCallback":errorCallback,
-      "data": data
-    };
-    
-    requestModule.submitRequest(request);
+    updateModule.submitUpdateRequest();
   });
 });
 
