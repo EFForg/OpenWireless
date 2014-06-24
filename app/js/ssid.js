@@ -10,7 +10,7 @@ var ssidModule = (function() {
   var uciUrl;
 
   var init = function() {
-    uciUrl = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth=" + getSysauthFromCookie(document.cookie);
+    uciUrl = "uci?auth=" + getSysauthFromCookie(document.cookie);
     initializeFields();
     initializeForm();
   };

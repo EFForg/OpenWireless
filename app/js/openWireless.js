@@ -1,7 +1,7 @@
 function setSSID() {
   //TODO: auth token sent over plain text
   //TODO: hard coded ip address
-    var uciUrl = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken;
+    var uciUrl = "uci?auth="+authorizationToken;
 	var newSsid = $('#ssid').val();
 	//TODO: First validate the input before hiding
 	$('.formDiv').hide();

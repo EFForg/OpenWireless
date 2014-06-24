@@ -59,7 +59,7 @@ var loginModule = (function() {
         genericError.show();
       };
 
-      var request = { 'data': data, url: 'http://192.168.1.1/cgi-bin/luci/rpc/auth', 'successCallback': successCallback, 'errorCallback': errorCallback };
+      var request = { 'data': data, url: 'auth', 'successCallback': successCallback, 'errorCallback': errorCallback };
       requestModule.submitRequest(request);
     });
   };
@@ -73,4 +73,3 @@ var loginModule = (function() {
 $(document).ready(function() {
   loginModule.init();
 });
-

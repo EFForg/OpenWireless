@@ -50,7 +50,7 @@ var dashboardModule = (function(){
   };
 
   var displayInterfaces = function(){
-    var data =  { "jsonrpc": "2.0", "method": "dashboard"};
+    var data =  { "jsonrpc": "2.0", "method": "dashboard", "id": 1 };
     var successCallback = function(response) {
       if(response.result != null){
         var interfaces = response.result;
@@ -78,7 +78,7 @@ var dashboardModule = (function(){
   };
 
   var toggleInterface = function(name, state) {
-    var data = { "jsonrpc": "2.0", "method": "toggle", "params": {"name": name, "state": state}};
+    var data = { "jsonrpc": "2.0", "method": "toggle", "params": {"name": name, "state": state}, "id": 1 };
     var successCallback = location.reload();
     submitRequest(data, successCallback, genericErrorCallback);
   };
@@ -93,7 +93,7 @@ var dashboardModule = (function(){
     requestModule.submitRequest({ "data": data,
       "successCallback":successCallback,
       "errorCallback": errorCallback,
-      "url":"http://192.168.1.1/cgi-bin/routerapi/dashboard?auth=" + authorizationToken
+      "url":"sys?auth=" + authorizationToken
     });
   };
 

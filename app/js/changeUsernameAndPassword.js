@@ -7,7 +7,7 @@ var changeUsernameAndPassword = (function(authToken) {
   var retypePasswordError= $("#retypePasswordError");
   //TODO: Sending auth tokens over plain http is baaaad
   //TODO: Hard coding ip address and http is not what we want heret@github.com:TWEFF/OpenWireless.git
-  var changePasswordUrl = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authToken;
+  var changePasswordUrl = "sys?auth="+authToken;
 
   form.submit(function(event){
     event.preventDefault();
@@ -41,9 +41,9 @@ var changeUsernameAndPassword = (function(authToken) {
       retypePassword.focus();
       return;
     };
-    
+
     //TODO: we are seding the root password over http!
-    
+
     var successCallback = function(response) {
         helperModule.redirectTo("settings.html");
     };

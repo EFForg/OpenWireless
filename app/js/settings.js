@@ -130,8 +130,8 @@ var settingsModule = (function(){
   };
 
   var updateSettings = function(setting, value){
-    var data = { "jsonrpc": "2.0", "method": "update_settings", "params": [setting, value]};
-    var url = "http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authorizationToken;
+    var data = { "jsonrpc": "2.0", "method": "update_settings", "params": [setting, value], "id": 1 };
+    var url = "sys?auth="+authorizationToken;
     var successCallback = function(response){};
     var errorCallback = function(errorType, errorMessage) {
         var genericError = $('.inputError');
@@ -156,9 +156,9 @@ var settingsModule = (function(){
 })();
 
 $(function() {
-    var data =  { "jsonrpc": "2.0", "method": "settings"};
+    var data =  { "jsonrpc": "2.0", "method": "settings", "id": 1 };
     var authToken = securityModule.getAuthToken();
-    var url = "http://192.168.1.1/cgi-bin/routerapi/settings?auth=" + authToken;
+    var url = "sys?auth=" + authToken;
     var successCallback = function(response){
         settingsModule.init(response.result, authToken);
     };
