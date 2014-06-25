@@ -16,6 +16,7 @@ var settingsModule = (function(){
   var routerChannelBandwidthOptions = ['20', '40'];
   var routerVpnConfigurationOptions = ['None', 'TOR', 'VPN', 'VPN 2'];
   var encryptionOptions = ['Unencrypted', 'EAP-TLS'];
+  var protocolOptions = ['HTTPS', 'HTTP'];
 
   var menus = [
     { tag: "routerBand",                    options: routerBandOptions },
@@ -24,6 +25,7 @@ var settingsModule = (function(){
     { tag: "openwirelessBand",              options: routerBandOptions },
     { tag: "openwirelessChannelBandwidth",  options: routerChannelBandwidthOptions },
     { tag: "openwirelessVpnConfiguration",  options: routerVpnConfigurationOptions },
+    { tag: "transferProtocol",  options: protocolOptions },
     { tag: "openwirelessEncryption",  options: encryptionOptions }
   ];
 
