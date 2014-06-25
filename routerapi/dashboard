@@ -1,0 +1,58 @@
+#!/usr/bin/python
+
+# Import modules for CGI handling
+import cgi, json
+from subprocess import check_output, call
+
+ping_speed = check_output("ping -c1 google.com | grep time", shell=True).split(':')[1].split('=')[3].split(' ')[0]
+
+connected = call("ping -c1 google.com >/dev/null 2>&1", shell=True)==0
+
+result = {
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": {
+		"internet": {
+			"name": "Internet",
+			"uploadSpeed": "27.4",
+			"uploadSpeedMetric": "mb/s",
+			"downloadSpeed": "37.5",
+			"downloadSpeedMetric": "mb/s",
+			"pingSpeed": ping_speed,
+			"pingSpeedMetric": "ms",
+			"connected": connected
+		},
+		"lanNetwork": {
+			"name": "LAN Network",
+			"uploadSpeed": "32.4",
+			"uploadSpeedMetric": "mb/s",
+			"downloadSpeed": "12.5",
+			"downloadSpeedMetric": "mb/s",
+			"devices": "3"
+		},
+		"privateWifi": {
+			"name": "Private Wifi",
+			"uploadSpeed": "17.4",
+			"uploadSpeedMetric": "mb/s",
+			"downloadSpeed": "15.5",
+			"downloadSpeedMetric": "mb/s",
+			"devices": "3",
+			"on": False
+		},
+		"openWireless": {
+			"name": "Openwireless.org",
+			"uploadSpeed": "17.4",
+			"uploadSpeedMetric": "mb/s",
+			"downloadSpeed": "15.5",
+			"downloadSpeedMetric": "mb/s",
+			"maxBandwidthPercent": "5",
+			"maxMonthlyBandwidth": "100",
+			"maxMonthlyBandwidthMetric": "mb",
+      "monthlyBandwidthUsage": "23",
+			"on": True
+		}
+	}
+}
+
+print "Content-Type:application/json\r\n"
+print json.JSONEncoder().encode(result)
