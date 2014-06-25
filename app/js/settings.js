@@ -160,7 +160,7 @@ $(function() {
     var authToken = securityModule.getAuthToken();
     var url = "sys?auth=" + authToken;
     var successCallback = function(response){
-        settingsModule.init(response.result, authToken);
+        settingsModule.init(JSON.parse(response.result), authToken);
     };
     var errorCallback = function(errorType, errorMessage) {
         var genericError = $('.inputError');

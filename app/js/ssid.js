@@ -61,6 +61,12 @@ var ssidModule = (function() {
   var setPassphrase = function() {
     var ssidRequest = { "jsonrpc": "2.0", "method": "set", "params": ["wireless.@wifi-iface[0].key=" + ssidPassphrase.val()], "id": 1 };
 
+    requestModule.submitRequest({url: uciUrl, successCallback: setPassPhraseEncryption, errorCallback: errorHandler, data: ssidRequest});
+  };
+
+  var setPassPhraseEncryption = function() {
+    var ssidRequest = { "jsonrpc": "2.0", "method": "set", "params": ["wireless.@wifi-iface[0].encryption=psk2"], "id": 1 };
+
     requestModule.submitRequest({url: uciUrl, successCallback: commitSsid, errorCallback: errorHandler, data: ssidRequest});
   };
 
