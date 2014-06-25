@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
+# Tests can be run from top-level directory with
+# python -m unittest discover -s test
 import sys
-sys.path.insert(0, '../routerapi/')
+sys.path.insert(0, './routerapi/')
 
 import unittest, datetime
 from speed_data import getSpeed
