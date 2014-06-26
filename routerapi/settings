@@ -2,16 +2,23 @@
 
 # Import modules for CGI handling
 import cgi, json
-from subprocess import check_output
+from subprocess import check_output, CalledProcessError
 
 software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
 
 
 def check_device(config_name):
-  return check_output("uci get wireless." + config_name + ".device", shell=True).strip()
+  try:
+    return check_output("uci get wireless." + config_name + ".device", shell=True).strip()
+  except CalledProcessError:
+    return "ERROR"
+
 
 def check_param(device, param):
-  return check_output("uci get wireless." + device + "." + param, shell=True).strip()
+  try:
+    return check_output("uci get wireless." + device + "." + param, shell=True).strip()
+  except CalledProcessError:
+    return "ERROR"
 
 def get_attributes(interface, config_name):
   interface["device"] = check_device(config_name)
@@ -59,5 +66,5 @@ result = {
 	}
 }
 
-print "Content-Type:application/json\r\n"
+print "Content-Type: application/json\r\n\r\n"
 print json.JSONEncoder().encode(result)
