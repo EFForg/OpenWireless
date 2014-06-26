@@ -52,6 +52,13 @@ var settingsModule = (function(){
     for (var index in menus) {
       setDropDownMenu(menus[index].tag, menus[index].options);
     }
+      $("#routerVpnConfiguration>option:contains(TOR)").prop('disabled',true);
+      $("#routerVpnConfiguration>option:contains(VPN)").prop('disabled',true);
+      $("#routerVpnConfiguration>option:contains(VPN2)").prop('disabled',true);
+
+      $("#openwirelessVpnConfiguration>option:contains(TOR)").prop('disabled',true);
+      $("#openwirelessVpnConfiguration>option:contains(VPN)").prop('disabled',true);
+      $("#openwirelessVpnConfiguration>option:contains(VPN2)").prop('disabled',true);
   };
 
   var initializeEditableFields = function(){
