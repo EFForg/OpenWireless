@@ -2,32 +2,16 @@
 
 # Import modules for CGI handling
 import cgi, json
-from subprocess import check_output, CalledProcessError
-
-#import auth
+from subprocess import check_output
 
 software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
 
-class Interface:
-  def __init__(self, name):
-    self.name = name 
-    self.channel = check_output("uci show wireless | grep " + name + " | grep channel", shell=True).split("=")[1]
-    self.band = check_output("uci show wireless | grep " + name + " | grep band", shell=True).split("=")[1]
-    self.channel_bandwidth = check_output("uci show wireless | grep " + name + " | grep chanbw", shell=True).split("=")[1]
 
-openwireless = Interface("wifi-iface")
-router = Interface("wifi-iface")
 def check_device(config_name):
-  try:
-    return check_output(["uci", "get", "wireless." + config_name + ".device"]).strip()
-  except CalledProcessError:
-    return "ERROR"
+  return check_output("uci get wireless." + config_name + ".device", shell=True).strip()
 
 def check_param(device, param):
-  try:
-    return check_output(["uci", "get", "wireless." + device + "." + param]).strip()
-  except CalledProcessError:
-    return "ERROR"
+  return check_output("uci get wireless." + device + "." + param, shell=True).strip()
 
 def get_attributes(interface, config_name):
   interface["device"] = check_device(config_name)
@@ -56,17 +40,17 @@ result = {
 	  "ispUploadSpeed"                : "3.6",
 	  "softwareVersionUpdateDate"     : "16/06/2014",
 	  "lastCheckedDate"               : "18/06/2014",
-	  "routerBand"                    : router.band,
-	  "routerChannel"                 : router.channel,
+	  "routerBand"                    : private["band"],
+	  "routerChannel"                 : private["channel"],
 	  "routerCustomChannel"           : "??",
-	  "routerChannelBandwidth"        : router.channel_bandwidth,
+	  "routerChannelBandwidth"        : private["channel_bandwidth"],
 	  "routerVpnConfiguration"        : "None",
 	  "openwirelessBandwidth"         : "5",
 	  "openwirelessData"              : "30",
-	  "openwirelessBand"              : openwireless.band,
-	  "openwirelessChannel"           : openwireless.channel,
+	  "openwirelessBand"              : open_wireless["band"],
+	  "openwirelessChannel"           : open_wireless["channel"],
 	  "openwirelessCustomChannel"     : "??",
-	  "openwirelessChannelBandwidth"  : openwireless.channel_bandwidth,
+	  "openwirelessChannelBandwidth"  : open_wireless["channel_bandwidth"],
 	  "openwirelessVpnConfiguration"  : "None",
     "openwirelessProtocol"          : "HTTPS",
     "openwirelessEncryption"        : "Unencrypted",
@@ -75,5 +59,5 @@ result = {
 	}
 }
 
-print "Content-Type: application/json\r\n\r\n"
+print "Content-Type:application/json\r\n"
 print json.JSONEncoder().encode(result)
