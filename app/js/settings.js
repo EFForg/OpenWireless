@@ -48,11 +48,22 @@ var settingsModule = (function(){
     setDependentDropDownMenus(tags);
   };
 
-  var initializeDropDownMenus = function(){
+    var disableVPNAndTORConfig = function() {
+        $("#routerVpnConfiguration>option:contains(TOR)").prop('disabled', true);
+        $("#routerVpnConfiguration>option:contains(VPN)").prop('disabled', true);
+        $("#routerVpnConfiguration>option:contains(VPN2)").prop('disabled', true);
+
+        $("#openwirelessVpnConfiguration>option:contains(TOR)").prop('disabled', true);
+        $("#openwirelessVpnConfiguration>option:contains(VPN)").prop('disabled', true);
+        $("#openwirelessVpnConfiguration>option:contains(VPN2)").prop('disabled', true);
+    }
+
+    var initializeDropDownMenus = function(){
     for (var index in menus) {
       setDropDownMenu(menus[index].tag, menus[index].options);
     }
-  };
+        disableVPNAndTORConfig();
+    };
 
   var initializeEditableFields = function(){
     $('.editable').editable(function(value, settings) {
