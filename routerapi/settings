@@ -2,7 +2,9 @@
 
 # Import modules for CGI handling
 import cgi, json
-from subprocess import check_output
+from subprocess import check_output, CalledProcessError
+
+#import auth
 
 software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
 
@@ -15,6 +17,37 @@ class Interface:
 
 openwireless = Interface("wifi-iface")
 router = Interface("wifi-iface")
+def check_device(config_name):
+  try:
+    return check_output(["uci", "get", "wireless." + config_name + ".device"]).strip()
+  except CalledProcessError:
+    return "ERROR"
+
+def check_param(device, param):
+  try:
+    return check_output(["uci", "get", "wireless." + device + "." + param]).strip()
+  except CalledProcessError:
+    return "ERROR"
+
+def get_attributes(interface, config_name):
+  interface["device"] = check_device(config_name)
+  if interface["device"] == "radio0" :
+    interface["band"] = "2.4"
+  else:
+    interface["band"] = "5"  
+  interface["channel"] = check_param(interface["device"], "channel")
+  if check_param(interface["device"], "htmode") == "HT20":
+    interface["channel_bandwidth"] = "20"
+  elif check_param(interface["device"], "htmode") == "HT40":
+    interface["channel_bandwidth"] = "40"
+  else:
+    interface["channel_bandwidth"] = "none"
+
+private = {}
+open_wireless = {}
+
+get_attributes(private, "@wifi-iface[0]")
+get_attributes(open_wireless, "@wifi-iface[1]")
 
 result = {
 	"result": {
@@ -42,5 +75,5 @@ result = {
 	}
 }
 
-print "Content-Type:application/json\r\n"
+print "Content-Type: application/json\r\n\r\n"
 print json.JSONEncoder().encode(result)
