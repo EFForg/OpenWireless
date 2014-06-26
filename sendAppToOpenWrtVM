@@ -2,3 +2,5 @@ echo "pushing frontend to router..."
 scp -P 2200 -r app root@localhost:/www
 echo "pushing backend to router..."
 scp -P 2200 -r routerapi root@localhost:/www/cgi-bin
+echo "pushing wireless config.."
+scp -P 2200 wireless root@localhost:/etc/config
