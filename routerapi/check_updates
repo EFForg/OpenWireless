@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import json
+import auth
 
 result = {"result" :{ "status": "not-up-to-date" }}
 

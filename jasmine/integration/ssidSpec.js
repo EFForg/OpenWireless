@@ -23,7 +23,7 @@ describe("Set SSID page", function() {
   it("should submit AJAX request to proper URL", function() {
     authorizationToken = "abcdef123456";
     ssidForm.submit();
-    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://192.168.1.1/cgi-bin/luci/rpc/uci?auth="+authorizationToken);
+    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/cgi-bin/luci/rpc/uci?auth="+authorizationToken);
   });
 
   it("should submit AJAX request with proper data", function() {

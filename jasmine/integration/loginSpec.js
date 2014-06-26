@@ -42,7 +42,7 @@ describe("Login Module", function() {
     username.val("root");
     password.val("asdf1234");
     loginForm.submit();
-    expect(requestModule.submitRequest).toHaveBeenCalledWith({'data':loginData, 'url': "http://192.168.1.1/cgi-bin/luci/rpc/auth", 'successCallback': jasmine.any(Function), 'errorCallback': jasmine.any(Function)});
+    expect(requestModule.submitRequest).toHaveBeenCalledWith({'data':loginData, 'url': "/cgi-bin/luci/rpc/auth", 'successCallback': jasmine.any(Function), 'errorCallback': jasmine.any(Function)});
   });
 
   it("should redirect to changePassword page if auth token was retrieved successfully", function() {

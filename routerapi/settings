@@ -4,6 +4,8 @@
 import cgi, json
 from subprocess import check_output, CalledProcessError
 
+import auth
+
 software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
 
 
