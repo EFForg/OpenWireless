@@ -17,7 +17,7 @@ function getAuthToken() {
 		$('#authToken').val(authorizationToken);
 		$.ajax({
 			type: "POST",
-			url: "http://192.168.1.1/cgi-bin/luci/rpc/sauth",
+			url: "/cgi-bin/luci/rpc/sauth",
 			data: JSON.stringify({
 				"jsonrpc": "2.0",
 				"method": "sauth.write",
@@ -30,7 +30,7 @@ function getAuthToken() {
 	var readData = function (response) {
 		$.ajax({
 			type: "POST",
-			url: "http://192.168.1.1/cgi-bin/luci/rpc/sauth",
+			url: "/cgi-bin/luci/rpc/sauth",
 			data: JSON.stringify({
 				"jsonrpc": "2.0",
 				"method": "read",
@@ -50,7 +50,7 @@ function getAuthToken() {
 
 	$.ajax({
 		type: "POST",
-		url: "http://192.168.1.1/cgi-bin/luci/rpc/auth",
+		url: "/cgi-bin/luci/rpc/auth",
 		data: JSON.stringify(authRequest),
 		success: writeAuthToken
 	});
@@ -77,7 +77,7 @@ function execJSON() {
 		"id": 1
 	}
 
-	var url = "http://192.168.1.1/cgi-bin/luci/" + library + "?auth=" + authorizationToken;
+	var url = "/cgi-bin/luci/" + library + "?auth=" + authorizationToken;
 
 	var showResult = function (response){
 		$('#result').val(response.result);
@@ -105,7 +105,7 @@ var ssidRequest = {
     "id": 1
 }
 
-	var uciUrl = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth=" + authorizationToken;
+	var uciUrl = "/cgi-bin/luci/rpc/uci?auth=" + authorizationToken;
 
 	var commitSSIDResult = function (response){
 		if(response.result) {  
@@ -155,7 +155,7 @@ function logout() {
 
     $.ajax({
         type: "POST",
-        url: "http://192.168.1.1/cgi-bin/luci/rpc/sauth?auth="+authorizationToken,
+        url: "/cgi-bin/luci/rpc/sauth?auth="+authorizationToken,
         data: JSON.stringify(authRequest),
         success: success
     });
