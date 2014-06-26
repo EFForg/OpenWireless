@@ -6,15 +6,42 @@ from subprocess import check_output
 
 software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
 
-class Interface:
-  def __init__(self, name):
-    self.name = name 
-    self.channel = check_output("uci show wireless | grep " + name + " | grep channel", shell=True).split("=")[1]
-    self.band = check_output("uci show wireless | grep " + name + " | grep band", shell=True).split("=")[1]
-    self.channel_bandwidth = check_output("uci show wireless | grep " + name + " | grep chanbw", shell=True).split("=")[1]
+private_device = check_output("uci get wireless.@wifi-iface[0].device", shell=True).strip()
 
-openwireless = Interface("wifi-iface")
-router = Interface("wifi-iface")
+if private_device == "radio0" :
+  private_band = "2.4"
+else:
+  private_band = "5"  
+  
+private_channel = check_output("uci get wireless." + private_device + ".channel", shell=True).strip()
+
+if check_output("uci get wireless." + private_device + ".htmode", shell=True).strip() == "HT20":
+  private_channel_bandwidth = "20"
+elif check_output("uci get wireless." + private_device + ".htmode", shell=True).strip() == "HT40":
+  private_channel_bandwidth = "40"
+else:
+  private_channel_bandwidth = "none"
+
+
+
+open_device = check_output("uci get wireless.@wifi-iface[1].device", shell=True).strip()
+
+
+if open_device == "radio0" :
+  open_band = "2.4"
+else:
+  open_band = "5"  
+  
+open_channel = check_output("uci get wireless." + open_device + ".channel", shell=True).strip()
+
+
+if check_output("uci get wireless." + open_device + ".htmode", shell=True).strip() == "HT20":
+  open_channel_bandwidth = "20"
+elif check_output("uci get wireless." + open_device + ".htmode", shell=True).strip() == "HT40":
+  open_channel_bandwidth = "40"
+else:
+  open_channel_bandwidth = "none"
+
 
 result = {
 	"result": {
@@ -23,17 +50,17 @@ result = {
 	  "ispUploadSpeed"                : "3.6",
 	  "softwareVersionUpdateDate"     : "16/06/2014",
 	  "lastCheckedDate"               : "18/06/2014",
-	  "routerBand"                    : router.band,
-	  "routerChannel"                 : router.channel,
+	  "routerBand"                    : private_band,
+	  "routerChannel"                 : private_channel,
 	  "routerCustomChannel"           : "??",
-	  "routerChannelBandwidth"        : router.channel_bandwidth,
+	  "routerChannelBandwidth"        : private_channel_bandwidth,
 	  "routerVpnConfiguration"        : "None",
 	  "openwirelessBandwidth"         : "5",
 	  "openwirelessData"              : "30",
-	  "openwirelessBand"              : openwireless.band,
-	  "openwirelessChannel"           : openwireless.channel,
+	  "openwirelessBand"              : open_band,
+	  "openwirelessChannel"           : open_channel,
 	  "openwirelessCustomChannel"     : "??",
-	  "openwirelessChannelBandwidth"  : openwireless.channel_bandwidth,
+	  "openwirelessChannelBandwidth"  : open_channel_bandwidth,
 	  "openwirelessVpnConfiguration"  : "None",
     "openwirelessProtocol"          : "HTTPS",
     "openwirelessEncryption"        : "Unencrypted",
