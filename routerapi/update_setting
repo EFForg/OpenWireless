@@ -1,0 +1,27 @@
+#!/usr/bin/python
+
+import cgi, os, json
+from subprocess import call
+
+
+def check_device(config_name):
+  return check_output("uci get wireless." + config_name + ".device", shell=True).strip()
+
+def check_param(device, param):
+  return check_output("uci get wireless." + device + "." + param, shell=True).strip()
+
+editable_values = ["ispDownloadSpeed",  "ispUploadSpeed", "routerBand",	  "routerChannel",  "routerChannelBandwidth", "openwirelessBand", "openwirelessChannel", "openwirelessChannelBandwidth"]
+
+qs = cgi.parse(os.environ.get("QUERY_STRING", "default value"))
+
+#if qs.get['routerBand']:
+#  current_band = check_device("@wifi-iface[0]")
+#  if current_band == "radio0":
+#    new_band = "radio1"
+#  else:
+#    new_band = "radio0"
+#  call("uci set wireless.@wifi-iface[0].device=" + new_band, shell=True)
+#  call("uci commit wireless", shell=True)
+  
+print "Content-Type:text/html\r\n"
+print "<html> %s </html>" % qs
