@@ -6,42 +6,32 @@ from subprocess import check_output
 
 software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
 
-private_device = check_output("uci get wireless.@wifi-iface[0].device", shell=True).strip()
 
-if private_device == "radio0" :
-  private_band = "2.4"
-else:
-  private_band = "5"  
-  
-private_channel = check_output("uci get wireless." + private_device + ".channel", shell=True).strip()
+def check_device(config_name):
+  return check_output("uci get wireless." + config_name + ".device", shell=True).strip()
 
-if check_output("uci get wireless." + private_device + ".htmode", shell=True).strip() == "HT20":
-  private_channel_bandwidth = "20"
-elif check_output("uci get wireless." + private_device + ".htmode", shell=True).strip() == "HT40":
-  private_channel_bandwidth = "40"
-else:
-  private_channel_bandwidth = "none"
+def check_param(device, param):
+  return check_output("uci get wireless." + device + "." + param, shell=True).strip()
 
+def get_attributes(interface, config_name):
+  interface["device"] = check_device(config_name)
+  if interface["device"] == "radio0" :
+    interface["band"] = "2.4"
+  else:
+    interface["band"] = "5"  
+  interface["channel"] = check_param(interface["device"], "channel")
+  if check_param(interface["device"], "htmode") == "HT20":
+    interface["channel_bandwidth"] = "20"
+  elif check_param(interface["device"], "htmode") == "HT40":
+    interface["channel_bandwidth"] = "40"
+  else:
+    interface["channel_bandwidth"] = "none"
 
+private = {}
+open_wireless = {}
 
-open_device = check_output("uci get wireless.@wifi-iface[1].device", shell=True).strip()
-
-
-if open_device == "radio0" :
-  open_band = "2.4"
-else:
-  open_band = "5"  
-  
-open_channel = check_output("uci get wireless." + open_device + ".channel", shell=True).strip()
-
-
-if check_output("uci get wireless." + open_device + ".htmode", shell=True).strip() == "HT20":
-  open_channel_bandwidth = "20"
-elif check_output("uci get wireless." + open_device + ".htmode", shell=True).strip() == "HT40":
-  open_channel_bandwidth = "40"
-else:
-  open_channel_bandwidth = "none"
-
+get_attributes(private, "@wifi-iface[0]")
+get_attributes(open_wireless, "@wifi-iface[1]")
 
 result = {
 	"result": {
@@ -50,17 +40,17 @@ result = {
 	  "ispUploadSpeed"                : "3.6",
 	  "softwareVersionUpdateDate"     : "16/06/2014",
 	  "lastCheckedDate"               : "18/06/2014",
-	  "routerBand"                    : private_band,
-	  "routerChannel"                 : private_channel,
+	  "routerBand"                    : private["band"],
+	  "routerChannel"                 : private["channel"],
 	  "routerCustomChannel"           : "??",
-	  "routerChannelBandwidth"        : private_channel_bandwidth,
+	  "routerChannelBandwidth"        : private["channel_bandwidth"],
 	  "routerVpnConfiguration"        : "None",
 	  "openwirelessBandwidth"         : "5",
 	  "openwirelessData"              : "30",
-	  "openwirelessBand"              : open_band,
-	  "openwirelessChannel"           : open_channel,
+	  "openwirelessBand"              : open_wireless["band"],
+	  "openwirelessChannel"           : open_wireless["channel"],
 	  "openwirelessCustomChannel"     : "??",
-	  "openwirelessChannelBandwidth"  : open_channel_bandwidth,
+	  "openwirelessChannelBandwidth"  : open_wireless["channel_bandwidth"],
 	  "openwirelessVpnConfiguration"  : "None",
     "openwirelessProtocol"          : "HTTPS",
     "openwirelessEncryption"        : "Unencrypted",
