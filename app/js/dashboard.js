@@ -93,7 +93,7 @@ var dashboardModule = (function(){
     requestModule.submitRequest({ "data": data,
       "successCallback":successCallback,
       "errorCallback": errorCallback,
-      "url":"http://192.168.1.1/cgi-bin/routerapi/dashboard?auth=" + authorizationToken
+      "url":"/cgi-bin/routerapi/dashboard?auth=" + authorizationToken
     });
   };
 
