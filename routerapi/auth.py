@@ -6,8 +6,9 @@
 # auth_token rotation and expiration, rate limiting.
 
 import bcrypt
-import time
+import common
 import os
+import time
 
 def constant_time_equals(a, b):
   a = bytearray(a)
@@ -23,6 +24,7 @@ def constant_time_equals(a, b):
 class Auth:
   SESSION_DURATION = 86400 # One day in seconds
   TOKEN_LENGTH = 20 # number of random bytes, pre-hex encoding
+  AUTH_COOKIE_NAME = "auth"
 
   def __init__(self, path):
     self.path = path
@@ -90,5 +92,24 @@ class Auth:
     self.write(self.token_filename, ('%s %d' % (new_token, expires)))
     return new_token
 
+  def check_authentication(self):
+    try:
+      cookies = os.environ["HTTP_COOKIE"].split("; ")
+      for c in cookies:
+        prefix = Auth.AUTH_COOKIE_NAME + "="
+        if (c.startswith(prefix) and
+            self.is_authentication_token(c[len(prefix):])):
+          return True
+      common.render_error("Not authenticated.")
+    except KeyError:
+      common.render_error("No CGI cookie variable.")
+
 if __name__ == '__main__':
   pass
+
+if "REQUEST_URI" in os.environ:
+  try:
+    a = Auth("/etc/auth")
+    a.check_authentication()
+  except Exception, e:
+    common.render_error(e.__str__())
