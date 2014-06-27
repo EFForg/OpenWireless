@@ -66,7 +66,7 @@ describe("Change username and password page", function() {
     newPassword.val("asdfghjkl12P");
     retypePassword.val("asdfghjkl12P");
     passwordForm.submit();
-    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://192.168.1.1/cgi-bin/luci/rpc/sys?auth="+authToken  );
+    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/cgi-bin/luci/rpc/sys?auth="+authToken  );
   });
 
   it("should redirect to setSSID page if login was successful", function() {
