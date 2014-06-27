@@ -85,7 +85,7 @@ var dashboardModule = (function(){
 
   var genericErrorCallback = function(errorType, errorMessage) {
     var genericError = $('.inputError');
-    genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
+    genericError.text('Error: ' + errorType + ': Message : ' + errorMessage);
     genericError.show();
   };
 

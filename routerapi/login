@@ -20,6 +20,7 @@ def jsonrpc_login():
     print "Set-Cookie: %s=%s; path=/; HttpOnly;" % (
       auth.Auth.AUTH_COOKIE_NAME, a.regenerate_authentication_token())
     print
+    print "{}"
   else:
    common.render_error("Bad password.")
 

@@ -151,7 +151,7 @@ var settingsModule = (function(){
     var successCallback = function(response){};
     var errorCallback = function(errorType, errorMessage) {
         var genericError = $('.inputError');
-        genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
+        genericError.text('Error: ' + errorType + ': Message : ' + errorMessage);
         genericError.show();
         console.log('Error: ' + errorType + ': Message : ' + errorMessage);
     };
@@ -180,7 +180,7 @@ $(function() {
     };
     var errorCallback = function(errorType, errorMessage) {
         var genericError = $('.inputError');
-        genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
+        genericError.text('Error: ' + errorType + ': Message : ' + errorMessage);
         genericError.show();
     };
 
