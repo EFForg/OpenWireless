@@ -2,7 +2,8 @@ import json
 import sys
 
 def render_error(err):
-  print "Content-Type: application/json\r\n"
+  print 'Status: 500 Internal Server Error\r\n'
+  print 'Content-Type: application/json\r\n'
   print json.JSONEncoder().encode({"error": err})
   sys.exit(0)
 

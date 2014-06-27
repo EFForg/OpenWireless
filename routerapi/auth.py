@@ -93,6 +93,8 @@ class Auth:
     return new_token
 
   def check_authentication(self):
+    """In the context of a CGI request, check whether an authentication
+       cookie is present and valid. If not, render an error"""
     try:
       cookies = os.environ["HTTP_COOKIE"].split("; ")
       for c in cookies:
@@ -107,7 +109,7 @@ class Auth:
 if __name__ == '__main__':
   pass
 
-if "REQUEST_URI" in os.environ:
+if "REQUEST_URI" in os.environ and not 'ACCEPT_UNAUTHENTICATED' in globals():
   try:
     a = Auth("/etc/auth")
     a.check_authentication()
