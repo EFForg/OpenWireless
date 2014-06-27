@@ -10,7 +10,7 @@ var ssidModule = (function() {
   var uciUrl;
 
   var init = function() {
-    uciUrl = "http://192.168.1.1/cgi-bin/luci/rpc/uci?auth=" + getSysauthFromCookie(document.cookie);
+    uciUrl = "/cgi-bin/luci/rpc/uci?auth=" + getSysauthFromCookie(document.cookie);
     initializeFields();
     initializeForm();
   };
@@ -45,7 +45,6 @@ var ssidModule = (function() {
       $('#restarting').show();
 
       //TODO: sending info over plain http
-      //TODO: hard coded ip address
       //TODO: First validate the input before hiding
 
       setSSID(setPassphrase);

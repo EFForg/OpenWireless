@@ -1,11 +1,10 @@
 #!/usr/bin/python
 
 # Import modules for CGI handling
-import cgi, json
-from subprocess import check_output
+import cgi, json, sys, common
+from subprocess import check_output, CalledProcessError
 
 software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
-
 
 def check_device(config_name):
   return check_output("uci get wireless." + config_name + ".device", shell=True).strip()
@@ -14,18 +13,21 @@ def check_param(device, param):
   return check_output("uci get wireless." + device + "." + param, shell=True).strip()
 
 def get_attributes(interface, config_name):
-  interface["device"] = check_device(config_name)
-  if interface["device"] == "radio0" :
-    interface["band"] = "2.4"
-  else:
-    interface["band"] = "5"  
-  interface["channel"] = check_param(interface["device"], "channel")
-  if check_param(interface["device"], "htmode") == "HT20":
-    interface["channel_bandwidth"] = "20"
-  elif check_param(interface["device"], "htmode") == "HT40":
-    interface["channel_bandwidth"] = "40"
-  else:
-    interface["channel_bandwidth"] = "none"
+  try:
+    interface["device"] = check_device(config_name)
+    if interface["device"] == "radio0" :
+      interface["band"] = "2.4"
+    else:
+      interface["band"] = "5"  
+    interface["channel"] = check_param(interface["device"], "channel")
+    if check_param(interface["device"], "htmode") == "HT20":
+      interface["channel_bandwidth"] = "20"
+    elif check_param(interface["device"], "htmode") == "HT40":
+      interface["channel_bandwidth"] = "40"
+    else:
+      interface["channel_bandwidth"] = "none"
+  except CalledProcessError, e:
+    common.render_error(e.__str__())
 
 private = {}
 open_wireless = {}
@@ -52,12 +54,12 @@ result = {
 	  "openwirelessCustomChannel"     : "??",
 	  "openwirelessChannelBandwidth"  : open_wireless["channel_bandwidth"],
 	  "openwirelessVpnConfiguration"  : "None",
-    "openwirelessProtocol"          : "HTTPS",
-    "openwirelessEncryption"        : "Unencrypted",
+	  "openwirelessProtocol"          : "HTTPS",
+	  "openwirelessEncryption"        : "Unencrypted",
 	  "wanIp" : "192.168.1.4",
 	  "lanIp" : "184.251.4.14"
 	}
 }
 
-print "Content-Type:application/json\r\n"
+print "Content-Type: application/json\r\n\r\n"
 print json.JSONEncoder().encode(result)

@@ -38,9 +38,6 @@ var loginModule = (function() {
       }
 
       //TODO: sending passwords over plain text
-      //TODO: Is there a timing attack in password validation?
-      //TODO: hardcoded IP address
-
       var data =  { "jsonrpc": "2.0", "method": "login", "params": [username.val(), password.val()], "id": 1 }
       var successCallback = function(response) {
         if(response.result == null){
@@ -59,7 +56,7 @@ var loginModule = (function() {
         genericError.show();
       };
 
-      var request = { 'data': data, url: 'http://192.168.1.1/cgi-bin/luci/rpc/auth', 'successCallback': successCallback, 'errorCallback': errorCallback };
+      var request = { 'data': data, url: '/cgi-bin/luci/rpc/auth', 'successCallback': successCallback, 'errorCallback': errorCallback };
       requestModule.submitRequest(request);
     });
   };

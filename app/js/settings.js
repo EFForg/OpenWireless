@@ -147,7 +147,7 @@ var settingsModule = (function(){
   var updateSettings = function(setting, value){
     var data = {"auth": authorizationToken};
     data[setting] = value;
-    var url = "http://192.168.1.1/cgi-bin/routerapi/update_setting";
+    var url = "/cgi-bin/routerapi/update_setting";
     var successCallback = function(response){};
     var errorCallback = function(errorType, errorMessage) {
         var genericError = $('.inputError');
@@ -174,7 +174,7 @@ var settingsModule = (function(){
 $(function() {
     var data =  { "jsonrpc": "2.0", "method": "settings"};
     var authToken = securityModule.getAuthToken();
-    var url = "http://192.168.1.1/cgi-bin/routerapi/settings?auth=" + authToken;
+    var url = "/cgi-bin/routerapi/settings?auth=" + authToken;
     var successCallback = function(response){
         settingsModule.init(response.result, authToken);
     };

@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 import datetime
+import auth
+
 def getSpeed(data, recency):
   if data == {} :
     return "N/A"

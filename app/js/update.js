@@ -18,7 +18,7 @@ var updateModule = (function(){
   };
 
   var checkUpdateRequest = {
-    "url":"http://192.168.1.1/cgi-bin/routerapi/check_updates?auth=" + authorizationToken,
+    "url":"/cgi-bin/routerapi/check_updates?auth=" + authorizationToken,
     "successCallback":checkUpdateCallback,
     "errorCallback":errorCallback,
     "data": checkUpdateData
@@ -30,7 +30,7 @@ var updateModule = (function(){
   };
 
   var updateRequest = {
-    "url":"http://192.168.1.1/cgi-bin/routerapi/update?auth=" + authorizationToken,
+    "url":"/cgi-bin/routerapi/update?auth=" + authorizationToken,
     "successCallback": function(){},
     "errorCallback":errorCallback,
     "data": updateData
