@@ -1,9 +1,13 @@
 #!/usr/bin/python
 import unittest
 import tempfile
-import auth
 import os
 import time
+
+import sys
+sys.path.insert(0, './routerapi/')
+
+import auth
 
 class TestAuth(unittest.TestCase):
   def setUp(self):
