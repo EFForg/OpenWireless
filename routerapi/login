@@ -1,8 +1,6 @@
 #!/usr/bin/python
 import json, sys, common, os, auth
 
-ACCEPT_UNAUTHENTICATED = True
-
 def jsonrpc_login():
   """Accept a JSONRPC-style login, with parameters like so:
 
@@ -13,13 +11,16 @@ def jsonrpc_login():
     params = data["params"]
     username = params[0]
     password = params[1]
-    a = auth.Auth("/etc/auth")
-    if a.is_password(password):
-      print "Content-Type: application/json"
-      print "Set-Cookie: %s=%s; path=/" % (Auth.AUTH_COOKIE_NAME, Auth.regenerate_authentication_token())
-      print
-
   except KeyError, e:
     render_error(e.__str__())
+
+  a = auth.Auth("/etc/auth")
+  if a.is_password(password):
+    print "Content-Type: application/json"
+    print "Set-Cookie: %s=%s; path=/; HttpOnly;" % (
+      auth.Auth.AUTH_COOKIE_NAME, a.regenerate_authentication_token())
+    print
+  else:
+   common.render_error("Bad password.")
 
 jsonrpc_login()

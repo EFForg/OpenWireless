@@ -1,9 +1,13 @@
 #!/usr/bin/python
-#
-# Authentication module.
-#
-# Contains: Password checking, authentication token checking,
-# auth_token rotation and expiration, rate limiting.
+"""Authentication module.
+
+   Password checking and update, authentication token checking,
+   authentication token rotation and expiration.
+
+   This module is auto-imported by __init__.py and provides authentication
+   checking to all scripts by default. Only /login, explicitly listed below, is
+   exempt.
+"""
 
 #import bcrypt
 import common
@@ -101,19 +105,20 @@ class Auth:
        cookie is present and valid. If not, render an error"""
     try:
       cookies = os.environ["HTTP_COOKIE"].split("; ")
-      for c in cookies:
-        prefix = Auth.AUTH_COOKIE_NAME + "="
-        if (c.startswith(prefix) and
-            self.is_authentication_token(c[len(prefix):])):
-          return True
-      common.render_error("Not authenticated.")
     except KeyError:
-      common.render_error("No CGI cookie variable.")
+      cookies = []
+    for c in cookies:
+      prefix = Auth.AUTH_COOKIE_NAME + "="
+      if (c.startswith(prefix) and
+          self.is_authentication_token(c[len(prefix):])):
+        return True
+    common.render_error("Not authenticated.")
 
 if __name__ == '__main__':
   pass
 
-if "REQUEST_URI" in os.environ and not 'ACCEPT_UNAUTHENTICATED' in globals():
+REQUEST_URI = "REQUEST_URI"
+if REQUEST_URI in os.environ and not os.environ[REQUEST_URI] in ['/cgi-bin/routerapi/login']:
   try:
     a = Auth("/etc/auth")
     a.check_authentication()
