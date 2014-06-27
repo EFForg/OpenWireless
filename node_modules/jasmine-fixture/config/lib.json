@@ -1,0 +1,4 @@
+{
+  "includeVendorInDistribution": false,
+  "generateBowerJson": true
+}

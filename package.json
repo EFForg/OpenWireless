@@ -1,0 +1,23 @@
+{
+  "name": "karma-through-grunt",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kevin Wilson",
+  "devDependencies": {
+    "karma-script-launcher": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.2",
+    "karma-firefox-launcher": "~0.1.3",
+    "karma-ie-launcher": "~0.1",
+    "karma-jasmine": "~0.1.5",
+    "karma-phantomjs-launcher": "~0.1.2",
+    "karma": "~0.10.9",
+    "karma-story-reporter": "~0.2.2",
+    "grunt-karma": "~0.6.2",
+    "grunt-cli": "~0.1.13",
+    "karma-sauce-launcher": "~0.1.8"
+  }
+}
