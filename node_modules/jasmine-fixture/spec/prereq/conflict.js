@@ -1,1 +1,0 @@
-window.jasmineFixture = "Thing that owned jasmineFixture first";
