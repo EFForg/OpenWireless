@@ -50,10 +50,14 @@ class Auth:
   def is_password(self, candidate):
     with open(self.password_filename, 'r') as f:
       hashed = f.read()
-    return bcrypt.checkpw(candidate, hashed)
+    # Temporarily commented out until bcrypt available on router
+    #return bcrypt.checkpw(candidate, hashed)
+    return candidate == hashed
 
   def save_password(self, new_password):
-    hashed = bcrypt.hashpw(new_password, bcrypt.gensalt(10))
+    # Temporarily commented out until bcrypt available on router
+    #hashed = bcrypt.hashpw(new_password, bcrypt.gensalt(10))
+    hashed = new_password
     self.write(self.password_filename, hashed)
 
   def __current_authentication_token(self):
