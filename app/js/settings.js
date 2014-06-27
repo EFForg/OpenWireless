@@ -145,8 +145,9 @@ var settingsModule = (function(){
   };
 
   var updateSettings = function(setting, value){
-    var data = { "jsonrpc": "2.0", "method": "update_settings", "params": [setting, value]};
-    var url = "/cgi-bin/luci/rpc/sys?auth="+authorizationToken;
+    var data = {"auth": authorizationToken};
+    data[setting] = value;
+    var url = "/cgi-bin/routerapi/update_setting";
     var successCallback = function(response){};
     var errorCallback = function(errorType, errorMessage) {
         var genericError = $('.inputError');
