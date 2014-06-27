@@ -4,8 +4,6 @@
 import cgi, json, sys
 from subprocess import check_output, CalledProcessError
 
-#import auth
-
 software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
 
 def check_device(config_name):
