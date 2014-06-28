@@ -63,7 +63,7 @@ var dashboardModule = (function(){
         return;
       }
     };
-    submitRequest(data, successCallback, genericErrorCallback);
+    submitRequest(data, successCallback, errorCallback);
   };
 
   var enableToggles = function() {
@@ -80,13 +80,7 @@ var dashboardModule = (function(){
   var toggleInterface = function(name, state) {
     var data = { "jsonrpc": "2.0", "method": "toggle", "params": {"name": name, "state": state}};
     var successCallback = location.reload();
-    submitRequest(data, successCallback, genericErrorCallback);
-  };
-
-  var genericErrorCallback = function(errorType, errorMessage) {
-    var genericError = $('.inputError');
-    genericError.text('Error: ' + errorType + ': Message : ' + errorMessage);
-    genericError.show();
+    submitRequest(data, successCallback, errorCallback);
   };
 
   var submitRequest = function(data, successCallback, errorCallback){

@@ -54,30 +54,30 @@ var ssidModule = (function() {
   var setSSID = function(successCallback) {
     var ssidRequest = { "jsonrpc": "2.0", "method": "set", "params": ["wireless.@wifi-iface[0].ssid=" + ssid.val()], "id": 1 };
 
-    requestModule.submitRequest({url: uciUrl, successCallback: successCallback, errorCallback: errorHandler, data: ssidRequest});
+    requestModule.submitRequest({url: uciUrl, successCallback: successCallback, errorCallback: errorCallback, data: ssidRequest});
   };
 
   var setPassphrase = function() {
     var ssidRequest = { "jsonrpc": "2.0", "method": "set", "params": ["wireless.@wifi-iface[0].key=" + ssidPassphrase.val()], "id": 1 };
 
-    requestModule.submitRequest({url: uciUrl, successCallback: setPassphraseEncryption, errorCallback: errorHandler, data: ssidRequest});
+    requestModule.submitRequest({url: uciUrl, successCallback: setPassphraseEncryption, errorCallback: errorCallback, data: ssidRequest});
   };
 
   var setPassphraseEncryption = function() {
     var ssidRequest = { "jsonrpc": "2.0", "method": "set", "params": ["wireless.@wifi-iface[0].encryption=psk2"], "id": 1 };
 
-    requestModule.submitRequest({url: uciUrl, successCallback: commitSsid, errorCallback: errorHandler, data: ssidRequest});
+    requestModule.submitRequest({url: uciUrl, successCallback: commitSsid, errorCallback: errorCallback, data: ssidRequest});
   };
 
   var commitSsid = function() {
     var commitRequest = { "jsonrpc": "2.0", "method": "commit", "params": ["wireless"], "id": 1 };
 
-    requestModule.submitRequest({url: uciUrl, successCallback: getSSID, errorCallback: errorHandler, data: commitRequest});
+    requestModule.submitRequest({url: uciUrl, successCallback: getSSID, errorCallback: errorCallback, data: commitRequest});
   };
 
   var getSSID = function(response) {
     var getRequest = { "jsonrpc": "2.0", "method": "get", "params": ["wireless.@wifi-iface[0].ssid"], "id": 1 };
-    requestModule.submitRequest({url: uciUrl, successCallback: getSSIDSuccess, errorCallback: errorHandler, data: getRequest});
+    requestModule.submitRequest({url: uciUrl, successCallback: getSSIDSuccess, errorCallback: errorCallback, data: getRequest});
   };
 
   var getSSIDSuccess = function(response) {
@@ -87,10 +87,6 @@ var ssidModule = (function() {
           "</b>.<br>Please connect to this network now.</p> <a href='/app/html/dashboard.html'>View Router Dashboard</a>");
       $('#restartSuccess').show();
     }, 3000);
-  };
-
-  var errorHandler = function(request, errorType, errorMessage) {
-    console.log('Error: ' + errorType + ': Message : ' + errorMessage);
   };
 
   //TODO: dry this up

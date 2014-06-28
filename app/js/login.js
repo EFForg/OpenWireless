@@ -48,15 +48,6 @@ var loginModule = (function() {
         }
       };
 
-      var errorCallback = function(jqXHR, textStatus, errorThrown) {
-        if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
-          genericError.text('Error: ' + jqXHR.responseJSON.error);
-        } else {
-          genericError.text('Error');
-        }
-        genericError.show();
-      };
-
       var request = { 'data': data, url: '/cgi-bin/routerapi/login', 'successCallback': successCallback, 'errorCallback': errorCallback };
       requestModule.submitRequest(request);
     });

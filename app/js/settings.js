@@ -1,13 +1,3 @@
-var errorCallback = function(jqXHR, textStatus, errorThrown) {
-    var genericError = $('.inputError');
-    if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
-      genericError.text('Error: ' + jqXHR.responseJSON.error);
-    } else {
-      genericError.text('Error');
-    }
-    genericError.show();
-};
-
 var settingsModule = (function(){
 
   var config = {};

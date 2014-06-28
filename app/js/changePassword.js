@@ -6,7 +6,8 @@ var changePassword = (function(authToken) {
   var retypePassword = $('#retypePassword');
   var newPasswordError= $("#newPasswordError");
   var retypePasswordError= $("#retypePasswordError");
-  var changePasswordUrl = "/cgi-bin/luci/rpc/sys?auth="+authToken;
+  var genericError =  $('#genericError');
+  var changePasswordUrl = "/routerapi/change_password";
 
   form.submit(function(event){
     event.preventDefault();
@@ -20,6 +21,7 @@ var changePassword = (function(authToken) {
       return;
     }
 
+    /*
     if(!helperModule.checkPassword(newPassword.val())) {
       newPassword.addClass("error");
       //TODO: Is this really the best password scheme to enfore on people?
@@ -28,6 +30,7 @@ var changePassword = (function(authToken) {
       newPassword.focus();
       return;
     };
+    */
 
     if(helperModule.checkEmptyField(retypePassword, retypePasswordError, "password again")) {
       return;
@@ -47,14 +50,14 @@ var changePassword = (function(authToken) {
         helperModule.redirectTo("setSSID.html");
     };
 
-    var errorCallback = function(request, errorType, errorMessage) {
-        console.log('Error: ' + errorType + ': Message : ' + errorMessage);
-        helperModule.redirectTo("login.html");
-      }
+    var request = {
+      'data': changePasswordRequest,
+      'url': changePasswordUrl,
+      'successCallback': successCallback,
+      'errorCallback': errorCallback
+    };
 
-    var request = { 'data': changePasswordRequest, 'url': changePasswordUrl, 'successCallback': successCallback, 'errorCallback': errorCallback };
-      requestModule.submitRequest(request);
-
+    requestModule.submitRequest(request);
   });
 });
 

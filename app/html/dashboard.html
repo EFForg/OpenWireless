@@ -6,6 +6,7 @@
     <script type="text/javascript" src="../lib/handlebars.min.js"></script>
     <script type="text/javascript" src="../js/security.js"></script>
     <script type="text/javascript" src="../js/request.js"></script>
+    <script type="text/javascript" src="../js/errorCallback.js"></script>
     <script type="text/javascript" src="../js/dashboard.js"></script>
     <script type="text/javascript" src="../js/update.js"></script>
 
@@ -19,7 +20,7 @@
     <span><a href="./settings.html"><img src="../images/settings.png" class="icon" alt="Settings" /></a></span>
   </header>
 
-  <div class="inputError" style="display:none;"></div>
+  <div id="genericError" class="inputError" style="display:none;"></div>
 
   <script id="interface-template" type="text/x-handlebars-template">
       <div class="network on">

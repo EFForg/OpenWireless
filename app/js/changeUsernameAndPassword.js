@@ -39,17 +39,11 @@ var changeUsernameAndPassword = (function(authToken) {
       retypePassword.focus();
       return;
     };
-    
+
     //TODO: we are seding the root password over http!
-    
     var successCallback = function(response) {
         helperModule.redirectTo("settings.html");
     };
-
-    var errorCallback = function(request, errorType, errorMessage) {
-        console.log('Error: ' + errorType + ': Message : ' + errorMessage);
-        helperModule.redirectTo("changeUsernameAndPassword.html");
-      }
 
     var request = { 'data': changePasswordRequest, 'url': changePasswordUrl, 'successCallback': successCallback, 'errorCallback': errorCallback };
     requestModule.submitRequest(request);
