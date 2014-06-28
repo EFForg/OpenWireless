@@ -1,6 +1,7 @@
 var changePassword = (function(authToken) {
   var authToken = authToken;
   var form = $('form');
+  var oldPassword = $('#oldPassword');
   var newPassword = $('#newPassword');
   var retypePassword = $('#retypePassword');
   var newPasswordError= $("#newPasswordError");
@@ -13,7 +14,7 @@ var changePassword = (function(authToken) {
     retypePasswordError.hide();
     newPassword.removeClass("error");
     retypePassword.removeClass("error");
-    var changePasswordRequest = { "jsonrpc": "2.0", "method": "user.setpasswd", "params": ["root", newPassword.val()], "id": 1 };
+    var changePasswordRequest = { "jsonrpc": "2.0", "method": "user.setpasswd", "params": ["root", newPassword.val(), oldPassword.val()], "id": 1 };
 
     if(helperModule.checkEmptyField(newPassword, newPasswordError, "password")) {
       return;

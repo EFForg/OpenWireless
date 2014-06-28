@@ -1,3 +1,13 @@
+var errorCallback = function(jqXHR, textStatus, errorThrown) {
+    var genericError = $('.inputError');
+    if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
+      genericError.text('Error: ' + jqXHR.responseJSON.error);
+    } else {
+      genericError.text('Error');
+    }
+    genericError.show();
+};
+
 var settingsModule = (function(){
 
   var config = {};
@@ -149,12 +159,6 @@ var settingsModule = (function(){
     data[setting] = value;
     var url = "/cgi-bin/routerapi/update_setting";
     var successCallback = function(response){};
-    var errorCallback = function(errorType, errorMessage) {
-        var genericError = $('.inputError');
-        genericError.text('Error: ' + errorType + ': Message : ' + errorMessage);
-        genericError.show();
-        console.log('Error: ' + errorType + ': Message : ' + errorMessage);
-    };
 
     requestModule.submitRequest({
         "data"              :data,
@@ -177,11 +181,6 @@ $(function() {
     var url = "/cgi-bin/routerapi/settings?auth=" + authToken;
     var successCallback = function(response){
         settingsModule.init(response.result, authToken);
-    };
-    var errorCallback = function(errorType, errorMessage) {
-        var genericError = $('.inputError');
-        genericError.text('Error: ' + errorType + ': Message : ' + errorMessage);
-        genericError.show();
     };
 
     requestModule.submitRequest({
