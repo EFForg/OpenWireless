@@ -37,13 +37,14 @@ var loginModule = (function() {
         return;
       }
 
-      //TODO: sending passwords over plain text
       var data =  { "jsonrpc": "2.0", "method": "login", "params": [username.val(), password.val()], "id": 1 }
       var successCallback = function(data, textStatus, jqXHR) {
         // Only redirect the user to change their password if the one they
         // entered was the default.
         if (password == "asdf1234") {
           helperModule.redirectTo("changePassword.html");
+        } else {
+          helperModule.redirectTo("dashboard.html");
         }
       };
 
@@ -51,7 +52,6 @@ var loginModule = (function() {
         if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
           genericError.text('Error: ' + jqXHR.responseJSON.error);
         } else {
-        console.log(jqXHR, textStatus, errorThrown);
           genericError.text('Error');
         }
         genericError.show();
