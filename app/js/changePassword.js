@@ -21,7 +21,6 @@ var changePassword = (function(authToken) {
       return;
     }
 
-    /*
     if(!helperModule.checkPassword(newPassword.val())) {
       newPassword.addClass("error");
       //TODO: Is this really the best password scheme to enfore on people?
@@ -30,7 +29,6 @@ var changePassword = (function(authToken) {
       newPassword.focus();
       return;
     };
-    */
 
     if(helperModule.checkEmptyField(retypePassword, retypePasswordError, "password again")) {
       return;
