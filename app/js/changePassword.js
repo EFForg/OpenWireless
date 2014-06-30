@@ -7,7 +7,7 @@ var changePassword = (function(authToken) {
   var newPasswordError= $("#newPasswordError");
   var retypePasswordError= $("#retypePasswordError");
   var genericError =  $('#genericError');
-  var changePasswordUrl = "/routerapi/change_password";
+  var changePasswordUrl = "/cgi-bin/routerapi/change_password";
 
   form.submit(function(event){
     event.preventDefault();
@@ -41,11 +41,15 @@ var changePassword = (function(authToken) {
       retypePassword.focus();
       return;
     };
-    
-    //TODO: we are seding the root password over http!
-    
+
     var successCallback = function(response) {
+      // Only redirect the user to change their SSID if the one they
+      // entered was the default.
+      if (oldPassword.val() == "asdf1234") {
         helperModule.redirectTo("setSSID.html");
+      } else {
+        helperModule.redirectTo("settings.html");
+      }
     };
 
     var request = {
