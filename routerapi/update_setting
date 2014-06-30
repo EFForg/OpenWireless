@@ -35,7 +35,34 @@ def set_param(device, param, value):
   call([uci_path, "commit", "wireless"])
 
 def set_error(param):
-  params['error'] = 'wrong ' + param
+  params['error'] = 'Invalid ' + param
+
+def check_band(band_name, interface_name):
+  if params.get(band_name):
+      if params.get(band_name) in ["2.4", "5"]:
+        current_band = check_device(interface_name)
+
+        if current_band == "radio0":
+          new_band = "radio1"
+
+        else:
+          new_band = "radio0"
+
+        set_param(interface_name, "device", new_band)
+
+      else:
+        set_error('band')
+
+def check_channel(channel_name, interface_name):
+  if params.get(channel_name):
+    current_device = check_device(interface_name)
+    new_channel = params.get(channel_name)
+    if validate_channel(current_device, new_channel):
+      set_param(current_device, 'channel', new_channel.split(' ')[0])
+
+    else:
+      set_error('channel')
+
 
 if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
     fs = cgi.FieldStorage()
@@ -45,33 +72,14 @@ if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
     for k in json_body.keys():
         params[k] = json_body[k]
 
-    if params.get('routerBand'):
-      if params.get('routerBand') in ["2.4", "5"]:
-        current_band = check_device("@wifi-iface[0]")
+    check_band('routerBand', "@wifi-iface[0]")
+    check_channel('routerChannel', "@wifi-iface[0]")
 
-        if current_band == "radio0":
-          new_band = "radio1"
-
-        else:
-          new_band = "radio0"
-
-        set_param("@wifi-iface[0]", "device", new_band)
-
-      else:
-        set_error('band')
-
-    elif params.get('routerChannel'):
-      wifi = "@wifi-iface[0]"
-      current_device = check_device(wifi)
-      new_channel = params.get('routerChannel')
-      if validate_channel(current_device, new_channel):
-        set_param(current_device, 'channel', new_channel.split(' ')[0])
-
-      else:
-        set_error('channel')
+    check_band('openwirelessBand', "@wifi-iface[1]")
+    check_channel('openwirelessChannel', "@wifi-iface[1]")
 
 else:
-  set_error('Get')
+  set_error('GET request')
 
 
 print "Content-Type:application/json\r\n"
