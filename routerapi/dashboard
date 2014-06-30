@@ -4,11 +4,14 @@
 import cgi, json, auth
 from subprocess import check_output, call
 
-# TODO: reimplement speed test without ping (requires root)
-ping_speed = 30
+ping_output = check_output(["/bin/ping", "-c1", "google.com"])
 
-# TODO: reimplement liveness check without ping (requires root)
-connected = True
+if "error" in ping_output:
+  connected = False
+  ping_speed = "N/A"
+else:
+  connected = True
+  ping_speed = ping_output.split(' ')[11].split('=')[1]
 
 result = {
 	"id": 1,
