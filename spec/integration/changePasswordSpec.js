@@ -1,5 +1,5 @@
 describe("Change password page", function() {
-  var newPassword, retypePassword, passwordForm, newPasswordError, retypePasswordError, authToken;
+  var newPassword, retypePassword, passwordForm, newPasswordError, retypePasswordError;
 
   beforeEach(function() {
     affix('form input#newPassword+input#retypePassword+input#newPasswordError+input#retypePasswordError+input#oldPassword+div#genericError');
@@ -10,9 +10,8 @@ describe("Change password page", function() {
     newPasswordError = $("#newPasswordError");
     retypePasswordError = $("#retypePasswordError");
     genericError = $("#genericError");
-    authToken = "abcdef123456";
     helperModule.redirectTo = function(url) { redirect = url; }
-    changePassword(authToken);
+    changePassword();
   });
 
   it("should show the user an error if the password field is empty", function() {

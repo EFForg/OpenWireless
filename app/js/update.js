@@ -1,7 +1,4 @@
 var updateModule = (function(){
-
-  var authorizationToken = securityModule.getAuthToken();
-
   var checkUpdateData = {
     "jsonrpc": "2.0",
     "method" : "check_updates"
@@ -18,7 +15,7 @@ var updateModule = (function(){
   };
 
   var checkUpdateRequest = {
-    "url":"/cgi-bin/routerapi/check_updates?auth=" + authorizationToken,
+    "url":"/cgi-bin/routerapi/check_updates",
     "successCallback":checkUpdateCallback,
     "errorCallback":errorCallback,
     "data": checkUpdateData
@@ -30,7 +27,7 @@ var updateModule = (function(){
   };
 
   var updateRequest = {
-    "url":"/cgi-bin/routerapi/update?auth=" + authorizationToken,
+    "url":"/cgi-bin/routerapi/update",
     "successCallback": function(){},
     "errorCallback":errorCallback,
     "data": updateData

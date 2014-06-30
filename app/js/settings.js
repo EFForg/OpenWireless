@@ -1,7 +1,6 @@
 var settingsModule = (function(){
 
   var config = {};
-  var authorizationToken;
   var routerBandOptions = ["5", "2.4"];
   var router5ChannelOptions = ['auto',
     '36 (5.180 GHz)', '40 (5.200 GHz)', '44 (5.220 GHz)', '48 (5.240 GHz)',
@@ -29,8 +28,7 @@ var settingsModule = (function(){
     { tag: "openwirelessEncryption",  options: encryptionOptions }
   ];
 
-  var init = function(data, authToken){
-    authorizationToken = authToken;
+  var init = function(data){
     config = data;
     displaySettings();
     initializeEditableFields();
@@ -145,13 +143,13 @@ var settingsModule = (function(){
   };
 
   var updateSettings = function(setting, value){
-    var data = {"auth": authorizationToken};
+    var data = {};
     data[setting] = value;
     var url = "/cgi-bin/routerapi/update_setting";
     var successCallback = function(response){};
 
     requestModule.submitRequest({
-        "data"              :data,
+        "data"              :{},
         "url"               :url,
         "errorCallback"     :errorCallback,
         "successCallback"   :successCallback
@@ -167,10 +165,9 @@ var settingsModule = (function(){
 
 $(function() {
     var data =  { "jsonrpc": "2.0", "method": "settings"};
-    var authToken = securityModule.getAuthToken();
-    var url = "/cgi-bin/routerapi/settings?auth=" + authToken;
+    var url = "/cgi-bin/routerapi/settings"
     var successCallback = function(response){
-        settingsModule.init(response.result, authToken);
+        settingsModule.init(response.result);
     };
 
     requestModule.submitRequest({

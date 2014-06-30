@@ -2,7 +2,7 @@ describe("Login Module", function() {
   var password, loginForm, ssid, redirect, passwordError, genericError;
 
   beforeEach(function() {
-    affix('form input#password+input#ssid+input#usernameError+input#passwordError+div#genericError');
+    affix('form input#password+input#ssid+input#passwordError+div#genericError');
     loginForm = $('form');
     password = $('#password');
     ssid     = $('#ssid');
