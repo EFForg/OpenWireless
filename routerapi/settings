@@ -5,6 +5,13 @@ from subprocess import check_output, CalledProcessError
 
 software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
 
+channels = { 'auto': 'auto', '1': '1 (2.412 GHz)', '2': '2 (2.417 GHz)', '3': '3 (2.422 GHz)', '4': '4 (2.427 GHz)',
+      '5': '5 (2.432 GHz)', '6': '6 (2.437 GHz)', '7': '7 (2.442 GHz)', '8': '8 (2.447 GHz)',
+      '9': '9 (2.452 GHz)', '10': '10 (2.457 GHz)', '11': '11 (2.462 GHz)', '12': '12 (2.467 GHz)',
+      '36': '36 (5.180 GHz)', '40': '40 (5.200 GHz)', '44': '44 (5.220 GHz)', '48': '48 (5.240 GHz)',
+      '149': '149 (5.745 GHz)', '153': '153 (5.765 GHz)', '159': '159 (5.785 GHz)', '161': '161 (5.805 GHz)',
+      '165': '165 (5.825 GHz)' }
+
 def check_device(config_name):
   return check_output("uci get wireless." + config_name + ".device", shell=True).strip()
 
@@ -16,15 +23,22 @@ def get_attributes(interface, config_name):
     interface["device"] = check_device(config_name)
     if interface["device"] == "radio0" :
       interface["band"] = "2.4"
+
     else:
-      interface["band"] = "5"  
-    interface["channel"] = check_param(interface["device"], "channel")
+      interface["band"] = "5"
+
+    channel_short_hand = check_param(interface["device"], "channel")
+    interface["channel"] = channels[channel_short_hand]
+    
     if check_param(interface["device"], "htmode") == "HT20":
       interface["channel_bandwidth"] = "20"
+
     elif check_param(interface["device"], "htmode") == "HT40":
       interface["channel_bandwidth"] = "40"
+
     else:
       interface["channel_bandwidth"] = "none"
+
   except CalledProcessError, e:
     common.render_error(e.__str__())
 

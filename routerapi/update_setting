@@ -4,17 +4,36 @@ import cgi, os, json
 from subprocess import check_output, call
 
 
+environ = os.environ
+params = {}
+band_5_channel_options = ['auto',
+  '36 (5.180 GHz)', '40 (5.200 GHz)', '44 (5.220 GHz)', '48 (5.240 GHz)',
+  '149 (5.745 GHz)', '153 (5.765 GHz)', '159 (5.785 GHz)', '161 (5.805 GHz)',
+  '165 (5.825 GHz)']
+band_2p4_channel_options = ['auto',
+  '1 (2.412 GHz)', '2 (2.417 GHz)', '3 (2.422 GHz)', '4 (2.427 GHz)',
+  '5 (2.432 GHz)', '6 (2.437 GHz)', '7 (2.442 GHz)', '8 (2.447 GHz)',
+  '9 (2.452 GHz)', '10 (2.457 GHz)', '11 (2.462 GHz)', '12 (2.467 GHz)']
+editable_values = ["ispDownloadSpeed", "ispUploadSpeed", "routerBand", "routerChannel", "routerChannelBandwidth", "openwirelessBand", "openwirelessChannel", "openwirelessChannelBandwidth"]
+
 def check_device(config_name):
   return check_output("uci get wireless." + config_name + ".device", shell=True).strip()
 
 def check_param(device, param):
   return check_output("uci get wireless." + device + "." + param, shell=True).strip()
 
-editable_values = ["ispDownloadSpeed", "ispUploadSpeed", "routerBand", "routerChannel", "routerChannelBandwidth", "openwirelessBand", "openwirelessChannel", "openwirelessChannelBandwidth"]
+def validate_channel(device, channel):
+  if device == 'radio1':
+    return channel in band_5_channel_options
+  else:
+    return channel in band_2p4_channel_options
 
-environ = os.environ
+def set_param(device, param, value):
+  call("uci set wireless." + device + "." + param + "=" + value, shell=True)
+  call("uci commit wireless", shell=True)
 
-params = cgi.parse(environ.get("QUERY_STRING", "default value"))
+def set_error(param):
+  params['error'] = 'wrong ' + param
 
 if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
     fs = cgi.FieldStorage()
@@ -24,17 +43,33 @@ if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
     for k in json_body.keys():
         params[k] = json_body[k]
 
-if len(params) == 2:
     if params.get('routerBand'):
+      if params.get('routerBand') in ["2.4", "5"]:
         current_band = check_device("@wifi-iface[0]")
 
         if current_band == "radio0":
-           new_band = "radio1"
-        else:
-           new_band = "radio0"
+          new_band = "radio1"
 
-    call("uci set wireless.@wifi-iface[0].device=" + new_band, shell=True)
-    call("uci commit wireless", shell=True)
+        else:
+          new_band = "radio0"
+
+        set_param("@wifi-iface[0]", "device", new_band)
+
+      else:
+        set_error('band')
+
+    elif params.get('routerChannel'):
+      wifi = "@wifi-iface[0]"
+      current_device = check_device(wifi)
+      new_channel = params.get('routerChannel')
+      if validate_channel(current_device, new_channel):
+        set_param(current_device, 'channel', new_channel.split(' ')[0])
+
+      else:
+        set_error('channel')
+
+else:
+  set_error('Get')
 
 
 print "Content-Type:application/json\r\n"
