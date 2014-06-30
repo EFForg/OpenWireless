@@ -133,7 +133,7 @@ var settingsModule = (function(){
     var dropDown = $('#' + tag);
     dropDown.empty();
     dropDown.append(template({options: options}));
-    $('#' + tag + 'option:contains(' + config[tag] + ')').prop('selected', true);
+    $('#' + tag + ' option:contains(' + config[tag] + ')').prop('selected', true);
     dropDown.change(function(){
       config[tag] = dropDown.val();
       updateSettings(tag, config[tag]);
