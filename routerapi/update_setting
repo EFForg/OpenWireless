@@ -16,11 +16,13 @@ band_2p4_channel_options = ['auto',
   '9 (2.452 GHz)', '10 (2.457 GHz)', '11 (2.462 GHz)', '12 (2.467 GHz)']
 editable_values = ["ispDownloadSpeed", "ispUploadSpeed", "routerBand", "routerChannel", "routerChannelBandwidth", "openwirelessBand", "openwirelessChannel", "openwirelessChannelBandwidth"]
 
+uci_path = "/sbin/uci"
+
 def check_device(config_name):
-  return check_output("uci get wireless." + config_name + ".device", shell=True).strip()
+  return check_output([uci_path, "get", "wireless." + config_name + ".device"]).strip()
 
 def check_param(device, param):
-  return check_output("uci get wireless." + device + "." + param, shell=True).strip()
+  return check_output([uci_path, "get", "wireless." + device + "." + param]).strip()
 
 def validate_channel(device, channel):
   if device == 'radio1':
@@ -29,8 +31,8 @@ def validate_channel(device, channel):
     return channel in band_2p4_channel_options
 
 def set_param(device, param, value):
-  call("uci set wireless." + device + "." + param + "=" + value, shell=True)
-  call("uci commit wireless", shell=True)
+  call([uci_path, "set", "wireless." + device + "." + param + "=" + value])
+  call([uci_path, "commit", "wireless"])
 
 def set_error(param):
   params['error'] = 'wrong ' + param

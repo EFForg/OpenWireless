@@ -149,7 +149,7 @@ var settingsModule = (function(){
     var successCallback = function(response){};
 
     requestModule.submitRequest({
-        "data"              :{},
+        "data"              :data,
         "url"               :url,
         "errorCallback"     :errorCallback,
         "successCallback"   :successCallback
