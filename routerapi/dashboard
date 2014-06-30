@@ -4,9 +4,11 @@
 import cgi, json, auth
 from subprocess import check_output, call
 
-ping_speed = check_output("ping -c1 google.com | grep time", shell=True).split(':')[1].split('=')[3].split(' ')[0]
+# TODO: reimplement speed test without ping (requires root)
+ping_speed = 30
 
-connected = call("ping -c1 google.com >/dev/null 2>&1", shell=True)==0
+# TODO: reimplement liveness check without ping (requires root)
+connected = True
 
 result = {
 	"id": 1,
