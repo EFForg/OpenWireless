@@ -149,12 +149,6 @@ var settingsModule = (function(){
     data[setting] = value;
     var url = "/cgi-bin/routerapi/update_setting";
     var successCallback = function(response){};
-    var errorCallback = function(errorType, errorMessage) {
-        var genericError = $('.inputError');
-        genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
-        genericError.show();
-        console.log('Error: ' + errorType + ': Message : ' + errorMessage);
-    };
 
     requestModule.submitRequest({
         "data"              :data,
@@ -177,11 +171,6 @@ $(function() {
     var url = "/cgi-bin/routerapi/settings?auth=" + authToken;
     var successCallback = function(response){
         settingsModule.init(response.result, authToken);
-    };
-    var errorCallback = function(errorType, errorMessage) {
-        var genericError = $('.inputError');
-        genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
-        genericError.show();
     };
 
     requestModule.submitRequest({

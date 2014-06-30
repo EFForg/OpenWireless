@@ -37,26 +37,18 @@ var loginModule = (function() {
         return;
       }
 
-      //TODO: sending passwords over plain text
       var data =  { "jsonrpc": "2.0", "method": "login", "params": [username.val(), password.val()], "id": 1 }
-      var successCallback = function(response) {
-        if(response.result == null){
-          genericError.html("Username/password is incorrect");
-          genericError.show();
-          return;
+      var successCallback = function(data, textStatus, jqXHR) {
+        // Only redirect the user to change their password if the one they
+        // entered was the default.
+        if (password == "asdf1234") {
+          helperModule.redirectTo("changePassword.html");
+        } else {
+          helperModule.redirectTo("dashboard.html");
         }
-        //TODO: we redirect to change password every time?
-        helperModule.redirectTo("changePassword.html");
-
       };
 
-      //TODO: what type of errors do we get here? is it possible to leverage error message to produce XSS
-      var errorCallback = function(errorType, errorMessage) {
-        genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
-        genericError.show();
-      };
-
-      var request = { 'data': data, url: '/cgi-bin/luci/rpc/auth', 'successCallback': successCallback, 'errorCallback': errorCallback };
+      var request = { 'data': data, url: '/cgi-bin/routerapi/login', 'successCallback': successCallback, 'errorCallback': errorCallback };
       requestModule.submitRequest(request);
     });
   };

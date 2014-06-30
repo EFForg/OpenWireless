@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
 import json
-import auth
 
 result = {"result" :{ "status": "updating" }}
 
-print "Content-Type:application/json\r\n"
+print "Content-Type: application/json\r\n"
 print json.JSONEncoder().encode(result)

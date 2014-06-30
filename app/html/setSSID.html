@@ -6,6 +6,7 @@
 
     <script type="text/javascript" src="../js/request.js"></script>
     <script type="text/javascript" src="../js/helper.js"></script>
+    <script type="text/javascript" src="../js/errorCallback.js"></script>
     <script type="text/javascript" src="../js/ssid.js"></script>
   </head>
 
@@ -16,6 +17,7 @@
         <h1>Set the SSID</h1>
         <p>This is the SSID for your personal use. It is what you will see when you connect to the wireless.</p>
         <form>
+          <div id="genericError" class="inputError" style="display:none;"></div>
           <input type="text" placeholder="New SSID" id="ssid"></input><br>
           <div id="ssidError" class="inputError" style="display:none;"></div>
           <input type="text" placeholder="Passphrase" id="ssidPassphrase"></input><br>

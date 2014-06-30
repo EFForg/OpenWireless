@@ -1,11 +1,13 @@
 var changePassword = (function(authToken) {
   var authToken = authToken;
   var form = $('form');
+  var oldPassword = $('#oldPassword');
   var newPassword = $('#newPassword');
   var retypePassword = $('#retypePassword');
   var newPasswordError= $("#newPasswordError");
   var retypePasswordError= $("#retypePasswordError");
-  var changePasswordUrl = "/cgi-bin/luci/rpc/sys?auth="+authToken;
+  var genericError =  $('#genericError');
+  var changePasswordUrl = "/routerapi/change_password";
 
   form.submit(function(event){
     event.preventDefault();
@@ -13,7 +15,7 @@ var changePassword = (function(authToken) {
     retypePasswordError.hide();
     newPassword.removeClass("error");
     retypePassword.removeClass("error");
-    var changePasswordRequest = { "jsonrpc": "2.0", "method": "user.setpasswd", "params": ["root", newPassword.val()], "id": 1 };
+    var changePasswordRequest = { "jsonrpc": "2.0", "method": "user.setpasswd", "params": ["root", newPassword.val(), oldPassword.val()], "id": 1 };
 
     if(helperModule.checkEmptyField(newPassword, newPasswordError, "password")) {
       return;
@@ -46,14 +48,14 @@ var changePassword = (function(authToken) {
         helperModule.redirectTo("setSSID.html");
     };
 
-    var errorCallback = function(request, errorType, errorMessage) {
-        console.log('Error: ' + errorType + ': Message : ' + errorMessage);
-        helperModule.redirectTo("login.html");
-      }
+    var request = {
+      'data': changePasswordRequest,
+      'url': changePasswordUrl,
+      'successCallback': successCallback,
+      'errorCallback': errorCallback
+    };
 
-    var request = { 'data': changePasswordRequest, 'url': changePasswordUrl, 'successCallback': successCallback, 'errorCallback': errorCallback };
-      requestModule.submitRequest(request);
-
+    requestModule.submitRequest(request);
   });
 });
 

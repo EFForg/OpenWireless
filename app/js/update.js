@@ -35,12 +35,6 @@ var updateModule = (function(){
     "errorCallback":errorCallback,
     "data": updateData
   };
- 
-  var errorCallback = function(errorType, errorMessage) {
-    var genericError = $('.inputError');
-    genericError.html('Error: ' + errorType + ': Message : ' + errorMessage);
-    genericError.show();
-  };
 
   var submitUpdateRequest = function(){
     requestModule.submitRequest(checkUpdateRequest);
