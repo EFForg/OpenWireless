@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodejs -e \"require('grunt').tasks(['test']);\""
   },
   "author": "Kevin Wilson",
   "devDependencies": {
@@ -18,7 +18,7 @@
     "karma": "~0.10.9",
     "karma-story-reporter": "~0.2.2",
     "grunt-karma": "~0.6.2",
-    "grunt-cli": "~0.1.13",
+    "grunt": "",
     "karma-sauce-launcher": "~0.1.8"
   }
 }
