@@ -30,6 +30,9 @@ def validate_channel(device, channel):
   else:
     return channel in band_2p4_channel_options
 
+def validate_bandwidth(new_bandwidth):
+  return new_bandwidth in ['20', '40']
+
 def set_param(device, param, value):
   call([uci_path, "set", "wireless." + device + "." + param + "=" + value])
   call([uci_path, "commit", "wireless"])
@@ -63,6 +66,14 @@ def check_channel(channel_name, interface_name):
     else:
       set_error('channel')
 
+def check_channel_bandwidth(channel_name, interface_name):
+  if params.get(channel_name):
+    current_device = check_device(interface_name)
+    new_bandwidth = params.get(channel_name)
+    if validate_bandwidth(new_bandwidth):
+      set_param(current_device, 'htmode', "HT" + new_bandwidth)
+    else:
+      set_error('channel bandwidth')
 
 if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
     fs = cgi.FieldStorage()
@@ -74,9 +85,11 @@ if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
 
     check_band('routerBand', "@wifi-iface[0]")
     check_channel('routerChannel', "@wifi-iface[0]")
+    check_channel_bandwidth('routerChannelBandwidth', "@wifi-iface[0]")
 
     check_band('openwirelessBand', "@wifi-iface[1]")
     check_channel('openwirelessChannel', "@wifi-iface[1]")
+    check_channel_bandwidth('openwirelessChannelBandwidth', "@wifi-iface[1]")
 
 else:
   set_error('GET request')
