@@ -3,3 +3,4 @@
 **/bin
 /.idea
 *.pyc
+.*.sw*

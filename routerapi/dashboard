@@ -1,10 +1,8 @@
 #!/usr/bin/python
 
 # Import modules for CGI handling
-import cgi, json
+import cgi, json, auth
 from subprocess import check_output, call
-
-import auth
 
 ping_speed = check_output("ping -c1 google.com | grep time", shell=True).split(':')[1].split('=')[3].split(' ')[0]
 

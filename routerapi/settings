@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-# Import modules for CGI handling
 import cgi, json, sys, common
 from subprocess import check_output, CalledProcessError
 

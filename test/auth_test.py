@@ -3,9 +3,11 @@ import unittest
 import tempfile
 import os
 import time
-
 import sys
-sys.path.insert(0, './routerapi/')
+
+sys.path.insert(0, os.path.join(
+  os.path.dirname(os.path.realpath(__file__)),
+  "..", "routerapi"))
 
 import auth
 
