@@ -1,8 +1,5 @@
 var dashboardModule = (function(){
-  var authorizationToken;
-
-  var init = function(authToken){
-    authorizationToken = authToken;
+  var init = function(){
     displayInterfaces();
   };
 
@@ -87,7 +84,7 @@ var dashboardModule = (function(){
     requestModule.submitRequest({ "data": data,
       "successCallback":successCallback,
       "errorCallback": errorCallback,
-      "url":"/cgi-bin/routerapi/dashboard?auth=" + authorizationToken
+      "url":"/cgi-bin/routerapi/dashboard"
     });
   };
 
