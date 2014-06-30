@@ -3,6 +3,7 @@
 import cgi, json, sys, common
 from subprocess import check_output, CalledProcessError
 
+uci_path = '/bin/uci'
 software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
 
 channels = { 'auto': 'auto', '1': '1 (2.412 GHz)', '2': '2 (2.417 GHz)', '3': '3 (2.422 GHz)', '4': '4 (2.427 GHz)',
@@ -13,7 +14,7 @@ channels = { 'auto': 'auto', '1': '1 (2.412 GHz)', '2': '2 (2.417 GHz)', '3': '3
       '165': '165 (5.825 GHz)' }
 
 def check_device(config_name):
-  return check_output("uci get wireless." + config_name + ".device", shell=True).strip()
+  return check_output(uci_path, "get", "wireless." + config_name + ".device").strip()
 
 def check_param(device, param):
   return check_output("uci get wireless." + device + "." + param, shell=True).strip()
@@ -29,7 +30,7 @@ def get_attributes(interface, config_name):
 
     channel_short_hand = check_param(interface["device"], "channel")
     interface["channel"] = channels[channel_short_hand]
-    
+
     if check_param(interface["device"], "htmode") == "HT20":
       interface["channel_bandwidth"] = "20"
 

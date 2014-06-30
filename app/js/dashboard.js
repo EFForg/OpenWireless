@@ -94,5 +94,5 @@ var dashboardModule = (function(){
 })();
 
 $(function() {
-  dashboardModule.init(securityModule.getAuthToken());
+  dashboardModule.init();
 });

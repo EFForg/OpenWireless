@@ -1,5 +1,4 @@
-var changePassword = (function(authToken) {
-  var authToken = authToken;
+var changePassword = (function() {
   var form = $('form');
   var oldPassword = $('#oldPassword');
   var newPassword = $('#newPassword');
@@ -64,6 +63,5 @@ var changePassword = (function(authToken) {
 });
 
 $(function() {
-  var authToken = securityModule.getAuthToken();
-  changePassword(authToken);
+  changePassword();
 });
