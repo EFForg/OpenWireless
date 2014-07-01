@@ -52,10 +52,14 @@ class Auth:
   AUTH_COOKIE_NAME = 'auth'
   CSRF_COOKIE_NAME = 'csrf_token'
   HTTP_X_CSRF_TOKEN = 'HTTP_X_CSRF_TOKEN'
+  RATE_LIMIT_DURATION = 86400 # One day in seconds
+  RATE_LIMIT_COUNT = 10
+
   def __init__(self, path):
     self.path = path
     self.token_filename = os.path.join(self.path, 'auth_token')
     self.password_filename = os.path.join(self.path, 'password')
+    self.rate_limit_filename = os.path.join(self.path, 'rate_limit')
     self.check_sane(path)
 
   def check_sane(self, path):
@@ -83,15 +87,38 @@ class Auth:
     os.write(fd, data)
     os.close(fd)
 
+  def rate_limit_remaining(self):
+    if os.path.isfile(self.rate_limit_filename):
+      st = os.stat(self.rate_limit_filename)
+      if time.time() - st.st_ctime > self.RATE_LIMIT_DURATION:
+        return self.RATE_LIMIT_COUNT
+      else:
+        with open(self.rate_limit_filename, 'r') as f:
+          failed_login_attempts = int(f.read())
+        return max(0, self.RATE_LIMIT_COUNT - failed_login_attempts)
+    else:
+      return self.RATE_LIMIT_COUNT
+
+  def increment_rate_limit(self):
+    attempts = self.RATE_LIMIT_COUNT - self.rate_limit_remaining()
+    attempts += 1
+    self.write(self.rate_limit_filename, "%d" % attempts)
+
   def is_password(self, candidate):
     """
     Returns true iff the candidate password equals the stored one.
     """
-    with open(self.password_filename, 'r') as f:
-      hashed = f.read()
-    # Temporarily commented out until bcrypt available on router
-    #return bcrypt.checkpw(candidate, hashed)
-    return candidate == hashed
+    if self.rate_limit_remaining() > 0:
+      with open(self.password_filename, 'r') as f:
+        hashed = f.read()
+      # Temporarily commented out until bcrypt available on router
+      #return bcrypt.checkpw(candidate, hashed)
+      if candidate == hashed:
+        return True
+      else:
+        self.increment_rate_limit()
+    else:
+      common.render_error('Too many failed login attempts. Try again tomorrow.')
 
   def save_password(self, new_password):
     """
