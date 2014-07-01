@@ -1,0 +1,35 @@
+#!/usr/bin/python
+
+import cgi, os, json
+from random import randrange
+
+internetUploadUsage = randrange(100)
+internetDownloadUsage = randrange(100) + 100
+lanNetworkUploadUsage = randrange(100) + 200
+lanNetworkDownloadUsage = randrange(100) + 300
+privateWifiUploadUsage = randrange(100) + 400
+privateWifiDownloadUsage = randrange(100) + 500
+openWirelessUploadUsage = randrange(100) + 600
+openWirelessDownloadUsage = randrange(100) + 700
+
+result = {
+  "internet": {
+    "uploadUsage" : internetUploadUsage,
+    "downloadUsage" : internetDownloadUsage
+  },
+  "lanNetwork": {
+    "uploadUsage" : lanNetworkUploadUsage,
+    "downloadUsage" : lanNetworkDownloadUsage
+  },
+  "privateWifi": {
+    "uploadUsage" : privateWifiUploadUsage,
+    "downloadUsage" : privateWifiDownloadUsage
+  },
+  "openWireless": {
+    "uploadUsage" : openWirelessUploadUsage,
+    "downloadUsage" : openWirelessDownloadUsage
+  }
+}
+
+print "Content-Type:application/json\r\n"
+print json.JSONEncoder().encode(result)
