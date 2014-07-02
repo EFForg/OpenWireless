@@ -4,6 +4,7 @@ import tempfile
 import os
 import time
 import sys
+import StringIO
 
 sys.path.insert(0, os.path.join(
   os.path.dirname(os.path.realpath(__file__)),
@@ -75,6 +76,26 @@ class TestAuth(unittest.TestCase):
       (read_token, expiry) = f.read().split(' ')
       self.assertEqual(token, read_token)
     self.assertTrue(self.auth.is_authentication_token(token))
+
+  def test_check_request_logged_out(self):
+    os.environ['REQUEST_URI'] = '/cgi-bin/routerapi/login'
+    # Should not exit
+    self.assertTrue(auth.check_request(self.path))
+
+  def test_check_request_logged_out_auth_required(self):
+    out = StringIO.StringIO()
+    saved_stdout = sys.stdout
+    try:
+      sys.stdout = out
+      os.environ['REQUEST_URI'] = '/cgi-bin/routerapi/dashboard'
+      self.assertRaises(SystemExit, auth.check_request, self.path)
+      self.assertEqual("""Status: 403
+Content-Type: application/json\r\n
+{"error": "Not authenticated."}
+""",
+        out.getvalue())
+    finally:
+      sys.stdout = saved_stdout
 
 if __name__ == '__main__':
   unittest.main()

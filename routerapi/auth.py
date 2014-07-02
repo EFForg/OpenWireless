@@ -16,7 +16,7 @@ import time
 import hashlib
 import pbkdf2
 
-def check_request():
+def check_request(auth_dir):
   """
   When processing a CGI request, validate that request is authenticated and, if
   it's a POST request, has a CSRF token.
@@ -27,12 +27,13 @@ def check_request():
   if (REQUEST_URI in os.environ and
       not os.environ[REQUEST_URI] in LOGGED_OUT_ENDPOINTS):
     try:
-      a = Auth('/etc/auth')
+      a = Auth(auth_dir)
       a.check_authentication()
       if REQUEST_METHOD in os.environ and os.environ[REQUEST_METHOD] == "POST":
         a.check_csrf()
     except Exception, e:
       common.render_error(e.__str__())
+  return True
 
 def constant_time_equals(a, b):
   """Return True iff a == b, and do it in constant time."""

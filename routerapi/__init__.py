@@ -5,4 +5,4 @@ import common
 # unless explicitly excepted.
 import auth
 # This does the actual authentication check.
-auth.check_request()
+auth.check_request('/etc/auth')
