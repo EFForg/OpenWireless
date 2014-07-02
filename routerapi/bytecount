@@ -1,22 +1,21 @@
 #!/usr/bin/python
 
 import json, re
-from random import randrange
 from subprocess import check_output
 from datetime import datetime
 
 def get_byte_counts(network_name):
   parser_pattern = re.compile('SRC packets: \d+ bytes: (\d+) DST packets: \d+ bytes: (\d+)')
-  network_data = parser_pattern.(check_output("iptaccount -l " + network_name))
-  return {
-    "uploadUsage" : network_data[3],
-    "downloadUsage" : network_data[0]
-  }
+  network_data = parser_pattern.findall(check_output(["iptaccount", "-l", network_name]))
+  if network_data == []:
+    return ["0", "0"]
+  else:
+    return [network_data[0][1], network_data[0][0]]
 
-[internetUploadUsage, internetDownloadUsage] = get_byte_counts("internet")
-[lanNetworkUploadUsage, lanNetworkDownloadUsage] = get_byte_counts("lanNetwork")
-[privateWifiUploadUsage, privateWifiDownloadUsage] = get_byte_counts("privateWifi")
-[openWirelessUploadUsage, openWirelessDownloadUsage] = get_byte_counts("openWireless")
+[internetUploadUsage, internetDownloadUsage] = get_byte_counts("total-wan")
+[lanNetworkUploadUsage, lanNetworkDownloadUsage] = get_byte_counts("wired-lan")
+[privateWifiUploadUsage, privateWifiDownloadUsage] = get_byte_counts("private-wifi")
+[openWirelessUploadUsage, openWirelessDownloadUsage] = get_byte_counts("open-wifi")
 
 result = {
   "internet": {
