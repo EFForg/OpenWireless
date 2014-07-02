@@ -1,16 +1,21 @@
 #!/usr/bin/python
 
-import json, datetime
-from random import randrange
+import json, re
+from subprocess import check_output
+from datetime import datetime
 
-internetUploadUsage       = randrange(100)
-internetDownloadUsage     = randrange(100)
-lanNetworkUploadUsage     = randrange(100)
-lanNetworkDownloadUsage   = randrange(100)
-privateWifiUploadUsage    = randrange(100)
-privateWifiDownloadUsage  = randrange(100)
-openWirelessUploadUsage   = randrange(100)
-openWirelessDownloadUsage = randrange(100)
+def get_byte_counts(network_name):
+  parser_pattern = re.compile('SRC packets: \d+ bytes: (\d+) DST packets: \d+ bytes: (\d+)')
+  network_data = parser_pattern.findall(check_output(["iptaccount", "-l", network_name]))
+  if network_data == []:
+    return ["0", "0"]
+  else:
+    return [network_data[0][1], network_data[0][0]]
+
+[internetUploadUsage, internetDownloadUsage] = get_byte_counts("total-wan")
+[lanNetworkUploadUsage, lanNetworkDownloadUsage] = get_byte_counts("wired-lan")
+[privateWifiUploadUsage, privateWifiDownloadUsage] = get_byte_counts("private-wifi")
+[openWirelessUploadUsage, openWirelessDownloadUsage] = get_byte_counts("open-wifi")
 
 result = {
   "internet": {
@@ -29,7 +34,7 @@ result = {
     "uploadUsage" : openWirelessUploadUsage,
     "downloadUsage" : openWirelessDownloadUsage
   },
-  "dateTime" : datetime.datetime.now().isoformat()
+  "dateTime" : datetime.now().isoformat()
 }
 
 print "Content-Type:application/json\r\n"
