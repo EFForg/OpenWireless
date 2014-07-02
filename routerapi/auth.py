@@ -10,11 +10,11 @@
    exempt.
 """
 
-#import bcrypt
 import common
 import os
 import time
 import hashlib
+import pbkdf2
 
 def check_request():
   """
@@ -110,13 +110,13 @@ class Auth:
     """
     if self.rate_limit_remaining() > 0:
       with open(self.password_filename, 'r') as f:
-        hashed = f.read()
-      # Temporarily commented out until bcrypt available on router
-      #return bcrypt.checkpw(candidate, hashed)
-      if candidate == hashed:
+        hashed = f.read().strip()
+      if hashed == pbkdf2.crypt(candidate, unicode(hashed)):
         return True
       else:
+        # Increment rate limit on failures.
         self.increment_rate_limit()
+        return False
     else:
       common.render_error('Too many failed login attempts. Try again tomorrow.')
 
@@ -124,9 +124,9 @@ class Auth:
     """
     Store a new password.
     """
-    # Temporarily commented out until bcrypt available on router
-    #hashed = bcrypt.hashpw(new_password, bcrypt.gensalt(10))
-    hashed = new_password
+    # 55 iterations takes about 100 ms on a Netgear WNDR3800 or about 8ms on a
+    # Core2 Duo at 1200 MHz.
+    hashed = pbkdf2.crypt(new_password, iterations=55)
     self.write(self.password_filename, hashed)
 
   def get_csrf_token(self, auth_token):
@@ -148,9 +148,10 @@ class Auth:
     prevents cookie forcing by requiring that the auth token and CSRF token be
     related.
     """
-    return constant_time_equals(
-      self.get_csrf_token(self.__current_authentication_token),
-      candidate_csrf_token)
+    valid_token = bytearray(
+      self.get_csrf_token(self.__current_authentication_token))
+    candidate = bytearray(candidate_csrf_token)
+    return constant_time_equals(valid_token, candidate)
 
   def check_csrf(self):
     """
