@@ -224,7 +224,7 @@ class Auth:
     """
     Create and store a new random authentication token. Expires old sessions.
     """
-    new_token = os.urandom(self.TOKEN_LENGTH)).encode('hex')
+    new_token = os.urandom(self.TOKEN_LENGTH).encode('hex')
     expires = int(time.time()) + Auth.SESSION_DURATION
     self.write(self.token_filename, ('%s %d' % (new_token, expires)))
     return new_token

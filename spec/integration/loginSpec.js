@@ -57,6 +57,6 @@ describe("Login Module", function() {
     });
     password.val('badpass');
     loginForm.submit();
-    expect(genericError.text()).toEqual("Error: Bad password");
+    expect(genericError.text()).toEqual("Server Error: Bad password");
   });
 });

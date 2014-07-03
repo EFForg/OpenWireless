@@ -101,7 +101,7 @@ describe("Change password page", function() {
     newPassword.val("asdfghjkl12P");
     retypePassword.val("asdfghjkl12P");
     passwordForm.submit();
-    expect(genericError.text()).toEqual("Error: Bad password");
+    expect(genericError.text()).toEqual("Server Error: Bad password");
   });
 });
 
