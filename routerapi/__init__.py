@@ -4,5 +4,3 @@ import common
 # Importing auth ensures that all endpoints require authentication
 # unless explicitly excepted.
 import auth
-# This does the actual authentication check.
-auth.check_request()

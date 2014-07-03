@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import os, json, sys
+import cgi, os, json
 from subprocess import check_output, call
 
 
@@ -76,7 +76,9 @@ def check_channel_bandwidth(channel_name, interface_name):
       set_error('channel bandwidth')
 
 if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
-    json_body = json.loads(sys.stdin.read())
+    fs = cgi.FieldStorage()
+    file_read = fs.file.read()
+    json_body = json.loads(file_read)
 
     for k in json_body.keys():
         params[k] = json_body[k]
