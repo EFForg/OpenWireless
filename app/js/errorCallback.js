@@ -1,9 +1,9 @@
 errorCallback = function(jqXHR, textStatus, errorThrown) {
-  var errorText = "";
+console.log(jqXHR, errorThrown);
   if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
-    errorText = 'Error: ' + jqXHR.responseJSON.error;
+    errorText = 'Server Error: ' + jqXHR.responseJSON.error;
   } else {
-    errorText = 'Error';
+    errorText = 'JS error: ' + errorThrown;
   }
 
   var genericError = $("#genericError");
