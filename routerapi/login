@@ -12,13 +12,12 @@ def jsonrpc_login():
     username = params[0]
     password = params[1]
   except KeyError, e:
-    render_error(e.__str__())
+    common.render_error(e.__str__())
 
   a = auth.Auth("/etc/auth")
   if a.is_password(password):
     print "Content-Type: application/json"
-    print "Set-Cookie: %s=%s; path=/; HttpOnly;" % (
-      auth.Auth.AUTH_COOKIE_NAME, a.regenerate_authentication_token())
+    print a.login_headers()
     print
     print "{}"
   else:
