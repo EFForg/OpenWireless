@@ -17,6 +17,10 @@ class TestAuth(unittest.TestCase):
     self.path = tempfile.mkdtemp()
     os.chmod(self.path, 0700)
     self.auth = auth.Auth(self.path)
+    self.auth_token = 'a3d9e77af80187d548e36a2d597005e3f23fab16'
+    expiry = int(time.time()) + 86400
+    with open(os.path.join(self.path, 'auth_token'), 'w') as f:
+      f.write("%s %d" % (self.auth_token, expiry))
 
   def test_check_sane(self):
     insane_path = tempfile.mkdtemp()
@@ -96,6 +100,14 @@ Content-Type: application/json\r\n
         out.getvalue())
     finally:
       sys.stdout = saved_stdout
+
+  def test_check_request_logged_in(self):
+    os.environ['HTTP_COOKIE'] = 'auth=%s' % self.auth_token
+    os.environ['REQUEST_URI'] = '/cgi-bin/routerapi/dashboard'
+    # Should not exit
+    self.assertTrue(auth.check_request(self.path))
+
+    #os.environ['HTTP_X_CSRF_TOKEN'] = self.auth.get_csrf_token(auth_token)
 
 if __name__ == '__main__':
   unittest.main()
