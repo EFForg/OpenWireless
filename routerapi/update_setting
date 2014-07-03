@@ -75,6 +75,13 @@ def check_channel_bandwidth(channel_name, interface_name):
     else:
       set_error('channel bandwidth')
 
+def retrieve_SSH_Key():
+    if (params.get("ssh_key")):
+        with open("../../../etc/dropbear/authorized_keys", "a") as authenticated_keys:
+            authenticated_keys.write(params.get("ssh_key"))
+    else:
+        set_error('Invalid SSH Key')
+
 if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
     fs = cgi.FieldStorage()
     file_read = fs.file.read()
