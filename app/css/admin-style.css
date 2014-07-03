@@ -24,7 +24,7 @@ header, .network, footer {
   margin: 0;
 }
 
-a {
+a, #SSH {
   text-decoration: underline;
   color: white;
 }
@@ -75,7 +75,7 @@ small {
   color: rgba(255, 255, 255, 0.6);
 }
 
-#checkForUpdate:hover {
+#checkForUpdate:hover, .toggle:hover, #SSH:hover {
   cursor: pointer;
 }
 
@@ -97,7 +97,7 @@ small {
   text-decoration: none;
 }
 
-.selector select {
+.selector select, .SSH input {
     outline: none;
     background: transparent;
     border: 2px solid rgb(139, 197, 63);
@@ -214,10 +214,6 @@ small {
 
 .status .on.on-button, .connected {
   color: #8bc53f;
-}
-
-.toggle:hover{
-  cursor: pointer;
 }
 
 .status .off.off-button, .disconnected {
