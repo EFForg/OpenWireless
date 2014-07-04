@@ -8,7 +8,7 @@ body {
 
 header {
 	height: 200px;
-	background-image: url("images/buildings.jpg");
+	background-image: url("../images/buildings.jpg");
 	background-position: right bottom;
 }
 
@@ -26,7 +26,8 @@ input[type="text"], input[type="password"], input[type="username"]{
 	background: rgba(255,255,255, 0.2);
 }
 
-input[type="submit"] {
+input[type="submit"],
+.button {
 	background: none;
 	line-height: normal;
 	outline: 0;
