@@ -20,11 +20,11 @@ var dashboardModule = (function(){
   };
 
   var getImage = function(name){
-    imageMap = {"Internet" : "../images/router.png",
-      "LAN Network": "../images/lan.png",
-      "Private Wifi": "../images/antenna-on.png",
-      "Openwireless.org": "../images/antenna-on.png"};
-    return imageMap[name] || "../images/antenna-on.png";
+    imageMap = {"Internet" : "images/router.png",
+      "LAN Network": "images/lan.png",
+      "Private Wifi": "images/antenna-on.png",
+      "Openwireless.org": "images/antenna-on.png"};
+    return imageMap[name] || "images/antenna-on.png";
   };
 
   var displayDate = function(){

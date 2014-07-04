@@ -8,7 +8,7 @@ body {
 
 header {
 	height: 200px;
-	background-image: url("../images/buildings.jpg");
+	background-image: url("images/buildings.jpg");
 	background-position: right bottom;
 }
 
