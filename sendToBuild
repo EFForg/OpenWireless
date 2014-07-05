@@ -1,0 +1,18 @@
+#!/bin/bash -e
+
+echo "make www directory in build..."
+mkdir cerowrt/files/www
+
+echo "pushing frontend to build..."
+scp -rp app cerowrt/files/www/
+
+echo "make cgi-bin directory in build..."
+mkdir cerowrt/files/www/cgi-bin
+
+echo "pushing backend to build..."
+scp -rp routerapi cerowrt/files/www/cgi-bin/
+
+echo "pushing unencrypted help to build ..."
+scp -rp unencrypted cerowrt/files/www/
+
+
