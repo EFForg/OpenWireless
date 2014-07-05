@@ -15,3 +15,7 @@ The default username is __root__ with password __asdf1234__.
 13. If you cannot hit the login page, go back to step 5 and try `192.168.1.XX` where `XX` = any other number between 2-100.
 
 * This only needs to be done the first time you transfer each file.
+
+# Continuous Build
+
+Continus build for this project is at https://snap-ci.com/TWEFF/OpenWireless/branch/master

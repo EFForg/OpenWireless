@@ -4,7 +4,7 @@ echo "make www directory in build..."
 mkdir cerowrt/files/www
 
 echo "pushing frontend to build..."
-scp -rp app cerowrt/files/www/
+scp -rp app/* cerowrt/files/www/
 
 echo "make cgi-bin directory in build..."
 mkdir cerowrt/files/www/cgi-bin
