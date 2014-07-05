@@ -13,7 +13,14 @@ var helperModule = (function(){
     return false;
   };
 
-  var redirectTo = function(url) { window.location.href = url; };
+  var redirectTo = function(url) {
+    // Check for redirect to javascript: or similar URIs
+    if (url.match(/^[a-zA-Z]*:/) && !url.match(/^https?:/)) {
+      throw("Invalid redirect URL");
+    } else {
+      window.location.href = url;
+    }
+  };
 
   var checkPassword = function(str) {
       var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,}$/;
