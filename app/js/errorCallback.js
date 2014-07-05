@@ -1,5 +1,4 @@
 errorCallback = function(jqXHR, textStatus, errorThrown) {
-console.log(jqXHR, errorThrown);
   if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
     errorText = 'Server Error: ' + jqXHR.responseJSON.error;
   } else {
