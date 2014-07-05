@@ -31,8 +31,12 @@
     this.set = function(func, time, autostart) {
       this.init = true;
       if(typeof func == 'object') {
-        var paramList = ['autostart', 'time'];
-        for(var arg in paramList) {if(func[paramList[arg]] != undefined) {eval(paramList[arg] + " = func[paramList[arg]]");}};
+        if (func.autostart != undefined) {
+          var autostart = func.autostart;
+        }
+        if (func.time != undefined) {
+          var time = func.time;
+        }
         func = func.action;
       }
       if(typeof func == 'function') {this.action = func;}
