@@ -1,0 +1,30 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2007 OpenWrt.org
+
+START=60
+
+append_string() {
+	local section="$1"
+	local option="$2"
+	local value="$3"
+	local _val
+	config_get _val "$section" "$option"
+	[ -n "$_val" ] && append args "$3$_val"
+}
+
+start_service() {
+	local cfg="$1"
+	args=""
+
+	append_string "$cfg" broadcast "--host="
+	append_string "$cfg" port "--port="
+	append_string "$cfg" password "--passwd="
+	append_string "$cfg" mac ""
+	config_get_bool enabled "$cfg" "enabled" '1'
+	[ "$enabled" -gt 0 ] && /usr/bin/wol $args
+}
+
+start() {
+	config_load wol
+	config_foreach start_service wol-target
+}

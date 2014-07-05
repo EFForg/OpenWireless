@@ -1,0 +1,8 @@
+root:*:0:0:root:/root:/bin/ash
+ftp:*:55:55:ftp:/home/ftp:/bin/false
+network:*:101:101:network:/var:/bin/false
+bind:*:124:124:named:/var:/bin/false
+nobody:*:65534:65534:nobody:/var:/bin/false
+daemon:*:65534:65534:daemon:/var:/bin/false
+news:*:31:31:news:/var/spool/news:/bin/true
+www-data:*:33:33:www-data:/etc/www:/bin/false

@@ -1,0 +1,4 @@
+nf_nat_ipv6
+ip6table_nat
+ip6t_MASQUERADE
+ip6t_NPT

@@ -1,0 +1,117 @@
+config interface
+	option interface	'se00'
+	option AdvSendAdvert	1
+	option AdvManagedFlag	0
+	option AdvOtherConfigFlag 0
+	option AdvRouterAddr	1
+	option AdvLinkMTU       1480  
+	list client		''
+	option ignore		0
+
+config prefix
+	option interface	'se00'
+	# If not specified, a non-link-local prefix of the interface is used
+	list prefix		''
+	option AdvOnLink	1
+	option AdvAutonomous	1
+	option AdvRouterAddr	0
+	option ignore		0
+
+config 'route'
+	option 'interface' 'se00'
+	option 'prefix' '::/0'
+	option 'AdvRouteLifetime' '300' 
+
+config interface
+	option interface	'gw00'
+	option AdvSendAdvert	1
+	option AdvManagedFlag	0
+	option AdvOtherConfigFlag 0
+	option AdvLinkMTU       1480  
+	list client		''
+	option ignore		0
+
+config prefix
+	option interface	'gw00'
+	# If not specified, a non-link-local prefix of the interface is used
+	list prefix		''
+	option AdvOnLink	1
+	option AdvAutonomous	1
+	option AdvRouterAddr	0
+	option ignore		0
+
+config 'route'
+	option 'interface' 'gw00'
+	option 'prefix' '::/0'
+	option 'AdvRouteLifetime' '300' 
+
+config interface
+	option interface	'gw10'
+	option AdvSendAdvert	1
+	option AdvManagedFlag	0
+	option AdvOtherConfigFlag 0
+	option AdvLinkMTU       1480  
+	list client		''
+	option ignore		0
+
+config prefix
+	option interface	'gw10'
+	# If not specified, a non-link-local prefix of the interface is used
+	list prefix		''
+	option AdvOnLink	1
+	option AdvAutonomous	1
+	option AdvRouterAddr	0
+	option ignore		0
+
+config 'route'
+	option 'interface' 'gw10'
+	option 'prefix' '::/0'
+	option 'AdvRouteLifetime' '300' 
+
+config interface
+	option interface	'sw00'
+	option AdvSendAdvert	1
+	option AdvManagedFlag	0
+	option AdvOtherConfigFlag 0
+	option AdvLinkMTU       1480  
+	list client		''
+	option ignore		0
+
+config prefix
+	option interface	'sw00'
+	# If not specified, a non-link-local prefix of the interface is used
+	list prefix		''
+	option AdvOnLink	1
+	option AdvAutonomous	1
+	option AdvRouterAddr	0
+	option ignore		0
+
+config 'route'
+	option 'interface' 'sw00'
+	option 'prefix' '::/0'
+	option 'AdvRouteLifetime' '300' 
+
+config interface
+	option interface	'sw10'
+	option AdvSendAdvert	1
+	option AdvManagedFlag	0
+	option AdvOtherConfigFlag 0
+	option AdvLinkMTU       1480  
+	list client		''
+	option ignore		0
+
+config prefix
+	option interface	'sw10'
+	# If not specified, a non-link-local prefix of the interface is used
+	list prefix		''
+	option AdvOnLink	1
+	option AdvAutonomous	1
+	option AdvRouterAddr	0
+	option ignore		0
+
+config 'route'
+	option 'interface' 'sw10'
+	option 'prefix' '::/0'
+	option 'AdvRouteLifetime' '300' 
+
+

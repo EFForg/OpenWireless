@@ -1,0 +1,52 @@
+#!/bin/sh /etc/rc.common
+START=40
+
+PDIR=/proc/sys/net/ipv4/
+SERVICE_USE_PID=0
+
+check_available() {
+    local cong=$1
+    local y=0
+    local i=" "
+    insmod tcp_$cong 2> /dev/null
+    local a=`cat $PDIR/tcp_available_congestion_control`
+    for i in $a
+    do
+	if [ "$i" = "$cong" ] 
+	then
+	    y=1
+	fi
+    done
+    echo $y
+}
+
+parse_allowed() {
+    config_list_foreach $1 $2 $3
+}
+
+alttcp_addproto() {
+	local argv="$1"
+	local r=`check_available $argv`
+	[ "$r" = "1" ] &&  append protos "$argv" 
+}
+
+alttcp_config() {
+	local cfg="$1"
+	local interface
+	local _loctmp
+	config_list_foreach $cfg 'allowed' alttcp_addproto
+	config_get default $cfg default
+}
+	
+start() {
+	config_load alttcp
+	unset args
+	unset protos
+	config_foreach alttcp_config alttcp
+	[ ! -z "$protos" ] && echo $protos > $PDIR/tcp_allowed_congestion_control
+	echo $default > $PDIR/tcp_congestion_control
+}
+
+stop() {
+:
+}
