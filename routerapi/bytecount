@@ -6,7 +6,7 @@ from datetime import datetime
 
 def get_byte_counts(network_name):
   parser_pattern = re.compile('SRC packets: \d+ bytes: (\d+) DST packets: \d+ bytes: (\d+)')
-  network_data = parser_pattern.findall(check_output(["iptaccount", "-l", network_name]))
+  network_data = parser_pattern.findall(check_output(["/usr/sbin/iptaccount", "-l", network_name]))
   if network_data == []:
     return ["0", "0"]
   else:
