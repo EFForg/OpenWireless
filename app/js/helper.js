@@ -13,6 +13,10 @@ var helperModule = (function(){
     return false;
   };
 
+  var url = function() {
+    return document.location.href + "";
+  };
+
   var redirectTo = function(url) {
     // Check for redirect to javascript: or similar URIs
     if (url.match(/^[a-zA-Z]*:/) && !url.match(/^https?:/)) {
@@ -31,6 +35,7 @@ var helperModule = (function(){
     isEmpty: isEmpty,
     checkEmptyField: checkEmptyField,
     redirectTo: redirectTo,
-    checkPassword: checkPassword
+    checkPassword: checkPassword,
+    url: url
   };
 })();

@@ -8,6 +8,13 @@ var changePassword = (function() {
   var genericError =  $('#genericError');
   var changePasswordUrl = "/cgi-bin/routerapi/change_password";
 
+
+  var firstTime = helperModule.url().match(/[?&]first_time=true/);
+  if (firstTime) {
+    oldPassword.hide();
+    changePasswordUrl = "/cgi-bin/routerapi/change_password_first_time";
+  }
+
   form.submit(function(event){
     event.preventDefault();
     newPasswordError.hide();
@@ -44,7 +51,7 @@ var changePassword = (function() {
     var successCallback = function(response) {
       // Only redirect the user to change their SSID if the one they
       // entered was the default.
-      if (oldPassword.val() == "asdf1234") {
+      if (firstTime) {
         helperModule.redirectTo("setSSID.html");
       } else {
         helperModule.redirectTo("settings.html");

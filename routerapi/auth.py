@@ -23,7 +23,11 @@ def check_request():
   """
   REQUEST_URI = 'REQUEST_URI'
   REQUEST_METHOD = 'REQUEST_METHOD'
-  LOGGED_OUT_ENDPOINTS = ['/cgi-bin/routerapi/login']
+  LOGGED_OUT_ENDPOINTS = [
+    '/cgi-bin/routerapi/login',
+    '/cgi-bin/routerapi/change_password_first_time'
+    '/cgi-bin/routerapi/setup_state'
+  ]
   if (REQUEST_URI in os.environ and
       not os.environ[REQUEST_URI] in LOGGED_OUT_ENDPOINTS):
     try:
@@ -104,6 +108,9 @@ class Auth:
     attempts += 1
     self.write(self.rate_limit_filename, "%d" % attempts)
 
+  def password_exists(self):
+    return os.path.isfile(self.password_filename)
+
   def is_password(self, candidate):
     """
     Returns true iff the candidate password equals the stored one.
@@ -171,7 +178,7 @@ class Auth:
 
   def login_headers(self):
     """
-    Output the HTTP headers required to log the user in. Specifically, set the
+    Return the HTTP headers required to log the user in. Specifically, set the
     auth cookie and the csrf token cookie.
 
     Calling this method immediately regenerates the stored auth token,
@@ -183,10 +190,20 @@ class Auth:
     secure = ''
     if 'HTTPS' in os.environ:
       secure = ' secure;'
-    print 'Set-Cookie: %s=%s; path=/; HttpOnly;%s' % (
-      self.AUTH_COOKIE_NAME, auth_token, secure)
-    print 'Set-Cookie: %s=%s; path=/;%s' % (
-      self.CSRF_COOKIE_NAME, csrf_token, secure)
+    return ('Set-Cookie: %s=%s; path=/; HttpOnly;%s\n'
+            'Set-Cookie: %s=%s; path=/;%s\n' % (
+            self.AUTH_COOKIE_NAME, auth_token, secure,
+            self.CSRF_COOKIE_NAME, csrf_token, secure))
+
+  def logout_headers(self):
+    """
+    Return the HTTP headers required to log the user out.
+
+    Specifically, delete the auth token and CSRF token.
+    """
+    return ('Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n'
+            'Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n' % (
+            AUTH_COOKIE_NAME, CSRF_COOKIE_NAME))
 
   def __current_authentication_token(self):
     """Return the current authentication token if it still valid, else None."""
@@ -243,4 +260,8 @@ class Auth:
       if (c.startswith(prefix) and
           self.is_authentication_token(c[len(prefix):])):
         return True
-    common.render_error('Not authenticated.')
+    print 'Status: 403 Forbidden'
+    print 'Content-Type: application/json'
+    print self.logout_headers()
+    print
+    print json.JSONEncoder().encode({'error': 'Not authenticated.'})

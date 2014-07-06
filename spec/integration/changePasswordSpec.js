@@ -10,7 +10,9 @@ describe("Change password page", function() {
     newPasswordError = $("#newPasswordError");
     retypePasswordError = $("#retypePasswordError");
     genericError = $("#genericError");
-    helperModule.redirectTo = function(url) { redirect = url; }
+    spyOn(helperModule, "redirectTo").andCallFake(function(url) {
+      redirect = url;
+    });
     changePassword();
   });
 
@@ -71,18 +73,19 @@ describe("Change password page", function() {
     expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/cgi-bin/routerapi/change_password");
   });
 
-  it("should redirect to setSSID page on change where old password was not default", function() {
+  it("should redirect to setSSID page on first time change", function() {
     spyOn($, "ajax").andCallFake(function(params){
         params.success({});
     });
+    spyOn(helperModule, "url").andReturn("https://gw.home.lan/changePassword.html?first_time=true");
+    changePassword();
     newPassword.val("asdfghjkl12P");
     retypePassword.val("asdfghjkl12P");
-    oldPassword.val("some non default password");
     passwordForm.submit();
-    expect(redirect).toEqual("settings.html");
+    expect(redirect).toEqual("setSSID.html");
   });
 
-  it("should redirect to settings page on change away from default password", function() {
+  it("should redirect to settings page on change that's not the first time", function() {
     spyOn($, "ajax").andCallFake(function(params){
         params.success({});
     });
@@ -90,7 +93,7 @@ describe("Change password page", function() {
     retypePassword.val("asdfghjkl12P");
     oldPassword.val("asdf1234");
     passwordForm.submit();
-    expect(redirect).toEqual("setSSID.html");
+    expect(redirect).toEqual("settings.html");
   });
 
   it("should stay on page and display error if old password was incorrect", function() {

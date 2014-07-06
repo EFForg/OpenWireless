@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" >
+    <link rel="stylesheet" href="css/admin-style.css" />
+    <script type="text/javascript" src="lib/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="lib/handlebars-v1.3.0.js"></script>
+    <script type="text/javascript" src="lib/jquery-timer.js"></script>
+    <script type="text/javascript" src="js/templates.js"></script>
+    <script type="text/javascript" src="js/request.js"></script>
+    <script type="text/javascript" src="js/errorCallback.js"></script>
+    <script type="text/javascript" src="js/dashboard.js"></script>
+    <script type="text/javascript" src="js/update.js"></script>
+    <script type="text/javascript" src="js/update_bytecounts.js"></script>
+
+  </head>
+  <body>
+
+<div class="container">
+  <header>
+    <span class="icon"></span>
+    <h1>Dashboard</h1>
+    <span><a href="./settings.html"><img src="images/settings.png" class="icon" alt="Settings" /></a></span>
+  </header>
+
+  <div id="genericError" class="inputError"></div>
+
+  <section id="main"></section>
+
+  <footer>
+  <p>Last checked <span id="date">June 11, 2014</span></p>
+    <img id="checkForUpdate" src="images/update.png" alt="update" />
+  </footer>
+</div>
+
+
+  </body>
+</html>

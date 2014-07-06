@@ -1,4 +1,8 @@
 #!/bin/bash -e
+cd $(dirname $0)
+
+echo "precompile handlebars templates..."
+./make-templates.sh
 
 echo "remove etc and www directories in build ..."
 rm -rf cerowrt/files/etc
