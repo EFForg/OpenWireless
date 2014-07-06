@@ -8,7 +8,8 @@ var changePassword = (function() {
   var genericError =  $('#genericError');
   var changePasswordUrl = "/cgi-bin/routerapi/change_password";
 
-  var firstTime = document.location.search.match(/first_time=true/);
+
+  var firstTime = helperModule.url().match(/[?&]first_time=true/);
   if (firstTime) {
     oldPassword.hide();
     changePasswordUrl = "/cgi-bin/routerapi/change_password_first_time";

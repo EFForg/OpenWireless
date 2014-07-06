@@ -22,7 +22,7 @@ function redirectAsAppropriate() {
     successCallback: function(response) {
       if (response != null) {
         var state = response.state;
-        window.location.href = redirectTarget(loggedIn, state);
+        helpermodule.redirectTo(redirectTarget(loggedIn, state));
       }
     }
   });
@@ -56,4 +56,6 @@ function loggedInRedirectTarget(state) {
   }
 }
 
-redirectAsAppropriate();
+$(function() {
+  redirectAsAppropriate();
+});
