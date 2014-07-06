@@ -1,0 +1,151 @@
+
+config defaults
+	option input 'ACCEPT'
+	option output 'ACCEPT'
+	option forward 'REJECT'
+	option drop_invalid '1'
+	option synflood_protect '1'
+	option synflood_rate '200/s'
+	option synflood_burst '500'
+	option tcp_ecn '1'
+
+config zone
+	option input 'ACCEPT'
+	option forward 'REJECT'
+	option output 'ACCEPT'
+	option name 'wan'
+	option masq '1'
+	option mtu_fix '1'
+	option network 'ge00'
+
+config zone
+	option input 'ACCEPT'
+	option forward 'ACCEPT'
+	option output 'ACCEPT'
+	option name 'lan'
+	option device 's+'
+
+config forwarding
+	option dest 'wan'
+	option src 'lan'
+
+config forwarding
+	option dest 'lan'
+	option src 'wan'
+
+config zone
+	option input 'ACCEPT'
+	option output 'ACCEPT'
+	option name 'guest'
+	option forward 'ACCEPT'
+	option device 'gw+'
+
+config forwarding
+	option dest 'wan'
+	option src 'guest'
+
+config forwarding
+	option dest 'guest'
+	option src 'lan'
+
+config forwarding
+	option dest 'guest'
+	option src 'wan'
+
+config rule
+	option target 'ACCEPT'
+	option name 'domain'
+	option proto 'tcp udp'
+	option src '*'
+	option dest '*'
+	option dest_port '53'
+
+config rule
+	option target 'ACCEPT'
+	option name 'ntp'
+	option proto 'udp'
+	option dest '*'
+	option src '*'
+	option dest_port '123'
+
+config rule
+	option target 'ACCEPT'
+	option name 'dhcp4'
+	option family 'ipv4'
+	option proto 'udp'
+	option src '*'
+	option dest '*'
+	option dest_port '68'
+
+config rule
+	option target 'ACCEPT'
+	option name 'printers'
+	option proto 'tcp'
+	option src '*'
+	option dest '*'
+	option dest_port '631'
+
+config rule
+	option target 'ACCEPT'
+	option name 'Useful Services'
+	option proto 'tcp'
+	option src '*'
+	option dest '*'
+	option dest_port '80 443 873 993'
+
+config rule
+	option target 'ACCEPT'
+	option name 'ipv6 dfz'
+	option family 'ipv6'
+	option proto 'all'
+	option src '*'
+	option dest 'guest'
+
+config rule
+	option target 'ACCEPT'
+	option name 'icmpv6'
+	option family 'ipv6'
+	option proto 'icmp'
+	option src '*'
+	option dest '*'
+
+config rule
+	option src 'wan'
+	option proto 'tcpudp'
+	option dest_port '81 161 137 138 139 445 9091 8123 1900 2869 5351'
+	option name 'blockconfig'
+	option target 'DROP'
+
+config rule
+	option name 'Allow-DHCPv6'
+	option src 'wan'
+	option proto 'udp'
+	option src_ip 'fe80::/10'
+	option src_port '547'
+	option dest_ip 'fe80::/10'
+	option dest_port '546'
+	option family 'ipv6'
+	option target 'ACCEPT'
+
+config rule
+	option src 'guest'
+	option proto 'tcpudp'
+	option dest_port '81 137 138 139 445 8123 1900 2869 5351'
+	option name 'blockconfig2'
+	option target 'DROP'
+
+config include
+	option path '/etc/firewall.user'
+
+config include 'miniupnpd'
+	option type 'script'
+	option path '/usr/share/miniupnpd/firewall.include'
+	option family 'IPv4'
+	option reload '1'
+
+config include 'bcp38'
+	option type 'script'
+	option path '/usr/lib/bcp38/run.sh'
+	option family 'IPv4'
+	option reload '1'
+

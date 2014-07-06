@@ -1,0 +1,15 @@
+service ssh
+{
+        port            = 22
+        protocol        = tcp
+        type            = UNLISTED
+	disable         = no
+	socket_type     = stream
+	wait            = no
+	user            = root
+	log_on_failure  += USERID
+	server	= /usr/sbin/dropbear
+	server_args	= -i
+	flags		= IPV6
+}
+

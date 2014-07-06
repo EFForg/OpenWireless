@@ -1,0 +1,5 @@
+config natpmp
+        option outbound_interface       ge00
+        option inbound_interfaces       'se00 sw00 sw10'
+        option iptables_chain           natpmp
+

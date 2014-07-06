@@ -1,0 +1,17 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2011 OpenWrt.org
+
+START=98
+USE_PROCD=1
+PROG=/sbin/rngd
+
+RNGD_INTERVAL=30
+RNGD_AMOUNT=4000
+RNGD_DEVICE="/dev/urandom"
+
+start_service() {
+	procd_open_instance
+	procd_set_param command $PROG -f -r $RNGD_DEVICE -W $RNGD_AMOUNT -t $RNGD_INTERVAL
+	procd_set_param respawn
+	procd_close_instance	
+}

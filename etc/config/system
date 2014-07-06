@@ -1,0 +1,24 @@
+
+config system
+	option hostname 'cerowrt.home.lan'
+	option timezone 'UTC'
+
+config timeserver 'ntp'
+	list server '0.openwrt.pool.ntp.org'
+	list server '1.openwrt.pool.ntp.org'
+	list server '2.openwrt.pool.ntp.org'
+	list server '3.openwrt.pool.ntp.org'
+	option enable_server '1'
+
+config led 'led_wan'
+	option name 'WAN LED (green)'
+	option sysfs 'netgear:green:wan'
+	option default '0'
+
+config led 'led_usb'
+	option name 'USB'
+	option sysfs 'netgear:green:usb'
+	option trigger 'usbdev'
+	option dev '1-1'
+	option interval '50'
+

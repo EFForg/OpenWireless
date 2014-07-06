@@ -1,0 +1,92 @@
+#!/bin/sh /etc/rc.common
+# (C) 2008 openwrt.org
+
+START=96
+
+load_led() {
+	local name
+	local sysfs
+	local trigger
+	local dev
+	local mode
+	local default
+	local delayon
+	local delayoff
+	local interval
+
+	config_get sysfs $1 sysfs
+	config_get name $1 name "$sysfs"
+	config_get trigger $1 trigger "none"
+	config_get dev $1 dev
+	config_get mode $1 mode "link"
+	config_get_bool default $1 default "nil"
+	config_get delayon $1 delayon
+	config_get delayoff $1 delayoff
+	config_get interval $1 interval "50"
+	config_get port_state $1 port_state
+	config_get delay $1 delay "150"
+	config_get message $1 message ""
+
+	if [ "$trigger" = "rssi" ]; then
+		# handled by rssileds userspace process
+		return
+	fi
+
+	[ -e /sys/class/leds/${sysfs}/brightness ] && {
+		echo "setting up led ${name}"
+		[ "$default" != nil ] && {
+			[ $default -eq 1 ] &&
+				echo 1 >/sys/class/leds/${sysfs}/brightness
+			[ $default -eq 1 ] ||
+				echo 0 >/sys/class/leds/${sysfs}/brightness
+		}
+		echo $trigger > /sys/class/leds/${sysfs}/trigger
+		case "$trigger" in
+		"netdev")
+			[ -n "$dev" ] && {
+				echo $dev > /sys/class/leds/${sysfs}/device_name
+				echo $mode > /sys/class/leds/${sysfs}/mode
+			}
+			;;
+
+		"timer")
+			[ -n "$delayon" ] && \
+				echo $delayon > /sys/class/leds/${sysfs}/delay_on
+			[ -n "$delayoff" ] && \
+				echo $delayoff > /sys/class/leds/${sysfs}/delay_off
+			;;
+
+		"usbdev")
+			[ -n "$dev" ] && {
+				echo $dev > /sys/class/leds/${sysfs}/device_name
+				echo $interval > /sys/class/leds/${sysfs}/activity_interval
+			}
+			;;
+
+		"port_state")
+			[ -n "$port_state" ] && \
+				echo $port_state > /sys/class/leds/${sysfs}/port_state
+			;;
+
+		"morse")
+			echo $message > /sys/class/leds/${sysfs}/message
+			echo $delay > /sys/class/leds/${sysfs}/delay
+			;;
+
+		switch[0-9]*)
+			local port_mask
+
+			config_get port_mask $1 port_mask
+			[ -n "$port_mask" ] && \
+				echo $port_mask > /sys/class/leds/${sysfs}/port_mask
+			;;
+		esac
+	}
+}
+
+start() {
+	[ -e /sys/class/leds/ ] && {
+		config_load system
+		config_foreach load_led led
+	}
+}

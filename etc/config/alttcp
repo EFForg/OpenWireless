@@ -1,0 +1,7 @@
+config alttcp
+	list 'allowed' 'cubic'
+	list 'allowed' 'lp'
+	list 'allowed' 'westwood'
+	list 'allowed' 'reno'
+	list 'allowed' 'vegas'
+	option 'default' 'cubic'

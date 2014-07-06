@@ -1,0 +1,54 @@
+
+config network
+	option init 'network'
+	list affects 'dhcp'
+	list affects 'radvd'
+
+config wireless
+	list affects 'network'
+
+config firewall
+	option init 'firewall'
+	list affects 'qos'
+	list affects 'miniupnpd'
+	list affects 'sqm'
+
+config olsr
+	option init 'olsrd'
+
+config dhcp
+	option init 'dnsmasq'
+
+config dropbear
+	option init 'dropbear'
+
+config httpd
+	option init 'httpd'
+
+config fstab
+	option init 'fstab'
+
+config qos
+	option init 'qos'
+
+config system
+	option init 'led'
+
+config upnpd
+	option init 'miniupnpd'
+
+config ntpclient
+	option init 'ntpclient'
+
+config tinyproxy
+	option init 'tinyproxy'
+
+config 6relayd
+	option init '6relayd'
+
+config bcp38
+	list affects 'firewall'
+
+config sqm
+	option init 'sqm'
+

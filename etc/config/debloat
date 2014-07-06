@@ -1,0 +1,14 @@
+# This file is presently unused. Hack /etc/hotplug.d/iface/02-debloat
+# instead.
+
+config wireless
+	option 'txqueuelen' '4'
+config wirelessn
+	option 'txqueuelen' '16'
+config wired10
+	option 'txqueuelen' '4'
+config wired100
+	option 'txqueuelen' '16'
+config wired1000
+	option 'txqueuelen' '32'
+
