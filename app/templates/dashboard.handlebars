@@ -1,0 +1,34 @@
+      <div class="network on">
+        <header>
+          <img src="{{imageSource}}" alt="router-on" class="icon" />
+          <div class="speed">
+            <div class="upload"><span class="upload-speed">{{uploadSpeed}}</span><span> {{uploadSpeedMetric}}</span></div>
+            <div class="download"><span class="download-speed">{{downloadSpeed}}</span><span> {{downloadSpeedMetric}}</span></div>
+          </div>
+        </header>
+        <div class="title">
+          <h2>{{name}}</h2>
+          {{#if pingSpeed}} 
+            <div class="ping">{{pingSpeed}}<small> {{pingSpeedMetric}} ping</small></div>
+          {{/if}}
+          {{#if devices}}
+            <div class="devices">{{devices}}<small> devices</small></div>
+          {{/if}}
+          {{#if maxBandwidthPercent}}
+            <div class="bandwidth">{{maxBandwidthPercent}}%<small> max <br> bandwidth </small></div>
+          {{/if}}
+          {{#if maxMonthlyBandwidth}}
+          <div class="bandwidth">{{monthlyBandwidthUsage}} <small>used of</small> {{maxMonthlyBandwidth}}<small> {{maxMonthlyBandwidthMetric}} max <br> per month </small></div>
+          {{/if}}
+
+        </div>
+
+        {{#if connectivity }}
+        <div class="status"><span class="{{connectivity}}">{{connectivity}}</span></div>
+        {{/if}}
+
+        {{#if state }}
+        <div class="status toggle" id="{{stateId}}"><span class="{{state}} on-button">On</span> | <span class="{{state}} off-button">Off</span></div>
+        {{/if}}
+
+      </div>

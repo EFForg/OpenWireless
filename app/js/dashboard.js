@@ -37,8 +37,7 @@ var dashboardModule = (function(){
   };
 
   var displayInterface = function(interface) {
-    var source = $('#interface-template').html();
-    var template = Handlebars.compile(source);
+    var template = Handlebars.templates.dashboard;
     interface.imageSource = getImage(interface.name);
     interface.connectivity = getConnectivity(interface.connected);
     interface.state = getState(interface.on);
