@@ -1,0 +1,62 @@
+#
+# Example client configuration file: default
+#
+
+# Uncomment following line to use Link-layer DUID instead of default Link-layer+time
+#duid-type duid-ll
+
+# Uncomment following line to make dibbler very aggressive about getting requested
+# options.
+#insist-mode
+
+# Uncomment following line to make dibbler accept downed/not associated interfaces
+inactive-mode
+
+# Uncomment following line to skip confirm sending (after crash or power outage)
+skip-confirm
+
+log-mode short
+
+# 7 = omit debug messages
+log-level 7
+
+# Uncomment this line to run script every time response is received
+script "/etc/client-notify.sh"
+
+
+# Current Dibbler release adds obtained addresses with /64 prefix. Although
+# this violates spec (RFC3315), it is very useful as hosts in the network can
+# exchange data immediately. To restore previous behavior, uncomment this line:
+# strict-rfc-no-routing
+
+# Dibbler can detect interfaces and ask for address on every suitable interface.
+# If that is what you require, just don't mention any interfaces
+
+# On the other hand, you may want to specify interfaces to be configured
+# explicitely
+
+# Comcast is only handing out one /64 at present
+
+downlink-prefix-ifaces "se00"
+
+# /60s were buggy when last I looked
+# if you are getting a /56 you can put ipv6 on everything
+# downlink-prefix-ifaces = "se00","sw00","sw10","gw00","gw10"
+
+iface "ge00" {
+  ia
+  pd
+  option dns-server
+  option domain
+
+  #option ntp-server
+  #option time-zone
+  #option sip-server
+  #option sip-domain
+  #option nis-server
+  #option nis-domain
+  #option nis+-server
+  #option nis+-domain
+  #option vendor-spec
+  #option aftr
+}

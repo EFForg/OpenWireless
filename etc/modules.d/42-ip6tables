@@ -1,0 +1,14 @@
+nf_defrag_ipv6
+nf_conntrack_ipv6
+ip6_tables
+ip6table_filter
+ip6table_mangle
+ip6table_raw
+ip6t_ah
+ip6t_eui64
+ip6t_frag
+ip6t_ipv6header
+ip6t_mh
+ip6t_hbh
+ip6t_rt
+ip6t_REJECT

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+#DEBLOAT_LOG=/tmp/debloat.log
+#DEBLOAT_LOG2=/tmp/debloat2.log
+DEBLOAT_LOG=/dev/null
+DEBLOAT_LOG2=/dev/null
+
+SQM=0
+SQM=`uci get sqm.${DEVICE}.enabled`
+
+[ "$ACTION" = "ifup" -a "$SQM" != "1" ] && {
+	IFACE=$DEVICE QMODEL=fq_codel_ll /usr/sbin/debloat >> $DEBLOAT_LOG 2>> $DEBLOAT_LOG2
+}

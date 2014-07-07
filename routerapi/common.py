@@ -2,9 +2,16 @@ import json
 import sys
 
 def render_error(err, status=403):
-  print 'Status: %d' % status
-  print 'Content-Type: application/json\r\n'
+  print 'Status: %d NOT-OKAY' % status
+  print 'Content-Type: application/json'
+  print
   print json.JSONEncoder().encode({"error": err})
+  sys.exit(0)
+
+def render_success(data):
+  print 'Content-Type: application/json'
+  print
+  print json.JSONEncoder().encode(data)
   sys.exit(0)
 
 def exception_handler(exc_type, exc_obj, exc_tb):
@@ -13,5 +20,6 @@ def exception_handler(exc_type, exc_obj, exc_tb):
   print 'Content-Type: application/json'
   print
   print json.JSONEncoder().encode({"error": error_text})
+  sys.exit(0)
 
 sys.excepthook = exception_handler

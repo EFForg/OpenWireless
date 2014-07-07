@@ -1,0 +1,55 @@
+
+config wifi-device 'radio0'
+	option type 'mac80211'
+	option channel '11'
+	option hwmode '11g'
+	option path 'pci0000:00/0000:00:11.0'
+	option htmode 'HT20'
+	option txpower '30'
+	option country 'US'
+
+config wifi-iface
+	option device 'radio0'
+	option network 'sw00'
+	option ifname 'sw00'
+	option mode 'ap'
+	option ssid 'OWrt'
+	option encryption 'none'
+	option disabled '1'
+
+config wifi-iface
+	option device 'radio0'
+	option network 'gw00'
+	option mode 'ap'
+	option ifname 'gw00'
+	option ssid 'openwireless.org'
+	option encryption 'none'
+
+config wifi-device 'radio1'
+	option type 'mac80211'
+	option channel '36'
+	option hwmode '11a'
+	option path 'pci0000:00/0000:00:12.0'
+	option htmode 'HT20'
+	option txpower '17'
+	option country 'US'
+
+config wifi-iface
+	option device 'radio1'
+	option network 'sw10'
+	option ifname 'sw10'
+	option mode 'ap'
+	option encryption 'none'
+	option ssid 'OWrt-5G'
+	option encryption 'psk2+ccmp'
+	option key 'No more insecure routers'
+
+config wifi-iface
+	option device 'radio1'
+	option network 'gw10'
+	option mode 'ap'
+	option ifname 'gw10'
+	option encryption 'none'
+	option ssid 'openwireless.org-5G'
+	option encryption 'none'
+	option disabled '1' 

@@ -35,8 +35,7 @@ var settingsModule = (function(){
   };
 
   var displaySettings = function(){
-    var source = $('#settings-template').html();
-    var template = Handlebars.compile(source);
+    var template = Handlebars.templates.settings;
     $('#main').empty();
     $('#main').append(template(config));
 
@@ -126,8 +125,7 @@ var settingsModule = (function(){
   };
 
   var setDropDownMenu = function(tag, options){
-    var source = $('#dropdown-template').html();
-    var template = Handlebars.compile(source);
+    var template = Handlebars.templates.settings-dropdown;
     var dropDown = $('#' + tag);
     dropDown.empty();
     dropDown.append(template({options: options}));
