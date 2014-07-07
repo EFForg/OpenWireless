@@ -18,19 +18,25 @@ def get_byte_counts(network_name):
   else:
     return reduce(addcount, network_data)  
 
+
+
 [privateWifiToLan, x] = get_byte_counts("privatewifitolan")
 [lanToPrivateWifi, x] = get_byte_counts("lantoprivatewifi")
 
-[internetUploadUsage, internetDownloadUsage] = get_byte_counts("total-wan")
+
 [openWirelessUploadUsage, openWirelessDownloadUsage] = get_byte_counts("open-wifi")
+[internetUploadUsage, internetDownloadUsage] = [openWirelessUploadUsage, openWirelessDownloadUsage] 
 
 [lanNetworkUploadUsage, lanNetworkDownloadUsage] = get_byte_counts("wired-lan")
 lanNetworkUploadUsage -= lanToPrivateWifi
 lanNetworkDownloadUsage -= privateWifiToLan
+[internetUploadUsage, internetDownloadUsage] += [lanNetworkUploadUsage, lanNetworkDownloadUsage]
 
 [privateWifiUploadUsage, privateWifiDownloadUsage] = get_byte_counts("private-wifi")
 privateWifiUploadUsage -= privateWifiToLan
 privateWifiDownloadUsage -= lanToPrivateWifi
+[internetUploadUsage, internetDownloadUsage] += [privateWifiUploadUsage, privateWifiDownloadUsage]
+
 
 result = {
   "internet": {
