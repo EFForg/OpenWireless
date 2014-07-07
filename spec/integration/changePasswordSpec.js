@@ -34,7 +34,7 @@ describe("Change password page", function() {
     newPassword.val("myPass");
     retypePassword.val("");
     passwordForm.submit();
-    expect(newPasswordError.text()).toEqual("Password must contain at least 12 characters, including UPPER/lowercase and numbers.");
+    expect(newPasswordError.text()).toEqual("Password must be at least 8 characters long.");
   });
 
   it("should show the user an error when both passwords match", function() {

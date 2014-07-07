@@ -27,10 +27,9 @@ var changePassword = (function() {
       return;
     }
 
-    if(!helperModule.checkPassword(newPassword.val())) {
+    if(newPassword.val().length < 8) {
       newPassword.addClass("error");
-      //TODO: Is this really the best password scheme to enfore on people?
-      newPasswordError.html("Password must contain at least 12 characters, including UPPER/lowercase and numbers.");
+      newPasswordError.html("Password must be at least 8 characters long.");
       newPasswordError.show();
       newPassword.focus();
       return;
