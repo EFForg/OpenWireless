@@ -4,8 +4,8 @@ import json, re, auth
 from subprocess import check_output
 from datetime import datetime
 
+parser_pattern = re.compile('SRC packets: \d+ bytes: (\d+) DST packets: \d+ bytes: (\d+)')
 def get_byte_counts(network_name):
-  parser_pattern = re.compile('SRC packets: \d+ bytes: (\d+) DST packets: \d+ bytes: (\d+)')
   network_data = parser_pattern.findall(check_output(["/usr/sbin/iptaccount", "-l", network_name]))
   if network_data == []:
     return [0, 0]
