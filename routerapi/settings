@@ -81,8 +81,8 @@ result = {
 	  "openwirelessVpnConfiguration"  : "None",
 	  "openwirelessProtocol"          : "HTTPS",
 	  "openwirelessEncryption"        : "Unencrypted",
-	  "wanIp" : "192.168.1.4",
-	  "lanIp" : get_ip_address("ge00")
+	  "wanIp" : get_ip_address("ge00"),
+	  "lanIp" : "192.168.1.4"
 	}
 }
 
