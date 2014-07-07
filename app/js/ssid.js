@@ -37,7 +37,6 @@ var ssidModule = (function() {
         return;
       }
 
-      $('.formDiv').hide();
       setSSID();
     });
   };
@@ -57,14 +56,11 @@ var ssidModule = (function() {
   };
 
   var setSSIDSuccess = function(response) {
-    $('#restarting').show();
     setTimeout(function () {
-      $('#restarting').hide();
-      console.log(response);
-      $("#restartSuccess").html(
-          "<h1>Restart Successful</h1><p>SSID updated to <b>" + response.ssid +
-          "</b>.<br>Please connect to this network now.</p> <a href='/app/html/dashboard.html'>View Router Dashboard</a>");
-      $('#restartSuccess').show();
+      var template = Handlebars.templates.setSSID;
+      $('.formDiv').hide();
+      $("#restarting").html(template({ssid: response.ssid}));
+      $('#restarting').show();
     }, 3000);
   };
 
