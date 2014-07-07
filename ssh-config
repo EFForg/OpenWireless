@@ -1,0 +1,10 @@
+# Suggested SSH config for use with the router.
+# Append this to ~/.ssh/config.
+# This allows you to skip typing `root@' with your SSH commands.
+# It also uses a persistent connection to multiplex new connections.
+# So you can run `ssh -Nf gw.home.lan' once during a work session,
+# and all subsequent ssh's into gw.home.lan will finish much more quickly.
+Host gw.home.lan
+  User root
+  ControlMaster auto
+  ControlPath /tmp/%h-%p-%r

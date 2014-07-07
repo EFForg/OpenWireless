@@ -1,9 +1,19 @@
 #!/bin/bash -e
 cd $(dirname $0)
 
-./make-templates.sh
-echo "pushing frontend to router..."
-rsync -avu app/ root@172.30.42.1:/www/
+TARGET=root@gw.home.lan
+sync() {
+  ./make-templates.sh
+  rsync -au app/ $TARGET:/www/
+  rsync -au routerapi/ $TARGET:/www/cgi-bin/routerapi/
+  date +"%Y-%m-%d %H:%M:%S synced"
+}
 
-echo "pushing backend to router..."
-rsync -avu routerapi/ root@172.30.42.1:/www/cgi-bin/routerapi/
+if [ "$1" == "--continuous" ]; then
+  grep -q ControlMaster ~/.ssh/config || echo "Install recommended ssh-config."
+  ssh -Nf $TARGET
+  inotifywait -rm -e close_write --format '%w%f' app routerapi |\
+  while read line; do sync ; done
+else
+  sync
+fi
