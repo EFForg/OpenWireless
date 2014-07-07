@@ -6,8 +6,16 @@
    authentication token rotation and expiration.
 
    This module is auto-imported by __init__.py and provides authentication
-   checking to all scripts by default. Only /login, explicitly listed below, is
-   exempt.
+   checking to all scripts by default. Only a few scripts explicitly listed
+   below are exempt.
+
+   If you need to manually reset the administrator password to '1234', run:
+
+   echo -n '$p5k2$37$qKJc7Nma$sdWXq2XCicPdW1KnbKipGSTGqxszqPrx' > /etc/auth/password
+
+   If you've exceeded the rate limit for failed logins, reset it with:
+
+   rm /etc/auth/password.
 """
 
 import common
