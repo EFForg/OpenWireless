@@ -8,9 +8,9 @@ def get_byte_counts(network_name):
   parser_pattern = re.compile('SRC packets: \d+ bytes: (\d+) DST packets: \d+ bytes: (\d+)')
   network_data = parser_pattern.findall(check_output(["/usr/sbin/iptaccount", "-l", network_name]))
   if network_data == []:
-    return ["0", "0"]
+    return [0, 0]
   else:
-    return [network_data[0][1], network_data[0][0]]
+    return [float(network_data[0][1]), float(network_data[0][0])]
 
 [privateWifiToLan, x] = get_byte_counts("privatewifitolan")
 [lanToPrivateWifi, x] = get_byte_counts("lantoprivatewifi")
