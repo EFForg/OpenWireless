@@ -21,6 +21,7 @@ class TestAuth(unittest.TestCase):
     expiry = int(time.time()) + 86400
     with open(os.path.join(self.path, 'auth_token'), 'w') as f:
       f.write("%s %d" % (self.auth_token, expiry))
+    os.environ.clear()
 
   def test_check_sane(self):
     insane_path = tempfile.mkdtemp()
@@ -87,11 +88,12 @@ class TestAuth(unittest.TestCase):
     self.assertTrue(auth.check_request(self.path))
 
   def test_check_request_logged_out_auth_required(self):
+    os.environ['REQUEST_URI'] = '/cgi-bin/routerapi/dashboard'
+
     out = StringIO.StringIO()
     saved_stdout = sys.stdout
     try:
       sys.stdout = out
-      os.environ['REQUEST_URI'] = '/cgi-bin/routerapi/dashboard'
       self.assertRaises(SystemExit, auth.check_request, self.path)
       self.assertEqual("""Status: 403
 Content-Type: application/json\r\n
@@ -107,7 +109,32 @@ Content-Type: application/json\r\n
     # Should not exit
     self.assertTrue(auth.check_request(self.path))
 
-    #os.environ['HTTP_X_CSRF_TOKEN'] = self.auth.get_csrf_token(auth_token)
+  def test_check_request_logged_in_post_csrf(self):
+    """A logged-in POST with no CSRF token present. Should fail."""
+    os.environ['HTTP_COOKIE'] = 'auth=%s' % self.auth_token
+    os.environ['REQUEST_URI'] = '/cgi-bin/routerapi/dashboard'
+    os.environ['REQUEST_METHOD'] = 'POST'
+
+    out = StringIO.StringIO()
+    saved_stdout = sys.stdout
+    try:
+      sys.stdout = out
+      self.assertRaises(SystemExit, auth.check_request, self.path)
+      self.assertEqual("""Status: 403
+Content-Type: application/json\r\n
+{"error": "Invalid CSRF token."}
+""",
+        out.getvalue())
+    finally:
+      sys.stdout = saved_stdout
+
+  def test_check_request_logged_in_valid_post(self):
+    os.environ['HTTP_COOKIE'] = 'auth=%s' % self.auth_token
+    os.environ['REQUEST_URI'] = '/cgi-bin/routerapi/dashboard'
+    os.environ['REQUEST_METHOD'] = 'POST'
+    os.environ['HTTP_X_CSRF_TOKEN'] = self.auth.get_csrf_token(self.auth_token)
+    # Should not exit
+    self.assertTrue(auth.check_request(self.path))
 
 if __name__ == '__main__':
   unittest.main()
