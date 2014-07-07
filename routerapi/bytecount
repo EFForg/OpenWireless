@@ -10,7 +10,7 @@ def addcount(a,b):
   return map(sum, zip(map(int,a),map(int,b)))
 
 def get_byte_counts(network_name):
-  network_data = parser_pattern.findall(check_output(["iptaccount", "-l", network_name]))
+  network_data = parser_pattern.findall(check_output(["/usr/sbin/iptaccount", "-l", network_name]))
   if network_data == []:
     return [0, 0]
   elif len(network_data)==1:
@@ -30,13 +30,14 @@ def get_byte_counts(network_name):
 [lanNetworkUploadUsage, lanNetworkDownloadUsage] = get_byte_counts("wired-lan")
 lanNetworkUploadUsage -= lanToPrivateWifi
 lanNetworkDownloadUsage -= privateWifiToLan
-[internetUploadUsage, internetDownloadUsage] += [lanNetworkUploadUsage, lanNetworkDownloadUsage]
+internetUploadUsage += lanNetworkUploadUsage
+internetDownloadUsage += lanNetworkDownloadUsage
 
 [privateWifiUploadUsage, privateWifiDownloadUsage] = get_byte_counts("private-wifi")
 privateWifiUploadUsage -= privateWifiToLan
 privateWifiDownloadUsage -= lanToPrivateWifi
-[internetUploadUsage, internetDownloadUsage] += [privateWifiUploadUsage, privateWifiDownloadUsage]
-
+internetUploadUsage += privateWifiUploadUsage
+internetDownloadUsage += privateWifiDownloadUsage
 
 lanNetworkDevices = 33
 privateWifiDevices = 29
@@ -44,7 +45,7 @@ privateWifiDevices = 29
 result = {
   "internet": {
     "uploadUsage"   : internetUploadUsage,
-    "downloadUsage" : internetDownloadUsage,
+    "downloadUsage" : internetDownloadUsage
   },
   "lanNetwork": {
     "uploadUsage"   : lanNetworkUploadUsage,
@@ -58,7 +59,7 @@ result = {
   },
   "openWireless": {
     "uploadUsage"   : openWirelessUploadUsage,
-    "downloadUsage" : openWirelessDownloadUsage,
+    "downloadUsage" : openWirelessDownloadUsage
   },
   "dateTime" : datetime.now().isoformat()
 }
