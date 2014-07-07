@@ -82,7 +82,7 @@ result = {
 	  "openwirelessProtocol"          : "HTTPS",
 	  "openwirelessEncryption"        : "Unencrypted",
 	  "wanIp" : "192.168.1.4",
-	  "lanIp" : get_ip_address("eth0")
+	  "lanIp" : get_ip_address("ge00")
 	}
 }
 
