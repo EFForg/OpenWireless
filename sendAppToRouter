@@ -3,8 +3,7 @@ cd $(dirname $0)
 
 ./make-templates.sh
 echo "pushing frontend to router..."
-scp -rp app/* root@172.30.42.1:/www/
+rsync -avu app/ root@172.30.42.1:/www/
 
 echo "pushing backend to router..."
-scp -rp routerapi/ root@172.30.42.1:/www/cgi-bin
-
+rsync -avu routerapi/ root@172.30.42.1:/www/cgi-bin/routerapi/
