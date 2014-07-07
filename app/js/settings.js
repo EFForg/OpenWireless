@@ -125,7 +125,7 @@ var settingsModule = (function(){
   };
 
   var setDropDownMenu = function(tag, options){
-    var template = Handlebars.templates.settings-dropdown;
+    var template = Handlebars.templates["settings-dropdown"];
     var dropDown = $('#' + tag);
     dropDown.empty();
     dropDown.append(template({options: options}));

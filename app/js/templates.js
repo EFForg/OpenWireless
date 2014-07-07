@@ -140,6 +140,19 @@ function program11(depth0,data) {
   buffer += "\n\n      </div>\n";
   return buffer;
   });
+templates['setSSID'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<h1>Restarting</h1>\n<p>SSID updated. Your router is now restarting.<p>\n<p>Please connect to your new network <b>";
+  if (helper = helpers.ssid) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.ssid); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</b> when it becomes available.</p>\n<a href='dashboard.html'>View Router Dashboard</a>\n";
+  return buffer;
+  });
 templates['settings-dropdown'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
