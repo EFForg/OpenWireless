@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Oswald:400,700,300);
+@import url(oswald-font.css);
 header, .network, footer {
   display: -webkit-box;
   display: -webkit-flex;

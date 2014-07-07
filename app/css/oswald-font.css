@@ -1,0 +1,26 @@
+/*
+  Oswald-Light.ttf: Copyright (c) 2011-2012, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Names 'Oswald'
+  Oswald-Regular.ttf: Copyright (c) 2011-2012, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Names 'Oswald'
+  Oswald-Bold.ttf: Copyright (c) 2011-2012, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Names 'Oswald'
+
+  SIL Open Font License, 1.1
+  https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL
+*/
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Oswald Light'), local('Oswald-Light'), url(../fonts/oswald-light.woff) format('woff');
+}
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Oswald Regular'), local('Oswald-Regular'), url(../fonts/oswald.woff) format('woff');
+}
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Oswald Bold'), local('Oswald-Bold'), url(../fonts/oswald-bold.woff) format('woff');
+}
