@@ -110,3 +110,7 @@ p {
 		width: 100%;
 	}
 }
+
+#restarting {
+  display: none;
+}

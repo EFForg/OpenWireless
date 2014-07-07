@@ -22,7 +22,7 @@ function redirectAsAppropriate() {
     successCallback: function(response) {
       if (response != null) {
         var state = response.state;
-        helpermodule.redirectTo(redirectTarget(loggedIn, state));
+        helperModule.redirectTo(redirectTarget(loggedIn, state));
       }
     }
   });

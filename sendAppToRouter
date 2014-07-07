@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 cd $(dirname $0)
 
 TARGET=root@gw.home.lan
@@ -12,6 +12,7 @@ sync() {
 if [ "$1" == "--continuous" ]; then
   grep -q ControlMaster ~/.ssh/config || echo "Install recommended ssh-config."
   ssh -Nf $TARGET
+  sync
   inotifywait -rm -e close_write --format '%w%f' app routerapi |\
   while read line; do sync ; done
 else

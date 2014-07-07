@@ -6,11 +6,7 @@ var ssidModule = (function() {
   var ssidPassphraseError;
   var genericError;
 
-  //TODO: make sure this cookie is secure
-  var uciUrl;
-
   var init = function() {
-    uciUrl = "/cgi-bin/luci/rpc/uci?auth=" + getSysauthFromCookie(document.cookie);
     initializeFields();
     initializeForm();
   };
@@ -42,64 +38,39 @@ var ssidModule = (function() {
       }
 
       $('.formDiv').hide();
-      $('#restarting').show();
-
-      //TODO: sending info over plain http
-      //TODO: First validate the input before hiding
-
-      setSSID(setPassphrase);
+      setSSID();
     });
   };
 
-  var setSSID = function(successCallback) {
-    var ssidRequest = { "jsonrpc": "2.0", "method": "set", "params": ["wireless.@wifi-iface[0].ssid=" + ssid.val()], "id": 1 };
-
-    requestModule.submitRequest({url: uciUrl, successCallback: successCallback, errorCallback: errorCallback, data: ssidRequest});
+  var setSSID = function() {
+    requestModule.submitRequest({
+      url: "/cgi-bin/routerapi/set_private_ssid",
+      successCallback: setSSIDSuccess,
+      errorCallback: errorCallback,
+      data: {
+        "jsonrpc": "2.0",
+        "method": "set_private_ssid",
+        "params": [ssid.val(), ssidPassphrase.val()],
+        "id": 1
+      }
+    });
   };
 
-  var setPassphrase = function() {
-    var ssidRequest = { "jsonrpc": "2.0", "method": "set", "params": ["wireless.@wifi-iface[0].key=" + ssidPassphrase.val()], "id": 1 };
-
-    requestModule.submitRequest({url: uciUrl, successCallback: setPassphraseEncryption, errorCallback: errorCallback, data: ssidRequest});
-  };
-
-  var setPassphraseEncryption = function() {
-    var ssidRequest = { "jsonrpc": "2.0", "method": "set", "params": ["wireless.@wifi-iface[0].encryption=psk2"], "id": 1 };
-
-    requestModule.submitRequest({url: uciUrl, successCallback: commitSsid, errorCallback: errorCallback, data: ssidRequest});
-  };
-
-  var commitSsid = function() {
-    var commitRequest = { "jsonrpc": "2.0", "method": "commit", "params": ["wireless"], "id": 1 };
-
-    requestModule.submitRequest({url: uciUrl, successCallback: getSSID, errorCallback: errorCallback, data: commitRequest});
-  };
-
-  var getSSID = function(response) {
-    var getRequest = { "jsonrpc": "2.0", "method": "get", "params": ["wireless.@wifi-iface[0].ssid"], "id": 1 };
-    requestModule.submitRequest({url: uciUrl, successCallback: getSSIDSuccess, errorCallback: errorCallback, data: getRequest});
-  };
-
-  var getSSIDSuccess = function(response) {
+  var setSSIDSuccess = function(response) {
+    $('#restarting').show();
     setTimeout(function () {
       $('#restarting').hide();
-      $("#restartSuccess").html("<h1>Restart Successful</h1><p>SSID updated to <b>" + response.result +
+      console.log(response);
+      $("#restartSuccess").html(
+          "<h1>Restart Successful</h1><p>SSID updated to <b>" + response.ssid +
           "</b>.<br>Please connect to this network now.</p> <a href='/app/html/dashboard.html'>View Router Dashboard</a>");
       $('#restartSuccess').show();
     }, 3000);
   };
 
-  //TODO: dry this up
-  var getSysauthFromCookie = function(cookieString) {
-    var sysauthPairs = cookieString.split(";");
-    var lastCookieValue = sysauthPairs[sysauthPairs.length - 1].split("=");
-    return lastCookieValue[1];
-  };
-
   return {
     init: init
   }
-
 })();
 
 $(document).ready(function() {
