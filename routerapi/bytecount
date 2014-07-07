@@ -5,12 +5,18 @@ from subprocess import check_output
 from datetime import datetime
 
 parser_pattern = re.compile('SRC packets: \d+ bytes: (\d+) DST packets: \d+ bytes: (\d+)')
+
+def addcount(a,b):
+  return map(sum, zip(map(int,a),map(int,b)))
+
 def get_byte_counts(network_name):
-  network_data = parser_pattern.findall(check_output(["/usr/sbin/iptaccount", "-l", network_name]))
+  network_data = parser_pattern.findall(check_output(["iptaccount", "-l", network_name]))
   if network_data == []:
     return [0, 0]
+  elif len(network_data)==1:
+    return map(int,network_data[0])
   else:
-    return [float(network_data[0][1]), float(network_data[0][0])]
+    return reduce(addcount, network_data)  
 
 [privateWifiToLan, x] = get_byte_counts("privatewifitolan")
 [lanToPrivateWifi, x] = get_byte_counts("lantoprivatewifi")
