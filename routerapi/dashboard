@@ -33,7 +33,7 @@ result = {
 			"uploadSpeedMetric": "mb/s",
 			"downloadSpeed": "Loading",
 			"downloadSpeedMetric": "mb/s",
-			"devices": "3"
+			"devices": "0"
 		},
 		"privateWifi": {
 			"name": "Private Wifi",
@@ -41,7 +41,7 @@ result = {
 			"uploadSpeedMetric": "mb/s",
 			"downloadSpeed": "Loading",
 			"downloadSpeedMetric": "mb/s",
-			"devices": "3",
+			"devices": "0",
 			"on": False
 		},
 		"openWireless": {

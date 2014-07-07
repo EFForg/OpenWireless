@@ -38,22 +38,27 @@ privateWifiDownloadUsage -= lanToPrivateWifi
 [internetUploadUsage, internetDownloadUsage] += [privateWifiUploadUsage, privateWifiDownloadUsage]
 
 
+lanNetworkDevices = 33
+privateWifiDevices = 29
+
 result = {
   "internet": {
-    "uploadUsage" : internetUploadUsage,
-    "downloadUsage" : internetDownloadUsage
+    "uploadUsage"   : internetUploadUsage,
+    "downloadUsage" : internetDownloadUsage,
   },
   "lanNetwork": {
-    "uploadUsage" : lanNetworkUploadUsage,
-    "downloadUsage" : lanNetworkDownloadUsage
+    "uploadUsage"   : lanNetworkUploadUsage,
+    "downloadUsage" : lanNetworkDownloadUsage,
+    "devices"       : lanNetworkDevices
   },
   "privateWifi": {
-    "uploadUsage" : privateWifiUploadUsage,
-    "downloadUsage" : privateWifiDownloadUsage
+    "uploadUsage"   : privateWifiUploadUsage,
+    "downloadUsage" : privateWifiDownloadUsage,
+    "devices"       : privateWifiDevices
   },
   "openWireless": {
-    "uploadUsage" : openWirelessUploadUsage,
-    "downloadUsage" : openWirelessDownloadUsage
+    "uploadUsage"   : openWirelessUploadUsage,
+    "downloadUsage" : openWirelessDownloadUsage,
   },
   "dateTime" : datetime.now().isoformat()
 }

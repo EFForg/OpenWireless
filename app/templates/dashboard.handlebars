@@ -12,7 +12,7 @@
             <div class="ping">{{pingSpeed}}<small> {{pingSpeedMetric}} ping</small></div>
           {{/if}}
           {{#if devices}}
-            <div class="devices">{{devices}}<small> devices</small></div>
+            <div class="devices"><span class="device-count">{{devices}}</span><small> devices</small></div>
           {{/if}}
           {{#if maxBandwidthPercent}}
             <div class="bandwidth">{{maxBandwidthPercent}}%<small> max <br> bandwidth </small></div>
