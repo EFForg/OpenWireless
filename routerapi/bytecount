@@ -19,7 +19,7 @@ def get_byte_counts(network_name):
 [openWirelessUploadUsage, openWirelessDownloadUsage] = get_byte_counts("open-wifi")
 
 [lanNetworkUploadUsage, lanNetworkDownloadUsage] = get_byte_counts("wired-lan")
-lanNetworkUploadUsage -= lantoPrivateWifi
+lanNetworkUploadUsage -= lanToPrivateWifi
 lanNetworkDownloadUsage -= privateWifiToLan
 
 [privateWifiUploadUsage, privateWifiDownloadUsage] = get_byte_counts("private-wifi")
