@@ -4,43 +4,61 @@ import json, re, auth
 from subprocess import check_output
 from datetime import datetime
 
+parser_pattern = re.compile('SRC packets: \d+ bytes: (\d+) DST packets: \d+ bytes: (\d+)')
+
+def addcount(a,b):
+  return map(sum, zip(map(int,a),map(int,b)))
+
 def get_byte_counts(network_name):
-  parser_pattern = re.compile('SRC packets: \d+ bytes: (\d+) DST packets: \d+ bytes: (\d+)')
   network_data = parser_pattern.findall(check_output(["/usr/sbin/iptaccount", "-l", network_name]))
   if network_data == []:
     return [0, 0]
+  elif len(network_data)==1:
+    return map(int,network_data[0])
   else:
-    return [float(network_data[0][1]), float(network_data[0][0])]
+    return reduce(addcount, network_data)  
+
+
 
 [privateWifiToLan, x] = get_byte_counts("privatewifitolan")
 [lanToPrivateWifi, x] = get_byte_counts("lantoprivatewifi")
 
-[internetUploadUsage, internetDownloadUsage] = get_byte_counts("total-wan")
+
 [openWirelessUploadUsage, openWirelessDownloadUsage] = get_byte_counts("open-wifi")
+[internetUploadUsage, internetDownloadUsage] = [openWirelessUploadUsage, openWirelessDownloadUsage] 
 
 [lanNetworkUploadUsage, lanNetworkDownloadUsage] = get_byte_counts("wired-lan")
 lanNetworkUploadUsage -= lanToPrivateWifi
 lanNetworkDownloadUsage -= privateWifiToLan
+internetUploadUsage += lanNetworkUploadUsage
+internetDownloadUsage += lanNetworkDownloadUsage
 
 [privateWifiUploadUsage, privateWifiDownloadUsage] = get_byte_counts("private-wifi")
 privateWifiUploadUsage -= privateWifiToLan
 privateWifiDownloadUsage -= lanToPrivateWifi
+internetUploadUsage += privateWifiUploadUsage
+internetDownloadUsage += privateWifiDownloadUsage
+
+lanNetworkDevices = 33
+privateWifiDevices = 29
 
 result = {
   "internet": {
-    "uploadUsage" : internetUploadUsage,
+    "uploadUsage"   : internetUploadUsage,
     "downloadUsage" : internetDownloadUsage
   },
   "lanNetwork": {
-    "uploadUsage" : lanNetworkUploadUsage,
-    "downloadUsage" : lanNetworkDownloadUsage
+    "uploadUsage"   : lanNetworkUploadUsage,
+    "downloadUsage" : lanNetworkDownloadUsage,
+    "devices"       : lanNetworkDevices
   },
   "privateWifi": {
-    "uploadUsage" : privateWifiUploadUsage,
-    "downloadUsage" : privateWifiDownloadUsage
+    "uploadUsage"   : privateWifiUploadUsage,
+    "downloadUsage" : privateWifiDownloadUsage,
+    "devices"       : privateWifiDevices
   },
   "openWireless": {
-    "uploadUsage" : openWirelessUploadUsage,
+    "uploadUsage"   : openWirelessUploadUsage,
     "downloadUsage" : openWirelessDownloadUsage
   },
   "dateTime" : datetime.now().isoformat()

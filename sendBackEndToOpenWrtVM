@@ -1,4 +1,0 @@
-#!/bin/bash -e
-
-echo "pushing backend to router..."
-scp -P 2200 -rp routerapi root@localhost:/www/cgi-bin

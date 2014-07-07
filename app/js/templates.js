@@ -23,11 +23,11 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = "", stack1, helper;
-  buffer += "\n            <div class=\"devices\">";
+  buffer += "\n            <div class=\"devices\"><span class=\"device-count\">";
   if (helper = helpers.devices) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.devices); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "<small> devices</small></div>\n          ";
+    + "</span><small> devices</small></div>\n          ";
   return buffer;
   }
 

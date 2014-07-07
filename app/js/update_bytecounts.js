@@ -1,5 +1,10 @@
-var lastResponse = {};
-var newResponse = {};
+var initialResponse = {};
+var response1 = {};
+var response2 = {};
+var response3 = {};
+var response4 = {};
+var response5 = {};
+var response6 = {};
 
 var replaceByteCounts = function(){
   
@@ -55,9 +60,18 @@ var replaceByteCounts = function(){
   };
 
   var successCallback = function(response){
-    lastResponse = newResponse;
-    newResponse = response;
-    rates = getRates(newResponse, lastResponse);
+    var response1 = response2;
+    var response2 = response3;
+    var response3 = response4;
+    var response4 = response5;
+    var response5 = response6;
+    var response6 = response;
+
+    if ($.isEmptyObject(response1)){
+        rates = getRates(response6, initialResponse);
+    } else {
+        rates = getRates(response6, response1);
+    }
     updateCount('Internet', rates['internet']);
     updateCount('LAN Network', rates['lanNetwork']);
     updateCount('Private Wifi', rates['privateWifi']);
@@ -78,7 +92,7 @@ var replaceByteCounts = function(){
 $(function(){
 
   var initialSuccessCallback = function(response){
-    newResponse = response;
+    initialResponse = response;
   };
 
   var initialRequestData = {
@@ -91,5 +105,5 @@ $(function(){
   requestModule.submitRequest(initialRequestData);
 
   var timer = $.timer(replaceByteCounts);
-  timer.set({ time : 5000, autostart : true });
+  timer.set({ time : 1000, autostart : true });
 });
