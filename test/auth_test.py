@@ -95,8 +95,11 @@ class TestAuth(unittest.TestCase):
     try:
       sys.stdout = out
       self.assertRaises(SystemExit, auth.check_request, self.path)
-      self.assertEqual("""Status: 403
-Content-Type: application/json\r\n
+      self.assertEqual("""Status: 403 Forbidden
+Content-Type: application/json
+Set-Cookie: auth=; expires=Thu, 01 Jan 1970 00:00:00 GMT
+Set-Cookie: csrf_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT
+
 {"error": "Not authenticated."}
 """,
         out.getvalue())
@@ -120,8 +123,9 @@ Content-Type: application/json\r\n
     try:
       sys.stdout = out
       self.assertRaises(SystemExit, auth.check_request, self.path)
-      self.assertEqual("""Status: 403
-Content-Type: application/json\r\n
+      self.assertEqual("""Status: 403 NOT-OKAY
+Content-Type: application/json
+
 {"error": "Invalid CSRF token."}
 """,
         out.getvalue())

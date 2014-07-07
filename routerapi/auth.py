@@ -13,6 +13,8 @@
 import common
 import os
 import time
+import sys
+import json
 import hashlib
 import pbkdf2
 
@@ -204,7 +206,7 @@ class Auth:
     """
     return ('Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n'
             'Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n' % (
-            AUTH_COOKIE_NAME, CSRF_COOKIE_NAME))
+            self.AUTH_COOKIE_NAME, self.CSRF_COOKIE_NAME))
 
   def __current_authentication_token(self):
     """Return the current authentication token if it still valid, else None."""
@@ -264,5 +266,5 @@ class Auth:
     print 'Status: 403 Forbidden'
     print 'Content-Type: application/json'
     print self.logout_headers()
-    print
     print json.JSONEncoder().encode({'error': 'Not authenticated.'})
+    sys.exit(1)
