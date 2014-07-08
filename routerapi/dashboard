@@ -1,8 +1,9 @@
 #!/usr/bin/python
 
 # Import modules for CGI handling
-import cgi, json, common
+import cgi, json, common, uci
 from subprocess import check_output, call
+from ip_address_retriever import get_internal_ip_address, get_external_ip_address
 
 ping_output = check_output(["/bin/ping", "-c1", "google.com"])
 
@@ -13,15 +14,22 @@ else:
   connected = True
   ping_speed = ping_output.split(' ')[11].split('=')[1]
 
+
+wan_ip = get_external_ip_address() 
+lan_ip = get_internal_ip_address("ge00") 
+
+openwireless_maxmonthlybandwidth = check_output(["/sbin/uci", "get", "openwireless.maxmonthlybandwidth"])
+openwireless_maxbandwidthpercent = check_output(["/sbin/uci", "get", "openwireless.maxbandwidthpercentage"])
+
 result = {
 	"id": 1,
 	"jsonrpc": "2.0",
 	"result": {
 		"internet": {
 			"name": "Internet",
-			"uploadSpeed": "Loading",
+			"uploadSpeed": "...",
 			"uploadSpeedMetric": "mb/s",
-			"downloadSpeed": "Loading",
+			"downloadSpeed": "...",
 			"downloadSpeedMetric": "mb/s",
 			"pingSpeed": ping_speed,
 			"pingSpeedMetric": "ms",
@@ -29,33 +37,35 @@ result = {
 		},
 		"lanNetwork": {
 			"name": "LAN Network",
-			"uploadSpeed": "Loading",
+			"uploadSpeed": "...",
 			"uploadSpeedMetric": "mb/s",
-			"downloadSpeed": "Loading",
+			"downloadSpeed": "...",
 			"downloadSpeedMetric": "mb/s",
 			"devices": "0"
 		},
 		"privateWifi": {
 			"name": "Private Wifi",
-			"uploadSpeed": "Loading",
+			"uploadSpeed": "...",
 			"uploadSpeedMetric": "mb/s",
-			"downloadSpeed": "Loading",
+			"downloadSpeed": "...",
 			"downloadSpeedMetric": "mb/s",
 			"devices": "0",
 			"on": False
 		},
 		"openWireless": {
 			"name": "Openwireless.org",
-			"uploadSpeed": "Loading",
+			"uploadSpeed": "...",
 			"uploadSpeedMetric": "mb/s",
-			"downloadSpeed": "Loading",
+			"downloadSpeed": "...",
 			"downloadSpeedMetric": "mb/s",
-			"maxBandwidthPercent": "5",
-			"maxMonthlyBandwidth": "100",
+			"maxBandwidthPercent": openwireless_maxbandwidthpercent,
+			"maxMonthlyBandwidth": openwireless_maxmonthlybandwidth,
 			"maxMonthlyBandwidthMetric": "mb",
       "monthlyBandwidthUsage": "23",
 			"on": True
-		}
+		},
+    "wanIp"  : wan_ip,
+    "lanIp"  : lan_ip
 	}
 }
 

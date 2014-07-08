@@ -27,6 +27,11 @@ var dashboardModule = (function(){
     return imageMap[name] || "images/antenna-on.png";
   };
 
+  var displayIpAddresses = function(lanIp, wanIp){
+    $('#lan-ip').text(lanIp);
+    $('#wan-ip').text(wanIp);
+  }
+
   var displayDate = function(){
     var m_names = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
     var d = new Date();
@@ -55,6 +60,7 @@ var dashboardModule = (function(){
         displayInterface(interfaces.lanNetwork);
         displayInterface(interfaces.privateWifi);
         displayInterface(interfaces.openWireless);
+        displayIpAddresses(interfaces.lanIp, interfaces.wanIp);
         displayDate();
         enableToggles();
         return;
