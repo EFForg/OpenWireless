@@ -9,38 +9,34 @@ parser_pattern = re.compile('SRC packets: \d+ bytes: (\d+) DST packets: \d+ byte
 def addcount(a,b):
   return map(sum, zip(map(int,a),map(int,b)))
 
-def get_byte_counts(network_name):
+def get_device_and_byte_counts(network_name):
   network_data = parser_pattern.findall(check_output(["/usr/sbin/iptaccount", "-l", network_name]))
-  if network_data == []:
-    return [0, 0]
-  elif len(network_data)==1:
-    return map(int,network_data[0])
+  device_count=len(network_data)	
+  if device_count==0:
+    return [0, 0, 0]
+  elif device_count==1:
+    return [1].append(map(int,network_data[0]))
   else:
-    return reduce(addcount, network_data)  
+    return [device_count].append(reduce(addcount, network_data))  
 
+[dev, privateWifiToLan, x] = get_device_and_byte_counts("privatewifitolan")
+[dev, lanToPrivateWifi, x] = get_device_and_byte_counts("lantoprivatewifi")
 
-
-[privateWifiToLan, x] = get_byte_counts("privatewifitolan")
-[lanToPrivateWifi, x] = get_byte_counts("lantoprivatewifi")
-
-
-[openWirelessUploadUsage, openWirelessDownloadUsage] = get_byte_counts("open-wifi")
+[openWirelessDevices, openWirelessUploadUsage, openWirelessDownloadUsage] = get_device_and_byte_counts("open-wifi")
 [internetUploadUsage, internetDownloadUsage] = [openWirelessUploadUsage, openWirelessDownloadUsage] 
 
-[lanNetworkUploadUsage, lanNetworkDownloadUsage] = get_byte_counts("wired-lan")
+[lanNetworkDevices, lanNetworkUploadUsage, lanNetworkDownloadUsage] = get_device_and_byte_counts("wired-lan")
 lanNetworkUploadUsage -= lanToPrivateWifi
 lanNetworkDownloadUsage -= privateWifiToLan
 internetUploadUsage += lanNetworkUploadUsage
 internetDownloadUsage += lanNetworkDownloadUsage
 
-[privateWifiUploadUsage, privateWifiDownloadUsage] = get_byte_counts("private-wifi")
+[privateWifiDevices, privateWifiUploadUsage, privateWifiDownloadUsage] = get_device_and_byte_counts("private-wifi")
 privateWifiUploadUsage -= privateWifiToLan
 privateWifiDownloadUsage -= lanToPrivateWifi
 internetUploadUsage += privateWifiUploadUsage
 internetDownloadUsage += privateWifiDownloadUsage
 
-lanNetworkDevices = 33
-privateWifiDevices = 29
 
 result = {
   "internet": {
