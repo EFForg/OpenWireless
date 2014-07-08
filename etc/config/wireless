@@ -40,9 +40,8 @@ config wifi-iface
 	option ifname 'sw10'
 	option mode 'ap'
 	option encryption 'none'
-	option ssid 'OWrt-5G'
-	option encryption 'psk2+ccmp'
-	option key 'No more insecure routers'
+	option ssid 'Setup Open Wireless'
+	option encryption 'none'
 
 config wifi-iface
 	option device 'radio1'

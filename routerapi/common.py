@@ -11,10 +11,13 @@ def render_error(err, status=403):
   sys.exit(0)
 
 def render_success(data):
+  render_success_no_exit(data)
+  sys.exit(0)
+
+def render_success_no_exit(data):
   print 'Content-Type: application/json'
   print
   print json.JSONEncoder().encode(data)
-  sys.exit(0)
 
 def exception_handler(exc_type, exc_obj, exc_tb):
   error_text = '%s: %s, %s' % (
