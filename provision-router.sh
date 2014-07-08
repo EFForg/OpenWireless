@@ -38,11 +38,6 @@ opkg update
 opkg install lighttpd lighttpd-mod-cgi lighttpd-mod-setenv
 CONF=/etc/lighttpd/lighttpd.conf
 
-# Create openwireless configuration file
-touch /etc/config/openwireless
-uci set openwireless.maxbandwidthpercentage=15
-uci set openwireless.maxmonthlybandiwdth=500
-
 # Replace all custom config from previous runs of provision-router.sh
 (sed -e '/OPENWIRELESS_CONFIG_STARTS_HERE/,$d' $CONF ; cat <<EOF) > $CONF.new
 # OPENWIRELESS_CONFIG_STARTS_HERE

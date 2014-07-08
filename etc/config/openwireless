@@ -1,0 +1,5 @@
+
+config 600 'maxmonthlybandwidth'
+
+config 20 'maxbandwidthpercentage'
+
