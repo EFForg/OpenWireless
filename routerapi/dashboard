@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # Import modules for CGI handling
-import cgi, json, auth
+import cgi, json, common
 from subprocess import check_output, call
 
 ping_output = check_output(["/bin/ping", "-c1", "google.com"])

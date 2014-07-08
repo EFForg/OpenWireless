@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import common
 from subprocess import check_output
 
 uci_path = '/sbin/uci'

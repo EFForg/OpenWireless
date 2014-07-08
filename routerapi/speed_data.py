@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import datetime
+import datetime, common
 
 def getSpeed(data, recency):
   if data == {} :

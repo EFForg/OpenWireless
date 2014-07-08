@@ -2,6 +2,7 @@
 
 import json
 import auth
+import common
 
 result = {"result" :{ "status": "not-up-to-date" }}
 
