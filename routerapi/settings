@@ -1,10 +1,8 @@
 #!/usr/bin/python
 
 import cgi, json, sys, common
-import socket
-import fcntl
-import struct
 from subprocess import check_output, CalledProcessError
+from ip_address_retriever import get_internal_ip_address, get_external_ip_address
 
 uci_path = '/sbin/uci'
 software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
@@ -21,14 +19,6 @@ def check_device(config_name):
 
 def check_param(device, param):
   return check_output([uci_path, "get", "wireless." + device + "." + param]).strip()
-
-def get_ip_address(interface_name):
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    return socket.inet_ntoa(fcntl.ioctl(
-        s.fileno(),
-        0x8915,
-        struct.pack('256s', interface_name[:15])
-    )[20:24])
 
 def get_attributes(interface, config_name):
   try:
@@ -81,8 +71,8 @@ result = {
 	  "openwirelessVpnConfiguration"  : "None",
 	  "openwirelessProtocol"          : "HTTPS",
 	  "openwirelessEncryption"        : "Unencrypted",
-	  "wanIp" : get_ip_address("ge00"),
-	  "lanIp" : "192.168.1.4"
+	  "lanIp" : get_internal_ip_address("ge00"),
+	  "wanIp" : get_external_ip_address() 
 	}
 }
 

@@ -17,6 +17,35 @@ header, .network, footer {
   align-items: center;
 }
 
+.ips {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: center;
+  -ms-flex-pack: justify;
+  justify-content: center;
+  margin-right: 20px;
+  margin-left: 20px;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.ip {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#checkForUpdate {
+  flex-break-after: always;
+}
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
