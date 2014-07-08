@@ -18,7 +18,7 @@
             <div class="bandwidth">{{maxBandwidthPercent}}%<small> max <br> bandwidth </small></div>
           {{/if}}
           {{#if maxMonthlyBandwidth}}
-          <div class="bandwidth">{{monthlyBandwidthUsage}} <small>used of</small> {{maxMonthlyBandwidth}}<small> {{maxMonthlyBandwidthMetric}} max <br> per month </small></div>
+          <div class="bandwidth"><span id="monthlyBandwidth">{{monthlyBandwidthUsage}}</span> <small>used of</small> {{maxMonthlyBandwidth}}<small> {{maxMonthlyBandwidthMetric}} max <br> per month </small></div>
           {{/if}}
 
         </div>

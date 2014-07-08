@@ -12,14 +12,15 @@ var replaceByteCounts = function(){
     var newDate = new Date(newResponse["dateTime"]);
     var lastDate = new Date(lastResponse["dateTime"]);
     var millisecondsToSecondsConversion = 0.001;
+    var byteToMegabyteConversion = 0.000001;
     var timeDifferenceInSeconds = (newDate - lastDate)*millisecondsToSecondsConversion;
 
     var computeUploadRate = function(networkName){
-      return ((newResponse[networkName]["uploadUsage"] - lastResponse[networkName]["uploadUsage"])/timeDifferenceInSeconds).toPrecision(2);
+      return ((newResponse[networkName]["uploadUsage"] - lastResponse[networkName]["uploadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds).toPrecision(2);
     };
 
     var computeDownloadRate = function(networkName){
-      return ((newResponse[networkName]["downloadUsage"] - lastResponse[networkName]["downloadUsage"])/timeDifferenceInSeconds).toPrecision(2);
+      return ((newResponse[networkName]["downloadUsage"] - lastResponse[networkName]["downloadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds).toPrecision(2);
     };
 
     var internetUploadUsage = computeUploadRate("internet");
@@ -63,6 +64,14 @@ var replaceByteCounts = function(){
     $("h2:contains('" + htmlTitle + "')").parent().parent().find(".device-count").text(numberOfDevices);
   };
 
+  var updateOpenwirelessBandwidth = function(networkRates){
+    byteUsage = parseInt(networkRates["uploadUsage"]) + parseInt(networkRates["downloadUsage"]);
+    var byteToMegabyteConversion = 0.000001;
+    mbUsage = byteUsage * byteToMegabyteConversion;
+    mbUsageForDisplay = mbUsage.toPrecision(2);
+    $('#monthlyBandwidth').text(mbUsageForDisplay);
+  }
+
   var successCallback = function(response){
     var response1 = response2;
     var response2 = response3;
@@ -86,6 +95,8 @@ var replaceByteCounts = function(){
     updateDevices('Private Wifi', response['privateWifi']['devices']);
 
     updateCount('Openwireless.org', rates['openWireless']);
+
+    updateOpenwirelessBandwidth(rates['openWireless']);
   };
 
   var requestData = {
