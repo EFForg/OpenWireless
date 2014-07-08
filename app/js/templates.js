@@ -179,7 +179,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "        <br>\n        <br>\n        <h4>Router</h4>\n        <p><a href=\"./changePassword.html\">Change Router Credentials - admin password &gt;</a></p>\n        <p>Software Version: ";
+  buffer += "        <br>\n        <br>\n        <h4>Router</h4>\n        <p><a href=\"./changePassword.html\">Change administrator password&gt;</a></p>\n        <p>Software Version: ";
   if (helper = helpers.softwareVersion) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.softwareVersion); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -199,7 +199,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (helper = helpers.ispUploadSpeed) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.ispUploadSpeed); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span> mb/s</p>\n        <br>\n        <br>\n\n        <h4>Private Wifi</h4>\n        <p><a href=\"./changeSSID.html\">Set network SSID &gt;</a></p>\n        <p><a href=\"./changeNetworkPassword.html\">Set network password &gt;</a></p>\n        <br>\n        <h4>Choose band</h4>\n        <p><span class=\"selector\"><select id=\"routerBand\">RouterBand</select></span> ghz</p>\n        <p>Channel <span class=\"selector\"><select id=\"routerChannel\">RouterChannel</select></span> ghz</p>\n        <p>Channel bandwidth <span class=\"selector\"><select id=\"routerChannelBandwidth\">RouterChannelBandwidth</select></span> ghz</p>\n        <br>\n        <br>\n\n        <h3>VPN/TOR Configuration</h3>\n        <p><span class=\"selector\"><select id=\"routerVpnConfiguration\">RouterVpnConfiguration</select></span></p>\n        <br>\n        <br>\n\n\n        <h4>Open Wireless</h4>\n        <p>Real min time bandwidth <span class=\"editable\" id=\"openwirelessBandwidth\">";
+    + "</span> mb/s</p>\n        <br>\n        <br>\n\n        <h4>Private Wifi</h4>\n        <p><a href=\"./setSSID.html\">Set network SSID and passphrase&gt;</a></p>\n        <br>\n        <h4>Choose band</h4>\n        <p><span class=\"selector\"><select id=\"routerBand\">RouterBand</select></span> ghz</p>\n        <p>Channel <span class=\"selector\"><select id=\"routerChannel\">RouterChannel</select></span> ghz</p>\n        <p>Channel bandwidth <span class=\"selector\"><select id=\"routerChannelBandwidth\">RouterChannelBandwidth</select></span> ghz</p>\n        <br>\n        <br>\n\n        <h3>VPN/TOR Configuration</h3>\n        <p><span class=\"selector\"><select id=\"routerVpnConfiguration\">RouterVpnConfiguration</select></span></p>\n        <br>\n        <br>\n\n\n        <h4>Open Wireless</h4>\n        <p>Real min time bandwidth <span class=\"editable\" id=\"openwirelessBandwidth\">";
   if (helper = helpers.openwirelessBandwidth) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.openwirelessBandwidth); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
