@@ -29,13 +29,7 @@ var loginModule = (function() {
 
       var data =  { "jsonrpc": "2.0", "method": "login", "params": ["root", password.val()], "id": 1 }
       var successCallback = function(data, textStatus, jqXHR) {
-        // Only redirect the user to change their password if the one they
-        // entered was the default.
-        if (password.val() == "asdf1234") {
-          helperModule.redirectTo("changePassword.html");
-        } else {
-          helperModule.redirectTo("dashboard.html");
-        }
+        helperModule.redirectTo("dashboard.html");
       };
 
       var request = { 'data': data, url: '/cgi-bin/routerapi/login', 'successCallback': successCallback, 'errorCallback': errorCallback };

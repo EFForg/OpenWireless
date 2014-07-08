@@ -33,16 +33,7 @@ describe("Login Module", function() {
     expect(requestModule.submitRequest).toHaveBeenCalledWith({'data':loginData, 'url': "/cgi-bin/routerapi/login", 'successCallback': jasmine.any(Function), 'errorCallback': jasmine.any(Function)});
   });
 
-  it("should redirect to changePassword page on first login", function() {
-    spyOn($, "ajax").andCallFake(function(params){
-      params.success({result: "document.cookie"});
-    });
-    password.val("asdf1234");
-    loginForm.submit();
-    expect(redirect).toEqual("changePassword.html");
-  });
-
-  it("should redirect to dashboard page on subsequent logins", function() {
+  it("should redirect to dashboard page on", function() {
     spyOn($, "ajax").andCallFake(function(params){
       params.success({result: "document.cookie"});
     });
