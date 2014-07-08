@@ -24,9 +24,9 @@ result = {
 	"result": {
 		"internet": {
 			"name": "Internet",
-			"uploadSpeed": "Loading",
+			"uploadSpeed": "...",
 			"uploadSpeedMetric": "mb/s",
-			"downloadSpeed": "Loading",
+			"downloadSpeed": "...",
 			"downloadSpeedMetric": "mb/s",
 			"pingSpeed": ping_speed,
 			"pingSpeedMetric": "ms",
@@ -34,26 +34,26 @@ result = {
 		},
 		"lanNetwork": {
 			"name": "LAN Network",
-			"uploadSpeed": "Loading",
+			"uploadSpeed": "...",
 			"uploadSpeedMetric": "mb/s",
-			"downloadSpeed": "Loading",
+			"downloadSpeed": "...",
 			"downloadSpeedMetric": "mb/s",
 			"devices": "0"
 		},
 		"privateWifi": {
 			"name": "Private Wifi",
-			"uploadSpeed": "Loading",
+			"uploadSpeed": "...",
 			"uploadSpeedMetric": "mb/s",
-			"downloadSpeed": "Loading",
+			"downloadSpeed": "...",
 			"downloadSpeedMetric": "mb/s",
 			"devices": "0",
 			"on": False
 		},
 		"openWireless": {
 			"name": "Openwireless.org",
-			"uploadSpeed": "Loading",
+			"uploadSpeed": "...",
 			"uploadSpeedMetric": "mb/s",
-			"downloadSpeed": "Loading",
+			"downloadSpeed": "...",
 			"downloadSpeedMetric": "mb/s",
 			"maxBandwidthPercent": "5",
 			"maxMonthlyBandwidth": "100",
