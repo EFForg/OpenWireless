@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import cgi, json, sys, common
+import cgi, json, sys, common, uci
 from subprocess import check_output, CalledProcessError
 from ip_address_retriever import get_internal_ip_address, get_external_ip_address
 
@@ -49,6 +49,8 @@ open_wireless = {}
 
 get_attributes(private, "@wifi-iface[0]")
 get_attributes(open_wireless, "@wifi-iface[1]")
+openwireless_bandwidth_percentage = check_output(["/sbin/uci", "get", "openwireless.maxbandwidthpercentage"])
+openwireless_monthly_data = check_output(["/sbin/uci", "get", "openwireless.maxmonthlybandwidth"])
 
 result = {
 	"result": {
@@ -62,8 +64,8 @@ result = {
 	  "routerCustomChannel"           : "??",
 	  "routerChannelBandwidth"        : private["channel_bandwidth"],
 	  "routerVpnConfiguration"        : "None",
-	  "openwirelessBandwidth"         : "5",
-	  "openwirelessData"              : "30",
+	  "openwirelessBandwidth"         : openwireless_bandwidth_percentage,
+	  "openwirelessData"              : openwireless_monthly_data,
 	  "openwirelessBand"              : open_wireless["band"],
 	  "openwirelessChannel"           : open_wireless["channel"],
 	  "openwirelessCustomChannel"     : "??",

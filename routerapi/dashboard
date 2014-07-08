@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # Import modules for CGI handling
-import cgi, json, common
+import cgi, json, common, uci
 from subprocess import check_output, call
 from ip_address_retriever import get_internal_ip_address, get_external_ip_address
 
@@ -17,6 +17,9 @@ else:
 
 wan_ip = get_external_ip_address() 
 lan_ip = get_internal_ip_address("ge00") 
+
+openwireless_maxmonthlybandwidth = check_output(["/sbin/uci", "get", "openwireless.maxmonthlybandwidth"])
+openwireless_maxbandwidthpercent = check_output(["/sbin/uci", "get", "openwireless.maxbandwidthpercentage"])
 
 result = {
 	"id": 1,
@@ -55,8 +58,8 @@ result = {
 			"uploadSpeedMetric": "mb/s",
 			"downloadSpeed": "...",
 			"downloadSpeedMetric": "mb/s",
-			"maxBandwidthPercent": "5",
-			"maxMonthlyBandwidth": "100",
+			"maxBandwidthPercent": openwireless_maxbandwidthpercent,
+			"maxMonthlyBandwidth": openwireless_maxmonthlybandwidth,
 			"maxMonthlyBandwidthMetric": "mb",
       "monthlyBandwidthUsage": "23",
 			"on": True
