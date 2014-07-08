@@ -49,6 +49,7 @@ var dashboardModule = (function(){
     var data =  { "jsonrpc": "2.0", "method": "dashboard"};
     var successCallback = function(response) {
       if(response.result != null){
+        genericError.hide();
         var interfaces = response.result;
         displayInterface(interfaces.internet);
         displayInterface(interfaces.lanNetwork);
