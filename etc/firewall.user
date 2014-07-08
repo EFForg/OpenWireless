@@ -1,6 +1,22 @@
 # This file is interpreted as shell script.
 # Put your custom iptables rules here, they will
 # be executed with each firewall (re-)start.
+#
+#  The interfaces are labelled like so:
+#  s* = secure, aka private network
+#  g* = global, aka public network
+#  *e* = ethernet
+#  *w* = wireless
+#
+#  So for instance sw00 and sw10 are secure (aka private) WiFi nets.
+#
+#  se00 - 172.30.42.0-31: wired lan, can access everything.
+#         172.30.42.32-63
+#  sw00 - 172.30.42.64-95
+#  sw10 - 172.30.42.96-127: private wifi, can access everything.
+#  gw00 - 172.30.42.128-159: open wifi, can' access router
+#  gw10, 01, 11: ranges above gw00, can access everything
+#  ge00 - external ethernet, going to modem or other upstream.
 
 # Allow forwarding in a NAT like way
 # ip6tables -A FORWARD -i br-lan -j ACCEPT
