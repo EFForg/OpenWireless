@@ -24,11 +24,14 @@ def check_param(device, param):
 
 def get_ip_address(interface_name):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    return socket.inet_ntoa(fcntl.ioctl(
-        s.fileno(),
-        0x8915,
-        struct.pack('256s', interface_name[:15])
-    )[20:24])
+    try:
+      return socket.inet_ntoa(fcntl.ioctl(
+          s.fileno(),
+          0x8915,
+          struct.pack('256s', interface_name[:15])
+      )[20:24])
+    except IOError:
+      return '?.?.?.?'
 
 def get_attributes(interface, config_name):
   try:
