@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.join(
   os.path.dirname(os.path.realpath(__file__)),
   "..", "routerapi"))
 
+import common
 import auth
 
 class TestAuth(unittest.TestCase):
@@ -23,10 +24,24 @@ class TestAuth(unittest.TestCase):
       f.write("%s %d" % (self.auth_token, expiry))
     os.environ.clear()
 
+  def remove(self, filename):
+    try:
+      os.remove(os.path.join(self.path, filename))
+    except OSError:
+      pass
+
+  def tearDown(self):
+    self.remove('auth_token')
+    self.remove('foo')
+    self.remove('password')
+    self.remove('rate_limit')
+    os.rmdir(self.path)
+
   def test_check_sane(self):
     insane_path = tempfile.mkdtemp()
     os.chmod(insane_path, 0777)
     self.assertRaises(Exception, auth.Auth, insane_path)
+    os.rmdir(insane_path)
 
   def test_equal(self):
     self.assertTrue(auth.constant_time_equals("alpha", "alpha"))
