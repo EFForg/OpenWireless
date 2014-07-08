@@ -11,13 +11,11 @@ def addcount(a,b):
 
 def get_device_and_byte_counts(network_name):
   network_data = parser_pattern.findall(check_output(["/usr/sbin/iptaccount", "-l", network_name]))
-  device_count=len(network_data)	
+  device_count=len(network_data)
   if device_count==0:
     return [0, 0, 0]
-  elif device_count==1:
-    return [1].append(map(int,network_data[0]))
   else:
-    return [device_count].append(reduce(addcount, network_data))  
+    return [device_count] + map(int, list(reduce(addcount, network_data)))
 
 [dev, privateWifiToLan, x] = get_device_and_byte_counts("privatewifitolan")
 [dev, lanToPrivateWifi, x] = get_device_and_byte_counts("lantoprivatewifi")
