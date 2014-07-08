@@ -35,7 +35,7 @@ def check_request(auth_dir):
   REQUEST_METHOD = 'REQUEST_METHOD'
   LOGGED_OUT_ENDPOINTS = [
     '/cgi-bin/routerapi/login',
-    '/cgi-bin/routerapi/change_password_first_time'
+    '/cgi-bin/routerapi/change_password_first_time',
     '/cgi-bin/routerapi/setup_state'
   ]
   if (REQUEST_URI in os.environ and
@@ -218,13 +218,13 @@ class Auth:
 
   def __current_authentication_token(self):
     """Return the current authentication token if it still valid, else None."""
-    with open(self.token_filename, 'r') as f:
-      (stored_token, expires) = f.read().split(' ')
-    t = time.time()
-    if int(expires) > t:
-      return stored_token
-    else:
-      return None
+    if os.path.isfile(self.token_filename):
+      with open(self.token_filename, 'r') as f:
+        (stored_token, expires) = f.read().split(' ')
+      t = time.time()
+      if int(expires) > t:
+        return stored_token
+    return None
 
   def __valid_token_format(self, token):
     """Basic length and character checking on tokens."""

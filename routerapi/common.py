@@ -1,6 +1,7 @@
 import json
 import sys
 import traceback
+import auth
 
 def render_error(err, status=403):
   print 'Status: %d NOT-OKAY' % status
@@ -26,3 +27,8 @@ def exception_handler(exc_type, exc_obj, exc_tb):
   sys.exit(0)
 
 sys.excepthook = exception_handler
+
+# All endpoints should import common. In addition to the automatic exception
+# handler, they will be checked for authentication cookies and CSRF token.
+# There are a handful of exceptions enumerated in auth.py.
+auth.check_request('/etc/auth')

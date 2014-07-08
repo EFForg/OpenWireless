@@ -1,11 +1,8 @@
 #!/bin/sh
 
-days=21900
+days=1826
 bits=2048
 pem=/etc/lighttpd/lighttpd.pem
-country=US
-state=California
-location=Erewhon
 
 HL=`uname -n`
 HS=`hostname`
@@ -38,14 +35,14 @@ else
 export SAN="DNS:gw.home.lan, DNS:gw, DNS:$HS.local, DNS:$HS, DNS:$HL"
 fi
 
-sed '/req_extensions = v3_req/s/^# *//; /SAN/d; /^HOME/i\
+sed '/req_extensions = v3_req/s/^# *//; /SAN/d; /CA:true/d /^HOME/i\
 SAN="email:support@cerowrt.org"
 /\[ v3_\(req\|ca\) \]/ a\
 subjectAltName=${ENV::SAN}
 ' /etc/ssl/openssl.cnf > /tmp/openssl.cnf
 
 openssl req -new -newkey rsa:$bits -x509 -keyout $pem -out $pem -days $days \
-    -nodes -subj "/C=$country/ST=$state/L=$location/CN=$commonname" \
+    -nodes -subj "/CN=$commonname" \
     -config /tmp/openssl.cnf
 rm /tmp/openssl.cnf
 

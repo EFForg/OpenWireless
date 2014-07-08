@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import common
 import json
 
 result = {"result" :{ "status": "updating" }}

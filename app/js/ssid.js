@@ -37,6 +37,12 @@ var ssidModule = (function() {
         return;
       }
 
+      if ($(ssidPassphrase).val().length < 8) {
+        $(ssidPassphraseError).text("Passphrase must be at least 8 characters.");
+        $(ssidPassphraseError).show();
+        return false;
+      }
+
       setSSID();
     });
   };
