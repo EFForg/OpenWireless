@@ -59,6 +59,10 @@ var replaceByteCounts = function(){
     $("h2:contains('" + htmlTitle + "')").parent().parent().children("header").find(".download-speed").text(network["downloadUsage"]);
   };
 
+  var updateDevices = function(htmlTitle, numberOfDevices){
+    $("h2:contains('" + htmlTitle + "')").parent().parent().find(".device-count").text(numberOfDevices);
+  };
+
   var successCallback = function(response){
     var response1 = response2;
     var response2 = response3;
@@ -72,9 +76,15 @@ var replaceByteCounts = function(){
     } else {
         rates = getRates(response6, response1);
     }
+
     updateCount('Internet', rates['internet']);
+
     updateCount('LAN Network', rates['lanNetwork']);
+    updateDevices('LAN Network', response['lanNetwork']['devices']);
+
     updateCount('Private Wifi', rates['privateWifi']);
+    updateDevices('Private Wifi', response['privateWifi']['devices']);
+
     updateCount('Openwireless.org', rates['openWireless']);
   };
 
