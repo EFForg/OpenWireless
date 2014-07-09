@@ -24,52 +24,52 @@ openwireless_maxbandwidthpercent = check_output(["/sbin/uci", "get", "openwirele
 ssid = uci.get("wireless.@wifi-iface[2].ssid")
 
 result = {
-	"id": 1,
-	"jsonrpc": "2.0",
-	"result": {
-		"internet": {
-			"name": "Internet",
-			"uploadSpeed": "...",
-			"uploadSpeedMetric": "Mb/s",
-			"downloadSpeed": "...",
-			"downloadSpeedMetric": "Mb/s",
-			"pingSpeed": ping_speed,
-			"pingSpeedMetric": "ms",
-			"connected": connected
-		},
-		"lanNetwork": {
-			"name": "LAN Network",
-			"uploadSpeed": "...",
-			"uploadSpeedMetric": "Mb/s",
-			"downloadSpeed": "...",
-			"downloadSpeedMetric": "Mb/s",
-			"devices": "0"
-		},
-		"privateWifi": {
-			"name": "Private Wifi",
-			"uploadSpeed": "...",
-			"uploadSpeedMetric": "Mb/s",
-			"downloadSpeed": "...",
-			"downloadSpeedMetric": "Mb/s",
-			"devices": "0",
-			"on": False,
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "internet": {
+      "name": "Internet",
+      "uploadSpeed": "...",
+      "uploadSpeedMetric": "Mb/s",
+      "downloadSpeed": "...",
+      "downloadSpeedMetric": "Mb/s",
+      "pingSpeed": ping_speed,
+      "pingSpeedMetric": "ms",
+      "connected": connected
+    },
+    "lanNetwork": {
+      "name": "LAN Network",
+      "uploadSpeed": "...",
+      "uploadSpeedMetric": "Mb/s",
+      "downloadSpeed": "...",
+      "downloadSpeedMetric": "Mb/s",
+      "devices": "0"
+    },
+    "privateWifi": {
+      "name": "Private Wifi",
+      "uploadSpeed": "...",
+      "uploadSpeedMetric": "Mb/s",
+      "downloadSpeed": "...",
+      "downloadSpeedMetric": "Mb/s",
+      "devices": "0",
+      "on": False,
       "ssid": ssid
-		},
-		"openWireless": {
-			"name": "Openwireless.org",
-			"uploadSpeed": "...",
-			"uploadSpeedMetric": "Mb/s",
-			"downloadSpeed": "...",
-			"downloadSpeedMetric": "Mb/s",
-			"maxBandwidthPercent": openwireless_maxbandwidthpercent,
-			"maxMonthlyBandwidth": openwireless_maxmonthlybandwidth,
-			"maxMonthlyBandwidthMetric": "Mb",
+    },
+    "openWireless": {
+      "name": "Openwireless.org",
+      "uploadSpeed": "...",
+      "uploadSpeedMetric": "Mb/s",
+      "downloadSpeed": "...",
+      "downloadSpeedMetric": "Mb/s",
+      "maxBandwidthPercent": openwireless_maxbandwidthpercent,
+      "maxMonthlyBandwidth": openwireless_maxmonthlybandwidth,
+      "maxMonthlyBandwidthMetric": "Mb",
       "monthlyBandwidthUsage": "...",
-			"on": True
-		},
+      "on": True
+    },
     "wanIp"  : wan_ip,
     "lanIp"  : lan_ip
-	}
+  }
 }
 
 print "Content-Type:application/json\r\n"

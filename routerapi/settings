@@ -58,30 +58,30 @@ isp_download_speed = uci.get("sqm.ge00.download")
 isp_upload_speed = uci.get("sqm.ge00.upload")
 
 result = {
-	"result": {
-	  "softwareVersion"               : software_version,
-	  "ispDownloadSpeed"              : isp_download_speed,
-	  "ispUploadSpeed"                : isp_upload_speed,
-	  "softwareVersionUpdateDate"     : "16/06/2014",
-	  "lastCheckedDate"               : "18/06/2014",
-	  "routerSsid"                    : private["ssid"],
-	  "routerBand"                    : private["band"],
-	  "routerChannel"                 : private["channel"],
-	  "routerCustomChannel"           : "??",
-	  "routerChannelBandwidth"        : private["channel_bandwidth"],
-	  "routerVpnConfiguration"        : "None",
-	  "openwirelessBandwidth"         : openwireless_bandwidth_percentage,
-	  "openwirelessData"              : openwireless_monthly_data,
-	  "openwirelessBand"              : open_wireless["band"],
-	  "openwirelessChannel"           : open_wireless["channel"],
-	  "openwirelessCustomChannel"     : "??",
-	  "openwirelessChannelBandwidth"  : open_wireless["channel_bandwidth"],
-	  "openwirelessVpnConfiguration"  : "None",
-	  "openwirelessProtocol"          : "HTTPS",
-	  "openwirelessEncryption"        : "Unencrypted",
-	  "lanIp" : get_internal_ip_address("ge00"),
-	  "wanIp" : get_external_ip_address() 
-	}
+  "result": {
+    "softwareVersion"               : software_version,
+    "ispDownloadSpeed"              : isp_download_speed,
+    "ispUploadSpeed"                : isp_upload_speed,
+    "softwareVersionUpdateDate"     : "16/06/2014",
+    "lastCheckedDate"               : "18/06/2014",
+    "routerSsid"                    : private["ssid"],
+    "routerBand"                    : private["band"],
+    "routerChannel"                 : private["channel"],
+    "routerCustomChannel"           : "??",
+    "routerChannelBandwidth"        : private["channel_bandwidth"],
+    "routerVpnConfiguration"        : "None",
+    "openwirelessBandwidth"         : openwireless_bandwidth_percentage,
+    "openwirelessData"              : openwireless_monthly_data,
+    "openwirelessBand"              : open_wireless["band"],
+    "openwirelessChannel"           : open_wireless["channel"],
+    "openwirelessCustomChannel"     : "??",
+    "openwirelessChannelBandwidth"  : open_wireless["channel_bandwidth"],
+    "openwirelessVpnConfiguration"  : "None",
+    "openwirelessProtocol"          : "HTTPS",
+    "openwirelessEncryption"        : "Unencrypted",
+    "lanIp" : get_internal_ip_address("ge00"),
+    "wanIp" : get_external_ip_address() 
+  }
 }
 
 print "Content-Type: application/json\r\n\r\n"
