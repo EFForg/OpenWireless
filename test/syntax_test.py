@@ -16,7 +16,10 @@ class TestCompiles(unittest.TestCase):
       # fooc for script foo.
       if not filename.startswith(".") and not filename.endswith("c"):
         with open(os.path.join(routerapi, filename), "r") as f:
-          compile(f.read(), filename, "exec")
+          contents = f.read()
+          compile(contents, filename, "exec")
+          self.assertFalse("\t" in contents,
+            msg = "Tab found in %s, use spaces instead." % filename)
 
 if __name__ == '__main__':
   unittest.main()
