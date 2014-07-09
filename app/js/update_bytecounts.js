@@ -34,7 +34,7 @@ var replaceByteCounts = function(){
 
     var openWirelessUploadUsage = computeUploadRate("openWireless");
     var openWirelessDownloadUsage = computeDownloadRate("openWireless");
-          
+
     return {
       "internet": {
         "uploadUsage" : internetUploadUsage,
@@ -91,8 +91,8 @@ var replaceByteCounts = function(){
     updateCount('LAN Network', rates['lanNetwork']);
     updateDevices('LAN Network', response['lanNetwork']['devices']);
 
-    updateCount('Private Wifi', rates['privateWifi']);
-    updateDevices('Private Wifi', response['privateWifi']['devices']);
+    updateCount('Private WiFi', rates['privateWifi']);
+    updateDevices('Private WiFi', response['privateWifi']['devices']);
 
     updateCount('Openwireless.org', rates['openWireless']);
 

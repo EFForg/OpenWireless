@@ -22,7 +22,7 @@ var dashboardModule = (function(){
   var getImage = function(name){
     imageMap = {"Internet" : "images/router.png",
       "LAN Network": "images/lan.png",
-      "Private Wifi": "images/antenna-on.png",
+      "Private WiFi": "images/antenna-on.png",
       "Openwireless.org": "images/antenna-on.png"};
     return imageMap[name] || "images/antenna-on.png";
   };
@@ -77,7 +77,7 @@ var dashboardModule = (function(){
       });
     };
     createToggle("#Openwirelessorg", "Openwireless.org");
-    createToggle("#PrivateWifi", "Private Wifi");
+    createToggle("#PrivateWifi", "Private WiFi");
   };
 
   var toggleInterface = function(name, state) {
@@ -87,7 +87,7 @@ var dashboardModule = (function(){
           $("#Openwirelessorg span").removeClass("On").removeClass("Off")
           $("#Openwirelessorg span").addClass(response["new_state"])
         }
-        if(response["name"] == "Private Wifi"){
+        if(response["name"] == "Private WiFi"){
           $("#PrivateWifi span").removeClass("On").removeClass("Off")
           $("#PrivateWifi span").addClass(response["new_state"])
         }

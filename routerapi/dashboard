@@ -46,7 +46,7 @@ result = {
       "devices": "0"
     },
     "privateWifi": {
-      "name": "Private Wifi",
+      "name": "Private WiFi",
       "uploadSpeed": "...",
       "uploadSpeedMetric": "Mb/s",
       "downloadSpeed": "...",

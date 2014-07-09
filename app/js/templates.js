@@ -208,7 +208,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (helper = helpers.ispUploadSpeed) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.ispUploadSpeed); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span> Mb/s</p>\n        </div>\n\n        <h2>Private Wifi</h2>\n        <div class=\"section\">\n          <label for=routerSsid>SSID</label>\n          <span>";
+    + "</span> Mb/s</p>\n        </div>\n\n        <h2>Private WiFi</h2>\n        <div class=\"section\">\n          <label for=routerSsid>SSID</label>\n          <span>";
   if (helper = helpers.routerSsid) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.routerSsid); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)

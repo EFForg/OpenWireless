@@ -6,7 +6,7 @@ environ = os.environ
 params = {}
 response = {}
 
-interface_dictionary = {"Openwireless.org": "1", "Private Wifi": "3"}
+interface_dictionary = {"Openwireless.org": "1", "Private WiFi": "3"}
 
 def wireless_is_disabled(interface_name):
     is_disabled = uci.get("wireless.@wifi-iface[" + interface_name + "].disabled") == "1"
