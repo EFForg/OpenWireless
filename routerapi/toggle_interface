@@ -4,8 +4,9 @@ import os, json, sys, uci, common
 
 environ = os.environ
 params = {}
+response = {}
 
-interface_dictionary = {"#Openwirelessorg": "1", "#PrivateWifi": "3"}
+interface_dictionary = {"Openwireless.org": "1", "Private Wifi": "3"}
 
 def wireless_is_disabled(interface_name):
     is_disabled = uci.get("wireless.@wifi-iface[" + interface_name + "].disabled") == "1"
@@ -15,12 +16,14 @@ def wireless_is_disabled(interface_name):
 def toggle_wireless_status(interface_name):
     if wireless_is_disabled(interface_name):
         uci.set("wireless.@wifi-iface[" + interface_name + "].disabled=0")
+        return "On"
     else:
         uci.set("wireless.@wifi-iface[" + interface_name + "].disabled=1")
+        return "Off"
     uci.commit("wireless")
 
 def set_error(param):
-    params['error'] = 'Invalid ' + param
+    response['error'] = 'Invalid ' + param
 
 if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
     json_body = json.loads(sys.stdin.read())
@@ -28,11 +31,11 @@ if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
     for k in json_body.keys():
         params[k] = json_body[k]
 
-    set_error(interface_dictionary[params["params"]["interface_name"]])
-    toggle_wireless_status(interface_dictionary[params["params"]["interface_name"]])
+    response["name"] = params["name"]
+    response["new_state"] = toggle_wireless_status(interface_dictionary[params["name"]])
 
 else:
     set_error('GET request')
 
 print "Content-Type:application/json\r\n"
-print json.JSONEncoder().encode(params)
+print json.JSONEncoder().encode(response)
