@@ -21,6 +21,8 @@ lan_ip = get_internal_ip_address("ge00")
 openwireless_maxmonthlybandwidth = check_output(["/sbin/uci", "get", "openwireless.maxmonthlybandwidth"])
 openwireless_maxbandwidthpercent = check_output(["/sbin/uci", "get", "openwireless.maxbandwidthpercentage"])
 
+ssid = uci.get("wireless.@wifi-iface[2].ssid")
+
 result = {
 	"id": 1,
 	"jsonrpc": "2.0",
@@ -50,7 +52,8 @@ result = {
 			"downloadSpeed": "...",
 			"downloadSpeedMetric": "Mb/s",
 			"devices": "0",
-			"on": False
+			"on": False,
+      "ssid": ssid
 		},
 		"openWireless": {
 			"name": "Openwireless.org",
