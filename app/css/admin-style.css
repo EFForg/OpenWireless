@@ -92,7 +92,7 @@ h1 {
 }
 
 h1, h2 {
-  font-size: 17px;
+  font-size: 20px;
 }
 
 img {
@@ -128,9 +128,9 @@ small {
   text-decoration: none;
 }
 
-.selector select, .SSH input {
+select {
     outline: none;
-    background: transparent;
+    background: rgb(139, 197, 63);
     border: 2px solid rgb(139, 197, 63);
     color: white;
     -webkit-appearance: none;
@@ -282,4 +282,11 @@ footer img {
 #input-SSH {
   width: 100%;
   height: 11em;
+}
+label {
+  margin-right: 1em;
+}
+.section {
+  padding-left: 1em;
+  padding-bottom: 1em;
 }

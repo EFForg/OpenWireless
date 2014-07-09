@@ -22,6 +22,7 @@ def check_param(device, param):
 
 def get_attributes(interface, config_name):
   try:
+    interface["ssid"] = uci.get("wireless." + config_name + ".ssid")
     interface["device"] = check_device(config_name)
     if interface["device"] == "radio0" :
       interface["band"] = "2.4"
@@ -47,7 +48,7 @@ def get_attributes(interface, config_name):
 private = {}
 open_wireless = {}
 
-get_attributes(private, "@wifi-iface[0]")
+get_attributes(private, "@wifi-iface[2]")
 get_attributes(open_wireless, "@wifi-iface[1]")
 openwireless_bandwidth_percentage = check_output(["/sbin/uci", "get", "openwireless.maxbandwidthpercentage"])
 openwireless_monthly_data = check_output(["/sbin/uci", "get", "openwireless.maxmonthlybandwidth"])
@@ -59,6 +60,7 @@ result = {
 	  "ispUploadSpeed"                : "3.6",
 	  "softwareVersionUpdateDate"     : "16/06/2014",
 	  "lastCheckedDate"               : "18/06/2014",
+	  "routerSsid"                    : private["ssid"],
 	  "routerBand"                    : private["band"],
 	  "routerChannel"                 : private["channel"],
 	  "routerCustomChannel"           : "??",

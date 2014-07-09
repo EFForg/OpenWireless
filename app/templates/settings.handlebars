@@ -1,70 +1,80 @@
-        <br>
-        <br>
-        <h4>Router</h4>
-        <p><a href="./changePassword.html">Change administrator password&gt;</a></p>
-        <p>Software Version: {{softwareVersion}}</p>
-        <p>Date of version update: {{softwareVersionUpdateDate}}</p>
-        <p>Date last checked for update: {{lastCheckedDate}}</p>
-        <p><a href="#">Check for update &gt;</a></p>
-        <br>
-        <br>
-
-        <h4>ISP Speeds</h4>
-        <p>*This helps us optimize your router.</p>
-        <p>ISP Download Speed: <span id="ispDownloadSpeed" class="editable">{{ispDownloadSpeed}}</span> mb/s</p>
-        <p>ISP Upload Speed: <span id="ispUploadSpeed" class="editable">{{ispUploadSpeed}}</span> mb/s</p>
-        <br>
-        <br>
-
-        <h4>Private Wifi</h4>
-        <p><a href="./setSSID.html">Set network SSID and passphrase&gt;</a></p>
-        <br>
-        <h4>Choose band</h4>
-        <p><span class="selector"><select id="routerBand">RouterBand</select></span> ghz</p>
-        <p>Channel <span class="selector"><select id="routerChannel">RouterChannel</select></span> ghz</p>
-        <p>Channel bandwidth <span class="selector"><select id="routerChannelBandwidth">RouterChannelBandwidth</select></span> ghz</p>
-        <br>
-        <br>
-
-        <h3>VPN/TOR Configuration</h3>
-        <p><span class="selector"><select id="routerVpnConfiguration">RouterVpnConfiguration</select></span></p>
-        <br>
-        <br>
-
-
-        <h4>Open Wireless</h4>
-        <p>Real min time bandwidth <span class="editable" id="openwirelessBandwidth">{{openwirelessBandwidth}}</span>%</p>
-        <p>*I'm willing to tolerate up to 15% degradation in internet speeds so that I can contribute to openwireless</p>
-        <br>
-        <p>Maximum total data/month <span class="editable" id="openwirelessData">{{openwirelessData}}</span> ghz</p>
-        <p><a href="#">Reset total data used this month &gt;</a></p>
-        <p>Change data auto-reset date [Datepicker]</p>
-        <br>
-        <h4>Choose band</h4>
-        <p><span class="selector"><select id="openwirelessBand">OpenwirelessBand</select></span> ghz</p>
-        <p>Channel <span class="selector"><select id="openwirelessChannel">OpenwirelessChannel</select></span> ghz</p>
-        <p>Channel bandwidth <span class="selector"><select id="openwirelessChannelBandwidth">OpenwirelessChannelBandwidth</select></span> ghz</p>
-        <br>
-        <h4>WiFi security</h4>
-        <p><span class="selector"><select id="openwirelessEncryption">OpenwirelessEncryption</select></span></p>
-        <br>
-
-        <h4>VPN/TOR Configuration</h4>
-        <p><span class="selector"><select id="openwirelessVpnConfiguration">OpenwirelessVpnConfiguration</select></span></p>
-        <br>
-        <br>
-
-        <h4>IP Info</h4>
-        <p>WAN IP: {{wanIp}}</p>
-        <p>LAN IP: {{lanIp}}</p>
-        <br>
-        <br>
-
-        <h4>SSH Keys</h4>
-        <a id="SSH">Upload your ssh keys for command line access</a>
-        <div id="enterSshKey">
-          <textarea id='input-SSH'/></textarea><br>
-          <button id='submit-SSH'>Submit</button>
+        <h2>Administration</h2>
+        <div class="section">
+          <p>
+            <a href="./changePassword.html">Change admin password</a>
+          </p>
+          <p id="SSH">
+            <a>Add or edit SSH keys</a>
+          </p>
+          <div id="enterSshKey">
+            <textarea id='input-SSH'/></textarea><br>
+            <button id='submit-SSH'>Submit</button>
+          </div>
+          <p>Software Version: {{softwareVersion}}</p>
+          <p>Date of version update: {{softwareVersionUpdateDate}}</p>
+          <p>Date last checked for update: {{lastCheckedDate}}</p>
+          <p><a href="#">Check for update</a></p>
+          <p>WAN IP: {{wanIp}}</p>
+          <p>LAN IP: {{lanIp}}</p>
         </div>
-        <br>
-        <br>
+
+        <h2>ISP Speeds</h2>
+        <div class="section">
+          <p>Set these to help optimize your router.</p>
+          <p>ISP Download Speed: <span id="ispDownloadSpeed" class="editable">{{ispDownloadSpeed}}</span> Mb/s</p>
+          <p>ISP Upload Speed: <span id="ispUploadSpeed" class="editable">{{ispUploadSpeed}}</span> Mb/s</p>
+        </div>
+
+        <h2>Private Wifi</h2>
+        <div class="section">
+          <label for=routerSsid>SSID</label>
+          <span>{{routerSsid}}</span>
+          <p><a href="./setSSID.html">Set network SSID and passphrase</a></p>
+          <br>
+          <p>
+            <label for="routerBand">Frequency</label>
+            <span class="selector"><select id="routerBand">RouterBand</select></span>
+          </p>
+          <p>
+            <label for="routerChannel">Channel</label>
+            <select id="routerChannel">RouterChannel</select>
+          </p>
+          <p>
+            <label for="routerChannelBandwidth">Channel bandwidth</label>
+            <select id="routerChannelBandwidth">RouterChannelBandwidth</select>
+          </p>
+          <p>
+            <label for="routerVpnConfiguration">VPN/TOR Configuration</label>
+            <select id="routerVpnConfiguration">RouterVpnConfiguration</select>
+          </p>
+        </div>
+
+        <h2>Open Wireless</h2>
+        <div class="section">
+          <p>Real min time bandwidth <span class="editable" id="openwirelessBandwidth">{{openwirelessBandwidth}}</span>%</p>
+          <p>*I'm willing to tolerate up to 15% degradation in internet speeds so that I can contribute to openwireless</p>
+          <br>
+          <p>Maximum total data/month <span class="editable" id="openwirelessData">{{openwirelessData}}</span> GHz</p>
+          <p><a href="#">Reset total data used this month &gt;</a></p>
+          <p>Change data auto-reset date [Datepicker]</p>
+          <p>
+            <label for="openwirelessBand">Choose band</label>
+            <select id="openwirelessBand">OpenwirelessBand</select>
+          </p>
+          <p>
+            <label for="openwirelessChannel">Channel</label>
+            <select id="openwirelessChannel">OpenwirelessChannel</select>
+          </p>
+          <p>
+            <label for="openwirelessChannelBandwidth">Channel bandwidth</label>
+            <select id="openwirelessChannelBandwidth">OpenwirelessChannelBandwidth</select>
+          </p>
+          <p>
+            <label for="openwirelessEncryption">WiFi security</label>
+            <select id="openwirelessEncryption">OpenwirelessEncryption</select>
+          </p>
+          <p>
+            <label for="openwirelessVpnConfiguration">VPN/TOR Configuration</label>
+            <select id="openwirelessVpnConfiguration">OpenwirelessVpnConfiguration</select>
+          </p>
+        </div>
