@@ -45,8 +45,8 @@ function redirectTarget(loggedIn, state) {
 function loggedInRedirectTarget(state) {
   if (state === 'set-password') {
     console.log('Shouldn\'t happen: logged in, but in state "set-password".');
-    // Treat it as state setup-private-net.
-    return 'setSSID.html';
+    // Treat it as state set-password.
+    return 'welcome.html';
   } else if (state === 'complete') {
     return 'dashboard.html';
   } else if (state === 'setup-private-net') {
