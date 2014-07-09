@@ -12,7 +12,8 @@ var replaceByteCounts = function(){
     var lastDate = new Date(lastResponse["dateTime"]);
     var millisecondsToSecondsConversion = 0.001;
     var byteToMegabyteConversion = 0.000001;
-    var timeDifferenceInSeconds = (newDate - lastDate)*millisecondsToSecondsConversion;
+    var byteToBitConversion = 8;
+    var timeDifferenceInSeconds = (newDate - lastDate)*millisecondsToSecondsConversion*byteToBitConversion;
 
     var computeUploadRate = function(networkName){
       return ((newResponse[networkName]["uploadUsage"] - lastResponse[networkName]["uploadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds).toPrecision(2);
