@@ -61,7 +61,7 @@ result = {
 			"maxBandwidthPercent": openwireless_maxbandwidthpercent,
 			"maxMonthlyBandwidth": openwireless_maxmonthlybandwidth,
 			"maxMonthlyBandwidthMetric": "mb",
-      "monthlyBandwidthUsage": "23",
+      "monthlyBandwidthUsage": "...",
 			"on": True
 		},
     "wanIp"  : wan_ip,
