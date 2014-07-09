@@ -7,17 +7,17 @@ uci_path = '/sbin/uci'
 def get(*args):
   args = list(args)
   args.insert(0, "get")
-  run(args)
+  return run(args)
 
 def set(*args):
   args = list(args)
   args.insert(0, "set")
-  run(args)
+  return run(args)
 
 def commit(*args):
   args = list(args)
   args.insert(0, "commit")
-  run(args)
+  return run(args)
 
 def check_nulls(string):
   if string.find('\00') != -1:
