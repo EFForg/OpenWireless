@@ -1,5 +1,6 @@
 $(document).on("click", "#SSH", function() {
-    $('#SSH').replaceWith("<input type='text' id='input-SSH'> <button id='submit-SSH'>Submit</button>");
+    $('#SSH').hide();
+    $('#enterSshKey').show();
 });
 
 $(document).on("click", "#submit-SSH", function(){
