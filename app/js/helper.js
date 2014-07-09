@@ -5,7 +5,7 @@ var helperModule = (function(){
   var checkEmptyField = function(field, errorField, fieldName) {
     if(isEmpty(field.val())) {
       field.addClass('error');
-      errorField.html("Please enter a " + fieldName + "!");
+      errorField.text("Please enter a " + fieldName + "!");
       errorField.show();
       field.focus();
       return true;
