@@ -14,7 +14,10 @@ if [ "$1" == "--continuous" ]; then
   ssh -Nf $TARGET
   sync
   inotifywait -rm -e close_write --format '%w%f' app routerapi |\
-  while read line; do sync ; done
+  while read line; do
+    sleep 0.2
+    sync
+  done
 else
   sync
 fi
