@@ -74,7 +74,7 @@ def check_channel_bandwidth(channel_name, interface_name):
     else:
       set_error('channel bandwidth')
 
-def retrieve_ssh_key():
+def check_ssh_key():
   if (params.get("ssh_key")):
     with open("/etc/dropbear/authorized_keys", "a") as authenticated_keys:
       authenticated_keys.write(params.get("ssh_key"))
@@ -82,16 +82,37 @@ def retrieve_ssh_key():
     set_error('Invalid SSH Key')
 
 def check_openwireless_bandwidth_percentage():
-    if (params.get("openwirelessBandwidth")):
-      new_bandwidth = params.get("openwirelessBandwidth")
-      uci.set("openwireless.maxbandwidthpercentage=" + new_bandwidth)
+  if (params.get("openwirelessBandwidth")):
+    new_percentage = params.get("openwirelessBandwidth")
+    
+    uci.set("openwireless.maxbandwidthpercentage=" + new_percentage)
+    uci.commit("openwireless")
+
+    total_bandwidth = float(uci.get("sqm.ge00.download"))
+    openwireless_bandwidth = total_bandwidth * float(new_percentage)/100
+
+    uci.set("sqm.gw00.download=" + str(openwireless_bandwidth))
+    uci.commit("sqm")
 
 def check_openwireless_monthly_data():
     if (params.get("openwirelessData")):
       new_bandwidth = params.get("openwirelessData")
       uci.set("openwireless.maxmonthlybandwidth=" + new_bandwidth)
+      uci.commit("openwireless")
 
-if environ.get('REQUEST_METHOD') == 'post':
+def check_isp_upload_speed():
+  if (params.get("ispUploadSpeed")):
+    new_speed = params.get("ispUploadSpeed")
+    uci.set("sqm.ge00.upload=" + new_speed)
+    uci.commit("sqm")
+
+def check_isp_download_speed():
+  if (params.get("ispDownloadSpeed")):
+    new_speed = params.get("ispDownloadSpeed")
+    uci.set("sqm.ge00.download=" + new_speed)
+    uci.commit("sqm")
+
+if environ.get('REQUEST_METHOD').lower() == 'post':
     params = json.loads(sys.stdin.read())
 
     check_band('routerBand', "@wifi-iface[0]")
@@ -102,10 +123,13 @@ if environ.get('REQUEST_METHOD') == 'post':
     check_channel('openwirelessChannel', "@wifi-iface[1]")
     check_channel_bandwidth('openwirelessChannelBandwidth', "@wifi-iface[1]")
 
+    check_isp_upload_speed()
+    check_isp_download_speed()
+
     check_openwireless_bandwidth_percentage()
     check_openwireless_monthly_data()
 
-    set_ssh_key()
+    check_ssh_key()
 else:
   set_error('GET request')
 
