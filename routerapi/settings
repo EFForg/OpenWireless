@@ -50,14 +50,18 @@ open_wireless = {}
 
 get_attributes(private, "@wifi-iface[2]")
 get_attributes(open_wireless, "@wifi-iface[1]")
+
 openwireless_bandwidth_percentage = check_output(["/sbin/uci", "get", "openwireless.maxbandwidthpercentage"])
 openwireless_monthly_data = check_output(["/sbin/uci", "get", "openwireless.maxmonthlybandwidth"])
+
+isp_download_speed = uci.get("sqm.ge00.download")
+isp_upload_speed = uci.get("sqm.ge00.upload")
 
 result = {
 	"result": {
 	  "softwareVersion"               : software_version,
-	  "ispDownloadSpeed"              : "12.8",
-	  "ispUploadSpeed"                : "3.6",
+	  "ispDownloadSpeed"              : isp_download_speed,
+	  "ispUploadSpeed"                : isp_upload_speed,
 	  "softwareVersionUpdateDate"     : "16/06/2014",
 	  "lastCheckedDate"               : "18/06/2014",
 	  "routerSsid"                    : private["ssid"],

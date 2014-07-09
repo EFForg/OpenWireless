@@ -26,9 +26,9 @@ header, .network, footer {
   -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
   -webkit-box-pack: justify;
-  -webkit-justify-content: center;
+  -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
-  justify-content: center;
+  justify-content: space-between;
   margin-right: 20px;
   margin-left: 20px;
   -webkit-box-align: center;
