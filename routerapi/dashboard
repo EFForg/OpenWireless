@@ -12,7 +12,7 @@ if "error" in ping_output:
   ping_speed = "N/A"
 else:
   connected = True
-  ping_speed = ping_output.split(' ')[11].split('=')[1]
+  ping_speed = int(float(ping_output.split(' ')[11].split('=')[1]))
 
 
 wan_ip = get_external_ip_address() 
@@ -28,9 +28,9 @@ result = {
 		"internet": {
 			"name": "Internet",
 			"uploadSpeed": "...",
-			"uploadSpeedMetric": "mb/s",
+			"uploadSpeedMetric": "Mb/s",
 			"downloadSpeed": "...",
-			"downloadSpeedMetric": "mb/s",
+			"downloadSpeedMetric": "Mb/s",
 			"pingSpeed": ping_speed,
 			"pingSpeedMetric": "ms",
 			"connected": connected
@@ -38,29 +38,29 @@ result = {
 		"lanNetwork": {
 			"name": "LAN Network",
 			"uploadSpeed": "...",
-			"uploadSpeedMetric": "mb/s",
+			"uploadSpeedMetric": "Mb/s",
 			"downloadSpeed": "...",
-			"downloadSpeedMetric": "mb/s",
+			"downloadSpeedMetric": "Mb/s",
 			"devices": "0"
 		},
 		"privateWifi": {
 			"name": "Private Wifi",
 			"uploadSpeed": "...",
-			"uploadSpeedMetric": "mb/s",
+			"uploadSpeedMetric": "Mb/s",
 			"downloadSpeed": "...",
-			"downloadSpeedMetric": "mb/s",
+			"downloadSpeedMetric": "Mb/s",
 			"devices": "0",
 			"on": False
 		},
 		"openWireless": {
 			"name": "Openwireless.org",
 			"uploadSpeed": "...",
-			"uploadSpeedMetric": "mb/s",
+			"uploadSpeedMetric": "Mb/s",
 			"downloadSpeed": "...",
-			"downloadSpeedMetric": "mb/s",
+			"downloadSpeedMetric": "Mb/s",
 			"maxBandwidthPercent": openwireless_maxbandwidthpercent,
 			"maxMonthlyBandwidth": openwireless_maxmonthlybandwidth,
-			"maxMonthlyBandwidthMetric": "mb",
+			"maxMonthlyBandwidthMetric": "Mb",
       "monthlyBandwidthUsage": "...",
 			"on": True
 		},
