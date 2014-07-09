@@ -7,7 +7,6 @@ var response5 = {};
 var response6 = {};
 
 var replaceByteCounts = function(){
-  
   var getRates = function(newResponse, lastResponse){
     var newDate = new Date(newResponse["dateTime"]);
     var lastDate = new Date(lastResponse["dateTime"]);
@@ -97,7 +96,18 @@ var replaceByteCounts = function(){
     updateCount('Openwireless.org', rates['openWireless']);
 
     updateOpenwirelessBandwidth(rates['openWireless']);
+    // We use a setTimeout rather than a setInterval because sometimes the
+    // server responses are consistently slower than a second. Under
+    // setInterval that would result in lots of stacked requests, exacerbating
+    // the slowness.
+    setTimeout(replaceByteCounts, 1000);
   };
+
+  // When we get an error, trying in ten seconds instead of one.
+  var retryingErrorCallback = function(jqXHR, textStatus, errorThrown) {
+    errorCallback(jqXHR, textStatus, errorThrown);
+    setTimeout(replaceByteCounts, 10000);
+  }
 
   var requestData = {
     "data" : {},
@@ -107,7 +117,6 @@ var replaceByteCounts = function(){
   };
 
   requestModule.submitRequest(requestData);
-
 };
 
 $(function(){
@@ -124,7 +133,5 @@ $(function(){
   };
 
   requestModule.submitRequest(initialRequestData);
-
-  var timer = $.timer(replaceByteCounts);
-  timer.set({ time : 1000, autostart : true });
+  replaceByteCounts();
 });
