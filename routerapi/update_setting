@@ -1,8 +1,6 @@
 #!/usr/bin/python
 
 import os, json, sys, common, uci
-from subprocess import check_output, call
-
 
 environ = os.environ
 params = {}
@@ -14,8 +12,6 @@ band_2p4_channel_options = ['auto',
   '1 (2.412 GHz)', '2 (2.417 GHz)', '3 (2.422 GHz)', '4 (2.427 GHz)',
   '5 (2.432 GHz)', '6 (2.437 GHz)', '7 (2.442 GHz)', '8 (2.447 GHz)',
   '9 (2.452 GHz)', '10 (2.457 GHz)', '11 (2.462 GHz)', '12 (2.467 GHz)']
-
-uci_path = "/sbin/uci"
 
 def check_device(config_name):
   return uci.get("wireless." + config_name + ".device")
@@ -84,7 +80,7 @@ def check_ssh_key():
 def check_openwireless_bandwidth_percentage():
   if (params.get("openwirelessBandwidth")):
     new_percentage = params.get("openwirelessBandwidth")
-    
+
     uci.set("openwireless.maxbandwidthpercentage=" + new_percentage)
     uci.commit("openwireless")
 

@@ -1,6 +1,10 @@
 #!/usr/bin/python
-import time, json, sys, common, os, uci
-from subprocess import check_output
+import json
+import sys
+import common
+import os
+import uci
+import subprocess
 
 def jsonrpc_set_private_ssid():
   data = json.loads(sys.stdin.read())
@@ -24,7 +28,7 @@ def jsonrpc_set_private_ssid():
   # TODO: There should be some shared setup_state code to handle this.
   with open('/etc/openwireless-setup-state', 'w') as f:
     f.write('complete')
-  check_output(["/sbin/wifi", "reload"]).strip()
+  subprocess.call(["/sbin/wifi", "reload"])
   sys.exit(0)
 
 jsonrpc_set_private_ssid()
