@@ -4,8 +4,8 @@ cd $(dirname $0)
 TARGET=root@gw.home.lan
 sync() {
   ./make-templates.sh && \
-  rsync -au app/ $TARGET:/www/ && \
-  rsync -au routerapi/ $TARGET:/www/cgi-bin/routerapi/ && \
+  rsync -au --no-owner --no-group app/ $TARGET:/www/ && \
+  rsync -au --no-owner --no-group routerapi/ $TARGET:/www/cgi-bin/routerapi/ && \
   date +"%Y-%m-%d %H:%M:%S synced"
 }
 

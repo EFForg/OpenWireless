@@ -22,7 +22,7 @@ var dashboardModule = (function(){
   var getImage = function(name){
     imageMap = {"Internet" : "images/router.png",
       "LAN Network": "images/lan.png",
-      "Private Wifi": "images/antenna-on.png",
+      "Private WiFi": "images/antenna-on.png",
       "Openwireless.org": "images/antenna-on.png"};
     return imageMap[name] || "images/antenna-on.png";
   };
@@ -77,13 +77,30 @@ var dashboardModule = (function(){
       });
     };
     createToggle("#Openwirelessorg", "Openwireless.org");
-    createToggle("#PrivateWifi", "Private Wifi");
+    createToggle("#PrivateWifi", "Private WiFi");
   };
 
   var toggleInterface = function(name, state) {
-    var data = { "jsonrpc": "2.0", "method": "toggle", "params": {"name": name, "state": state}};
-    var successCallback = location.reload();
-    submitRequest(data, successCallback, errorCallback);
+    var data = { "jsonrpc": "2.0", "method": "toggle", "name": name, "state": state};
+    var successCallback = function(response){
+        if(response["name"] == "Openwireless.org"){
+          $("#Openwirelessorg span").removeClass("On").removeClass("Off")
+          $("#Openwirelessorg span").addClass(response["new_state"])
+        }
+        if(response["name"] == "Private WiFi"){
+          $("#PrivateWifi span").removeClass("On").removeClass("Off")
+          $("#PrivateWifi span").addClass(response["new_state"])
+        }
+    };
+    submitToggleRequest(data, successCallback, errorCallback);
+  };
+
+  var submitToggleRequest = function(data, successCallback, errorCallback){
+    requestModule.submitRequest({ "data": data,
+      "successCallback":successCallback,
+      "errorCallback": errorCallback,
+      "url":"/cgi-bin/routerapi/toggle_interface"
+    });
   };
 
   var submitRequest = function(data, successCallback, errorCallback){

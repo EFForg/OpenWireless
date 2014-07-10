@@ -1,13 +1,16 @@
 #!/usr/bin/python
 import common
-from subprocess import check_output
+import subprocess
 
 uci_path = '/sbin/uci'
 
 def get(*args):
   args = list(args)
   args.insert(0, "get")
-  return run(args)
+  try:
+    return run(args)
+  except subprocess.CalledProcessError, e:
+    return None
 
 def set(*args):
   args = list(args)
@@ -19,11 +22,13 @@ def commit(*args):
   args.insert(0, "commit")
   return run(args)
 
-def check_nulls(string):
+def validate(string):
+  if len(string) > 200:
+    raise Exception('String input to UCI too long.')
   if string.find('\00') != -1:
-    raise Exception('Invalid input: contains null bytes')
+    raise Exception('Invalid input: contains null bytes.')
 
 def run(args_list):
   args_list.insert(0, uci_path)
-  map(check_nulls, args_list)
-  return check_output(args_list).strip()
+  map(validate, args_list)
+  return subprocess.check_output(args_list).strip()

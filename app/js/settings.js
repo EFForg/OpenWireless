@@ -34,8 +34,7 @@ var settingsModule = (function(){
 
   var displaySettings = function(){
     var template = Handlebars.templates.settings;
-    $('#main').empty();
-    $('#main').append(template(config));
+    $('#main').html(template(config));
 
     initializeDropDownMenus();
 
@@ -172,5 +171,4 @@ $(function() {
         "errorCallback"     :errorCallback,
         "successCallback"   :successCallback
     });
-
 });

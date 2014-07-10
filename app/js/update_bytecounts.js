@@ -7,20 +7,26 @@ var response5 = {};
 var response6 = {};
 
 var replaceByteCounts = function(){
-  
+  var roundToDecimal = function(num, dec) {
+    return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
+  }
+
   var getRates = function(newResponse, lastResponse){
     var newDate = new Date(newResponse["dateTime"]);
     var lastDate = new Date(lastResponse["dateTime"]);
     var millisecondsToSecondsConversion = 0.001;
     var byteToMegabyteConversion = 0.000001;
-    var timeDifferenceInSeconds = (newDate - lastDate)*millisecondsToSecondsConversion;
+    var byteToBitConversion = 8;
+    var timeDifferenceInSeconds = (newDate - lastDate)*millisecondsToSecondsConversion*byteToBitConversion;
 
     var computeUploadRate = function(networkName){
-      return ((newResponse[networkName]["uploadUsage"] - lastResponse[networkName]["uploadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds).toPrecision(2);
+      var uploadRate = (newResponse[networkName]["uploadUsage"] - lastResponse[networkName]["uploadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds;
+      return roundToDecimal(uploadRate, 2);
     };
 
     var computeDownloadRate = function(networkName){
-      return ((newResponse[networkName]["downloadUsage"] - lastResponse[networkName]["downloadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds).toPrecision(2);
+      var downloadRate = (newResponse[networkName]["downloadUsage"] - lastResponse[networkName]["downloadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds;
+      return roundToDecimal(downloadRate, 2);
     };
 
     var internetUploadUsage = computeUploadRate("internet");
@@ -34,7 +40,7 @@ var replaceByteCounts = function(){
 
     var openWirelessUploadUsage = computeUploadRate("openWireless");
     var openWirelessDownloadUsage = computeDownloadRate("openWireless");
-          
+
     return {
       "internet": {
         "uploadUsage" : internetUploadUsage,
@@ -68,17 +74,17 @@ var replaceByteCounts = function(){
     byteUsage = parseInt(networkRates["uploadUsage"]) + parseInt(networkRates["downloadUsage"]);
     var byteToMegabyteConversion = 0.000001;
     mbUsage = byteUsage * byteToMegabyteConversion;
-    mbUsageForDisplay = mbUsage.toPrecision(2);
+    mbUsageForDisplay = roundToDecimal(mbUsage, 2);
     $('#monthlyBandwidth').text(mbUsageForDisplay);
   }
 
   var successCallback = function(response){
-    var response1 = response2;
-    var response2 = response3;
-    var response3 = response4;
-    var response4 = response5;
-    var response5 = response6;
-    var response6 = response;
+    response1 = response2;
+    response2 = response3;
+    response3 = response4;
+    response4 = response5;
+    response5 = response6;
+    response6 = response;
 
     if ($.isEmptyObject(response1)){
         rates = getRates(response6, initialResponse);
@@ -91,13 +97,24 @@ var replaceByteCounts = function(){
     updateCount('LAN Network', rates['lanNetwork']);
     updateDevices('LAN Network', response['lanNetwork']['devices']);
 
-    updateCount('Private Wifi', rates['privateWifi']);
-    updateDevices('Private Wifi', response['privateWifi']['devices']);
+    updateCount('Private WiFi', rates['privateWifi']);
+    updateDevices('Private WiFi', response['privateWifi']['devices']);
 
     updateCount('Openwireless.org', rates['openWireless']);
 
     updateOpenwirelessBandwidth(rates['openWireless']);
+    // We use a setTimeout rather than a setInterval because sometimes the
+    // server responses are consistently slower than a second. Under
+    // setInterval that would result in lots of stacked requests, exacerbating
+    // the slowness.
+    setTimeout(replaceByteCounts, 1000);
   };
+
+  // When we get an error, trying in ten seconds instead of one.
+  var retryingErrorCallback = function(jqXHR, textStatus, errorThrown) {
+    errorCallback(jqXHR, textStatus, errorThrown);
+    setTimeout(replaceByteCounts, 10000);
+  }
 
   var requestData = {
     "data" : {},
@@ -107,7 +124,6 @@ var replaceByteCounts = function(){
   };
 
   requestModule.submitRequest(requestData);
-
 };
 
 $(function(){
@@ -124,7 +140,5 @@ $(function(){
   };
 
   requestModule.submitRequest(initialRequestData);
-
-  var timer = $.timer(replaceByteCounts);
-  timer.set({ time : 1000, autostart : true });
+  replaceByteCounts();
 });

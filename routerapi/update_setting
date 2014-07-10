@@ -1,8 +1,6 @@
 #!/usr/bin/python
 
 import os, json, sys, common, uci
-from subprocess import check_output, call
-
 
 environ = os.environ
 params = {}
@@ -15,13 +13,11 @@ band_2p4_channel_options = ['auto',
   '5 (2.432 GHz)', '6 (2.437 GHz)', '7 (2.442 GHz)', '8 (2.447 GHz)',
   '9 (2.452 GHz)', '10 (2.457 GHz)', '11 (2.462 GHz)', '12 (2.467 GHz)']
 
-uci_path = "/sbin/uci"
-
 def check_device(config_name):
-  return check_output([uci_path, "get", "wireless." + config_name + ".device"]).strip()
+  return uci.get("wireless." + config_name + ".device")
 
 def check_param(device, param):
-  return check_output([uci_path, "get", "wireless." + device + "." + param]).strip()
+  return uci.get("wireless." + device + "." + param)
 
 def validate_channel(device, channel):
   if device == 'radio1':
@@ -33,8 +29,8 @@ def validate_bandwidth(new_bandwidth):
   return new_bandwidth in ['20', '40']
 
 def set_param(device, param, value):
-  call([uci_path, "set", "wireless." + device + "." + param + "=" + value])
-  call([uci_path, "commit", "wireless"])
+  uci.set("wireless." + device + "." + param + "=" + value)
+  uci.commit("wireless")
 
 def set_error(param):
   params['error'] = 'Invalid ' + param
@@ -74,29 +70,46 @@ def check_channel_bandwidth(channel_name, interface_name):
     else:
       set_error('channel bandwidth')
 
-def retrieve_SSH_Key():
+def check_ssh_key():
+  if (params.get("ssh_key")):
+    with open("/etc/dropbear/authorized_keys", "a") as authenticated_keys:
+      authenticated_keys.write(params.get("ssh_key"))
+  else:
+    set_error('Invalid SSH Key')
 
-    if (params.get("ssh_key")):
-        with open("../../../etc/dropbear/authorized_keys", "a") as authenticated_keys:
-            authenticated_keys.write(params.get("ssh_key"))
-    else:
-        set_error('Invalid SSH Key')
- 
-def check_openwireless_bandwidth_percentage()
-    if (params.get("openwirelessBandwidth")):
-      new_bandwidth = params.get("openwirelessBandwidth")
-      uci.set("openwireless.maxbandwidthpercentage=" + new_bandwidth)
+def check_openwireless_bandwidth_percentage():
+  if (params.get("openwirelessBandwidth")):
+    new_percentage = params.get("openwirelessBandwidth")
 
-def check_openwireless_monthly_data()
+    uci.set("openwireless.maxbandwidthpercentage=" + new_percentage)
+    uci.commit("openwireless")
+
+    total_bandwidth = float(uci.get("sqm.ge00.download"))
+    openwireless_bandwidth = total_bandwidth * float(new_percentage)/100
+
+    uci.set("sqm.gw00.download=" + str(openwireless_bandwidth))
+    uci.commit("sqm")
+
+def check_openwireless_monthly_data():
     if (params.get("openwirelessData")):
       new_bandwidth = params.get("openwirelessData")
       uci.set("openwireless.maxmonthlybandwidth=" + new_bandwidth)
+      uci.commit("openwireless")
 
-if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
-    json_body = json.loads(sys.stdin.read())
+def check_isp_upload_speed():
+  if (params.get("ispUploadSpeed")):
+    new_speed = params.get("ispUploadSpeed")
+    uci.set("sqm.ge00.upload=" + new_speed)
+    uci.commit("sqm")
 
-    for k in json_body.keys():
-        params[k] = json_body[k]
+def check_isp_download_speed():
+  if (params.get("ispDownloadSpeed")):
+    new_speed = params.get("ispDownloadSpeed")
+    uci.set("sqm.ge00.download=" + new_speed)
+    uci.commit("sqm")
+
+if environ.get('REQUEST_METHOD').lower() == 'post':
+    params = json.loads(sys.stdin.read())
 
     check_band('routerBand', "@wifi-iface[0]")
     check_channel('routerChannel', "@wifi-iface[0]")
@@ -105,10 +118,14 @@ if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
     check_band('openwirelessBand', "@wifi-iface[1]")
     check_channel('openwirelessChannel', "@wifi-iface[1]")
     check_channel_bandwidth('openwirelessChannelBandwidth', "@wifi-iface[1]")
-    
+
+    check_isp_upload_speed()
+    check_isp_download_speed()
+
     check_openwireless_bandwidth_percentage()
     check_openwireless_monthly_data()
 
+    check_ssh_key()
 else:
   set_error('GET request')
 

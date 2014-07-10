@@ -1,0 +1,99 @@
+  OpenWireless Security
+
+There are four basic threat scenarios we are trying to protect against:
+
+a) An attacker using the public Internet to reach the router directly,
+trying to gain access to the admin UI or execute code on the router.
+
+b) An attacker running a malicious website on the public Internet, trying to
+use XSS, CSRF, or similar attacks that use the router admin's logged-in
+session to change settings in the admin UI.
+
+c) An eavesdropper near the router, trying to read private communications
+or gain access to the private network.
+
+d) An attacker near the router who knows the private network password, trying
+to change settings in the admin UI or execute code on the router.
+
+Assumptions: There is a private network and a public network, as encouraged by
+the default OpenWireless setup. Anyone with physical access to the router can
+run any code they want on it.
+
+Here are the ways we attempt to defend against those scenarios:
+
+  Scenario A:
+
+We reduce our attack surface by not running any services on the box accessible
+to the outside world. Our webserver, listens only on the internal IP
+172.30.42.1 (see etc/lighttpd.conf). All ports on the upstream interface ge00
+are filtered by iptables rules (TODO).
+
+We ensure that external vulnerabilities can be patched quickly by providing an
+easy-to-use and secure update mechanism.
+
+  Scenario B:
+
+We require a CSRF token with all POST requests in order to prevent CSRF. The
+CSRF token is a hash of the auth token so the two are bound together to prevent
+cookie forcing attacks. Validation of CSRF tokens is done in constant time (see
+routerapi/auth.py). We generate the auth token using os.urandom(), a secure
+random number generator. Both the auth token and the CSRF token are sent to the
+browser as cookies, and the secure flag is set if user login is via HTTPS. The
+HttpOnly flag is set on the auth cookie so that an attacker with a temporary
+XSS cannot steal it.
+
+We attempt to avoid creating XSS by using JS Handlebars templating (similar to
+Mustache), which escapes content before interpolating it by default. We avoid
+triple staches ({{{}}}). In our code that uses jQuery, we prefer .text() over
+.html(). See app/templates and app/js.
+
+As a fallback in case we do have an XSS, we provide a Content-Security-Policy
+disallowing inline scripts (default-src 'self'; image-src 'self' data:;). We
+also specify X-Frame-Options: SAMEORIGIN to prevent clickjacking. See
+etc/lighttpd.conf.
+
+All admin sessions expire after 24 hours, so the attacker has a limited window
+in which to exploit the user's browser. See auth.py.
+
+  Scenario C:
+
+We do not allow connections from the public network (SSID "openwireless.org")
+to the router. This prevents attacks from reaching the web server or other
+services running on the private network. See etc/firewall.user.
+
+By default we set up the private network with WPA2 PSK+CCMP, and provide a
+strong suggested passphrase (TODO) using four words from the diceware
+dictionary (7776**4 possibilities, or 3.7e15). This should provide good
+resistance to brute force cracking of the WPA2 handshake.
+
+  Scenario D:
+
+We aggressively rate limit failed login attempts on the admin UI, to prevent
+brute force cracking of the admin password. The most powerful commands cannot
+be executed through the admin UI, but require SSH access to the router.
+
+One an admin UI password has been set, the admin can upload an SSH public key
+to gain full access. However, once the admin has successfully logged in with
+that public key one, no new key can be added through the admin UI. In order to
+change the SSH keys that grant access to the router, the admin must login using
+the existing SSH keys, or reset the router's memory. Only pubkey SSH access is
+enabled - login by password is disabled (TODO - see etc/config/dropbear).
+
+When the admin UI is over HTTPS, it provides forward secrecy, preventing
+retrospective decryption of data (like the admin password) if an attacker gains
+access to the private key for the web server. See etc/lighttpd.conf.
+
+Weaknesses: Since the attacker is on the local network they can ARP spoof the
+admin and conduct a MITM attack. Because the router certificate is self-signed
+anyhow, the admin is likely to click through any certificate warnings, so the
+MITM attack is likely to be successful.
+
+  Additional notes
+
+The admin UI password is stored using 55 rounds of pbkdf2, implemented by the
+pure python pbkdf2 module. This is about 100ms of CPU time on a Netgear
+WNDR3800, or 8ms on a Core2 Duo at 1200 MHz.
+
+  Updates
+
+TBD

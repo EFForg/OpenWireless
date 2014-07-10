@@ -1,13 +1,18 @@
-$(document).on("click", "#SSH", function() {
+$(document).on('click', '.edit-ssh', function() {
     $('#SSH').hide();
     $('#enterSshKey').show();
 });
 
-$(document).on("click", "#submit-SSH", function(){
+$(document).on('click', '#submit-SSH', function(){
     requestModule.submitRequest({
-        "url": "/cgi-bin/routerapi/update_setting",
-        "successCallback": function(){},
-        "errorCallback": errorCallback,
-        "data": {"ssh_key" : $('#input-SSH').val()}
+        'url': '/cgi-bin/routerapi/ssh_key',
+        'successCallback': function(data, textStatus, jqXHR) {
+          location.reload();
+        },
+        'errorCallback': errorCallback,
+        'data': {
+          'method': 'set_ssh_key',
+          'params': [$('#input-SSH').val()]
+        }
     });
 });

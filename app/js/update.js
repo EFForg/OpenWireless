@@ -1,8 +1,4 @@
 var updateModule = (function(){
-  var checkUpdateData = {
-    "jsonrpc": "2.0",
-    "method" : "check_updates"
-  };
 
   var checkUpdateCallback = function(response){
     if(response.result.status == "up-to-date"){
@@ -18,19 +14,14 @@ var updateModule = (function(){
     "url":"/cgi-bin/routerapi/check_updates",
     "successCallback":checkUpdateCallback,
     "errorCallback":errorCallback,
-    "data": checkUpdateData
-  };
-
-  var updateData = {
-    "jsonrpc": "2.0",
-    "method" : "update"
+    "data": {} 
   };
 
   var updateRequest = {
     "url":"/cgi-bin/routerapi/update",
     "successCallback": function(){},
     "errorCallback":errorCallback,
-    "data": updateData
+    "data": {}
   };
 
   var submitUpdateRequest = function(){

@@ -26,13 +26,24 @@ input[type="text"], input[type="password"], input[type="username"]{
 	background: rgba(255,255,255, 0.2);
 }
 
-input[type="submit"],
-.button {
+input[type="submit"] {
 	background: none;
 	line-height: normal;
 	outline: 0;
 	border: 2px solid #1B9AF7;
 	margin-top: 1em;
+}
+
+a.button {
+	background: none;
+	line-height: normal;
+	outline: 0;
+	border: 2px solid #1B9AF7;
+	margin-top: 1em;
+	padding: .5em 1em;
+	min-width: 200px;
+  text-decoration: none;
+	color: white;
 }
 
 input {

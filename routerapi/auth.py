@@ -11,7 +11,8 @@
 
    If you need to manually reset the administrator password to '1234', run:
 
-   echo -n '$p5k2$37$qKJc7Nma$sdWXq2XCicPdW1KnbKipGSTGqxszqPrx' > /etc/auth/password
+   echo -n '$p5k2$37$qKJc7Nma$sdWXq2XCicPdW1KnbKipGSTGqxszqPrx' \
+     > /etc/auth/password
 
    If you've exceeded the rate limit for failed logins, reset it with:
 
@@ -26,27 +27,25 @@ import json
 import hashlib
 import pbkdf2
 
+REQUEST_URI = 'REQUEST_URI'
+REQUEST_METHOD = 'REQUEST_METHOD'
+LOGGED_OUT_ENDPOINTS = [
+  '/cgi-bin/routerapi/login',
+  '/cgi-bin/routerapi/change_password_first_time',
+  '/cgi-bin/routerapi/setup_state'
+]
+
 def check_request(auth_dir):
   """
   When processing a CGI request, validate that request is authenticated and, if
   it's a POST request, has a CSRF token.
   """
-  REQUEST_URI = 'REQUEST_URI'
-  REQUEST_METHOD = 'REQUEST_METHOD'
-  LOGGED_OUT_ENDPOINTS = [
-    '/cgi-bin/routerapi/login',
-    '/cgi-bin/routerapi/change_password_first_time',
-    '/cgi-bin/routerapi/setup_state'
-  ]
   if (REQUEST_URI in os.environ and
       not os.environ[REQUEST_URI] in LOGGED_OUT_ENDPOINTS):
-    try:
-      a = Auth(auth_dir)
-      a.check_authentication()
-      if REQUEST_METHOD in os.environ and os.environ[REQUEST_METHOD] == "POST":
-        a.check_csrf()
-    except Exception, e:
-      common.render_error(e.__str__())
+    a = Auth(auth_dir)
+    a.check_authentication()
+    if REQUEST_METHOD in os.environ and os.environ[REQUEST_METHOD] == "POST":
+      a.check_csrf()
   return True
 
 def constant_time_equals(a, b):
@@ -62,6 +61,7 @@ def constant_time_equals(a, b):
   return result == 0 
 
 class Auth:
+  """Password setting/checking, authentication tokens, and CSRF prevention."""
   SESSION_DURATION = 86400 # One day in seconds
   TOKEN_LENGTH = 20 # number of random bytes, pre-hex encoding
   AUTH_COOKIE_NAME = 'auth'
@@ -75,21 +75,21 @@ class Auth:
     self.token_filename = os.path.join(self.path, 'auth_token')
     self.password_filename = os.path.join(self.path, 'password')
     self.rate_limit_filename = os.path.join(self.path, 'rate_limit')
-    self.check_sane(path)
+    self.check_sane()
 
-  def check_sane(self, path):
+  def check_sane(self):
     """
     Check that the authentication data directory is owned by current user,
     with safe permissions. throw exception if not.
     """
-    st = os.stat(path)
-    mode = st.st_mode
+    st = os.stat(self.path)
     if st.st_uid != os.getuid():
-      raise Exception('Auth dir %s not owned by user %d.' % (path, os.getuid()))
+      raise Exception('Auth dir %s not owned by user %d.' % (
+        self.path, os.getuid()))
     # Mode 16832 is equal to (stat.S_IFDIR | stat.S_IRWXU)
     # In other words, a directory with mode bits rwx------
     if st.st_mode != 16832:
-      raise Exception('Auth dir %s not a dir or wrong permissions.' % path)
+      raise Exception('Auth dir %s not a dir or wrong permissions.' % self.path)
 
   def write(self, filename, data):
     """
@@ -103,6 +103,15 @@ class Auth:
     os.close(fd)
 
   def rate_limit_remaining(self):
+    """
+    Return the number of failed passwords the can be entered before
+    logins attempts are disabled for a day.
+
+    The rate limit information is stored as a count of failed attempts so far.
+
+    If there have been no failed attempts, or they were more than a day ago,
+    treat that as zero failed attempts.
+    """
     if os.path.isfile(self.rate_limit_filename):
       st = os.stat(self.rate_limit_filename)
       if time.time() - st.st_ctime > self.RATE_LIMIT_DURATION:
@@ -115,11 +124,13 @@ class Auth:
       return self.RATE_LIMIT_COUNT
 
   def increment_rate_limit(self):
+    """On failed login attempt, increment the number of failed attempts."""
     attempts = self.RATE_LIMIT_COUNT - self.rate_limit_remaining()
     attempts += 1
     self.write(self.rate_limit_filename, "%d" % attempts)
 
   def password_exists(self):
+    """Return whether a password file exists."""
     return os.path.isfile(self.password_filename)
 
   def is_password(self, candidate):
@@ -147,7 +158,7 @@ class Auth:
     hashed = pbkdf2.crypt(new_password, iterations=55)
     self.write(self.password_filename, hashed)
 
-  def get_csrf_token(self, auth_token):
+  def get_csrf_token(self):
     """
     Generate a CSRF prevention token. We derive this token as the SHA256 hash
     of the auth token, which ensures the two are bound together, preventing
@@ -166,8 +177,7 @@ class Auth:
     prevents cookie forcing by requiring that the auth token and CSRF token be
     related.
     """
-    valid_token = bytearray(
-      self.get_csrf_token(self.__current_authentication_token))
+    valid_token = bytearray(self.get_csrf_token())
     candidate = bytearray(candidate_csrf_token)
     return constant_time_equals(valid_token, candidate)
 
@@ -196,7 +206,7 @@ class Auth:
     invalidating other active sessions.
     """
     auth_token = self.regenerate_authentication_token()
-    csrf_token = self.get_csrf_token(auth_token)
+    csrf_token = self.get_csrf_token()
     # Set the secure flag on the cookie if the login occurred over HTTPS.
     secure = ''
     if 'HTTPS' in os.environ:
@@ -246,7 +256,6 @@ class Auth:
       return True
     else:
       return False
-    pass
 
   def regenerate_authentication_token(self):
     """

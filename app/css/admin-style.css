@@ -26,9 +26,9 @@ header, .network, footer {
   -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
   -webkit-box-pack: justify;
-  -webkit-justify-content: center;
+  -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
-  justify-content: center;
+  justify-content: space-between;
   margin-right: 20px;
   margin-left: 20px;
   -webkit-box-align: center;
@@ -53,7 +53,7 @@ header, .network, footer {
   margin: 0;
 }
 
-a, #SSH {
+a {
   text-decoration: underline;
   color: white;
 }
@@ -128,7 +128,7 @@ small {
   text-decoration: none;
 }
 
-select {
+select, .editable {
     outline: none;
     background: rgb(139, 197, 63);
     border: 2px solid rgb(139, 197, 63);
@@ -138,17 +138,34 @@ select {
     font-size: 13px;
 }
 
+.setting {
+    display: inline;
+    float: right;
+}
+
 .editable {
-  color: #8bc53f;
-  font-weight: 400;
+    border-radius: 5px;
+    font: -webkit-small-control;
+    line-height: normal;
+    font-size: 13;
+    margin-bottom: 5px;
 }
 
 .editable form {
   display: inline;
 }
 
-.editable {
-  text-decoration: underline;
+.links {
+    color: #8bc53f;
+    font-weight: 400;
+}
+
+.links form {
+    display: inline;
+}
+
+.links {
+    text-decoration: underline;
 }
 
 .icon {
@@ -278,6 +295,7 @@ footer img {
 }
 #enterSshKey {
   display: none;
+  padding: 1em;
 }
 #input-SSH {
   width: 100%;

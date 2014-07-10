@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
+import cgi
+import common
 import json
 import auth
-import common
 
 result = {"result" :{ "status": "not-up-to-date" }}
 
-print "Content-Type:application/json\r\n"
-print json.JSONEncoder().encode(result)
+common.render_success(result)
