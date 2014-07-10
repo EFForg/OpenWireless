@@ -4,8 +4,19 @@ import cgi, json, sys, common, uci
 from subprocess import CalledProcessError
 from ip_address_retriever import get_internal_ip_address, get_external_ip_address
 
-software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
-software_update_date = open("/etc/openwrt_release").read().split('\n')[7].split("\"")[1]
+def openwrt_release():
+  """Returns a tuple of (software_version, release date)"""
+  items = {}
+  with open("/etc/openwrt_release") as f:
+    for line in f:
+      key, val = line.split('=')
+      # Strip trailing newline, and any wrapping quotes.
+      items[key] = val.strip('"\n')
+      unknown = 'Unknown'
+  return (items.get('DISTRIB_RELEASE', unknown),
+          items.get('DISTRIB_RELEASE_DATE', unknown))
+
+software_version, software_update_date = openwrt_release()
 
 channels = { 'auto': 'auto', '1': '1 (2.412 GHz)', '2': '2 (2.417 GHz)', '3': '3 (2.422 GHz)', '4': '4 (2.427 GHz)',
       '5': '5 (2.432 GHz)', '6': '6 (2.437 GHz)', '7': '7 (2.442 GHz)', '8': '8 (2.447 GHz)',
