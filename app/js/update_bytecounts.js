@@ -7,6 +7,10 @@ var response5 = {};
 var response6 = {};
 
 var replaceByteCounts = function(){
+  var roundToDecimal = function(num, dec) {
+    return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
+  }
+
   var getRates = function(newResponse, lastResponse){
     var newDate = new Date(newResponse["dateTime"]);
     var lastDate = new Date(lastResponse["dateTime"]);
@@ -16,11 +20,13 @@ var replaceByteCounts = function(){
     var timeDifferenceInSeconds = (newDate - lastDate)*millisecondsToSecondsConversion*byteToBitConversion;
 
     var computeUploadRate = function(networkName){
-      return ((newResponse[networkName]["uploadUsage"] - lastResponse[networkName]["uploadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds).toPrecision(2);
+      var uploadRate = (newResponse[networkName]["uploadUsage"] - lastResponse[networkName]["uploadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds;
+      return roundToDecimal(uploadRate, 2);
     };
 
     var computeDownloadRate = function(networkName){
-      return ((newResponse[networkName]["downloadUsage"] - lastResponse[networkName]["downloadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds).toPrecision(2);
+      var downloadRate = (newResponse[networkName]["downloadUsage"] - lastResponse[networkName]["downloadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds;
+      return roundToDecimal(downloadRate, 2);
     };
 
     var internetUploadUsage = computeUploadRate("internet");
@@ -68,7 +74,7 @@ var replaceByteCounts = function(){
     byteUsage = parseInt(networkRates["uploadUsage"]) + parseInt(networkRates["downloadUsage"]);
     var byteToMegabyteConversion = 0.000001;
     mbUsage = byteUsage * byteToMegabyteConversion;
-    mbUsageForDisplay = mbUsage.toPrecision(2);
+    mbUsageForDisplay = roundToDecimal(mbUsage, 2);
     $('#monthlyBandwidth').text(mbUsageForDisplay);
   }
 
