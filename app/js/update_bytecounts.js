@@ -79,12 +79,12 @@ var replaceByteCounts = function(){
   }
 
   var successCallback = function(response){
-    var response1 = response2;
-    var response2 = response3;
-    var response3 = response4;
-    var response4 = response5;
-    var response5 = response6;
-    var response6 = response;
+    response1 = response2;
+    response2 = response3;
+    response3 = response4;
+    response4 = response5;
+    response5 = response6;
+    response6 = response;
 
     if ($.isEmptyObject(response1)){
         rates = getRates(response6, initialResponse);

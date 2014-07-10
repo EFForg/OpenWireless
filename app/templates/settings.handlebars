@@ -35,8 +35,8 @@
         <h2>ISP Speeds</h2>
         <div class="section">
           <p>Set these to help optimize your router.</p>
-          <p>ISP Download Speed: <span id="ispDownloadSpeed" class="editable">{{ispDownloadSpeed}}</span> Mb/s</p>
-          <p>ISP Upload Speed: <span id="ispUploadSpeed" class="editable">{{ispUploadSpeed}}</span> Mb/s</p>
+          <p>ISP Download Speed: <span class="setting" ><span id="ispDownloadSpeed" class="editable">{{ispDownloadSpeed}}</span> Mb/s </span></p>
+          <p>ISP Upload Speed: <span class="setting" ><span id="ispUploadSpeed" class="editable">{{ispUploadSpeed}}</span> Mb/s </span></p>
         </div>
 
         <h2>Private WiFi</h2>
@@ -47,19 +47,19 @@
           <br>
           <p>
             <label for="routerBand">Frequency</label>
-            <span class="selector"><select id="routerBand">RouterBand</select></span>
+            <span class="selector"><select class="setting" id="routerBand">RouterBand</select></span>
           </p>
           <p>
             <label for="routerChannel">Channel</label>
-            <select id="routerChannel">RouterChannel</select>
+            <select class="setting" id="routerChannel">RouterChannel</select>
           </p>
           <p>
             <label for="routerChannelBandwidth">Channel bandwidth</label>
-            <select id="routerChannelBandwidth">RouterChannelBandwidth</select>
+            <select class="setting" id="routerChannelBandwidth">RouterChannelBandwidth</select>
           </p>
           <p>
             <label for="routerVpnConfiguration">VPN/TOR Configuration</label>
-            <select id="routerVpnConfiguration">RouterVpnConfiguration</select>
+            <select class="setting" id="routerVpnConfiguration">RouterVpnConfiguration</select>
           </p>
         </div>
 
@@ -67,32 +67,32 @@
         <div class="section">
           <p>
             <label for=openwirelessBandwidth>Max bandwidth fraction</label>
-            <span class="editable" id="openwirelessBandwidth">{{openwirelessBandwidth}}</span>%
-          </p>
+            <span class="setting"><span class="editable" id="openwirelessBandwidth">{{openwirelessBandwidth}}</span>%
+              </span></p>
           <p>
             <label for="openwirelessData">Max total data per month</label>
-            <span class="editable" id="openwirelessData">{{openwirelessData}}</span> MB
-          </p>
+            <span class="setting"><span class="editable" id="openwirelessData">{{openwirelessData}}</span> MB
+          </span></p>
           <p><a href="#" class="links">Reset total data used this month</a></p>
           <p>Change data auto-reset date [Datepicker]</p>
           <p>
             <label for="openwirelessBand">Choose band</label>
-            <select id="openwirelessBand">OpenwirelessBand</select>
+            <select class="setting" id="openwirelessBand">OpenwirelessBand</select>
           </p>
           <p>
             <label for="openwirelessChannel">Channel</label>
-            <select id="openwirelessChannel">OpenwirelessChannel</select>
+            <select class="setting" id="openwirelessChannel">OpenwirelessChannel</select>
           </p>
           <p>
             <label for="openwirelessChannelBandwidth">Channel bandwidth</label>
-            <select id="openwirelessChannelBandwidth">OpenwirelessChannelBandwidth</select>
+            <select class="setting" id="openwirelessChannelBandwidth">OpenwirelessChannelBandwidth</select>
           </p>
           <p>
             <label for="openwirelessEncryption">WiFi security</label>
-            <select id="openwirelessEncryption">OpenwirelessEncryption</select>
+            <select class="setting" id="openwirelessEncryption">OpenwirelessEncryption</select>
           </p>
           <p>
             <label for="openwirelessVpnConfiguration">VPN/TOR Configuration</label>
-            <select id="openwirelessVpnConfiguration">OpenwirelessVpnConfiguration</select>
+            <select class="setting" id="openwirelessVpnConfiguration">OpenwirelessVpnConfiguration</select>
           </p>
         </div>

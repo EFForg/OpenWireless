@@ -5,20 +5,25 @@ import cgi
 import json
 import common
 import uci
-from subprocess import check_output
+import subprocess
 from ip_address_retriever import get_internal_ip_address, get_external_ip_address
 
-ping_output = check_output(["/bin/ping", "-c1", "google.com"])
+def get_ping_output():
+  try:
+     return subprocess.check_output(["/bin/ping", "-c1", "google.com"])
+  except subprocess.CalledProcessError:
+     return 'N/A'
 
-if "error" in ping_output:
-  connected = False
-  ping_speed = "N/A"
+ping_output = get_ping_output()
+
+if "N/A" in ping_output:
+    connected = False
+    ping_speed = "N/A"
 else:
-  connected = True
-  ping_speed = int(float(ping_output.split(' ')[11].split('=')[1]))
+    connected = True
+    ping_speed = int(float(ping_output.split(' ')[11].split('=')[1]))
 
-
-wan_ip = get_external_ip_address() 
+wan_ip = get_external_ip_address()
 lan_ip = get_internal_ip_address("ge00") 
 
 openwireless_maxmonthlybandwidth = uci.get("openwireless.maxmonthlybandwidth")

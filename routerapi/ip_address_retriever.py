@@ -1,5 +1,4 @@
-import socket, fcntl, struct
-from subprocess import check_output
+import socket, fcntl, struct, subprocess
 
 def get_internal_ip_address(interface_name):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -13,4 +12,7 @@ def get_internal_ip_address(interface_name):
       return '?.?.?.?'
 
 def get_external_ip_address():
-    return check_output(["/usr/bin/wget", "-qO-", "myexternalip.com/raw"])
+    try:
+      return subprocess.check_output(["/usr/bin/wget", "-qO-", "myexternalip.com/raw"])
+    except subprocess.CalledProcessError:
+      return '?.?.?.?'
