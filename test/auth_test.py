@@ -151,7 +151,7 @@ Content-Type: application/json
     os.environ['HTTP_COOKIE'] = 'auth=%s' % self.auth_token
     os.environ['REQUEST_URI'] = '/cgi-bin/routerapi/dashboard'
     os.environ['REQUEST_METHOD'] = 'POST'
-    os.environ['HTTP_X_CSRF_TOKEN'] = self.auth.get_csrf_token(self.auth_token)
+    os.environ['HTTP_X_CSRF_TOKEN'] = self.auth.get_csrf_token()
     # Should not exit
     self.assertTrue(auth.check_request(self.path))
 
