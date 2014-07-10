@@ -138,6 +138,11 @@ select, .editable {
     font-size: 13px;
 }
 
+.setting {
+    display: inline;
+    float: right;
+}
+
 .editable {
     border-radius: 5px;
     font: -webkit-small-control;
