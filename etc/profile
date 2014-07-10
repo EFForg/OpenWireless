@@ -13,3 +13,10 @@ export PS1='\u@\h:\w\$ '
 
 [ -x /usr/bin/arp ] || arp() { cat /proc/net/arp; }
 [ -x /usr/bin/ldd ] || ldd() { LD_TRACE_LOADED_OBJECTS=1 $*; }
+
+# On successful SSH login, set the config variable locking authorized_keys from
+# further web updates.
+if [ ! -z "$SSH_CONNECTION" -a -f /etc/dropbear/authorized_keys ] ; then
+  /sbin/uci set openwireless.ssh_success=true
+  /sbin/uci commit
+fi

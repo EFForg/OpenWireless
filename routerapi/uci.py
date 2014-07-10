@@ -7,7 +7,13 @@ uci_path = '/sbin/uci'
 def get(*args):
   args = list(args)
   args.insert(0, "get")
-  return run(args)
+  try:
+    return run(args)
+  except subprocess.CalledProcessError, e:
+    if e.output == 'uci: Entry not found':
+      return None
+    else:
+      raise
 
 def set(*args):
   args = list(args)

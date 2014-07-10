@@ -1,0 +1,71 @@
+#!/usr/bin/python
+import json
+import sys
+import common
+import os
+import uci
+import re
+
+AUTHORIZED_KEYS='/etc/dropbear/authorized_keys'
+KEY_REGEX=r'^ssh-[rd]sa [A-Za-z0-9+/=]{204,760}( .{1,100})?'
+
+def key_locked(authorized_keys = AUTHORIZED_KEYS):
+  """
+  Return whether a key is locked in place - i.e. a key is stored and
+  user has logged in once via SSH.
+  """
+  return (os.path.exists(authorized_keys) and
+     uci.get('openwireless.ssh_success') == 'true')
+
+def jsonrpc_set_ssh_key(data, authorized_keys = AUTHORIZED_KEYS):
+  try:
+    (key) = data['params']
+  except KeyError, e:
+    common.render_error(e.__str__())
+  except ValueError, e:
+    common.render_error(e.__str__())
+
+  if key_locked():
+    common.render_error('SSH key already stored and used. Cannot modify.')
+  if 'PRIVATE KEY' in key:
+    common.render_error('That looks like a private key. Try ~/.ssh/id_rsa.pub')
+  if '\n' in key:
+    common.render_error('Multiline key not allowed.')
+  # Minimum key length for 1024-bit key is 204 base64 characters. We limit
+  # comment to 100 chars just for reasonableness.
+  match = re.match(KEY_REGEX, key)
+  if not match:
+    common.render_error('SSH key did not match expected format.')
+  with open(authorized_keys, 'w') as f:
+    f.write(key)
+  common.render_success({
+    'key-comment': match.group(1).strip()
+  })
+
+def jsonrpc_get_ssh_key_info(authorized_keys = AUTHORIZED_KEYS):
+  if not os.path.exists(authorized_keys):
+    common.render_success({
+      'exists': False
+    })
+  with open(authorized_keys) as f:
+    # There may be multiple keys if the user has manually edited them using an
+    # SSH session. Only display the first in the web UI.
+    key = f.read().split('\n')[0]
+  match = re.match(KEY_REGEX, key)
+  if not match:
+    common.render_error('Unrecognized SSH key format in %s' % authorized_keys)
+  comment = match.group(1)
+  common.render_success({
+    'exists': True,
+    'locked': key_locked(),
+    'comment': comment
+  })
+
+def jsonrpc_ssh_key():
+  data = json.loads(sys.stdin.read())
+  if data.method == 'set_ssh_key':
+    jsonrpc_set_ssh_key(data)
+  else:
+    jsonrpc_get_ssh_key_info()
+
+jsonrpc_ssh_key()
