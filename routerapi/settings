@@ -1,8 +1,7 @@
 #!/usr/bin/python
 
-import cgi, json, sys, common, uci
+import cgi, json, common, uci
 from subprocess import CalledProcessError
-from ip_address_retriever import get_internal_ip_address, get_external_ip_address
 
 def openwrt_release():
   """Returns a tuple of (software_version, release date)"""
@@ -88,9 +87,7 @@ result = {
     "openwirelessChannelBandwidth"  : open_wireless["channel_bandwidth"],
     "openwirelessVpnConfiguration"  : "None",
     "openwirelessProtocol"          : "HTTPS",
-    "openwirelessEncryption"        : "Unencrypted",
-    "lanIp" : get_internal_ip_address("ge00"),
-    "wanIp" : get_external_ip_address() 
+    "openwirelessEncryption"        : "Unencrypted"
   }
 }
 
