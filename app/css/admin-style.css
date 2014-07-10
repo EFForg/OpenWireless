@@ -128,7 +128,7 @@ small {
   text-decoration: none;
 }
 
-select {
+select, .editable {
     outline: none;
     background: rgb(139, 197, 63);
     border: 2px solid rgb(139, 197, 63);
@@ -139,16 +139,28 @@ select {
 }
 
 .editable {
-  color: #8bc53f;
-  font-weight: 400;
+    border-radius: 5px;
+    font: -webkit-small-control;
+    line-height: normal;
+    font-size: 13;
+    margin-bottom: 5px;
 }
 
 .editable form {
   display: inline;
 }
 
-.editable {
-  text-decoration: underline;
+.links {
+    color: #8bc53f;
+    font-weight: 400;
+}
+
+.links form {
+    display: inline;
+}
+
+.links {
+    text-decoration: underline;
 }
 
 .icon {
