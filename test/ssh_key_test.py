@@ -76,7 +76,7 @@ Content-Type: application/json
         authorized_keys = self.authorized_keys)
     self.assertEqual(SMALL_KEY, open(self.authorized_keys).read())
     self.assertFalse(ssh_key.key_locked(self.authorized_keys))
-    self.assertSuccess('{"key-comment": "my@address"}')
+    self.assertSuccess('{"comment": "my@address"}')
 
   @mock.patch('ssh_key.key_locked', mock.Mock(return_value = True))
   def test_set_ssh_key_already_locked(self):
@@ -111,36 +111,35 @@ Content-Type: application/json
     self.assertError('SSH key did not match expected format.')
 
   def test_get_key_info_empty(self):
-    with self.assertRaises(SystemExit):
-      ssh_key.jsonrpc_get_ssh_key_info(
-        authorized_keys = self.authorized_keys)
-    self.assertSuccess('{"exists": false}')
+    self.assertEqual({"exists": False},
+      ssh_key.ssh_key_info(authorized_keys = self.authorized_keys))
 
   def test_get_key_info_exists(self):
     with open(self.authorized_keys, 'w') as f:
       f.write(SMALL_KEY)
-    with self.assertRaises(SystemExit):
-      ssh_key.jsonrpc_get_ssh_key_info(
-        authorized_keys = self.authorized_keys)
-    self.assertSuccess(
-      '{"comment": "my@address", "locked": false, "exists": true}')
+    self.assertEqual(
+      {"comment": "my@address",
+       "locked": False,
+       "exists": True,
+       "contents": SMALL_KEY
+      }, ssh_key.ssh_key_info(authorized_keys = self.authorized_keys))
 
   @mock.patch('ssh_key.key_locked', mock.Mock(return_value = True))
   def test_get_key_info_locked(self):
     with open(self.authorized_keys, 'w') as f:
       f.write(SMALL_KEY)
-    with self.assertRaises(SystemExit):
-      ssh_key.jsonrpc_get_ssh_key_info(
-        authorized_keys = self.authorized_keys)
-    self.assertSuccess(
-      '{"comment": "my@address", "locked": true, "exists": true}')
+    self.assertEqual(
+      {"comment": "my@address",
+       "locked": True,
+       "exists": True,
+       "contents": SMALL_KEY
+      }, ssh_key.ssh_key_info(authorized_keys = self.authorized_keys))
 
   def test_get_key_info_invalid(self):
     with open(self.authorized_keys, 'w') as f:
       f.write(INVALID_KEY)
     with self.assertRaises(SystemExit):
-      ssh_key.jsonrpc_get_ssh_key_info(
-        authorized_keys = self.authorized_keys)
+      ssh_key.ssh_key_info(authorized_keys = self.authorized_keys)
     self.assertError('Unrecognized SSH key format in %s' % self.authorized_keys)
 
 if __name__ == '__main__':

@@ -53,7 +53,7 @@ header, .network, footer {
   margin: 0;
 }
 
-a, #SSH {
+a {
   text-decoration: underline;
   color: white;
 }
@@ -290,6 +290,7 @@ footer img {
 }
 #enterSshKey {
   display: none;
+  padding: 1em;
 }
 #input-SSH {
   width: 100%;

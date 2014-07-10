@@ -4,12 +4,30 @@
             <a href="./changePassword.html" class="links">Change admin password</a>
           </p>
           <p id="SSH">
-            <a class="links">Add or edit SSH keys</a>
+            {{#sshKey}}
+              {{#if exists}}
+              SSH pubkey authentication enabled.<br/>
+              SSH key '<span id=keyComment>{{comment}}</span>'
+                {{#if locked}}
+                <span title="You've successfully logged in with this key once.
+                  You can only edit it via SSH or failsafing your router.">
+                  ( locked )</span>
+                {{else}}
+                <a class="links edit-ssh">Edit</a>
+                {{/if}}
+              {{else}} 
+              SSH not enabled. <a class="links edit-ssh">Enable</a>
+              {{/if}}
+              <div id="enterSshKey">
+                Paste an SSH public key. Hint: ~/.ssh/id_rsa.pub.<br/>
+                You can change this until your first successful SSH login,
+                after which it will be locked to prevent tampering. Further
+                updates can be made via SSH login.
+                <textarea id='input-SSH'>{{contents}}</textarea><br>
+                <button id='submit-SSH'>Submit</button>
+              </div>
+            {{/sshKey}}
           </p>
-          <div id="enterSshKey">
-            <textarea id='input-SSH'/></textarea><br>
-            <button id='submit-SSH'>Submit</button>
-          </div>
           <p>Software Version: {{softwareVersion}}</p>
           <p>Date of version update: {{softwareVersionUpdateDate}}</p>
         </div>

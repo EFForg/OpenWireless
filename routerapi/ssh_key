@@ -33,7 +33,7 @@ def key_locked(authorized_keys = AUTHORIZED_KEYS):
 
 def jsonrpc_set_ssh_key(data, authorized_keys = AUTHORIZED_KEYS):
   try:
-    key = data['params'][0]
+    key = data['params'][0].strip()
   except KeyError, e:
     common.render_error(e.__str__())
   except ValueError, e:
@@ -53,14 +53,14 @@ def jsonrpc_set_ssh_key(data, authorized_keys = AUTHORIZED_KEYS):
   with open(authorized_keys, 'w') as f:
     f.write(key)
   common.render_success({
-    'key-comment': match.group(1).strip()
+    'comment': match.group(1).strip()
   })
 
-def jsonrpc_get_ssh_key_info(authorized_keys = AUTHORIZED_KEYS):
+def ssh_key_info(authorized_keys = AUTHORIZED_KEYS):
   if not os.path.exists(authorized_keys):
-    common.render_success({
+    return {
       'exists': False
-    })
+    }
   with open(authorized_keys) as f:
     # There may be multiple keys if the user has manually edited them using an
     # SSH session. Only display the first in the web UI.
@@ -69,18 +69,21 @@ def jsonrpc_get_ssh_key_info(authorized_keys = AUTHORIZED_KEYS):
   if not match:
     common.render_error('Unrecognized SSH key format in %s' % authorized_keys)
   comment = match.group(1).strip()
-  common.render_success({
+  return {
     'exists': True,
     'locked': key_locked(),
-    'comment': comment
-  })
+    'comment': comment,
+    'contents': key
+  }
 
 def jsonrpc_ssh_key():
   data = json.loads(sys.stdin.read())
-  if data.method == 'set_ssh_key':
-    jsonrpc_set_ssh_key(data)
-  else:
-    jsonrpc_get_ssh_key_info()
+  try:
+    if data['method'] == 'set_ssh_key':
+      jsonrpc_set_ssh_key(data)
+  except KeyError, e:
+    pass
+  common.render_error('No method available')
 
 if __name__ == '__main__':
   jsonrpc_ssh_key()

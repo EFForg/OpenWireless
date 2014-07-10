@@ -189,10 +189,59 @@ function program1(depth0,data) {
 templates['settings'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, helper, options, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing;
 
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\n              ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.exists), {hash:{},inverse:self.program(7, program7, data),fn:self.program(2, program2, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n              <div id=\"enterSshKey\">\n                Paste an SSH public key. Hint: ~/.ssh/id_rsa.pub.<br/>\n                You can change this until your first successful SSH login,\n                after which it will be locked to prevent tampering. Further\n                updates can be made via SSH login.\n                <textarea id='input-SSH'>";
+  if (helper = helpers.contents) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.contents); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</textarea><br>\n                <button id='submit-SSH'>Submit</button>\n              </div>\n            ";
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\n              SSH pubkey authentication enabled.<br/>\n              SSH key '<span id=keyComment>";
+  if (helper = helpers.comment) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.comment); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</span>'\n                ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.locked), {hash:{},inverse:self.program(5, program5, data),fn:self.program(3, program3, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n              ";
+  return buffer;
+  }
+function program3(depth0,data) {
+  
+  
+  return "\n                <span title=\"You've successfully logged in with this key once.\n                  You can only edit it via SSH or failsafing your router.\">\n                  ( locked )</span>\n                ";
+  }
 
-  buffer += "        <h2>Administration</h2>\n        <div class=\"section\">\n          <p>\n            <a href=\"./changePassword.html\" class=\"links\">Change admin password</a>\n          </p>\n          <p id=\"SSH\">\n            <a class=\"links\">Add or edit SSH keys</a>\n          </p>\n          <div id=\"enterSshKey\">\n            <textarea id='input-SSH'/></textarea><br>\n            <button id='submit-SSH'>Submit</button>\n          </div>\n          <p>Software Version: ";
+function program5(depth0,data) {
+  
+  
+  return "\n                <a class=\"links edit-ssh\">Edit</a>\n                ";
+  }
+
+function program7(depth0,data) {
+  
+  
+  return " \n              SSH not enabled. <a class=\"links edit-ssh\">Enable</a>\n              ";
+  }
+
+  buffer += "        <h2>Administration</h2>\n        <div class=\"section\">\n          <p>\n            <a href=\"./changePassword.html\" class=\"links\">Change admin password</a>\n          </p>\n          <p id=\"SSH\">\n            ";
+  options={hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data}
+  if (helper = helpers.sshKey) { stack1 = helper.call(depth0, options); }
+  else { helper = (depth0 && depth0.sshKey); stack1 = typeof helper === functionType ? helper.call(depth0, options) : helper; }
+  if (!helpers.sshKey) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data}); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n          </p>\n          <p>Software Version: ";
   if (helper = helpers.softwareVersion) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.softwareVersion); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)

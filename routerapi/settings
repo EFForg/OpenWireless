@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import cgi, json, sys, common, uci
+import cgi, json, sys, common, uci, ssh_key
 from subprocess import CalledProcessError
 from ip_address_retriever import get_internal_ip_address, get_external_ip_address
 
@@ -89,8 +89,9 @@ result = {
     "openwirelessVpnConfiguration"  : "None",
     "openwirelessProtocol"          : "HTTPS",
     "openwirelessEncryption"        : "Unencrypted",
-    "lanIp" : get_internal_ip_address("ge00"),
-    "wanIp" : get_external_ip_address() 
+    "lanIp"                         : get_internal_ip_address("ge00"),
+    "wanIp"                         : get_external_ip_address(),
+    "sshKey"                        : ssh_key.ssh_key_info()
   }
 }
 

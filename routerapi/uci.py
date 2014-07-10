@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import common
-from subprocess import check_output
+import subprocess
 
 uci_path = '/sbin/uci'
 
@@ -10,10 +10,7 @@ def get(*args):
   try:
     return run(args)
   except subprocess.CalledProcessError, e:
-    if e.output == 'uci: Entry not found':
-      return None
-    else:
-      raise
+    return None
 
 def set(*args):
   args = list(args)
@@ -34,4 +31,4 @@ def validate(string):
 def run(args_list):
   args_list.insert(0, uci_path)
   map(validate, args_list)
-  return check_output(args_list).strip()
+  return subprocess.check_output(args_list).strip()
