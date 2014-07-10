@@ -5,6 +5,7 @@ from subprocess import CalledProcessError
 from ip_address_retriever import get_internal_ip_address, get_external_ip_address
 
 software_version = open("/etc/openwrt_release").read().split('\n')[1].split("\"")[1]
+software_update_date = open("/etc/openwrt_release").read().split('\n')[7].split("\"")[1]
 
 channels = { 'auto': 'auto', '1': '1 (2.412 GHz)', '2': '2 (2.417 GHz)', '3': '3 (2.422 GHz)', '4': '4 (2.427 GHz)',
       '5': '5 (2.432 GHz)', '6': '6 (2.437 GHz)', '7': '7 (2.442 GHz)', '8': '8 (2.447 GHz)',
@@ -61,8 +62,7 @@ result = {
     "softwareVersion"               : software_version,
     "ispDownloadSpeed"              : isp_download_speed,
     "ispUploadSpeed"                : isp_upload_speed,
-    "softwareVersionUpdateDate"     : "16/06/2014",
-    "lastCheckedDate"               : "18/06/2014",
+    "softwareVersionUpdateDate"     : software_update_date,
     "routerSsid"                    : private["ssid"],
     "routerBand"                    : private["band"],
     "routerChannel"                 : private["channel"],
