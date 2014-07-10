@@ -1,8 +1,11 @@
 #!/usr/bin/python
 
 # Import modules for CGI handling
-import cgi, json, common, uci
-from subprocess import check_output, call
+import cgi
+import json
+import common
+import uci
+from subprocess import check_output
 from ip_address_retriever import get_internal_ip_address, get_external_ip_address
 
 ping_output = check_output(["/bin/ping", "-c1", "google.com"])
@@ -18,8 +21,8 @@ else:
 wan_ip = get_external_ip_address() 
 lan_ip = get_internal_ip_address("ge00") 
 
-openwireless_maxmonthlybandwidth = check_output(["/sbin/uci", "get", "openwireless.maxmonthlybandwidth"])
-openwireless_maxbandwidthpercent = check_output(["/sbin/uci", "get", "openwireless.maxbandwidthpercentage"])
+openwireless_maxmonthlybandwidth = uci.get("openwireless.maxmonthlybandwidth")
+openwireless_maxbandwidthpercent = uci.get("openwireless.maxbandwidthpercentage")
 
 ssid = uci.get("wireless.@wifi-iface[2].ssid")
 
@@ -72,5 +75,4 @@ result = {
   }
 }
 
-print "Content-Type:application/json\r\n"
-print json.JSONEncoder().encode(result)
+common.render_success(result)
