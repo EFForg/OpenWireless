@@ -32,6 +32,10 @@ openwireless_maxbandwidthpercent = uci.get("openwireless.maxbandwidthpercentage"
 
 ssid = uci.get("wireless.@wifi-iface[2].ssid")
 
+def interface_is_connected(interface_name):
+    is_connected = wireless_is_disabled(interface_name) == False
+    return is_connected
+
 result = {
   "id": 1,
   "jsonrpc": "2.0",
@@ -61,7 +65,7 @@ result = {
       "downloadSpeed": "...",
       "downloadSpeedMetric": "Mb/s",
       "devices": "0",
-      "on": wireless_is_disabled("3") == False,
+      "on": interface_is_connected("3"),
       "ssid": ssid
     },
     "openWireless": {
@@ -74,7 +78,7 @@ result = {
       "maxMonthlyBandwidth": openwireless_maxmonthlybandwidth,
       "maxMonthlyBandwidthMetric": "Mb",
       "monthlyBandwidthUsage": "...",
-      "on": wireless_is_disabled("1") == False
+      "on": interface_is_connected("1")
     },
     "wanIp"  : wan_ip,
     "lanIp"  : lan_ip
