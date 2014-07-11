@@ -61,7 +61,7 @@ result = {
       "downloadSpeed": "...",
       "downloadSpeedMetric": "Mb/s",
       "devices": "0",
-      "on": wireless_is_disabled("3"),
+      "on": wireless_is_disabled("3") == False,
       "ssid": ssid
     },
     "openWireless": {
@@ -74,7 +74,7 @@ result = {
       "maxMonthlyBandwidth": openwireless_maxmonthlybandwidth,
       "maxMonthlyBandwidthMetric": "Mb",
       "monthlyBandwidthUsage": "...",
-      "on": wireless_is_disabled("1")
+      "on": wireless_is_disabled("1") == False
     },
     "wanIp"  : wan_ip,
     "lanIp"  : lan_ip
