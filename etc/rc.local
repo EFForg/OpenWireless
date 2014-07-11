@@ -1,3 +1,5 @@
 #!/bin/sh
 
+chmod 0700 /etc/auth
+
 exit 0
