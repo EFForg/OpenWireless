@@ -17,15 +17,15 @@ var replaceByteCounts = function(){
     var millisecondsToSecondsConversion = 0.001;
     var byteToMegabyteConversion = 0.000001;
     var byteToBitConversion = 8;
-    var timeDifferenceInSeconds = (newDate - lastDate)*millisecondsToSecondsConversion*byteToBitConversion;
+    var timeDifferenceInSeconds = (newDate.getTime() - lastDate.getTime())*millisecondsToSecondsConversion;
 
     var computeUploadRate = function(networkName){
-      var uploadRate = (newResponse[networkName]["uploadUsage"] - lastResponse[networkName]["uploadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds;
+      var uploadRate = (newResponse[networkName]["uploadUsage"] - lastResponse[networkName]["uploadUsage"])*byteToBitConversion*byteToMegabyteConversion/timeDifferenceInSeconds;
       return roundToDecimal(uploadRate, 2);
     };
 
     var computeDownloadRate = function(networkName){
-      var downloadRate = (newResponse[networkName]["downloadUsage"] - lastResponse[networkName]["downloadUsage"])*byteToMegabyteConversion/timeDifferenceInSeconds;
+      var downloadRate = (newResponse[networkName]["downloadUsage"] - lastResponse[networkName]["downloadUsage"])*byteToBitConversion*byteToMegabyteConversion/timeDifferenceInSeconds;
       return roundToDecimal(downloadRate, 2);
     };
 
@@ -81,15 +81,12 @@ var replaceByteCounts = function(){
   var successCallback = function(response){
     response1 = response2;
     response2 = response3;
-    response3 = response4;
-    response4 = response5;
-    response5 = response6;
-    response6 = response;
+    response3 = response;
 
     if ($.isEmptyObject(response1)){
-        rates = getRates(response6, initialResponse);
+        rates = getRates(response3, initialResponse);
     } else {
-        rates = getRates(response6, response1);
+        rates = getRates(response3, response1);
     }
 
     updateCount('Internet', rates['internet']);
