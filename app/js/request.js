@@ -1,8 +1,8 @@
 var requestModule = (function(){
   var getCsrfToken = function() {
-    cookies = document.cookie.split('; ');
+    var cookies = document.cookie.split('; ');
     for (i = cookies.length-1; i >= 0; i--) {
-      keyVal = cookies[i].split('=');
+      var keyVal = cookies[i].split('=');
       if (keyVal[0] === 'csrf_token') {
         return keyVal[1];
       }
