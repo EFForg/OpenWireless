@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import unittest
 import tempfile
+import re
 import os
 import time
 import sys
@@ -112,6 +113,7 @@ class TestAuth(unittest.TestCase):
       self.assertRaises(SystemExit, auth.check_request, self.path)
       self.assertEqual("""Status: 403 Forbidden
 Content-Type: application/json
+Set-Cookie: logged_in=; expires=Thu, 01 Jan 1970 00:00:00 GMT
 Set-Cookie: auth=; expires=Thu, 01 Jan 1970 00:00:00 GMT
 Set-Cookie: csrf_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT
 
@@ -154,6 +156,34 @@ Content-Type: application/json
     os.environ['HTTP_X_CSRF_TOKEN'] = self.auth.get_csrf_token()
     # Should not exit
     self.assertTrue(auth.check_request(self.path))
+
+  def test_login_headers(self):
+    self.assertEqual("""Set-Cookie: logged_in=; expires=Thu, 01 Jan 1970 00:00:00 GMT
+Set-Cookie: auth=; expires=Thu, 01 Jan 1970 00:00:00 GMT
+Set-Cookie: csrf_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT
+""",
+        self.auth.logout_headers())
+
+  def test_logout_headers(self):
+    os.environ['HTTPS'] = 'true'
+    headers_1 = self.auth.login_headers()
+    pattern = re.compile(
+      'Set-Cookie: logged_in=true; path=/\n'
+      'Set-Cookie: auth=(.*?); path=/; HttpOnly; secure;\n'
+      'Set-Cookie: csrf_token=(.*?); path=/; secure;\n')
+    self.assertRegexpMatches(headers_1, pattern)
+    auth_1, csrf_1 = pattern.match(headers_1).groups()
+    self.assertTrue(self.auth.is_authentication_token(auth_1))
+
+    headers_2 = self.auth.login_headers()
+    self.assertRegexpMatches(headers_2, pattern)
+    auth_2, csrf_2 = pattern.match(headers_2).groups()
+    self.assertNotEqual(auth_1, auth_2)
+    self.assertNotEqual(csrf_1, csrf_2)
+
+    self.assertTrue(self.auth.is_authentication_token(auth_2))
+    self.assertFalse(self.auth.is_authentication_token(auth_1))
+
 
 if __name__ == '__main__':
   unittest.main()

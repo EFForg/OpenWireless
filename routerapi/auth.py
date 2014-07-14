@@ -69,6 +69,7 @@ class Auth:
   HTTP_X_CSRF_TOKEN = 'HTTP_X_CSRF_TOKEN'
   RATE_LIMIT_DURATION = 86400 # One day in seconds
   RATE_LIMIT_COUNT = 10
+  LOGGED_IN_COOKIE_NAME = 'logged_in'
 
   def __init__(self, path):
     self.path = path
@@ -200,7 +201,10 @@ class Auth:
   def login_headers(self):
     """
     Return the HTTP headers required to log the user in. Specifically, set the
-    auth cookie and the csrf token cookie.
+    auth cookie, the csrf token cookie, and an unsecured cookie logged_in=true,
+    indicating the user is logged in even if the current request context doesn't
+    have the auth cookies. The server should redirect users with the logged-in
+    cookie to the HTTPS version of the site.
 
     Calling this method immediately regenerates the stored auth token,
     invalidating other active sessions.
@@ -211,8 +215,10 @@ class Auth:
     secure = ''
     if 'HTTPS' in os.environ:
       secure = ' secure;'
-    return ('Set-Cookie: %s=%s; path=/; HttpOnly;%s\n'
+    return ('Set-Cookie: %s=true; path=/\n'
+            'Set-Cookie: %s=%s; path=/; HttpOnly;%s\n'
             'Set-Cookie: %s=%s; path=/;%s\n' % (
+            self.LOGGED_IN_COOKIE_NAME,
             self.AUTH_COOKIE_NAME, auth_token, secure,
             self.CSRF_COOKIE_NAME, csrf_token, secure))
 
@@ -223,8 +229,10 @@ class Auth:
     Specifically, delete the auth token and CSRF token.
     """
     return ('Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n'
+            'Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n'
             'Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n' % (
-            self.AUTH_COOKIE_NAME, self.CSRF_COOKIE_NAME))
+            self.LOGGED_IN_COOKIE_NAME, self.AUTH_COOKIE_NAME,
+            self.CSRF_COOKIE_NAME))
 
   def __current_authentication_token(self):
     """Return the current authentication token if it still valid, else None."""
