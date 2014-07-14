@@ -49,9 +49,13 @@ def jsonrpc_set_ssh_key(data, authorized_keys = AUTHORIZED_KEYS):
   # comment to 100 chars just for reasonableness.
   match = re.match(KEY_REGEX, key)
   if not match:
-    common.render_error('SSH key did not match expected format.')
+    common.render_error(
+      'SSH key did not match expected format "ssh-rsa <BASE64_KEY> COMMENT".')
   with open(authorized_keys, 'w') as f:
     f.write(key)
+  comment = 'no-name'
+  if match and match.group(1):
+    comment = match.group(1).strip()
   common.render_success({
     'comment': match.group(1).strip()
   })

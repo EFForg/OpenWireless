@@ -108,7 +108,8 @@ Content-Type: application/json
         'params': [ INVALID_KEY ]
         }, authorized_keys = self.authorized_keys)
     self.assertFalse(os.path.exists(self.authorized_keys))
-    self.assertError('SSH key did not match expected format.')
+    self.assertError('SSH key did not match expected format '
+      '\\"ssh-rsa <BASE64_KEY> COMMENT\\".')
 
   def test_get_key_info_empty(self):
     self.assertEqual({"exists": False},
