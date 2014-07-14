@@ -14,10 +14,12 @@ def toggle_wireless_status(interface_name):
     if wireless_is_disabled(interface_name):
         uci.set(config_variable + "=0")
         uci.commit("wireless")
+        common.reset_wifi()
         return "On"
     else:
         uci.set(config_variable + "=1")
         uci.commit("wireless")
+        common.reset_wifi()
         return "Off"
 
 if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
