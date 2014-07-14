@@ -7,6 +7,7 @@ import common
 import uci
 import subprocess
 from ip_address_retriever import get_internal_ip_address, get_external_ip_address
+from check_interface_connection import wireless_is_disabled
 
 def get_ping_output():
   try:
@@ -30,6 +31,10 @@ openwireless_maxmonthlybandwidth = uci.get("openwireless.maxmonthlybandwidth")
 openwireless_maxbandwidthpercent = uci.get("openwireless.maxbandwidthpercentage")
 
 ssid = uci.get("wireless.@wifi-iface[2].ssid")
+
+def interface_is_connected(interface_name):
+    is_connected = wireless_is_disabled(interface_name) == False
+    return is_connected
 
 result = {
   "id": 1,
@@ -60,7 +65,7 @@ result = {
       "downloadSpeed": "...",
       "downloadSpeedMetric": "Mb/s",
       "devices": "0",
-      "on": False,
+      "on": interface_is_connected("3"),
       "ssid": ssid
     },
     "openWireless": {
@@ -73,7 +78,7 @@ result = {
       "maxMonthlyBandwidth": openwireless_maxmonthlybandwidth,
       "maxMonthlyBandwidthMetric": "Mb",
       "monthlyBandwidthUsage": "...",
-      "on": True
+      "on": interface_is_connected("1")
     },
     "wanIp"  : wan_ip,
     "lanIp"  : lan_ip

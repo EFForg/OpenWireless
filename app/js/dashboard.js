@@ -71,13 +71,20 @@ var dashboardModule = (function(){
 
   var enableToggles = function() {
     var createToggle = function (id, name) {
-      $(id).click(function () {
-        state = $(id + " span")[0].className.split(" ")[0];
-        toggleInterface(name, state);
+        $(document).on('click', id, function () {
+          state = $(id + " span")[0].className.split(" ")[1];
+          if (id == "#PrivateWiFi" && state == "On") {
+            if (confirm("You are about to disconnect yourself from the Private WiFi network. " +
+                      "You will have to reconnect through the LAN connection. Are you sure you want to proceed?")){
+            toggleInterface(name, state);
+          }
+        } else {
+          toggleInterface(name, state);
+        }
       });
     };
     createToggle("#Openwirelessorg", "Openwireless.org");
-    createToggle("#PrivateWifi", "Private WiFi");
+    createToggle("#PrivateWiFi", "Private WiFi");
   };
 
   var toggleInterface = function(name, state) {
@@ -88,8 +95,8 @@ var dashboardModule = (function(){
           $("#Openwirelessorg span").addClass(response["new_state"])
         }
         if(response["name"] == "Private WiFi"){
-          $("#PrivateWifi span").removeClass("On").removeClass("Off")
-          $("#PrivateWifi span").addClass(response["new_state"])
+          $("#PrivateWiFi span").removeClass("On").removeClass("Off")
+          $("#PrivateWiFi span").addClass(response["new_state"])
         }
     };
     submitToggleRequest(data, successCallback, errorCallback);

@@ -1,0 +1,11 @@
+--- eap_server_tls.c.orig	2014-07-04 20:38:57.375924045 -0700
++++ eap_server_tls.c	2014-07-04 20:40:26.641854356 -0700
+@@ -60,7 +60,7 @@
+ 		return NULL;
+ 	data->state = START;
+ 
+-	if (eap_server_tls_ssl_init(sm, &data->ssl, 1)) {
++	if (eap_server_tls_ssl_init(sm, &data->ssl, 0)) {
+ 		wpa_printf(MSG_INFO, "EAP-TLS: Failed to initialize SSL.");
+ 		eap_tls_reset(sm, data);
+ 		return NULL;
