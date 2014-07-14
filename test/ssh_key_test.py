@@ -141,7 +141,8 @@ Content-Type: application/json
       f.write(INVALID_KEY)
     with self.assertRaises(SystemExit):
       ssh_key.ssh_key_info(authorized_keys = self.authorized_keys)
-    self.assertError('Unrecognized SSH key format in %s' % self.authorized_keys)
+    self.assertError('SSH key did not match expected format '
+      '\\"ssh-rsa <BASE64_KEY> COMMENT\\".')
 
 if __name__ == '__main__':
   unittest.main()
