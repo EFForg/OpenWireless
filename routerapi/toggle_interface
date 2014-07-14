@@ -7,7 +7,7 @@ environ = os.environ
 params = {}
 response = {}
 
-interface_dictionary = {"Openwireless.org": "1", "Private WiFi": "3"}
+interface_dictionary = {"Openwireless.org": "1", "Private WiFi": "2"}
 
 def toggle_wireless_status(interface_name):
     config_variable = "wireless.@wifi-iface[" + interface_name + "].disabled"

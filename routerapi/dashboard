@@ -65,7 +65,7 @@ result = {
       "downloadSpeed": "...",
       "downloadSpeedMetric": "Mb/s",
       "devices": "0",
-      "on": interface_is_connected("3"),
+      "on": interface_is_connected("2"),
       "ssid": ssid
     },
     "openWireless": {
