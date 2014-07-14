@@ -17,6 +17,10 @@ header, .network, footer {
   align-items: center;
 }
 
+footer { 
+  margin-bottom: 90px;
+}
+
 .ips {
   display: -webkit-box;
   display: -webkit-flex;
