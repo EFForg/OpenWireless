@@ -1,7 +1,12 @@
 #!/usr/bin/python
 
-import cgi, json, common, uci, ssh_key
-from subprocess import CalledProcessError
+import cgi
+import json
+import subprocess
+
+import common
+import ssh_key
+import uci
 
 def openwrt_release():
   """Returns a tuple of (software_version, release date)"""
@@ -31,29 +36,25 @@ def check_param(device, param):
   return uci.get("wireless." + device + "." + param)
 
 def get_attributes(interface, config_name):
-  try:
-    interface["ssid"] = uci.get("wireless." + config_name + ".ssid")
-    interface["device"] = check_device(config_name)
-    if interface["device"] == "radio0" :
-      interface["band"] = "2.4"
+  interface["ssid"] = uci.get("wireless." + config_name + ".ssid")
+  interface["device"] = check_device(config_name)
+  if interface["device"] == "radio0" :
+    interface["band"] = "2.4"
 
-    else:
-      interface["band"] = "5"
+  else:
+    interface["band"] = "5"
 
-    channel_short_hand = check_param(interface["device"], "channel")
-    interface["channel"] = channels[channel_short_hand]
+  channel_short_hand = check_param(interface["device"], "channel")
+  interface["channel"] = channels[channel_short_hand]
 
-    if check_param(interface["device"], "htmode") == "HT20":
-      interface["channel_bandwidth"] = "20"
+  if check_param(interface["device"], "htmode") == "HT20":
+    interface["channel_bandwidth"] = "20"
 
-    elif check_param(interface["device"], "htmode") == "HT40":
-      interface["channel_bandwidth"] = "40"
+  elif check_param(interface["device"], "htmode") == "HT40":
+    interface["channel_bandwidth"] = "40"
 
-    else:
-      interface["channel_bandwidth"] = "none"
-
-  except CalledProcessError, e:
-    common.render_error(e.__str__())
+  else:
+    interface["channel_bandwidth"] = "none"
 
 private = {}
 open_wireless = {}
@@ -92,5 +93,4 @@ result = {
   }
 }
 
-print "Content-Type: application/json\r\n\r\n"
-print json.JSONEncoder().encode(result)
+common.render_success(result)
