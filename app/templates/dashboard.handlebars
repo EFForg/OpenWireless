@@ -2,14 +2,14 @@
         <header>
           <img src="{{imageSource}}" alt="router-on" class="icon" />
           <div class="speed">
-            <div class="upload"><span class="upload-speed">{{uploadSpeed}}</span><span> {{uploadSpeedMetric}}</span></div>
-            <div class="download"><span class="download-speed">{{downloadSpeed}}</span><span> {{downloadSpeedMetric}}</span></div>
+            <div class="upload">&#8593;<span class="upload-speed">{{uploadSpeed}}</span><span> {{uploadSpeedMetric}}</span></div>
+            <div class="download">&#8595;<span class="download-speed">{{downloadSpeed}}</span><span> {{downloadSpeedMetric}}</span></div>
           </div>
         </header>
         <div class="title">
           <h2>{{name}}{{#if ssid}} ({{ssid}}){{/if}}</h2>
           {{#if pingSpeed}} 
-            <div class="ping">{{pingSpeed}}<small> {{pingSpeedMetric}} ping</small></div>
+            <div class="ping">{{pingSpeed}}<small> {{pingSpeedMetric}} ping to google.com</small></div>
           {{/if}}
           {{#if devices}}
             <div class="devices"><span class="device-count">{{devices}}</span><small> devices</small></div>
