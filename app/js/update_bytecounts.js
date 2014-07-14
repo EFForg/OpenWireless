@@ -21,12 +21,12 @@ var replaceByteCounts = function(){
 
     var computeUploadRate = function(networkName){
       var uploadRate = (newResponse[networkName]["uploadUsage"] - lastResponse[networkName]["uploadUsage"])*byteToBitConversion*byteToMegabyteConversion/timeDifferenceInSeconds;
-      return roundToDecimal(uploadRate, 2);
+      return roundToDecimal(uploadRate, 1);
     };
 
     var computeDownloadRate = function(networkName){
       var downloadRate = (newResponse[networkName]["downloadUsage"] - lastResponse[networkName]["downloadUsage"])*byteToBitConversion*byteToMegabyteConversion/timeDifferenceInSeconds;
-      return roundToDecimal(downloadRate, 2);
+      return roundToDecimal(downloadRate, 1);
     };
 
     var internetUploadUsage = computeUploadRate("internet");
