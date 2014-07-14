@@ -27,7 +27,7 @@ function program3(depth0,data) {
   if (helper = helpers.pingSpeedMetric) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.pingSpeedMetric); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + " ping to google.com</small></div>\n          ";
+    + " ping to eff.org</small></div>\n          ";
   return buffer;
   }
 
