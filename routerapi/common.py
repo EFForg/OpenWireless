@@ -1,8 +1,14 @@
+import os
 import json
 import sys
 import traceback
 import auth
 import subprocess
+
+# The web server can pass an environment variable to change where this script
+# treats as /etc. This is useful for integration testing without a router.
+def get_etc():
+  return os.environ.get('OVERRIDE_ETC', '/etc')
 
 def reset_wifi():
     subprocess.call(["/sbin/wifi", "reset"])
@@ -45,5 +51,4 @@ sys.excepthook = exception_handler
 # All endpoints should import common. In addition to the automatic exception
 # handler, they will be checked for authentication cookies and CSRF token.
 # There are a handful of exceptions enumerated in auth.py.
-auth.check_request('/etc/auth')
-
+auth.check_request()

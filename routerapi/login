@@ -14,7 +14,7 @@ def jsonrpc_login():
   except KeyError, e:
     common.render_error(e.__str__())
 
-  a = auth.Auth("/etc/auth")
+  a = auth.Auth()
   if a.is_password(password):
     print "Content-Type: application/json"
     print a.login_headers()

@@ -17,7 +17,7 @@
 import os
 import common
 
-SETUP_STATE_PATH = '/etc/openwireless-setup-state'
+SETUP_STATE_PATH = os.path.join(common.get_etc(), 'openwireless-setup-state')
 VALID_SETUP_STATES = [
      "set-password",
      "setup-private-net",

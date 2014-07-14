@@ -35,7 +35,10 @@ LOGGED_OUT_ENDPOINTS = [
   '/cgi-bin/routerapi/setup_state'
 ]
 
-def check_request(auth_dir):
+def default_path():
+  return os.path.join(os.environ.get('OVERRIDE_ETC', '/etc'), 'auth')
+
+def check_request(auth_dir = default_path()):
   """
   When processing a CGI request, validate that request is authenticated and, if
   it's a POST request, has a CSRF token.
@@ -71,11 +74,13 @@ class Auth:
   RATE_LIMIT_COUNT = 10
   LOGGED_IN_COOKIE_NAME = 'logged_in'
 
-  def __init__(self, path):
+  def __init__(self, path = default_path()):
     self.path = path
     self.token_filename = os.path.join(self.path, 'auth_token')
     self.password_filename = os.path.join(self.path, 'password')
     self.rate_limit_filename = os.path.join(self.path, 'rate_limit')
+    if not os.path.isdir(self.path):
+      os.mkdir(self.path, 0700)
     self.check_sane()
 
   def check_sane(self):
