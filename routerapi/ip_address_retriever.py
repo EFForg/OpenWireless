@@ -1,4 +1,7 @@
-import socket, fcntl, struct, subprocess
+import fcntl
+import socket
+import struct
+import subprocess
 
 def get_internal_ip_address(interface_name):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

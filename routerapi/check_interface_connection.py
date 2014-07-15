@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import uci
 
 def wireless_is_disabled(interface_name):

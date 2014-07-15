@@ -15,6 +15,7 @@
 """
 
 import os
+
 import common
 
 SETUP_STATE_PATH = os.path.join(common.get_etc(), 'openwireless-setup-state')

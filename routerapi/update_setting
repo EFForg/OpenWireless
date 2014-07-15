@@ -1,6 +1,10 @@
 #!/usr/bin/python
+import json
+import os
+import sys
 
-import os, json, sys, common, uci
+import common
+import uci
 
 environ = os.environ
 params = {}

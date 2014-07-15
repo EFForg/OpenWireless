@@ -1,10 +1,10 @@
 #!/usr/bin/python
-
-import common
 import datetime
 import json
 import re
 import subprocess
+
+import common
 
 parser_pattern = re.compile('SRC packets: \d+ bytes: (\d+) DST packets: \d+ bytes: (\d+)')
 

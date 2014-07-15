@@ -1,7 +1,11 @@
 #!/usr/bin/python
+import json
+import os
+import sys
 
-import os, json, sys, uci, common
-from check_interface_connection import wireless_is_disabled
+import check_interface_connection
+import common
+import uci
 
 environ = os.environ
 params = {}
@@ -11,7 +15,7 @@ interface_dictionary = {"Openwireless.org": "1", "Private WiFi": "2"}
 
 def toggle_wireless_status(interface_name):
     config_variable = "wireless.@wifi-iface[" + interface_name + "].disabled"
-    if wireless_is_disabled(interface_name):
+    if check_interface_connection.wireless_is_disabled(interface_name):
         uci.set(config_variable, "0")
         uci.commit("wireless")
         common.reset_wifi()

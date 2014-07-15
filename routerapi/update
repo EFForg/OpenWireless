@@ -1,9 +1,9 @@
 #!/usr/bin/python
-
 import cgi
-import common
 import json
+
 import auth
+import common
 
 result = {"result" :{ "status": "updating" }}
 

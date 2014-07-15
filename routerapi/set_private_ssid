@@ -1,10 +1,11 @@
 #!/usr/bin/python
 import json
-import sys
-import common
 import os
-import uci
 import subprocess
+import sys
+
+import common
+import uci
 
 def jsonrpc_set_private_ssid():
   data = json.loads(sys.stdin.read())

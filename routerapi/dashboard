@@ -1,13 +1,12 @@
 #!/usr/bin/python
-
-# Import modules for CGI handling
 import cgi
 import json
-import common
-import uci
 import subprocess
-from ip_address_retriever import get_internal_ip_address, get_external_ip_address
-from check_interface_connection import wireless_is_disabled
+
+import check_interface_connection
+import common
+import ip_address_retriever
+import uci
 
 def get_ping_output():
   try:
@@ -24,8 +23,8 @@ else:
     connected = True
     ping_speed = int(float(ping_output.split(' ')[11].split('=')[1]))
 
-wan_ip = get_external_ip_address()
-lan_ip = get_internal_ip_address("ge00") 
+wan_ip = ip_address_retriever.get_external_ip_address()
+lan_ip = ip_address_retriever.get_internal_ip_address("ge00") 
 
 openwireless_maxmonthlybandwidth = uci.get("openwireless.maxmonthlybandwidth")
 openwireless_maxbandwidthpercent = uci.get("openwireless.maxbandwidthpercentage")
@@ -33,8 +32,7 @@ openwireless_maxbandwidthpercent = uci.get("openwireless.maxbandwidthpercentage"
 ssid = uci.get("wireless.@wifi-iface[2].ssid")
 
 def interface_is_connected(interface_name):
-    is_connected = wireless_is_disabled(interface_name) == False
-    return is_connected
+    return not check_interface_connection.wireless_is_disabled(interface_name)
 
 result = {
   "id": 1,

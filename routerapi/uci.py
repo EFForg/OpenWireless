@@ -1,6 +1,9 @@
-#!/usr/bin/python
-import common
+"""
+Store and retrieve values from the router's UCI config system.
+"""
 import subprocess
+
+import common
 
 uci_path = '/sbin/uci'
 

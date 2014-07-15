@@ -14,11 +14,12 @@ If the admin loses access to their SSH private key, they will have to reboot the
 router into failsafe mode in order to regain SSH access.
 """
 import json
-import sys
-import common
 import os
-import uci
 import re
+import sys
+
+import common
+import uci
 
 AUTHORIZED_KEYS='/etc/dropbear/authorized_keys'
 KEY_REGEX=r'^ssh-[rd]sa [A-Za-z0-9+/=]{204,760}( .{1,100})?$'

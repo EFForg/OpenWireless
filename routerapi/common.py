@@ -1,9 +1,17 @@
-import os
+"""
+Methods used by many scripts in the routerapi.
+
+All endpoints should import common. In addition to the automatic exception
+handler, they will be checked for authentication cookies and CSRF token.
+There are a handful of exceptions enumerated in auth.py.
+"""
 import json
+import os
+import subprocess
 import sys
 import traceback
+
 import auth
-import subprocess
 
 # The web server can pass an environment variable to change where this script
 # treats as /etc. This is useful for integration testing without a router.
@@ -47,8 +55,3 @@ def exception_handler(exc_type, exc_obj, exc_tb):
     sys.exit(0)
 
 sys.excepthook = exception_handler
-
-# All endpoints should import common. In addition to the automatic exception
-# handler, they will be checked for authentication cookies and CSRF token.
-# There are a handful of exceptions enumerated in auth.py.
-auth.check_request()

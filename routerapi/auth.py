@@ -1,4 +1,3 @@
-#!/usr/bin/python
 """
    Authentication module.
 
@@ -19,13 +18,15 @@
    rm /etc/auth/password.
 """
 
-import common
-import os
-import time
-import sys
-import json
 import hashlib
+import json
+import os
+import sys
+import time
+
 import pbkdf2
+
+import common
 
 REQUEST_URI = 'REQUEST_URI'
 REQUEST_METHOD = 'REQUEST_METHOD'
@@ -298,3 +299,5 @@ class Auth:
     print self.logout_headers()
     print json.JSONEncoder().encode({'error': 'Not authenticated.'})
     sys.exit(1)
+
+check_request()
