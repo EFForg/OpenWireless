@@ -2,7 +2,7 @@
  * Detect whether the user is logged in, and which setup stage they are in, and
  * redirect appropriately.
  *
- * Logged out, setup stage == set-password -> welcome.html
+ * Logged out, setup stage == set-password -> changePassword.html?first_time=true
  * Logged out, setup stage == complete -> login.html
  * Logged out, setup stage == * -> login.html?redirect_after_login=...
  * Logged in, setup stage == set-password -> setSSID.html
@@ -10,7 +10,7 @@
  * Logged in, setup stage == * -> ...
  */
 function redirectAsAppropriate() {
-  var loggedIn = document.cookie.match(/csrf_token=/);
+  var loggedIn = document.cookie.match(/logged_in=/);
   var state = requestModule.submitRequest({
     url: '/cgi-bin/routerapi/setup_state',
     data: JSON.stringify({
@@ -32,7 +32,7 @@ function redirectAsAppropriate() {
 function redirectTarget(loggedIn, state) {
   if (!loggedIn) {
     if (state === 'set-password') {
-      return 'welcome.html';
+      return 'changePassword.html?first_time=true';
     } else if (state === 'complete') {
       return 'login.html';
     } else {
@@ -47,7 +47,7 @@ function loggedInRedirectTarget(state) {
   if (state === 'set-password') {
     console.log('Shouldn\'t happen: logged in, but in state "set-password".');
     // Treat it as state set-password.
-    return 'welcome.html';
+    return 'login.html';
   } else if (state === 'complete') {
     return 'dashboard.html';
   } else if (state === 'setup-private-net') {
