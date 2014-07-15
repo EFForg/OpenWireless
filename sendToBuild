@@ -8,6 +8,8 @@ echo "remove etc and www directories in build ..."
 rm -rf cerowrt/files/etc
 rm -rf cerowrt/files/www
 
+echo "change DISTRIB_RELEASE_DATE in openwrt_release ..."
+./changeReleaseDate
 echo "push etc to build"
 cp -rp etc cerowrt/files/
 
