@@ -37,6 +37,12 @@ LOGGED_OUT_ENDPOINTS = [
 ]
 
 def default_path():
+  """
+  The default path for auth files.
+
+  Since auth is imported by common, not all functions from common are available
+  yet, so we have to duplicate common.get_etc().
+  """
   return os.path.join(os.environ.get('OVERRIDE_ETC', '/etc'), 'auth')
 
 def check_request(auth_dir = default_path()):

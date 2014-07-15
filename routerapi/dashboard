@@ -7,6 +7,7 @@ import check_interface_connection
 import common
 import ip_address_retriever
 import run
+import subprocess
 import uci
 
 def get_ping_output():

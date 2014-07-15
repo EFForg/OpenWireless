@@ -74,13 +74,6 @@ def check_channel_bandwidth(channel_name, interface_name):
     else:
       set_error('channel bandwidth')
 
-def check_ssh_key():
-  if (params.get("ssh_key")):
-    with open("/etc/dropbear/authorized_keys", "a") as authenticated_keys:
-      authenticated_keys.write(params.get("ssh_key"))
-  else:
-    set_error('Invalid SSH Key')
-
 def check_openwireless_bandwidth_percentage():
   if (params.get("openwirelessBandwidth")):
     new_percentage = params.get("openwirelessBandwidth")
@@ -128,11 +121,7 @@ if environ.get('REQUEST_METHOD').lower() == 'post':
 
     check_openwireless_bandwidth_percentage()
     check_openwireless_monthly_data()
-
-    check_ssh_key()
 else:
   set_error('GET request')
 
-
-print "Content-Type:application/json\r\n"
-print json.JSONEncoder().encode(params)
+common.render_success(params)

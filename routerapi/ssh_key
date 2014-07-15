@@ -21,8 +21,8 @@ import sys
 import common
 import uci
 
-AUTHORIZED_KEYS='/etc/dropbear/authorized_keys'
-KEY_REGEX=r'^ssh-[rd]sa [A-Za-z0-9+/=]{204,760}( .{1,100})?$'
+AUTHORIZED_KEYS = os.path.join(common.get_etc(), 'dropbear/authorized_keys')
+KEY_REGEX = r'^ssh-[rd]sa [A-Za-z0-9+/=]{204,760}( .{1,100})?$'
 
 def key_locked(authorized_keys = AUTHORIZED_KEYS):
   """
