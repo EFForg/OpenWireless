@@ -5,6 +5,7 @@ var response3 = {};
 var response4 = {};
 var response5 = {};
 var response6 = {};
+var byteCountPath = "/cgi-bin/routerapi/bytecount";
 
 var replaceByteCounts = function(){
   var roundToDecimal = function(num, dec) {
@@ -15,19 +16,27 @@ var replaceByteCounts = function(){
     var newDate = new Date(newResponse["dateTime"]);
     var lastDate = new Date(lastResponse["dateTime"]);
     var millisecondsToSecondsConversion = 0.001;
-    var byteToMegabyteConversion = 0.000001;
-    var byteToBitConversion = 8;
+    var bytesToMegabits = 8.0 / 1000000;
     var timeDifferenceInSeconds = (newDate.getTime() - lastDate.getTime())*millisecondsToSecondsConversion;
+    var conversion = bytesToMegabits / timeDifferenceInSeconds;
 
-    var computeUploadRate = function(networkName){
-      var uploadRate = (newResponse[networkName]["uploadUsage"] - lastResponse[networkName]["uploadUsage"])*byteToBitConversion*byteToMegabyteConversion/timeDifferenceInSeconds;
-      return roundToDecimal(uploadRate, 1);
+    var computeRate = function(networkName, key) {
+      var newVal = newResponse[networkName];
+      var oldVal = lastResponse[networkName];
+      if (newVal && oldVal) {
+        var rate = conversion * (newVal[key] - oldVal[key]);
+        return roundToDecimal(rate, 1);
+      } else {
+        return 0;
+      }
     };
 
-    var computeDownloadRate = function(networkName){
-      var downloadRate = (newResponse[networkName]["downloadUsage"] - lastResponse[networkName]["downloadUsage"])*byteToBitConversion*byteToMegabyteConversion/timeDifferenceInSeconds;
-      return roundToDecimal(downloadRate, 1);
-    };
+    var computeUploadRate = function(networkName) {
+      return computeRate(networkName, "uploadUsage");
+    }
+    var computeDownloadRate = function(networkName) {
+      return computeRate(networkName, "uploadUsage");
+    }
 
     var internetUploadUsage = computeUploadRate("internet");
     var internetDownloadUsage = computeDownloadRate("internet");
@@ -78,7 +87,7 @@ var replaceByteCounts = function(){
     $('#monthlyBandwidth').text(mbUsageForDisplay);
   }
 
-  var successCallback = function(response){
+  var updateFields = function(response) {
     response1 = response2;
     response2 = response3;
     response3 = response;
@@ -100,11 +109,20 @@ var replaceByteCounts = function(){
     updateCount('Openwireless.org', rates['openWireless']);
 
     updateOpenwirelessBandwidth(rates['openWireless']);
+  };
+
+  var successCallback = function(response) {
     // We use a setTimeout rather than a setInterval because sometimes the
     // server responses are consistently slower than a second. Under
     // setInterval that would result in lots of stacked requests, exacerbating
     // the slowness.
-    setTimeout(replaceByteCounts, 1000);
+    // We use a try...finally to make sure that an exception does not stop the
+    // updating.
+    try {
+      updateFields(response);
+    } finally {
+      setTimeout(replaceByteCounts, 1000);
+    }
   };
 
   // When we get an error, trying in ten seconds instead of one.
@@ -117,7 +135,7 @@ var replaceByteCounts = function(){
     "data" : {},
     "successCallback" : successCallback,
     "errorCallback" : errorCallback,
-    "url" : "/cgi-bin/routerapi/bytecount"
+    "url" : byteCountPath
   };
 
   requestModule.submitRequest(requestData);
@@ -133,7 +151,7 @@ $(function(){
     "data" : {},
     "successCallback" : initialSuccessCallback,
     "errorCallback"   : errorCallback,
-    "url" : "/cgi-bin/routerapi/bytecount"
+    "url" : byteCountPath
   };
 
   requestModule.submitRequest(initialRequestData);
