@@ -25,6 +25,7 @@ var replaceByteCounts = function(){
       var oldVal = lastResponse[networkName];
       if (newVal && oldVal) {
         var rate = conversion * (newVal[key] - oldVal[key]);
+        console.log(networkName, rate, oldVal[key], newVal[key], newVal[key] - oldVal[key]);
         return roundToDecimal(rate, 1);
       } else {
         return 0;
@@ -35,7 +36,7 @@ var replaceByteCounts = function(){
       return computeRate(networkName, "uploadUsage");
     }
     var computeDownloadRate = function(networkName) {
-      return computeRate(networkName, "uploadUsage");
+      return computeRate(networkName, "downloadUsage");
     }
 
     var internetUploadUsage = computeUploadRate("internet");
