@@ -2854,7 +2854,7 @@ CONFIG_PACKAGE_libdbus=y
 CONFIG_PACKAGE_libdnet=m
 CONFIG_PACKAGE_libelf1=y
 # CONFIG_PACKAGE_libdw is not set
-CONFIG_PACKAGE_libevent2=m
+CONFIG_PACKAGE_libevent2=y
 # CONFIG_PACKAGE_libevent2-core is not set
 # CONFIG_PACKAGE_libevent2-extra is not set
 # CONFIG_PACKAGE_libevent2-openssl is not set
