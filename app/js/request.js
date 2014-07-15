@@ -21,7 +21,8 @@ var requestModule = (function(){
         "X-CSRF-Token": getCsrfToken()
       },
       success: request.successCallback,
-      error: request.errorCallback
+      error: request.errorCallback,
+      timeout: 20000 // twenty seconds
     });
   };
 
