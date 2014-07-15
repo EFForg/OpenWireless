@@ -12,12 +12,12 @@ interface_dictionary = {"Openwireless.org": "1", "Private WiFi": "2"}
 def toggle_wireless_status(interface_name):
     config_variable = "wireless.@wifi-iface[" + interface_name + "].disabled"
     if wireless_is_disabled(interface_name):
-        uci.set(config_variable + "=0")
+        uci.set(config_variable, "0")
         uci.commit("wireless")
         common.reset_wifi()
         return "On"
     else:
-        uci.set(config_variable + "=1")
+        uci.set(config_variable, "1")
         uci.commit("wireless")
         common.reset_wifi()
         return "Off"

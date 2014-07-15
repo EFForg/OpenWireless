@@ -29,7 +29,7 @@ def validate_bandwidth(new_bandwidth):
   return new_bandwidth in ['20', '40']
 
 def set_param(device, param, value):
-  uci.set("wireless." + device + "." + param + "=" + value)
+  uci.set("wireless." + device + "." + param, value)
   uci.commit("wireless")
 
 def set_error(param):
@@ -81,31 +81,31 @@ def check_openwireless_bandwidth_percentage():
   if (params.get("openwirelessBandwidth")):
     new_percentage = params.get("openwirelessBandwidth")
 
-    uci.set("openwireless.maxbandwidthpercentage=" + new_percentage)
+    uci.set("openwireless.maxbandwidthpercentage", new_percentage)
     uci.commit("openwireless")
 
     total_bandwidth = float(uci.get("sqm.ge00.download"))
     openwireless_bandwidth = total_bandwidth * float(new_percentage)/100
 
-    uci.set("sqm.gw00.download=" + str(openwireless_bandwidth))
+    uci.set("sqm.gw00.download", str(openwireless_bandwidth))
     uci.commit("sqm")
 
 def check_openwireless_monthly_data():
     if (params.get("openwirelessData")):
       new_bandwidth = params.get("openwirelessData")
-      uci.set("openwireless.maxmonthlybandwidth=" + new_bandwidth)
+      uci.set("openwireless.maxmonthlybandwidth", new_bandwidth)
       uci.commit("openwireless")
 
 def check_isp_upload_speed():
   if (params.get("ispUploadSpeed")):
     new_speed = params.get("ispUploadSpeed")
-    uci.set("sqm.ge00.upload=" + new_speed)
+    uci.set("sqm.ge00.upload", new_speed)
     uci.commit("sqm")
 
 def check_isp_download_speed():
   if (params.get("ispDownloadSpeed")):
     new_speed = params.get("ispDownloadSpeed")
-    uci.set("sqm.ge00.download=" + new_speed)
+    uci.set("sqm.ge00.download", new_speed)
     uci.commit("sqm")
 
 if environ.get('REQUEST_METHOD').lower() == 'post':

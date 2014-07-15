@@ -4,23 +4,17 @@ import subprocess
 
 uci_path = '/sbin/uci'
 
-def get(*args):
-  args = list(args)
-  args.insert(0, "get")
+def get(name):
   try:
-    return run(args)
+    return run(['get', name])
   except subprocess.CalledProcessError, e:
     return None
 
-def set(*args):
-  args = list(args)
-  args.insert(0, "set")
-  return run(args)
+def set(name, value):
+  return run(['set', '%s=%s' % (name, value)])
 
-def commit(*args):
-  args = list(args)
-  args.insert(0, "commit")
-  return run(args)
+def commit(namespace):
+  return run(['commit', namespace])
 
 def validate(string):
   if len(string) > 200:
