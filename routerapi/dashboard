@@ -6,11 +6,12 @@ import subprocess
 import check_interface_connection
 import common
 import ip_address_retriever
+import run
 import uci
 
 def get_ping_output():
   try:
-     return subprocess.check_output(["/bin/ping", "-c1", "eff.org"])
+     return run.check_output(['/usr/bin/sudo', '/bin/ping', '-c1', 'eff.org'])
   except subprocess.CalledProcessError:
      return 'N/A'
 
