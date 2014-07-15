@@ -1,8 +1,7 @@
-        <h2>Administration</h2>
-        <div class="section">
-          <p>
-            <a href="./changePassword.html" class="links">Change admin password</a>
-          </p>
+        <h2>Administration           
+		<span class="subheading"> <a href="./changePassword.html" class="links">Change admin password</a></span>
+	</h2>
+        <div class="section">         
           <p id="SSH">
             {{#sshKey}}
               {{#if exists}}
@@ -28,22 +27,22 @@
               </div>
             {{/sshKey}}
           </p>
-          <p>Software Version: {{softwareVersion}}</p>
-          <p>Date of version update: {{softwareVersionUpdateDate}}</p>
+          <p>Software Version <span class="subheading"> {{softwareVersion}}</span></p>
+          <p>Date of version update <span class="subheading"> {{softwareVersionUpdateDate}}</span></p>
         </div>
 
         <h2>ISP Speeds 
           <span class="subheading">Set these to help optimize your router</span>
-        <h2>
+        </h2>
         <div class="section">
-          <p>ISP Download Speed: <span class="setting" ><span id="ispDownloadSpeed" class="editable">{{ispDownloadSpeed}}</span> Mb/s </span></p>
-          <p>ISP Upload Speed: <span class="setting" ><span id="ispUploadSpeed" class="editable">{{ispUploadSpeed}}</span> Mb/s </span></p>
+          <p>ISP Download Speed <span class="setting" ><span id="ispDownloadSpeed" class="editable">{{ispDownloadSpeed}}</span> Mb/s </span></p>
+          <p>ISP Upload Speed <span class="setting" ><span id="ispUploadSpeed" class="editable">{{ispUploadSpeed}}</span> Mb/s </span></p>
         </div>
 
         <h2>Private WiFi
           <span class="subheading">
             <label for=routerSsid>SSID</label>
-            <span>{{routerSsid}}</span>
+            <span>{{routerSsid}}</span> &nbsp &nbsp
             <a href="./setSSID.html" class="links">Edit</a>
           </span>
         </h2>
@@ -77,8 +76,7 @@
             <label for="openwirelessData">Max total data per month</label>
             <span class="setting"><span class="editable" id="openwirelessData">{{openwirelessData}}</span> MB
           </span></p>
-          <p><a href="#" class="links">Reset total data used this month</a></p>
-          <p>Change data auto-reset date [Datepicker]</p>
+          <p>Usage counter auto-reset day [Datepicker]<span class="subheading"><a href="#" class="links">Reset usage counter</a></span></p>
 	  <br>
           <p>
             <label for="openwirelessBand">Frequency Band</label>
@@ -93,11 +91,11 @@
             <select class="setting" id="openwirelessChannelBandwidth">OpenwirelessChannelBandwidth</select>
           </p>
           <p>
-            <label for="openwirelessEncryption">WiFi security</label>
-            <select class="setting" id="openwirelessEncryption">OpenwirelessEncryption</select>
-          </p>
-          <p>
             <label for="openwirelessVpnConfiguration">VPN/TOR Configuration</label>
             <select class="setting" id="openwirelessVpnConfiguration">OpenwirelessVpnConfiguration</select>
+          </p>
+          <p>
+            <label for="openwirelessEncryption">WiFi security</label>
+            <select class="setting" id="openwirelessEncryption">OpenwirelessEncryption</select>
           </p>
         </div>
