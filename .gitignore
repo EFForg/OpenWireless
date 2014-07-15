@@ -6,3 +6,4 @@
 .*.sw*
 *.orig
 /env/
+local-lighttpd/etc
