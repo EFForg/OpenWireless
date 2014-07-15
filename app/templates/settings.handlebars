@@ -32,18 +32,23 @@
           <p>Date of version update: {{softwareVersionUpdateDate}}</p>
         </div>
 
-        <h2>ISP Speeds &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Set these to help optimize your router </h2>
+        <h2>ISP Speeds 
+          <span class="subheading">Set these to help optimize your router</span>
+        <h2>
         <div class="section">
           <p>ISP Download Speed: <span class="setting" ><span id="ispDownloadSpeed" class="editable">{{ispDownloadSpeed}}</span> Mb/s </span></p>
           <p>ISP Upload Speed: <span class="setting" ><span id="ispUploadSpeed" class="editable">{{ispUploadSpeed}}</span> Mb/s </span></p>
         </div>
 
-        <h2>Private WiFi</h2>
+        <h2>Private WiFi
+          <span class="subheading">
+            <label for=routerSsid>SSID</label>
+            <span>{{routerSsid}}</span>
+            <a href="./setSSID.html" class="links">Edit</a>
+          </span>
+        </h2>
+
         <div class="section">
-          <label for=routerSsid>SSID</label>
-          <span>{{routerSsid}}</span>
-          <a href="./setSSID.html" class="links">Edit</a>
-          <br>
           <p>
             <label for="routerBand">Frequency Band</label>
             <span class="selector"><select class="setting" id="routerBand">RouterBand</select></span>

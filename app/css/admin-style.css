@@ -132,6 +132,11 @@ small {
   text-decoration: none;
 }
 
+.subheading {
+  float: right;
+  font-size: 17px;
+}
+
 select, .editable {
     outline: none;
     background: rgb(139, 197, 63);
