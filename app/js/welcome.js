@@ -1,6 +1,8 @@
 $(function() {
   if (document.location.hostname == 'localhost') {
-    document.getElementById("continue").href =
-      'https://localhost:8443';
+    var el = document.getElementById("continue")
+    if (el) {
+      el.href = 'https://localhost:8443';
+    }
   }
 });
