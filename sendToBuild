@@ -1,17 +1,18 @@
 #!/bin/bash -e
 cd $(dirname $0)
 
-echo "precompile handlebars templates..."
-./make-templates.sh
-
 echo "remove etc and www directories in build ..."
 rm -rf cerowrt/files/etc
 rm -rf cerowrt/files/www
 
 echo "change DISTRIB_RELEASE_DATE in openwrt_release ..."
 ./changeReleaseDate
+
 echo "push etc to build"
 cp -rp etc cerowrt/files/
+
+echo "set permissions for /etc/auth"
+chmod 0700 cerowrt/files/etc/auth
 
 echo "make www directory in build..."
 mkdir cerowrt/files/www
@@ -24,8 +25,3 @@ mkdir cerowrt/files/www/cgi-bin
 
 echo "pushing routerapi to build..."
 cp -rp routerapi cerowrt/files/www/cgi-bin/
-
-echo "pushing unencrypted help to build ..."
-cp -rp unencrypted cerowrt/files/www/
-
-
