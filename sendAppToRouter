@@ -6,6 +6,7 @@ sync() {
   ./make-templates.sh && \
   rsync -au --no-owner --no-group app/ $TARGET:/www/ && \
   rsync -au --no-owner --no-group routerapi/ $TARGET:/www/cgi-bin/routerapi/ && \
+  rsync -au --no-owner --no-group etc/lighttpd/lighttpd.conf $TARGET:/etc/lighttpd/lighttpd.conf && \
   date +"%Y-%m-%d %H:%M:%S synced"
 }
 

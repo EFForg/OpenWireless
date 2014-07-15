@@ -3,7 +3,7 @@
 import cgi
 import json
 import subprocess
-
+import datetime
 import common
 import ssh_key
 import uci
@@ -17,7 +17,7 @@ def openwrt_release():
       # Strip trailing newline, and any wrapping quotes.
       items[key] = val.strip('"\n')
       unknown = 'Unknown'
-  return (items.get('DISTRIB_RELEASE', unknown),
+  return (items.get('DISTRIB_DESCRIPTION', unknown),
           items.get('DISTRIB_RELEASE_DATE', unknown))
 
 software_version, software_update_date = openwrt_release()
@@ -73,7 +73,7 @@ result = {
     "softwareVersion"               : software_version,
     "ispDownloadSpeed"              : isp_download_speed,
     "ispUploadSpeed"                : isp_upload_speed,
-    "softwareVersionUpdateDate"     : software_update_date,
+    "softwareVersionUpdateDate"     : datetime.datetime.fromtimestamp(int(software_update_date)).strftime('%Y-%m-%d   %H:%M:%S') + " UTC",
     "routerSsid"                    : private["ssid"],
     "routerBand"                    : private["band"],
     "routerChannel"                 : private["channel"],
