@@ -241,19 +241,19 @@ function program7(depth0,data) {
   else { helper = (depth0 && depth0.sshKey); stack1 = typeof helper === functionType ? helper.call(depth0, options) : helper; }
   if (!helpers.sshKey) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data}); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n          </p>\n          <p>Software Version:<span class=\"subheading\"> ";
+  buffer += "\n          </p>\n          <p>Software Version <span class=\"subheading\"> ";
   if (helper = helpers.softwareVersion) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.softwareVersion); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span></p>\n          <p>Date of version update:<span class=\"subheading\"> ";
+    + "</span></p>\n          <p>Date of version update <span class=\"subheading\"> ";
   if (helper = helpers.softwareVersionUpdateDate) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.softwareVersionUpdateDate); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span></p>\n        </div>\n\n        <h2>ISP Speeds \n          <span class=\"subheading\">Set these to help optimize your router</span>\n        </h2>\n        <div class=\"section\">\n          <p>ISP Download Speed: <span class=\"setting\" ><span id=\"ispDownloadSpeed\" class=\"editable\">";
+    + "</span></p>\n        </div>\n\n        <h2>ISP Speeds \n          <span class=\"subheading\">Set these to help optimize your router</span>\n        </h2>\n        <div class=\"section\">\n          <p>ISP Download Speed <span class=\"setting\" ><span id=\"ispDownloadSpeed\" class=\"editable\">";
   if (helper = helpers.ispDownloadSpeed) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.ispDownloadSpeed); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span> Mb/s </span></p>\n          <p>ISP Upload Speed: <span class=\"setting\" ><span id=\"ispUploadSpeed\" class=\"editable\">";
+    + "</span> Mb/s </span></p>\n          <p>ISP Upload Speed <span class=\"setting\" ><span id=\"ispUploadSpeed\" class=\"editable\">";
   if (helper = helpers.ispUploadSpeed) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.ispUploadSpeed); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
