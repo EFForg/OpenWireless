@@ -10,14 +10,13 @@ $(document).on('click', '#cancel-SSH', function(){
 
 $(document).on('click', '#submit-SSH', function(){
     requestModule.submitRequest({
-        'url': '/cgi-bin/routerapi/ssh_key',
-        'successCallback': function(data, textStatus, jqXHR) {
+        url: '/cgi-bin/routerapi/ssh_key',
+        successCallback: function(data, textStatus, jqXHR) {
           location.reload();
         },
-        'errorCallback': errorCallback,
-        'data': {
-          'method': 'set_ssh_key',
-          'params': [$('#input-SSH').val()]
+        data: {
+          method: 'set_ssh_key',
+          params: [$('#input-SSH').val()]
         }
     });
 });

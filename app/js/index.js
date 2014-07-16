@@ -25,7 +25,6 @@ function redirectAsAppropriate() {
         helperModule.redirectTo(redirectTarget(loggedIn, state));
       }
     },
-    errorCallback: errorCallback
   });
 }
 

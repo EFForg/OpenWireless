@@ -25,7 +25,6 @@ var replaceByteCounts = function(){
       var oldVal = lastResponse[networkName];
       if (newVal && oldVal) {
         var rate = conversion * (newVal[key] - oldVal[key]);
-        console.log(networkName, rate, oldVal[key], newVal[key], newVal[key] - oldVal[key]);
         roundedRate = roundToDecimal(rate, 1);
         if (roundedRate == 0) {
           return "0.0";
@@ -139,7 +138,6 @@ var replaceByteCounts = function(){
   var requestData = {
     "data" : {},
     "successCallback" : successCallback,
-    "errorCallback" : errorCallback,
     "url" : byteCountPath
   };
 
@@ -155,7 +153,6 @@ $(function(){
   var initialRequestData = {
     "data" : {},
     "successCallback" : initialSuccessCallback,
-    "errorCallback"   : errorCallback,
     "url" : byteCountPath
   };
 

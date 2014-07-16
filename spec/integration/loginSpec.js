@@ -30,7 +30,7 @@ describe("Login Module", function() {
     var loginData = {jsonrpc:"2.0",method: "login", params:["root","asdf1234"],id:1};
     password.val("asdf1234");
     loginForm.submit();
-    expect(requestModule.submitRequest).toHaveBeenCalledWith({'data':loginData, 'url': "/cgi-bin/routerapi/login", 'successCallback': jasmine.any(Function), 'errorCallback': jasmine.any(Function)});
+    expect(requestModule.submitRequest).toHaveBeenCalledWith({'data':loginData, 'url': "/cgi-bin/routerapi/login", 'successCallback': jasmine.any(Function)});
   });
 
   it("should redirect to dashboard page on", function() {

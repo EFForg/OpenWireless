@@ -155,12 +155,10 @@ var settingsModule = (function(){
     var successCallback = function(response){};
 
     requestModule.submitRequest({
-        "data"              :data,
-        "url"               :url,
-        "errorCallback"     :errorCallback,
-        "successCallback"   :successCallback
+        data: data,
+        url: url,
+        successCallback: successCallback
     });
-
   };
 
   return {
@@ -177,9 +175,8 @@ $(function() {
     };
 
     requestModule.submitRequest({
-        "data"              :data,
-        "url"               :url,
-        "errorCallback"     :errorCallback,
-        "successCallback"   :successCallback
+        data: data,
+        url: url,
+        successCallback: successCallback
     });
 });

@@ -61,7 +61,6 @@ var changePassword = (function() {
       'data': changePasswordRequest,
       'url': changePasswordUrl,
       'successCallback': successCallback,
-      'errorCallback': errorCallback
     };
 
     requestModule.submitRequest(request);

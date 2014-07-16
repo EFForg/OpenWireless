@@ -32,7 +32,11 @@ var loginModule = (function() {
         helperModule.redirectTo("dashboard.html");
       };
 
-      var request = { 'data': data, url: '/cgi-bin/routerapi/login', 'successCallback': successCallback, 'errorCallback': errorCallback };
+      var request = {
+        data: data,
+        url: '/cgi-bin/routerapi/login',
+        successCallback: successCallback
+      };
       requestModule.submitRequest(request);
     });
   };
