@@ -52,11 +52,17 @@ var settingsModule = (function(){
         $("#openwirelessVpnConfiguration>option:contains(VPN2)").prop('disabled', true);
     }
 
+    var disableOpenWirelessWiFiSecurity = function() {
+        $("#openwirelessEncryption>option:contains(EAP-TLS)").prop('disabled', true);
+    }
+
+
     var initializeDropDownMenus = function(){
     for (var index in menus) {
       setDropDownMenu(menus[index].tag, menus[index].options);
     }
         disableVPNAndTORConfig();
+	disableOpenWirelessWiFiSecurity();
     };
 
   var initializeEditableFields = function(){
