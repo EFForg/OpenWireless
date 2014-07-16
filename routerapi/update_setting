@@ -81,10 +81,14 @@ def check_openwireless_bandwidth_percentage():
     uci.set("openwireless.maxbandwidthpercentage", new_percentage)
     uci.commit("openwireless")
 
-    total_bandwidth = float(uci.get("sqm.ge00.download"))
-    openwireless_bandwidth = total_bandwidth * float(new_percentage)/100
+    total_download_bandwidth = float(uci.get("sqm.ge00.download"))
+    total_upload_bandwidth = float(uci.get("sqm.ge00.upload"))
 
-    uci.set("sqm.gw00.download", str(openwireless_bandwidth))
+    openwireless_download_bandwidth = total_download_bandwidth * float(new_percentage)/100
+    openwireless_upload_bandwidth = total_upload_bandwidth * float(new_percentage)/100
+
+    uci.set("sqm.gw00.download", str(openwireless_download_bandwidth))
+    uci.set("sqm.gw00.upload", str(openwireless_upload_bandwidth))
     uci.commit("sqm")
 
 def check_openwireless_monthly_data():
