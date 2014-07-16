@@ -205,7 +205,7 @@ select, .editable {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
-  min-height: 320px;
+  min-height: 330px;
   flex-grow: 1;
 }
 
@@ -262,7 +262,7 @@ select, .editable {
 }
 
 .data-use {
-  padding-left: 20px;
+  padding-left: 10px;
 }
 
 .devices small, .ping small, .bandwidth small, .data-use small{
