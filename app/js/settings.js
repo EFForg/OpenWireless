@@ -75,6 +75,7 @@ var settingsModule = (function(){
       type    : 'text',
       width   : '100',
       submit  : 'OK',
+      select  : true,
       onsubmit: function() {
         var validation = {
           "ispDownloadSpeed":{
