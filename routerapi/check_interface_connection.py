@@ -1,6 +1,5 @@
 import common
 import uci
 
-def wireless_is_disabled(interface_name):
-    is_disabled = uci.get("wireless.@wifi-iface[" + interface_name + "].disabled") == "1"
-    return is_disabled
+def enabled(index):
+    return uci.get("wireless.@wifi-iface[%d].disabled" % index) != "1"
