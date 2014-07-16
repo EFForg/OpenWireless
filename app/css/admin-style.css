@@ -205,6 +205,7 @@ select, .editable {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
+  min-height: 330px;
   flex-grow: 1;
 }
 
@@ -221,7 +222,7 @@ select, .editable {
   -webkit-flex-basis: 120px;
   -ms-flex-preferred-size: 120px;
   flex-basis: 120px;
-  padding-right: 20px;
+  padding-right: 10px;
 }
 .network .title {
   -webkit-box-flex: 1;
@@ -258,15 +259,22 @@ select, .editable {
   text-transform: uppercase;
 }
 
-.bandwidth {
+.bandwidth, .data-use {
   color: #ffffff;
   text-transform: uppercase;
   display: inline-block;
-  margin-right: 20px;
 }
 
-.devices small, .ping small, .bandwidth small{
+.data-use {
+  padding-left: 10px;
+}
+
+.devices small, .ping small, .bandwidth small, .data-use small{
   font-size: 10px;
+}
+
+h2 small {
+  font-size: .7em;
 }
 
 .status {
