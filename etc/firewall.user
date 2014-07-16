@@ -48,8 +48,6 @@ iptables -I FORWARD -j ACCOUNT --addr 172.30.42.96/27 --tname private-wifi
 iptables -I FORWARD -s 172.30.42.96/27 -j privatewifitolan
 
 #To/from OpenWiFi (first drop if necessary)
-iptables -I INPUT -s172.30.42.128/27 -j DROP 
-iptables -I OUTPUT -d172.30.42.128/27 -j DROP
 iptables -I FORWARD -j ACCOUNT --addr 172.30.42.128/27 --tname open-wifi
 iptables -I FORWARD -s172.30.42.128/27 -d172.30.42.0/24 -j DROP
 iptables -I FORWARD -s172.30.42.0/24 -d172.30.42.128/27 -j DROP
