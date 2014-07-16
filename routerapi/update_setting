@@ -49,8 +49,10 @@ def check_band(band_name, interface_name):
 
         else:
           new_band = "radio0"
-
-        set_param(interface_name, "device", new_band)
+          
+        if new_band != check_param(interface_name, "device"):
+          set_param(interface_name, "device", new_band)
+          common.reset_wifi()
 
       else:
         set_error('band')
@@ -60,7 +62,9 @@ def check_channel(channel_name, interface_name):
     current_device = check_device(interface_name)
     new_channel = params.get(channel_name)
     if validate_channel(current_device, new_channel):
-      set_param(current_device, 'channel', new_channel.split(' ')[0])
+      if new_channel.split(' ')[0] != check_param(interface_name, 'channel'):
+        set_param(current_device, 'channel', new_channel.split(' ')[0])
+        common.reset_wifi()
 
     else:
       set_error('channel')
@@ -70,7 +74,9 @@ def check_channel_bandwidth(channel_name, interface_name):
     current_device = check_device(interface_name)
     new_bandwidth = params.get(channel_name)
     if validate_bandwidth(new_bandwidth):
-      set_param(current_device, 'htmode', "HT" + new_bandwidth)
+      if check_param(current_device, 'htmode') != "HT" + new_bandwidth:
+        set_param(current_device, 'htmode', "HT" + new_bandwidth)
+        common.reset_wifi()
     else:
       set_error('channel bandwidth')
 
@@ -110,12 +116,11 @@ def check_isp_download_speed():
     new_speed_kbs = str(new_speed * 1000)
     uci.set("sqm.ge00.download", new_speed_kbs)
     uci.commit("sqm")
-
 if environ.get('REQUEST_METHOD').lower() == 'post':
     params = json.loads(sys.stdin.read())
 
-    check_band('routerBand', "@wifi-iface[0]")
-    check_channel('routerChannel', "@wifi-iface[0]")
+    check_band('routerBand', "@wifi-iface[2]")
+    check_channel('routerChannel', "@wifi-iface[2]")
     check_channel_bandwidth('routerChannelBandwidth', "@wifi-iface[0]")
 
     check_band('openwirelessBand', "@wifi-iface[1]")
