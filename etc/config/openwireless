@@ -3,8 +3,8 @@ config 600 'maxmonthlybandwidth'
 
 config 20 'maxbandwidthpercentage'
 
-config 1000 'use_before_last_reset'
+config 0 'use_before_last_reset'
 
-config 500 'use_since_last_reset'
+config 0 'use_since_last_reset'
 
 config 1405544872 'last_known_reset_time'
