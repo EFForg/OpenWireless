@@ -1,56 +1,61 @@
 body {
-	font-family: sans-serif;
-	background: black;
-	color: white;
-	margin: 0;
-	text-align: center;
+  font-family: sans-serif;
+  background: black;
+  color: white;
+  margin: 0;
+  text-align: center;
 }
 
 header {
-	height: 200px;
-	background-image: url("../images/buildings.jpg");
-	background-position: right bottom;
+  height: 200px;
+  background-image: url("../images/buildings.jpg");
+  background-position: right bottom;
 }
 
 .formDiv {
-	padding: 2%;
+  padding: 2%;
 }
 
-input[type="text"], input[type="password"], input[type="submit"], input[type="username"]{
-	padding: .5em 1em;
-	min-width: 200px;
+input[type="text"],
+input[type="password"],
+input[type="submit"],
+input[type="username"] {
+  padding: .5em 1em;
+  min-width: 200px;
 }
 
-input[type="text"], input[type="password"], input[type="username"]{
-	border: 0;
-	background: rgba(255,255,255, 0.2);
+input[type="text"],
+input[type="password"],
+input[type="username"] {
+  border: 0;
+  background: rgba(255,255,255, 0.2);
 }
 
 input[type="submit"] {
-	background: none;
-	line-height: normal;
-	outline: 0;
-	border: 2px solid #1B9AF7;
-	margin-top: 1em;
+  background: none;
+  line-height: normal;
+  outline: 0;
+  border: 2px solid #1B9AF7;
+  margin-top: 1em;
 }
 
 a.button {
-	background: none;
-	line-height: normal;
-	outline: 0;
-	border: 2px solid #1B9AF7;
-	margin-top: 1em;
-	padding: .5em 1em;
-	min-width: 200px;
+  background: none;
+  line-height: normal;
+  outline: 0;
+  border: 2px solid #1B9AF7;
+  margin-top: 1em;
+  padding: .5em 1em;
+  min-width: 200px;
   text-decoration: none;
-	color: white;
+  color: white;
 }
 
 input {
-	font-size: 14;
-	border-radius: 3px;
-	margin-bottom: 5px;
-	color: white;
+  font-size: 14;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  color: white;
 }
 
 input.error {
@@ -67,12 +72,12 @@ input.error {
 }
 
 p {
-	max-width: 25em;
-	margin: 0 auto 1em;
+  max-width: 25em;
+  margin: 0 auto 1em;
 }
 
 #antenna {
-	height: 30px;
+  height: 30px;
 }
 
 .x.axis line {
@@ -86,40 +91,42 @@ p {
 }
 
 .domain {
-	stroke: white;
+  stroke: white;
 }
 
 .tick text {
-	fill: white;
+  fill: white;
 }
 
 .devices {
-	padding: 0;
+  padding: 0;
 
 }
 
 .devices li {
-	-webkit-box-sizing: border-box;
-	   -moz-box-sizing: border-box;
-			box-sizing: border-box;
-	display: inline-block;
-	width: 49%;
-	padding: .5em 1em;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  display: inline-block;
+  width: 49%;
+  padding: .5em 1em;
 }
 
 .devices li:nth-of-type(odd) {
-	text-align: right;
+  text-align: right;
 }
 
 .devices li:nth-of-type(even) {
-	text-align: left;
+  text-align: left;
 }
 
 @media only screen and (max-width: 599px) {
-	input[type="text"], input[type="password"], input[type="submit"] {	
-		display: block;
-		width: 100%;
-	}
+  input[type="text"],
+  input[type="password"],
+  input[type="submit"] {
+    display: block;
+    width: 100%;
+  }
 }
 
 #restarting {
