@@ -1,0 +1,16 @@
+#!/usr/bin/python
+
+import datetime
+import uci
+import subprocess
+
+# periodically store iptaccount_output to openwireless config file
+# and compare uptime to last_known_reset_time
+
+# if reset has occurred:
+# increment use_before_last_reset with use_since_last_reset, (from iptaccount)
+# reset use_since_last_reset,
+# and reset last_known_reset_time
+
+
+
