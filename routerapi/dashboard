@@ -1,88 +1,92 @@
 #!/usr/bin/python
-import cgi
-import json
+"""
+Initial data to display the web dashboard.
+"""
 import subprocess
 
 import check_interface_connection
 import common
 import ip_address_retriever
 import run
-import subprocess
 import uci
 
-def get_ping_output():
-  try:
-     return run.check_output(['/usr/bin/sudo', '/bin/ping', '-c1', 'eff.org'])
-  except subprocess.CalledProcessError:
-     return 'N/A'
+def get_dashboard():
+    """Render JSON dashboard data response."""
+    def get_ping_output():
+        """Ping a server and return the output"""
+        try:
+            return run.check_output(
+                ['/usr/bin/sudo', '/bin/ping', '-c1', 'eff.org'])
+        except subprocess.CalledProcessError:
+            return 'N/A'
 
-ping_output = get_ping_output()
+    ping_output = get_ping_output()
 
-if "N/A" in ping_output:
-    connected = False
-    ping_speed = "N/A"
-else:
-    connected = True
-    ping_speed = int(float(ping_output.split(' ')[11].split('=')[1]))
+    if "N/A" in ping_output:
+        connected = False
+        ping_speed = "N/A"
+    else:
+        connected = True
+        ping_speed = int(float(ping_output.split(' ')[11].split('=')[1]))
 
-wan_ip = ip_address_retriever.get_external_ip_address()
-lan_ip = ip_address_retriever.get_internal_ip_address("ge00") 
+    wan_ip = ip_address_retriever.get_external_ip_address()
+    lan_ip = ip_address_retriever.get_internal_ip_address("ge00")
 
-openwireless_maxmonthlybandwidth = uci.get("openwireless.maxmonthlybandwidth")
-openwireless_maxbandwidthpercent = uci.get("openwireless.maxbandwidthpercentage")
+    ssid = uci.get("wireless.@wifi-iface[2].ssid")
 
-ssid = uci.get("wireless.@wifi-iface[2].ssid")
+    private_wifi_on = check_interface_connection.enabled("2")
+    openwireless_on = check_interface_connection.enabled("1")
 
-def interface_is_connected(interface_name):
-    return not check_interface_connection.wireless_is_disabled(interface_name)
+    result = {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "result": {
+            "internet": {
+                "name": "Internet",
+                "uploadSpeed": "...",
+                "uploadSpeedMetric": "Mb/s",
+                "downloadSpeed": "...",
+                "downloadSpeedMetric": "Mb/s",
+                "pingSpeed": ping_speed,
+                "pingSpeedMetric": "ms",
+                "connected": connected
+            },
+            "lanNetwork": {
+                "name": "LAN Network",
+                "uploadSpeed": "...",
+                "uploadSpeedMetric": "Mb/s",
+                "downloadSpeed": "...",
+                "downloadSpeedMetric": "Mb/s",
+                "devices": "0"
+            },
+            "privateWifi": {
+                "name": "Private WiFi",
+                "uploadSpeed": "...",
+                "uploadSpeedMetric": "Mb/s",
+                "downloadSpeed": "...",
+                "downloadSpeedMetric": "Mb/s",
+                "devices": "0",
+                "on": private_wifi_on,
+                "ssid": ssid
+            },
+            "openWireless": {
+                "name": "Openwireless.org",
+                "uploadSpeed": "...",
+                "uploadSpeedMetric": "Mb/s",
+                "downloadSpeed": "...",
+                "downloadSpeedMetric": "Mb/s",
+                "maxBandwidthPercent":
+                    uci.get("openwireless.maxbandwidthpercentage"),
+                "maxMonthlyBandwidth":
+                    uci.get("openwireless.maxmonthlybandwidth"),
+                "maxMonthlyBandwidthMetric": "Mb",
+                "monthlyBandwidthUsage": "...",
+                "on": openwireless_on
+            },
+            "wanIp": wan_ip,
+            "lanIp": lan_ip
+        }
+    }
+    common.render_success(result)
 
-result = {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "internet": {
-      "name": "Internet",
-      "uploadSpeed": "...",
-      "uploadSpeedMetric": "Mb/s",
-      "downloadSpeed": "...",
-      "downloadSpeedMetric": "Mb/s",
-      "pingSpeed": ping_speed,
-      "pingSpeedMetric": "ms",
-      "connected": connected
-    },
-    "lanNetwork": {
-      "name": "LAN Network",
-      "uploadSpeed": "...",
-      "uploadSpeedMetric": "Mb/s",
-      "downloadSpeed": "...",
-      "downloadSpeedMetric": "Mb/s",
-      "devices": "0"
-    },
-    "privateWifi": {
-      "name": "Private WiFi",
-      "uploadSpeed": "...",
-      "uploadSpeedMetric": "Mb/s",
-      "downloadSpeed": "...",
-      "downloadSpeedMetric": "Mb/s",
-      "devices": "0",
-      "on": interface_is_connected("2"),
-      "ssid": ssid
-    },
-    "openWireless": {
-      "name": "Openwireless.org",
-      "uploadSpeed": "...",
-      "uploadSpeedMetric": "Mb/s",
-      "downloadSpeed": "...",
-      "downloadSpeedMetric": "Mb/s",
-      "maxBandwidthPercent": openwireless_maxbandwidthpercent,
-      "maxMonthlyBandwidth": openwireless_maxmonthlybandwidth,
-      "maxMonthlyBandwidthMetric": "Mb",
-      "monthlyBandwidthUsage": "...",
-      "on": interface_is_connected("1")
-    },
-    "wanIp"  : wan_ip,
-    "lanIp"  : lan_ip
-  }
-}
-
-common.render_success(result)
+get_dashboard()
