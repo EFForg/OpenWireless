@@ -95,14 +95,16 @@ def check_openwireless_monthly_data():
 
 def check_isp_upload_speed():
   if (params.get("ispUploadSpeed")):
-    new_speed = params.get("ispUploadSpeed")
-    uci.set("sqm.ge00.upload", new_speed)
+    new_speed = int(params.get("ispUploadSpeed"))
+    new_speed_kbs = str(new_speed * 1000)
+    uci.set("sqm.ge00.upload", new_speed_kbs)
     uci.commit("sqm")
 
 def check_isp_download_speed():
   if (params.get("ispDownloadSpeed")):
-    new_speed = params.get("ispDownloadSpeed")
-    uci.set("sqm.ge00.download", new_speed)
+    new_speed = int(params.get("ispDownloadSpeed"))
+    new_speed_kbs = str(new_speed * 1000)
+    uci.set("sqm.ge00.download", new_speed_kbs)
     uci.commit("sqm")
 
 if environ.get('REQUEST_METHOD').lower() == 'post':
