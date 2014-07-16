@@ -18,5 +18,5 @@ export PS1='\u@\h:\w\$ '
 # further web updates.
 if [ ! -z "$SSH_CONNECTION" -a -f /etc/dropbear/authorized_keys ] ; then
   /sbin/uci set openwireless.ssh_success=true
-  /sbin/uci commit
+  /sbin/uci commit openwireless
 fi
