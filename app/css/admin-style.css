@@ -17,7 +17,7 @@ header, .network, footer {
   align-items: center;
 }
 
-footer { 
+footer {
   margin-bottom: 90px;
 }
 
@@ -138,26 +138,26 @@ small {
 }
 
 select, .editable {
-    outline: none;
-    background: rgb(0, 173, 238);
-    border: 2px solid rgb(0, 173, 238);
-    color: white;
-    -webkit-appearance: none;
-    padding: 0em .2em 0em .2em;
-    font-size: 13px;
+  outline: none;
+  background: rgb(0, 173, 238);
+  border: 2px solid rgb(0, 173, 238);
+  color: white;
+  -webkit-appearance: none;
+  padding: 0em .2em 0em .2em;
+  font-size: 13px;
 }
 
 .setting {
-    display: inline;
-    float: right;
+  display: inline;
+  float: right;
 }
 
 .editable {
-    border-radius: 5px;
-    font: -webkit-small-control;
-    line-height: normal;
-    font-size: 13;
-    margin-bottom: 5px;
+  border-radius: 5px;
+  font: -webkit-small-control;
+  line-height: normal;
+  font-size: 13;
+  margin-bottom: 5px;
 }
 
 .editable form {
@@ -165,16 +165,16 @@ select, .editable {
 }
 
 .links {
-    color: #ffcc00;
-    font-weight: 400;
+  color: #ffcc00;
+  font-weight: 400;
 }
 
 .links form {
-    display: inline;
+  display: inline;
 }
 
 .links {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .icon {
@@ -229,6 +229,10 @@ select, .editable {
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
+}
+
+.speed {
+  white-space: nowrap;
 }
 
 .speed .upload {
@@ -290,9 +294,9 @@ h2 small {
 }
 
 footer {
-  -webkit-flex-basis: 44px;
   -ms-flex-preferred-size: 44px;
-  flex-basis: 44px;
+  -webkit-flex-basis: 44px;
+          flex-basis: 44px;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
