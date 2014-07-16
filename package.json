@@ -1,8 +1,11 @@
 {
-  "name": "karma-through-grunt",
+  "name": "OpenWireless",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/EFForg/OpenWireless.git"
+  },
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "nodejs -e \"require('grunt').tasks(['test']);\""
   },
