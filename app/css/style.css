@@ -135,3 +135,7 @@ p {
 .submitting {
   color: grey;
 }
+
+#logged_out {
+  display: none;
+}
