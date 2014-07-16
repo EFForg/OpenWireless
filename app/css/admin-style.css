@@ -254,11 +254,14 @@ select, .editable {
   text-transform: uppercase;
 }
 
-.bandwidth {
+.bandwidth, .data-use {
   color: #ffffff;
   text-transform: uppercase;
   display: inline-block;
-  margin-right: 20px;
+}
+
+.data-use {
+  padding-left: 20px;
 }
 
 .devices small, .ping small, .bandwidth small{
