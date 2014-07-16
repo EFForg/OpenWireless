@@ -78,7 +78,7 @@ result = {
     "softwareVersion"               : software_version,
     "ispDownloadSpeed"              : isp_download_speed,
     "ispUploadSpeed"                : isp_upload_speed,
-    "softwareVersionUpdateDate"     : software_update_date,
+    "softwareVersionUpdateDate"     : datetime.datetime.fromtimestamp(int(software_update_date)).strftime('%Y-%m-%d   %H:%M:%S') + " UTC",
     "routerSsid"                    : private.get("ssid"),
     "routerBand"                    : private.get("band"),
     "routerChannel"                 : private.get("channel"),

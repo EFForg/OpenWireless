@@ -139,8 +139,8 @@ small {
 
 select, .editable {
     outline: none;
-    background: rgb(139, 197, 63);
-    border: 2px solid rgb(139, 197, 63);
+    background: rgb(0, 173, 238);
+    border: 2px solid rgb(0, 173, 238);
     color: white;
     -webkit-appearance: none;
     padding: 0em .2em 0em .2em;
@@ -165,7 +165,7 @@ select, .editable {
 }
 
 .links {
-    color: #8bc53f;
+    color: #ffcc00;
     font-weight: 400;
 }
 
@@ -234,7 +234,7 @@ select, .editable {
   color: #00adee;
 }
 .speed .download {
-  color: #eb008b;
+  color: #f3bf20;
 }
 .off .speed .upload, .off .speed .download, .off .speed small {
   color: rgba(255, 255, 255, 0.4);
@@ -245,17 +245,17 @@ select, .editable {
   -webkit-background-size: 44px;
   background-size: 44px;
   padding-left: 44px;
-  color: #8bc53f;
+  color: #ffffff;
   text-transform: uppercase;
 }
 
 .ping {
-  color: #8bc53f;
+  color: #ffffff;
   text-transform: uppercase;
 }
 
 .bandwidth {
-  color: #f3bf20;
+  color: #ffffff;
   text-transform: uppercase;
   display: inline-block;
   margin-right: 20px;
@@ -270,11 +270,11 @@ select, .editable {
 }
 
 .status .on.on-button, .connected {
-  color: #8bc53f;
+  color: #ffffff;
 }
 
 .status .off.off-button, .disconnected {
-  color: #f3bf20;
+  color: #ffcc00;
 }
 
 .status .on.off-button, .status .off.on-button {
@@ -289,7 +289,7 @@ footer {
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  color: #f3bf20;
+  color: #ffcc00;
 }
 footer p {
   padding-right: 0.5em;

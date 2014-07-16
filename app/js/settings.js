@@ -84,8 +84,8 @@ var settingsModule = (function(){
             message : function(){ return { number: 'Must be a number', max: 'Must be less than 100.' }}
           },
           "openwirelessData":{
-            rule : function(){ return { number: true, max: 1000 }},
-            message : function(){ return { number: 'Must be a number', max: 'Must be less than 1000.' }}
+            rule : function(){ return { number: true, max: 1000000 }},
+            message : function(){ return { number: 'Must be a number', max: 'Must be less than 1000000.' }}
           }
         };
 
