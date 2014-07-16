@@ -74,8 +74,13 @@ var dashboardModule = (function(){
         $(document).on('click', id, function () {
           state = $(id + " span")[0].className.split(" ")[1];
           if (id == "#PrivateWiFi" && state == "On") {
+<<<<<<< HEAD
+            if (confirm("Turning of the Private WiFi network will cause loss of connectivity to both the network and this admin interface. " + 
+		"To regain access to this admin interface you must connect to the wired LAN. Are you sure you want to proceed?")){
+=======
             if (confirm("Turning of the Private WiFi network will cause loss of connectivity to the network and this admin interface. " +
               "To regain access to this admin interface you must connect to the wired LAN. Are you sure you want to proceed?")) {
+>>>>>>> 2036b6661b137e863892a707f812345b96a6b5ac
             toggleInterface(name, state);
           }
         } else {
