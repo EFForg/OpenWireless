@@ -264,7 +264,7 @@ select, .editable {
   padding-left: 20px;
 }
 
-.devices small, .ping small, .bandwidth small{
+.devices small, .ping small, .bandwidth small, .data-use small{
   font-size: 10px;
 }
 
