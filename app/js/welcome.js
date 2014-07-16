@@ -1,8 +1,8 @@
 $(function() {
-  if (document.location.hostname == 'localhost') {
+  if (document.location.port === '8888') {
     var el = document.getElementById("continue")
     if (el) {
-      el.href = 'https://localhost:8443';
+      el.href = 'https://' + document.location.hostname + ':8443';
     }
   }
 });
