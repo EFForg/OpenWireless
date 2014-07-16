@@ -25,6 +25,7 @@ var ssidModule = (function() {
 
   var initializeForm = function(){
     form.submit(function(event){
+      $("input[type=submit]").addClass("submitting");
       event.preventDefault();
       ssidError.hide();
       ssidPassphraseError.hide();
@@ -67,12 +68,11 @@ var ssidModule = (function() {
   };
 
   var setSSIDSuccess = function(response) {
-    setTimeout(function () {
-      var template = Handlebars.templates.setSSID;
-      $('.formDiv').hide();
-      $("#restarting").html(template({ssid: response.ssid}));
-      $('#restarting').show();
-    }, 3000);
+    $("input[type=submit]").removeClass("submitting");
+    var template = Handlebars.templates.setSSID;
+    $('.formDiv').hide();
+    $("#restarting").html(template({ssid: response.ssid}));
+    $('#restarting').show();
   };
 
   return {

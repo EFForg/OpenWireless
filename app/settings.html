@@ -1,7 +1,9 @@
+<!DOCTYPE html>
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" >
     <link rel="stylesheet" type="text/css" href="css/admin-style.css" media="screen" />
+    <link rel="shortcut icon" href="images/favicon.png" media="screen" />
     <script type="text/javascript" src="lib/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="lib/handlebars-v1.3.0.min.js"></script>
     <script type="text/javascript" src="lib/jquery.validate.min.js"></script>
@@ -12,6 +14,7 @@
     <script type="text/javascript" src="js/errorCallback.js"></script>
     <script type="text/javascript" src="js/settings.js"></script>
     <script type="text/javascript" src="js/sshupload.js"></script>
+    <title>OpenWireless settings</title>
   </head>
   <body>
     <div class="container">
@@ -20,7 +23,12 @@
         <span class="icon"></span>
         <h1>Settings</h1>
         <span>
-          <a class="close" title="Dashboard" href="./dashboard.html">Dashboard</a>
+          <a title="Dashboard" href="./dashboard.html">
+            <img src="images/dashboard.png" class="icon" alt="dashboard" />
+          </a>
+          <a title="Logout" href="./logout.html">
+            <img src="images/logout.png" class="icon" alt="Logout" />
+          </a>
         </span>
       </header>
       <br>

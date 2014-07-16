@@ -7,33 +7,28 @@ import check_interface_connection
 import common
 import uci
 
-environ = os.environ
-params = {}
 response = {}
 
 interface_dictionary = {"Openwireless.org": 1, "Private WiFi": 2}
 
-def toggle_wireless_status(interface_name):
-    config_variable = "wireless.@wifi-iface[" + interface_name + "].disabled"
-    if not check_interface_connection.enabled(interface_name):
+def toggle_wireless_status(interface_index):
+    config_variable = "wireless.@wifi-iface[%d].disabled" % interface_index
+    if not check_interface_connection.enabled(interface_index):
         uci.set(config_variable, "0")
         uci.commit("wireless")
         common.reset_wifi()
-        return "On"
+        return "on"
     else:
         uci.set(config_variable, "1")
         uci.commit("wireless")
         common.reset_wifi()
-        return "Off"
+        return "off"
 
-if environ.get('REQUEST_METHOD', 'GET').lower() == 'post':
+if os.environ.get('REQUEST_METHOD') == 'POST':
     json_body = json.loads(sys.stdin.read())
-
-    for k in json_body.keys():
-        params[k] = json_body[k]
-
-    response["name"] = params["name"]
-    response["new_state"] = toggle_wireless_status(interface_dictionary[params["name"]])
+    interface_index = interface_dictionary[json_body["name"]]
+    response["name"] = json_body["name"]
+    response["new_state"] = toggle_wireless_status(interface_index)
 else:
     common.render_error('Received GET request. Requires POST.')
 
