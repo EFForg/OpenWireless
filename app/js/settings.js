@@ -50,17 +50,22 @@ var settingsModule = (function(){
         $("#openwirelessVpnConfiguration>option:contains(TOR)").prop('disabled', true);
         $("#openwirelessVpnConfiguration>option:contains(VPN)").prop('disabled', true);
         $("#openwirelessVpnConfiguration>option:contains(VPN2)").prop('disabled', true);
-    }
+    };
 
     var disableOpenWirelessWiFiSecurity = function() {
         $("#openwirelessEncryption>option:contains(EAP-TLS)").prop('disabled', true);
-    }
+    };
+
+    var disableCustomChannel = function() {
+        $("#routerChannel>option:contains(-- custom --)").prop('disabled', true);
+        $("#openwirelessChannel>option:contains(-- custom --)").prop('disabled', true);
+    };
 
 
     var initializeDropDownMenus = function(){
-    for (var index in menus) {
-      setDropDownMenu(menus[index].tag, menus[index].options);
-    }
+        for (var index in menus) {
+            setDropDownMenu(menus[index].tag, menus[index].options);
+        }
         disableVPNAndTORConfig();
         disableOpenWirelessWiFiSecurity();
     };
@@ -124,6 +129,7 @@ var settingsModule = (function(){
         setDropDownMenu(tags[index] + "Channel", router24ChannelOptions);
       }
     }
+    disableCustomChannel();
   };
 
   var setDropDownMenu = function(tag, options) {

@@ -1,34 +1,45 @@
-      <div class="network on">
-        <header>
-          <img src="{{imageSource}}" alt="router-on" class="icon" />
-          <div class="speed">
-            <div class="upload">&#8593;<span class="upload-speed">{{uploadSpeed}}</span><span> {{uploadSpeedMetric}}</span></div>
-            <div class="download">&#8595;<span class="download-speed">{{downloadSpeed}}</span><span> {{downloadSpeedMetric}}</span></div>
-          </div>
-        </header>
-        <div class="title">
-          <h2>{{name}}{{#if ssid}} ({{ssid}}){{/if}}</h2>
-          {{#if pingSpeed}} 
-            <div class="ping">{{pingSpeed}}<small> {{pingSpeedMetric}} ping to eff.org</small></div>
-          {{/if}}
-          {{#if devices}}
-            <div class="devices"><span class="device-count">{{devices}}</span><small> devices</small></div>
-          {{/if}}
-          {{#if maxBandwidthPercent}}
-            <div class="bandwidth">{{maxBandwidthPercent}}%<small> max <br> bandwidth </small></div>
-          {{/if}}
-          {{#if maxMonthlyBandwidth}}
-          <div class="bandwidth"><span id="monthlyBandwidth">{{monthlyBandwidthUsage}}</span> <small>used of</small> {{maxMonthlyBandwidth}}<small> {{maxMonthlyBandwidthMetric}} max <br> per month </small></div>
-          {{/if}}
+<div class="network on">
+    <header>
+        <img src="{{imageSource}}" alt="router-on" class="icon"/>
 
+        <div class="speed">
+            <div class="upload">&#8673; <span class="upload-speed">{{uploadSpeed}}</span><span> {{uploadSpeedMetric}}</span></div>
+            <div class="download">&#8675; <span class="download-speed">{{downloadSpeed}}</span><span> {{downloadSpeedMetric}}</span></div>
         </div>
-
-        {{#if connectivity }}
+    </header>
+    <div class="title">
+        <h2>{{name}}{{#if ssid}} ({{ssid}}){{/if}}</h2>
+        {{#if pingSpeed}}
+            <div class="ping">{{pingSpeed}}
+            <small> {{pingSpeedMetric}} ping to eff.org
+            </small>
+            </div>
+        {{/if}}
+        {{#if devices}}
+            <div class="devices"><span class="device-count">{{devices}}</span>
+                <small> devices</small>
+            </div>
+        {{/if}}
+        {{#if maxBandwidthPercent}}
+            <div class="bandwidth">{{maxBandwidthPercent}}%
+                <small> max <br> bandwidth</small>
+            </div>
+        {{/if}}
+        {{#if maxMonthlyBandwidth}}
+            <div class="bandwidth"><span id="monthlyBandwidth">{{monthlyBandwidthUsage}}</span>
+                <small>used of</small>
+                {{maxMonthlyBandwidth}}
+                <small> {{maxMonthlyBandwidthMetric}} max <br> per month
+                </small>
+            </div>
+        {{/if}}
+    </div>
+    {{#if connectivity }}
         <div class="status"><span class="{{connectivity}}">{{connectivity}}</span></div>
-        {{/if}}
+    {{/if}}
 
-        {{#if state }}
-        <div class="status toggle" id="{{stateId}}"><span class="on-button {{state}}">On</span> | <span class="off-button {{state}}">Off</span></div>
-        {{/if}}
-
-      </div>
+    {{#if state }}
+        <div class="status toggle" id="{{stateId}}"><span class="on-button {{state}}">On</span> | <span
+                class="off-button {{state}}">Off</span></div>
+    {{/if}}
+</div>

@@ -19,15 +19,15 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = "", stack1, helper;
-  buffer += " \n            <div class=\"ping\">";
+  buffer += "\n            <div class=\"ping\">";
   if (helper = helpers.pingSpeed) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.pingSpeed); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "<small> ";
+    + "\n            <small> ";
   if (helper = helpers.pingSpeedMetric) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.pingSpeedMetric); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + " ping to eff.org</small></div>\n          ";
+    + " ping to eff.org\n            </small>\n            </div>\n        ";
   return buffer;
   }
 
@@ -38,7 +38,7 @@ function program5(depth0,data) {
   if (helper = helpers.devices) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.devices); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span><small> devices</small></div>\n          ";
+    + "</span>\n                <small> devices</small>\n            </div>\n        ";
   return buffer;
   }
 
@@ -49,26 +49,26 @@ function program7(depth0,data) {
   if (helper = helpers.maxBandwidthPercent) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.maxBandwidthPercent); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "%<small> max <br> bandwidth </small></div>\n          ";
+    + "%\n                <small> max <br> bandwidth</small>\n            </div>\n        ";
   return buffer;
   }
 
 function program9(depth0,data) {
   
   var buffer = "", stack1, helper;
-  buffer += "\n          <div class=\"bandwidth\"><span id=\"monthlyBandwidth\">";
+  buffer += "\n            <div class=\"bandwidth\"><span id=\"monthlyBandwidth\">";
   if (helper = helpers.monthlyBandwidthUsage) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.monthlyBandwidthUsage); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span> <small>used of</small> ";
+    + "</span>\n                <small>used of</small>\n                ";
   if (helper = helpers.maxMonthlyBandwidth) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.maxMonthlyBandwidth); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "<small> ";
+    + "\n                <small> ";
   if (helper = helpers.maxMonthlyBandwidthMetric) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.maxMonthlyBandwidthMetric); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + " max <br> per month </small></div>\n          ";
+    + " max <br> per month\n                </small>\n            </div>\n        ";
   return buffer;
   }
 
@@ -83,7 +83,7 @@ function program11(depth0,data) {
   if (helper = helpers.connectivity) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.connectivity); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span></div>\n        ";
+    + "</span></div>\n    ";
   return buffer;
   }
 
@@ -98,19 +98,19 @@ function program13(depth0,data) {
   if (helper = helpers.state) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.state); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "\">On</span> | <span class=\"off-button ";
+    + "\">On</span> | <span\n                class=\"off-button ";
   if (helper = helpers.state) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.state); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "\">Off</span></div>\n        ";
+    + "\">Off</span></div>\n    ";
   return buffer;
   }
 
-  buffer += "      <div class=\"network on\">\n        <header>\n          <img src=\"";
+  buffer += "<div class=\"network on\">\n    <header>\n        <img src=\"";
   if (helper = helpers.imageSource) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.imageSource); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "\" alt=\"router-on\" class=\"icon\" />\n          <div class=\"speed\">\n            <div class=\"upload\">&#8593;<span class=\"upload-speed\">";
+    + "\" alt=\"router-on\" class=\"icon\"/>\n\n        <div class=\"speed\">\n            <div class=\"upload\">&#8673; <span class=\"upload-speed\">";
   if (helper = helpers.uploadSpeed) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.uploadSpeed); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -118,7 +118,7 @@ function program13(depth0,data) {
   if (helper = helpers.uploadSpeedMetric) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.uploadSpeedMetric); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span></div>\n            <div class=\"download\">&#8595;<span class=\"download-speed\">";
+    + "</span></div>\n            <div class=\"download\">&#8675; <span class=\"download-speed\">";
   if (helper = helpers.downloadSpeed) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.downloadSpeed); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -126,31 +126,31 @@ function program13(depth0,data) {
   if (helper = helpers.downloadSpeedMetric) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.downloadSpeedMetric); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span></div>\n          </div>\n        </header>\n        <div class=\"title\">\n          <h2>";
+    + "</span></div>\n        </div>\n    </header>\n    <div class=\"title\">\n        <h2>";
   if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1);
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.ssid), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</h2>\n          ";
+  buffer += "</h2>\n        ";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.pingSpeed), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n          ";
+  buffer += "\n        ";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.devices), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n          ";
+  buffer += "\n        ";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.maxBandwidthPercent), {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n          ";
+  buffer += "\n        ";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.maxMonthlyBandwidth), {hash:{},inverse:self.noop,fn:self.program(9, program9, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n\n        </div>\n\n        ";
+  buffer += "\n    </div>\n    ";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.connectivity), {hash:{},inverse:self.noop,fn:self.program(11, program11, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n\n        ";
+  buffer += "\n\n    ";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.state), {hash:{},inverse:self.noop,fn:self.program(13, program13, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n\n      </div>\n";
+  buffer += "\n</div>\n";
   return buffer;
   });
 templates['setSSID'] = template(function (Handlebars,depth0,helpers,partials,data) {
