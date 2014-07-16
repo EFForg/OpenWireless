@@ -66,7 +66,7 @@ var dashboardModule = (function(){
         return;
       }
     };
-    submitRequest(data, successCallback, errorCallback);
+    submitRequest(data, successCallback);
   };
 
   var enableToggles = function() {
@@ -99,22 +99,22 @@ var dashboardModule = (function(){
           $("#PrivateWiFi span").addClass(response["new_state"])
         }
     };
-    submitToggleRequest(data, successCallback, errorCallback);
+    submitToggleRequest(data, successCallback);
   };
 
-  var submitToggleRequest = function(data, successCallback, errorCallback){
-    requestModule.submitRequest({ "data": data,
-      "successCallback":successCallback,
-      "errorCallback": errorCallback,
-      "url":"/cgi-bin/routerapi/toggle_interface"
+  var submitToggleRequest = function(data, successCallback) {
+    requestModule.submitRequest({
+      data: data,
+      successCallback:successCallback,
+      url: "/cgi-bin/routerapi/toggle_interface"
     });
   };
 
-  var submitRequest = function(data, successCallback, errorCallback){
-    requestModule.submitRequest({ "data": data,
-      "successCallback":successCallback,
-      "errorCallback": errorCallback,
-      "url":"/cgi-bin/routerapi/dashboard"
+  var submitRequest = function(data, successCallback) {
+    requestModule.submitRequest({
+      data: data,
+      successCallback: successCallback,
+      url: "/cgi-bin/routerapi/dashboard"
     });
   };
 

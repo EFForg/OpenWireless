@@ -138,7 +138,6 @@ var replaceByteCounts = function(){
   var requestData = {
     "data" : {},
     "successCallback" : successCallback,
-    "errorCallback" : errorCallback,
     "url" : byteCountPath
   };
 
@@ -154,7 +153,6 @@ $(function(){
   var initialRequestData = {
     "data" : {},
     "successCallback" : initialSuccessCallback,
-    "errorCallback"   : errorCallback,
     "url" : byteCountPath
   };
 

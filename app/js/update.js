@@ -11,16 +11,13 @@ var updateModule = (function(){
   };
 
   var checkUpdateRequest = {
-    "url":"/cgi-bin/routerapi/check_updates",
-    "successCallback":checkUpdateCallback,
-    "errorCallback":errorCallback,
-    "data": {} 
+    "url": "/cgi-bin/routerapi/check_updates",
+    "successCallback": checkUpdateCallback,
+    "data": {}
   };
 
   var updateRequest = {
-    "url":"/cgi-bin/routerapi/update",
-    "successCallback": function(){},
-    "errorCallback":errorCallback,
+    "url": "/cgi-bin/routerapi/update",
     "data": {}
   };
 

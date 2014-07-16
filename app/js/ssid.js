@@ -51,7 +51,6 @@ var ssidModule = (function() {
     requestModule.submitRequest({
       url: "/cgi-bin/routerapi/set_private_ssid",
       successCallback: setSSIDSuccess,
-      errorCallback: errorCallback,
       data: {
         "jsonrpc": "2.0",
         "method": "set_private_ssid",
