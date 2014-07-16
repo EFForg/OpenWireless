@@ -7,7 +7,6 @@ import check_interface_connection
 import common
 import uci
 
-params = {}
 response = {}
 
 interface_dictionary = {"Openwireless.org": 1, "Private WiFi": 2}

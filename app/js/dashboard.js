@@ -13,9 +13,9 @@ var dashboardModule = (function(){
 
   var getState = function(on){
     if (on) {
-      return "On";
+      return "on";
     } else if (on == false){
-      return "Off";
+      return "off";
     }
   };
 
@@ -73,7 +73,7 @@ var dashboardModule = (function(){
     var createToggle = function (id, name) {
         $(document).on('click', id, function () {
           state = $(id + " span")[0].className.split(" ")[1];
-          if (id == "#PrivateWiFi" && state == "On") {
+          if (id == "#PrivateWiFi" && state == "on") {
             if (confirm("Turning off the Private WiFi network will cause loss of connectivity to the network and this admin interface. " +
               "To regain access to this admin interface you must connect to the wired LAN. Are you sure you want to proceed?")) {
             toggleInterface(name, state);
@@ -91,11 +91,11 @@ var dashboardModule = (function(){
     var data = { "jsonrpc": "2.0", "method": "toggle", "name": name, "state": state};
     var successCallback = function(response){
         if(response["name"] == "Openwireless.org"){
-          $("#Openwirelessorg span").removeClass("On").removeClass("Off")
+          $("#Openwirelessorg span").removeClass("on").removeClass("off")
           $("#Openwirelessorg span").addClass(response["new_state"])
         }
         if(response["name"] == "Private WiFi"){
-          $("#PrivateWiFi span").removeClass("On").removeClass("Off")
+          $("#PrivateWiFi span").removeClass("on").removeClass("off")
           $("#PrivateWiFi span").addClass(response["new_state"])
         }
     };
