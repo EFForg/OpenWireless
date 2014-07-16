@@ -26,9 +26,13 @@ var replaceByteCounts = function(){
       if (newVal && oldVal) {
         var rate = conversion * (newVal[key] - oldVal[key]);
         console.log(networkName, rate, oldVal[key], newVal[key], newVal[key] - oldVal[key]);
-        return roundToDecimal(rate, 1);
+        roundedRate = roundToDecimal(rate, 1);
+        if (roundedRate == 0) {
+          return "0.0";
+        }
+        return roundedRate;
       } else {
-        return 0;
+        return "0.0";
       }
     };
 
