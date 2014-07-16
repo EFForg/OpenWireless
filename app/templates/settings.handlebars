@@ -5,7 +5,7 @@
           <p id="SSH">
             {{#sshKey}}
               {{#if exists}}
-              SSH enabled.
+              SSH enabled
               <span class='setting'>
                 Key '<span id=keyComment>{{comment}}</span>'
                 {{#if locked}}
@@ -17,7 +17,7 @@
                 {{/if}}
               </span>
               {{else}}
-              SSH not enabled. <a class="setting links edit-ssh">Enable</a>
+              SSH not enabled <a class="setting links edit-ssh">Enable</a>
               {{/if}}
               <div id="enterSshKey">
                 Paste an SSH public key. Hint: ~/.ssh/id_rsa.pub.<br/>

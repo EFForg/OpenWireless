@@ -207,7 +207,7 @@ function program1(depth0,data) {
 function program2(depth0,data) {
   
   var buffer = "", stack1, helper;
-  buffer += "\n              SSH enabled.\n              <span class='setting'>\n                Key '<span id=keyComment>";
+  buffer += "\n              SSH enabled\n              <span class='setting'>\n                Key '<span id=keyComment>";
   if (helper = helpers.comment) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.comment); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -232,7 +232,7 @@ function program5(depth0,data) {
 function program7(depth0,data) {
   
   
-  return "\n              SSH not enabled. <a class=\"setting links edit-ssh\">Enable</a>\n              ";
+  return "\n              SSH not enabled <a class=\"setting links edit-ssh\">Enable</a>\n              ";
   }
 
   buffer += "        <h2>Administration\n          <span class=\"subheading\"> <a href=\"./changePassword.html\" class=\"links\">Change admin password</a></span>\n        </h2>\n        <div class=\"section\">\n          <p id=\"SSH\">\n            ";
