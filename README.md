@@ -1,21 +1,45 @@
+# Introduction
+
+This repository contains configuration, build scripts, and web UI for the
+OpenWireless router firmware, which is based off of Cerowrt and OpenWRT.
+
+More details about the OpenWireless project can be found at
+https://openwireless.org/.
+
 # Getting Started
-1. Download VirtualBox from https://www.virtualbox.org/wiki/Downloads
-2. In VirtualBox, open menu "VirtualBox", "Preferences..."
-3. In the "VirtualBox - General" settings window, select "Network" tab
-4. Select "Host-only Networks" and click the "+" icon to "Add a host-only network"
-5. It should create "vboxnet0", then edit this to make the "IPv4 Address:" be `192.168.1.10`
-6. Import and run the OpenWRT box from https://www.dropbox.com/s/xnxcllzlv2eyen4/openwrt-12.09-tweff.ova  
-The default username is __root__ with password __asdf1234__.
-7. Click on "Settings" with "openwrt" selected to open the "openwrt - General" settings window.
-8. Select the "Network" tab, then choose "Adapter 3"
-9. Change the dropdown menu next to "Attached to:" `Host-only adapter`
-10. This should automatically select `vboxnet0` in the "Name:" drop down menu below. If it hasn't, do this now. If you do not see `vboxnet0` as an option in this menu, go back to step 2.
-11. Run the `sendAppToOpenWrtVM` script to transfer the /app directory to the (router's) /www directory in the OpenWrt VM
-12. Point your browser to http://192.168.1.1/app/html/login.html and enjoy!
-13. If you cannot hit the login page, go back to step 5 and try `192.168.1.XX` where `XX` = any other number between 2-100.
 
-* This only needs to be done the first time you transfer each file.
+Get the packages you need and install a git hook to run tests before push:
 
-# Continuous Build
+./install-dev-dependencies.sh
 
-Continus build for this project is at https://snap-ci.com/TWEFF/OpenWireless/branch/master
+Try out the web UI locally:
+
+./local-lighttpd/run-local-lighttpd.sh
+firefox http://localhost:8888/
+
+Sync the web UI to your router:
+
+./sendAppToRouter --continuous
+firefox http://gw.home.lan/
+
+# Running tests
+
+./run-tests.sh
+
+Continuous build at https://snap-ci.com/EFForg/OpenWireless/branch/master
+
+# UX Starter Kit
+
+To contribute to UX components, please read the introduction to OpenWireless's
+UX philosophy at https://github.com/EFForg/OpenWireless/issues/81.
+
+# Security
+
+There's a detailed writeup of our threats and mitigations in security.txt.
+
+# Contributing and getting help
+
+We welcome contributors! Drop into #openwireless on irc.oftc.net to ask
+questions or discuss the project.
+
+We accept pull requests and issues on https://github.com/EFForg/OpenWireless.
