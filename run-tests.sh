@@ -8,7 +8,13 @@
 
 # Install required packages
 npm install
-pip install --user -qr requirements.txt
+if [ ! -z "$PYTHONPATH" ] ; then
+  pip install --user -qr requirements.txt
+else
+  # When running on snap-ci we are in a --no-site-packages virtualenv,
+  # so pip install --user would fail.
+  pip install -qr requirements.txt
+fi
 
 if ! ./make-templates.sh --is-updated ; then
   echo "Error: templates.js out-of-date. Run ./make-templates.sh"
