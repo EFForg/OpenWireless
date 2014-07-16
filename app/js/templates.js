@@ -201,20 +201,20 @@ function program1(depth0,data) {
   if (helper = helpers.contents) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.contents); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</textarea><br>\n                <button id='submit-SSH'>Submit</button>\n              </div>\n            ";
+    + "</textarea><br>\n                <button id='submit-SSH'>Submit</button>\n                <button id='cancel-SSH'>Cancel</button>\n              </div>\n            ";
   return buffer;
   }
 function program2(depth0,data) {
   
   var buffer = "", stack1, helper;
-  buffer += "\n              SSH pubkey authentication enabled.<br/>\n              SSH key '<span id=keyComment>";
+  buffer += "\n              SSH enabled.\n              <span class='setting'>\n                Key '<span id=keyComment>";
   if (helper = helpers.comment) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.comment); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
     + "</span>'\n                ";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.locked), {hash:{},inverse:self.program(5, program5, data),fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n              ";
+  buffer += "\n              </span>\n              ";
   return buffer;
   }
 function program3(depth0,data) {
@@ -232,10 +232,10 @@ function program5(depth0,data) {
 function program7(depth0,data) {
   
   
-  return " \n              SSH not enabled. <a class=\"links edit-ssh\">Enable</a>\n              ";
+  return "\n              SSH not enabled. <a class=\"setting links edit-ssh\">Enable</a>\n              ";
   }
 
-  buffer += "        <h2>Administration           \n		<span class=\"subheading\"> <a href=\"./changePassword.html\" class=\"links\">Change admin password</a></span>\n	</h2>\n        <div class=\"section\">         \n          <p id=\"SSH\">\n            ";
+  buffer += "        <h2>Administration\n          <span class=\"subheading\"> <a href=\"./changePassword.html\" class=\"links\">Change admin password</a></span>\n        </h2>\n        <div class=\"section\">\n          <p id=\"SSH\">\n            ";
   options={hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data}
   if (helper = helpers.sshKey) { stack1 = helper.call(depth0, options); }
   else { helper = (depth0 && depth0.sshKey); stack1 = typeof helper === functionType ? helper.call(depth0, options) : helper; }
@@ -261,7 +261,7 @@ function program7(depth0,data) {
   if (helper = helpers.routerSsid) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.routerSsid); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span> &nbsp &nbsp\n            <a href=\"./setSSID.html\" class=\"links\">Edit</a>\n          </span>\n        </h2>\n\n        <div class=\"section\">\n          <p>\n            <label for=\"routerBand\">Frequency Band</label>\n            <span class=\"selector\"><select class=\"setting\" id=\"routerBand\">RouterBand</select></span>\n          </p>\n          <p>\n            <label for=\"routerChannel\">Channel</label>\n            <select class=\"setting\" id=\"routerChannel\">RouterChannel</select>\n          </p>\n          <p>\n            <label for=\"routerChannelBandwidth\">Channel bandwidth</label>\n            <select class=\"setting\" id=\"routerChannelBandwidth\">RouterChannelBandwidth</select>\n          </p>\n          <p>\n            <label for=\"routerVpnConfiguration\">VPN/TOR Configuration</label>\n            <select class=\"setting\" id=\"routerVpnConfiguration\">RouterVpnConfiguration</select>\n          </p>\n        </div>\n\n        <h2>Open Wireless</h2>\n        <div class=\"section\">\n          <p>\n            <label for=openwirelessBandwidth>Max bandwidth fraction</label>\n            <span class=\"setting\"><span class=\"editable\" id=\"openwirelessBandwidth\">";
+    + "</span> &nbsp &nbsp\n            <a href=\"./setSSID.html\" class=\"links\">Edit</a>\n          </span>\n        </h2>\n\n        <div class=\"section\">\n          <p>\n            <label for=\"routerBand\">Frequency Band</label>\n            <span class=\"selector\">\n              <select class=\"setting\" id=\"routerBand\">RouterBand</select>\n            </span>\n          </p>\n          <p>\n            <label for=\"routerChannel\">Channel</label>\n            <select class=\"setting\" id=\"routerChannel\">RouterChannel</select>\n          </p>\n          <p>\n            <label for=\"routerChannelBandwidth\">Channel bandwidth</label>\n            <select class=\"setting\" id=\"routerChannelBandwidth\">RouterChannelBandwidth</select>\n          </p>\n          <p>\n            <label for=\"routerVpnConfiguration\">VPN/TOR Configuration</label>\n            <select class=\"setting\" id=\"routerVpnConfiguration\">RouterVpnConfiguration</select>\n          </p>\n        </div>\n\n        <h2>Open Wireless</h2>\n        <div class=\"section\">\n          <p>\n            <label for=openwirelessBandwidth>Max bandwidth fraction</label>\n            <span class=\"setting\"><span class=\"editable\" id=\"openwirelessBandwidth\">";
   if (helper = helpers.openwirelessBandwidth) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.openwirelessBandwidth); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)

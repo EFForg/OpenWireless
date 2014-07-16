@@ -1,12 +1,13 @@
-        <h2>Administration           
-		<span class="subheading"> <a href="./changePassword.html" class="links">Change admin password</a></span>
-	</h2>
-        <div class="section">         
+        <h2>Administration
+          <span class="subheading"> <a href="./changePassword.html" class="links">Change admin password</a></span>
+        </h2>
+        <div class="section">
           <p id="SSH">
             {{#sshKey}}
               {{#if exists}}
-              SSH pubkey authentication enabled.<br/>
-              SSH key '<span id=keyComment>{{comment}}</span>'
+              SSH enabled.
+              <span class='setting'>
+                Key '<span id=keyComment>{{comment}}</span>'
                 {{#if locked}}
                 <span title="You've successfully logged in with this key once.
                   You can only edit it via SSH or failsafing your router.">
@@ -14,8 +15,9 @@
                 {{else}}
                 <a class="links edit-ssh">Edit</a>
                 {{/if}}
-              {{else}} 
-              SSH not enabled. <a class="links edit-ssh">Enable</a>
+              </span>
+              {{else}}
+              SSH not enabled. <a class="setting links edit-ssh">Enable</a>
               {{/if}}
               <div id="enterSshKey">
                 Paste an SSH public key. Hint: ~/.ssh/id_rsa.pub.<br/>
@@ -24,6 +26,7 @@
                 updates can be made via SSH login.
                 <textarea id='input-SSH'>{{contents}}</textarea><br>
                 <button id='submit-SSH'>Submit</button>
+                <button id='cancel-SSH'>Cancel</button>
               </div>
             {{/sshKey}}
           </p>
@@ -50,7 +53,9 @@
         <div class="section">
           <p>
             <label for="routerBand">Frequency Band</label>
-            <span class="selector"><select class="setting" id="routerBand">RouterBand</select></span>
+            <span class="selector">
+              <select class="setting" id="routerBand">RouterBand</select>
+            </span>
           </p>
           <p>
             <label for="routerChannel">Channel</label>

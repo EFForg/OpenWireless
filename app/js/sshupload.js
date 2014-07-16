@@ -3,6 +3,11 @@ $(document).on('click', '.edit-ssh', function() {
     $('#enterSshKey').show();
 });
 
+$(document).on('click', '#cancel-SSH', function(){
+    $('#SSH').show();
+    $('#enterSshKey').hide();
+});
+
 $(document).on('click', '#submit-SSH', function(){
     requestModule.submitRequest({
         'url': '/cgi-bin/routerapi/ssh_key',
