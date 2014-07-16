@@ -62,7 +62,7 @@ var settingsModule = (function(){
       setDropDownMenu(menus[index].tag, menus[index].options);
     }
         disableVPNAndTORConfig();
-	disableOpenWirelessWiFiSecurity();
+        disableOpenWirelessWiFiSecurity();
     };
 
   var initializeEditableFields = function(){
@@ -98,16 +98,14 @@ var settingsModule = (function(){
         var fieldName = $(this).parent().attr("id");
         $(this).validate({
             rules: {
-                'value':validation[fieldName].rule()
-
+                'value': validation[fieldName].rule()
             },
-
             messages: {
                 'value': validation[fieldName].message()
             }
         });
 
-        if( (fieldName == "openwirelessBandwidth") && ($(this).find("input").val() < 5)){
+        if ((fieldName == "openwirelessBandwidth") && ($(this).find("input").val() < 5)) {
           return confirm("Are you sure that you want your open wireless bandwidth percentage to be less than 5?");
         }
 
@@ -117,9 +115,9 @@ var settingsModule = (function(){
   };
 
   var setDependentDropDownMenus = function(tags) {
-    for (var index in tags){
+    for (var index in tags) {
       var dropDown = $('#' + tags[index] + 'Band');
-      if (dropDown.val() === "5"){
+      if (dropDown.val() === "5") {
         setDropDownMenu(tags[index] + "Channel", router5ChannelOptions);
       } else {
         setDropDownMenu(tags[index] + "Channel", router24ChannelOptions);
@@ -127,13 +125,13 @@ var settingsModule = (function(){
     }
   };
 
-  var setDropDownMenu = function(tag, options){
+  var setDropDownMenu = function(tag, options) {
     var template = Handlebars.templates["settings-dropdown"];
     var dropDown = $('#' + tag);
     dropDown.empty();
     dropDown.append(template({options: options}));
     $('#' + tag + ' option:contains(' + config[tag] + ')').prop('selected', true);
-    dropDown.change(function(){
+    dropDown.change(function() {
       config[tag] = dropDown.val();
       updateSettings(tag, config[tag]);
       if (tag.substr(-4,4) === "Band") {
@@ -143,7 +141,7 @@ var settingsModule = (function(){
     });
   };
 
-  var updateSettings = function(setting, value){
+  var updateSettings = function(setting, value) {
     var data = {};
     data[setting] = value;
     var url = "/cgi-bin/routerapi/update_setting";
@@ -167,7 +165,7 @@ var settingsModule = (function(){
 $(function() {
     var data =  { "jsonrpc": "2.0", "method": "settings"};
     var url = "/cgi-bin/routerapi/settings"
-    var successCallback = function(response){
+    var successCallback = function(response) {
         settingsModule.init(response.result);
     };
 
