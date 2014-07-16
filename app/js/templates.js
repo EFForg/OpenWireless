@@ -163,7 +163,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (helper = helpers.ssid) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.ssid); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</b> when it becomes available.</p>\n<a href='dashboard.html'>View Router Dashboard</a>\n";
+    + "</b> when it becomes available.</p>\n<a class=button href='dashboard.html'>Dashboard</a>\n";
   return buffer;
   });
 templates['settings-dropdown'] = template(function (Handlebars,depth0,helpers,partials,data) {
