@@ -34,8 +34,8 @@ def get_dashboard():
 
     ssid = uci.get("wireless.@wifi-iface[2].ssid")
 
-    private_wifi_on = check_interface_connection.enabled("2")
-    openwireless_on = check_interface_connection.enabled("1")
+    private_wifi_on = check_interface_connection.enabled(2)
+    openwireless_on = check_interface_connection.enabled(1)
 
     result = {
         "id": 1,
