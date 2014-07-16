@@ -1,0 +1,22 @@
+#!/usr/bin/python
+
+import datetime
+import uci
+from get_bytecounts import get_device_and_byte_counts
+
+# periodically store iptaccount_output to openwireless config file
+# and compare uptime to last_known_reset_time
+
+# if reset has occurred:
+# increment use_before_last_reset with use_since_last_reset, (from iptaccount)
+# reset use_since_last_reset,
+# and reset last_known_reset_time
+
+[openWirelessDevices, openWirelessUploadUsage, openWirelessDownloadUsage] = get_device_and_byte_counts("open-wifi")
+
+uci.set("openwireless.use_since_last_reset", str(openWirelessDownloadUsage))
+uci.commit("openwireless")
+
+
+
+
