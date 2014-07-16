@@ -5,3 +5,5 @@ sudo apt-get install inotify-tools lighttpd nodejs npm python2.7 python-pip
 cd $(dirname $0)
 pip install --user -qr requirements.txt
 npm install
+# Install a hook to run tests before pushing.
+ln -s ../../run-tests.sh .git/hooks/pre-push
