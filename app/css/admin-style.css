@@ -230,6 +230,10 @@ select, .editable {
   flex-grow: 1;
 }
 
+.speed {
+  white-space: nowrap;
+}
+
 .speed .upload {
   color: #00adee;
 }
