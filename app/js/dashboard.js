@@ -74,8 +74,8 @@ var dashboardModule = (function(){
         $(document).on('click', id, function () {
           state = $(id + " span")[0].className.split(" ")[1];
           if (id == "#PrivateWiFi" && state == "On") {
-            if (confirm("You are about to disconnect yourself from the Private WiFi network. " +
-                      "You will have to reconnect to this admin interface through the LAN connection. Are you sure you want to proceed?")){
+            if (confirm("Turning of the Private WiFi network will cause loss of connectivity to the network and this admin interface. " + 
+		"To regain access to this admin interface you must connect to the wired LAN. Are you sure you want to proceed?")){
             toggleInterface(name, state);
           }
         } else {
