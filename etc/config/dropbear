@@ -1,5 +1,8 @@
 config dropbear
-	option PasswordAuth 'on'
-	option RootPasswordAuth 'on'
+# Note: disabling PasswordAuth this way does not seem to take effect
+# (perhaps because SSH is run by busybox?), so we also make sure root's password
+# in /etc/shadow is empty.
+	option PasswordAuth 'off'
+	option RootPasswordAuth 'off'
 	option Port         '22'
 #	option BannerFile   '/etc/banner'
