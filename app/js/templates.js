@@ -8,11 +8,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = "", stack1, helper;
-  buffer += " (";
+  buffer += " <small>(";
   if (helper = helpers.ssid) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.ssid); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + ")";
+    + ")</small>";
   return buffer;
   }
 
@@ -56,19 +56,19 @@ function program7(depth0,data) {
 function program9(depth0,data) {
   
   var buffer = "", stack1, helper;
-  buffer += "\n            <div class=\"bandwidth\"><span id=\"monthlyBandwidth\">";
+  buffer += "\n            <div class=\"data-use\"><span id=\"monthlyBandwidth\">";
   if (helper = helpers.monthlyBandwidthUsage) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.monthlyBandwidthUsage); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span>\n                <small>used of</small>\n                ";
+    + "</span>\n                <small> of </small>\n                ";
   if (helper = helpers.maxMonthlyBandwidth) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.maxMonthlyBandwidth); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "\n                <small> ";
+    + "\n                <br>\n                <small> ";
   if (helper = helpers.maxMonthlyBandwidthMetric) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.maxMonthlyBandwidthMetric); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + " max <br> per month\n                </small>\n            </div>\n        ";
+    + " max\n                </small>\n            </div>\n        ";
   return buffer;
   }
 

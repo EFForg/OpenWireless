@@ -8,7 +8,7 @@
         </div>
     </header>
     <div class="title">
-        <h2>{{name}}{{#if ssid}} ({{ssid}}){{/if}}</h2>
+        <h2>{{name}}{{#if ssid}} <small>({{ssid}})</small>{{/if}}</h2>
         {{#if pingSpeed}}
             <div class="ping">{{pingSpeed}}
             <small> {{pingSpeedMetric}} ping to eff.org
@@ -26,10 +26,11 @@
             </div>
         {{/if}}
         {{#if maxMonthlyBandwidth}}
-            <div class="bandwidth"><span id="monthlyBandwidth">{{monthlyBandwidthUsage}}</span>
-                <small>used of</small>
+            <div class="data-use"><span id="monthlyBandwidth">{{monthlyBandwidthUsage}}</span>
+                <small> of </small>
                 {{maxMonthlyBandwidth}}
-                <small> {{maxMonthlyBandwidthMetric}} max <br> per month
+                <br>
+                <small> {{maxMonthlyBandwidthMetric}} max
                 </small>
             </div>
         {{/if}}
