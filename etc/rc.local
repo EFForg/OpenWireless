@@ -7,7 +7,9 @@ chown -R www-data:www-data /etc/auth /etc/openwireless-setup-state /etc/dropbear
 chmod o+rx /etc/dropbear
 
 tor
-python /lib/update/create-crontab.py
+# Temporarily disable updating from cron, for development.
+# Reinstate this before release.
+# python /lib/update/create-crontab.py
 crond
 
 exit 0
