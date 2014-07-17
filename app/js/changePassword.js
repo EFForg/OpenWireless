@@ -11,8 +11,12 @@ var changePassword = (function() {
 
   var firstTime = helperModule.url().match(/[?&]first_time=true/);
   if (firstTime) {
-    oldPassword.hide();
+    $(".changePassword").hide();
+    $(".setPassword").show();
     changePasswordUrl = "/cgi-bin/routerapi/change_password_first_time";
+  } else {
+    $(".changePassword").show();
+    $(".setPassword").hide();
   }
 
   form.submit(function(event){
