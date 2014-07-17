@@ -114,7 +114,9 @@ small {
   color: rgba(255, 255, 255, 0.6);
 }
 
-#checkForUpdate:hover, .toggle:hover, #SSH:hover {
+#checkForUpdate:hover,
+.toggle:hover,
+#SSH:hover {
   cursor: pointer;
 }
 
@@ -245,7 +247,9 @@ select, .editable {
 .speed .download {
   color: #f3bf20;
 }
-.off .speed .upload, .off .speed .download, .off .speed small {
+.off .speed .upload,
+.off .speed .download,
+.off .speed small {
   color: rgba(255, 255, 255, 0.4);
 }
 
@@ -273,7 +277,10 @@ select, .editable {
   padding-left: 10px;
 }
 
-.devices small, .ping small, .bandwidth small, .data-use small{
+.devices small,
+.ping small,
+.bandwidth small,
+.data-use small {
   font-size: 10px;
 }
 
@@ -285,16 +292,24 @@ h2 small {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.status .on.on-button, .connected {
+.status .on.on-button,
+.connected {
   color: #ffffff;
 }
 
-.status .off.off-button, .disconnected {
+.status .off.off-button,
+.disconnected {
   color: #ffcc00;
 }
 
 .status .on.off-button, .status .off.on-button {
   color: rgba(255, 255, 255, 0.6);
+}
+
+/* Hide the toggle for private WiFi because we expect it is not a common use
+ * case, and it is easy to lock yourself out of your router with it. */
+#PrivateWiFi.status.toggle {
+ display: none;
 }
 
 footer {
