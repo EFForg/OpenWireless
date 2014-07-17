@@ -48,6 +48,17 @@ iptables -I FORWARD -j ACCOUNT --addr 172.30.42.96/27 --tname private-wifi
 iptables -I FORWARD -s 172.30.42.96/27 -j privatewifitolan
 
 #To/from OpenWiFi (first drop if necessary)
+
+
+iptables -I INPUT -s172.30.42.128/27 -j DROP
+iptables -I OUTPUT -d172.30.42.128/27 -j DROP
+
+SERVER_IP="172.30.42.129"
+iptables -I INPUT -p udp -s 0/0 --sport 1024:65535 -d $SERVER_IP --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -I OUTPUT -p udp -s $SERVER_IP --sport 53 -d 0/0 --dport 1024:65535 -m state --state ESTABLISHED -j ACCEPT
+iptables -I INPUT -p udp -s 0/0 --sport 53 -d $SERVER_IP --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -I OUTPUT -p udp -s $SERVER_IP --sport 53 -d 0/0 --dport 53 -m state --state ESTABLISHED -j ACCEPT
+
 iptables -I FORWARD -j ACCOUNT --addr 172.30.42.128/27 --tname open-wifi
 iptables -I FORWARD -s172.30.42.128/27 -d172.30.42.0/24 -j DROP
 iptables -I FORWARD -s172.30.42.0/24 -d172.30.42.128/27 -j DROP
