@@ -11,7 +11,7 @@
    When requested via GET, this endpoint will return a JSON object containing
    the current state:
 
-     { "state": "set-password"}
+     { 'state': 'set-password'}
 """
 
 import os
@@ -20,21 +20,24 @@ import common
 
 SETUP_STATE_PATH = os.path.join(common.get_etc(), 'openwireless-setup-state')
 VALID_SETUP_STATES = [
-     "set-password",
-     "setup-private-net",
-     "setup-public-net",
-     "complete"
+     'set-password',
+     'setup-private-net',
+     'setup-public-net',
+     'complete'
 ]
 
+DEFAULT_RESPONSE = {'state': 'set-password'}
 def get_setup_state():
   if os.path.isfile(SETUP_STATE_PATH):
     with open(SETUP_STATE_PATH, 'r') as f:
       state = f.read().strip()
     if state in VALID_SETUP_STATES:
-      common.render_success({"state": state})
+      common.render_success({'state': state})
+    elif state == '':
+      common.render_success(DEFAULT_RESPONSE)
     else:
       common.render_error('Invalid setup state')
   else:
-    common.render_success({"state": "set-password"})
+    common.render_success(DEFAULT_RESPONSE)
 
 get_setup_state()
