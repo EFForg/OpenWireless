@@ -4,6 +4,7 @@ cd $(dirname $0)
 echo "remove etc and www directories in build ..."
 rm -rf cerowrt/files/etc
 rm -rf cerowrt/files/www
+rm -rf cerowrt/files/lib
 
 echo "change DISTRIB_RELEASE_DATE in openwrt_release ..."
 ./changeReleaseDate
@@ -13,6 +14,9 @@ cp -rp etc cerowrt/files/
 
 echo "set permissions for /etc/auth"
 chmod 0700 cerowrt/files/etc/auth
+
+echo "push lib to build"
+cp -rp lib cerowrt/files/
 
 echo "make www directory in build..."
 mkdir cerowrt/files/www
@@ -25,3 +29,4 @@ mkdir cerowrt/files/www/cgi-bin
 
 echo "pushing routerapi to build..."
 cp -rp routerapi cerowrt/files/www/cgi-bin/
+
