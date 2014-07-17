@@ -39,7 +39,9 @@ There's a detailed writeup of our threats and mitigations in security.txt.
 
 # Contributing and getting help
 
-We welcome contributors! Drop into #openwireless on irc.oftc.net to ask
-questions or discuss the project.
+We welcome contributors! Our mailing list is tech@openwireless.org. Sign up
+at https://openwireless.org/mailman/listinfo/tech. Or drop into #openwireless
+on irc.oftc.net to ask questions or discuss the project.
 
-We accept pull requests and issues on https://github.com/EFForg/OpenWireless.
+We accept pull requests and issues on https://github.com/EFForg/OpenWireless or
+patches by mail to tech@openwireless.org
