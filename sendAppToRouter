@@ -7,6 +7,7 @@ sync() {
   rsync -au --no-owner --no-group app/ $TARGET:/www/ && \
   rsync -au --no-owner --no-group routerapi/ $TARGET:/www/cgi-bin/routerapi/ && \
   rsync -au --no-owner --no-group etc/lighttpd/lighttpd.conf $TARGET:/etc/lighttpd/lighttpd.conf && \
+  rsync -au --no-owner --no-group lib/update/ $TARGET:/lib/update/ && \
   date +"%Y-%m-%d %H:%M:%S synced"
 }
 
@@ -14,7 +15,7 @@ if [ "$1" == "--continuous" ]; then
   grep -q ControlMaster ~/.ssh/config || echo "Install recommended ssh-config."
   ssh -Nf $TARGET
   sync
-  inotifywait -rm -e close_write --format '%w%f' app routerapi |\
+  inotifywait -rm -e close_write --format '%w%f' app routerapi lib etc |\
   while read line; do
     sleep 0.2
     sync
