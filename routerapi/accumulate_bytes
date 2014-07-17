@@ -27,8 +27,8 @@ def update_openwireless_usage():
     last_known_reset_time = float(uci.get("openwireless.last_known_reset_time"))
     current_time = time.time()
     recorded_time_since_reset = current_time - last_known_reset_time
-
-    uptime_output = subprocess.check_output(["cat", "/proc/uptime"])
+    
+    uptime_output = check_output(["cat", "/proc/uptime"])
     real_time_since_reset = float(uptime_output.split(" ")[0])
     
     time_difference = abs(real_time_since_reset - recorded_time_since_reset)
@@ -39,22 +39,22 @@ def update_openwireless_usage():
         use_before_reset = float(uci.get("openwireless.use_before_last_reset"))
 
         new_use_before_reset = str(int(use_since_reset + use_before_reset))
-        uci.set("openwireless.use_before_last_reset=" +new_use_before_reset)
+        uci.set("openwireless.use_before_last_reset", new_use_before_reset)
 
     def increment_use_since_last_reset():
         [x, upload_usage, download_usage] = get_device_and_byte_counts("open-wifi")
         new_use_after_reset = str(int(download_usage + upload_usage))
-        uci.set("openwireless.use_since_last_reset=" + new_use_after_reset) 
+        uci.set("openwireless.use_since_last_reset", new_use_after_reset) 
 
     def reset_last_known_reset_time():
-        uci.set("openwireless.last_known_reset_time=" + str(current_time))
+        uci.set("openwireless.last_known_reset_time", str(current_time - real_time_since_reset))
 
     if time_difference > acceptable_error_between_times:
         increment_use_before_last_reset()
         increment_use_since_last_reset()
         reset_last_known_reset_time()
 
-    else
+    else:
         increment_use_since_last_reset()
 
 update_openwireless_usage()
