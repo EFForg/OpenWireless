@@ -39,6 +39,11 @@ input[type="submit"] {
   margin-top: 1em;
 }
 
+input[type="submit"]:disabled {
+  color: rgba(255,255,255, 0.2);
+  border: 2px solid rgba(255,255,255, 0.2);
+}
+
 a.button {
   background: none;
   line-height: normal;

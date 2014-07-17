@@ -62,7 +62,7 @@ def check_channel(channel_name, interface_name):
     current_device = check_device(interface_name)
     new_channel = params.get(channel_name)
     if validate_channel(current_device, new_channel):
-      if new_channel.split(' ')[0] != check_param(interface_name, 'channel'):
+      if new_channel.split(' ')[0] != check_param(current_device, 'channel'):
         set_param(current_device, 'channel', new_channel.split(' ')[0])
         common.reset_wifi()
 
