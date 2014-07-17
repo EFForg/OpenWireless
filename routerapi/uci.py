@@ -27,5 +27,6 @@ def validate(string):
 
 def run(args_list):
   args_list.insert(0, uci_path)
+  args_list.insert(0, '/usr/bin/sudo')
   map(validate, args_list)
   return subprocess.check_output(args_list).strip()

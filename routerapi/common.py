@@ -31,7 +31,7 @@ def get_etc():
   return os.environ.get('OVERRIDE_ETC', '/etc')
 
 def reset_wifi():
-    run.check_output(["/sbin/wifi", "reload"])
+    run.check_output(["/usr/bin/sudo", "/sbin/wifi", "reload"])
 
 def render_error(err, status=403):
     print 'Status: %d NOT-OKAY' % status

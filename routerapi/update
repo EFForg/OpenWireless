@@ -4,7 +4,14 @@ import json
 
 import auth
 import common
+import subprocess
 
-result = {"result" :{ "status": "updating" }}
+if (subprocess.call(["python","/lib/update/update.py"])==0): 
+  ret="update-success" #should never reach this line of code
+else:
+  ret="update-failure"
+
+result = {"result" :{ "status": ret }}
 
 common.render_success(result)
+

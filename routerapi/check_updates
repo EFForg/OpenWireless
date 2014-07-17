@@ -4,7 +4,13 @@ import json
 
 import auth
 import common
+import subprocess
 
-result = {"result" :{ "status": "not-up-to-date" }}
+if (subprocess.call(["python","/lib/update/update.py","check"]) == 0):
+  ret="not-up-to-date"
+else:
+  ret="up-to-date"
+
+result = {"result" :{ "status": ret }}
 
 common.render_success(result)
