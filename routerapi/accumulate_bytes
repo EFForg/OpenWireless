@@ -18,5 +18,10 @@ uci.set("openwireless.use_since_last_reset", str(openWirelessDownloadUsage))
 uci.commit("openwireless")
 
 
+#def check_for_router_reset():
+#    #convert timestamp in config file to time before now
+#    #compare that to uptime
+
+
 
 

@@ -83,14 +83,6 @@ var replaceByteCounts = function(){
     $("h2:contains('" + htmlTitle + "')").parent().parent().find(".device-count").text(numberOfDevices);
   };
 
-  var updateOpenwirelessBandwidth = function(networkRates){
-    byteUsage = parseInt(networkRates["uploadUsage"]) + parseInt(networkRates["downloadUsage"]);
-    var byteToMegabyteConversion = 0.000001;
-    mbUsage = byteUsage * byteToMegabyteConversion;
-    mbUsageForDisplay = roundToDecimal(mbUsage, 2);
-    $('#monthlyBandwidth').text(mbUsageForDisplay);
-  }
-
   var updateFields = function(response) {
     response1 = response2;
     response2 = response3;
@@ -111,8 +103,6 @@ var replaceByteCounts = function(){
     updateDevices('Private WiFi', response['privateWifi']['devices']);
 
     updateCount('Openwireless.org', rates['openWireless']);
-
-    updateOpenwirelessBandwidth(rates['openWireless']);
   };
 
   var successCallback = function(response) {
