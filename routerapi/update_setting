@@ -80,6 +80,14 @@ def check_channel_bandwidth(channel_name, interface_name):
     else:
       set_error('channel bandwidth')
 
+def set_openwireless_use_limit(option):
+    openwireless_interface = "sqm.gw00." + option
+    openwireless_percent = uci.get("openwireless.maxbandwidthpercentage")
+    total_bandwidth = float(uci.get("sqm.ge00." + option))
+    openwireless_bandwidth = total_bandwidth * float(openwireless_percent)/100
+    uci.set(openwireless_interface, str(int(openwireless_bandwidth)))
+    uci.commit("sqm")
+
 def check_openwireless_bandwidth_percentage():
   if (params.get("openwirelessBandwidth")):
     new_percentage = params.get("openwirelessBandwidth")
@@ -87,21 +95,8 @@ def check_openwireless_bandwidth_percentage():
     uci.set("openwireless.maxbandwidthpercentage", new_percentage)
     uci.commit("openwireless")
 
-    total_download_bandwidth = float(uci.get("sqm.ge00.download"))
-    total_upload_bandwidth = float(uci.get("sqm.ge00.upload"))
-
-    openwireless_download_bandwidth = total_download_bandwidth * float(new_percentage)/100
-    openwireless_upload_bandwidth = total_upload_bandwidth * float(new_percentage)/100
-
-    uci.set("sqm.gw00.download", str(openwireless_download_bandwidth))
-    uci.set("sqm.gw00.upload", str(openwireless_upload_bandwidth))
-    uci.commit("sqm")
-
-def check_openwireless_monthly_data():
-    if (params.get("openwirelessData")):
-      new_bandwidth = params.get("openwirelessData")
-      uci.set("openwireless.maxmonthlybandwidth", new_bandwidth)
-      uci.commit("openwireless")
+    set_openwireless_use_limit("download")
+    set_openwireless_use_limit("upload")
 
 def check_isp_upload_speed():
   if (params.get("ispUploadSpeed")):
@@ -109,13 +104,24 @@ def check_isp_upload_speed():
     new_speed_kbs = str(new_speed * 1000)
     uci.set("sqm.ge00.upload", new_speed_kbs)
     uci.commit("sqm")
-
+    set_openwireless_use_limit("upload")
+   
 def check_isp_download_speed():
   if (params.get("ispDownloadSpeed")):
     new_speed = int(params.get("ispDownloadSpeed"))
     new_speed_kbs = str(new_speed * 1000)
     uci.set("sqm.ge00.download", new_speed_kbs)
     uci.commit("sqm")
+    set_openwireless_use_limit("download")
+  
+def check_openwireless_monthly_data():
+    if (params.get("openwirelessData")):
+      new_bandwidth = params.get("openwirelessData")
+      uci.set("openwireless.maxmonthlybandwidth", new_bandwidth)
+      uci.commit("openwireless")
+
+
+
 if environ.get('REQUEST_METHOD').lower() == 'post':
     params = json.loads(sys.stdin.read())
 
