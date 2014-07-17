@@ -10,6 +10,7 @@ tor
 # Temporarily disable updating from cron, for development.
 # Reinstate this before release.
 # python /lib/update/create-crontab.py
-crond
 
+python/lib/openwireless-usage/create-usage-crontab.py
+crond
 exit 0
