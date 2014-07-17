@@ -137,9 +137,6 @@ p {
 #restarting {
   display: none;
 }
-.submitting {
-  color: grey;
-}
 
 #logged_out {
   display: none;

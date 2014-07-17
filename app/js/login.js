@@ -19,6 +19,7 @@ var loginModule = (function() {
   var initializeForm = function(){
     form.submit(function(event) {
       event.preventDefault();
+      $("#submit").prop('disabled', true);
       passwordError.hide();
       genericError.hide();
       password.removeClass('error');
