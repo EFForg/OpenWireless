@@ -10,21 +10,21 @@ https://openwireless.org/.
 
 Get the packages you need and install a git hook to run tests before push:
 
-./install-dev-dependencies.sh
+    ./install-dev-dependencies.sh
 
 Try out the web UI locally:
 
-./local-lighttpd/run-local-lighttpd.sh
-firefox http://localhost:8888/
+    ./local-lighttpd/run-local-lighttpd.sh
+    firefox http://localhost:8888/
 
 Sync the web UI to your router:
 
-./sendAppToRouter --continuous
-firefox http://gw.home.lan/
+    ./sendAppToRouter --continuous
+    firefox http://gw.home.lan/
 
 # Running tests
 
-./run-tests.sh
+    ./run-tests.sh
 
 Continuous build at https://snap-ci.com/EFForg/OpenWireless/branch/master
 
