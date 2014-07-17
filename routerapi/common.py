@@ -22,7 +22,6 @@ import traceback
 if 'OVERRIDE_ETC' in os.environ:
   sys.path.insert(0, os.environ['OVERRIDE_PATH'])
 
-import auth
 import run
 
 # The web server can pass an environment variable to change where this script
@@ -67,3 +66,5 @@ def exception_handler(exc_type, exc_obj, exc_tb):
     sys.exit(0)
 
 sys.excepthook = exception_handler
+# Importing auth forces checking of auth token and CSRF token.
+import auth
