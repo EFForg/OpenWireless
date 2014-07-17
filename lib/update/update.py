@@ -4,9 +4,8 @@ import re, pycurl, json, StringIO, tempfile, hashlib, subprocess, sys, os
 import systemwide_lock
 
 openwrt_release_file = "/etc/openwrt_release"
-# openwrt_release_file = "openwrt_release"
-keyring = "/lib/update/testtest.gpg"
-update_url = "https://s.eff.org/files/ow-testtest/update4.json.asc"
+keyring = "/etc/update_key.gpg"
+update_url = "https://s.eff.org/files/openwireless/update.json.asc"
 sysupgrade_command = ["/usr/bin/sudo", "sysupgrade", "-v", "-n"]
 
 def failed(why):
@@ -174,7 +173,7 @@ if __name__ == '__main__':
                 print "Installing image..."
                 if not u.do_update():
                     failed("to install update")
-                subprocess.call(["/usr/bin/sudo", "reboot"])
+                subprocess.call(["/usr/bin/sudo", "/sbin/reboot"])
             else:
                 failed("to validate downloaded firmware image")
         else:

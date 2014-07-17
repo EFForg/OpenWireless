@@ -2,15 +2,12 @@
 
 chmod 0700 /etc/auth
 
+touch /etc/openwireless-setup-state
 chown -R www-data:www-data /etc/auth /etc/openwireless-setup-state /etc/dropbear/authorized_keys
 chmod o+rx /etc/dropbear
 
-
 tor
-mkdir -p /var/spool/cron/crontabs
-echo '0 * * * * python /lib/update/update.py' > /tmp/crontab
-crontab /tmp/crontab
+python /lib/update/create-crontab.py
 crond
-
 
 exit 0

@@ -1,16 +1,20 @@
 #!/usr/bin/python
 import cgi
 import json
+import subprocess
 
 import auth
 import common
-import subprocess
 
-if (subprocess.call(["python","/lib/update/update.py","check"]) == 0):
-  ret="not-up-to-date"
+if subprocess.call(["python", "/lib/update/update.py", "check"]) == 0:
+  ret = "not-up-to-date"
 else:
-  ret="up-to-date"
+  ret = "up-to-date"
 
-result = {"result" :{ "status": ret }}
+result = {
+  "result": {
+    "status": ret
+  }
+}
 
 common.render_success(result)
