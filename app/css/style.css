@@ -144,3 +144,7 @@ p {
 #logged_out {
   display: none;
 }
+
+.changePassword {
+  display: none;
+}
