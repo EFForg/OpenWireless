@@ -3,6 +3,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 
 import common
 import uci
@@ -25,12 +26,17 @@ def jsonrpc_set_private_ssid():
   # We render the response but don't exit, because we still need to run
   # `wifi reload', and if we run that before rendering, the response might not
   # reach the client.
-  common.render_success_no_exit({'ssid': name})
-  # TODO: There should be some shared setup_state code to handle this.
-  setup_state = os.path.join(common.get_etc(), 'openwireless-setup-state')
-  with open(setup_state, 'w') as f:
-    f.write('complete')
-  common.reset_wifi()
-  sys.exit(0)
+  if os.fork() != 0:
+    common.render_success_no_exit({'ssid': name})
+    sys.exit(0)
+  else:
+    sys.stdout.close()
+    time.sleep(1)
+    # TODO: There should be some shared setup_state code to handle this.
+    setup_state = os.path.join(common.get_etc(), 'openwireless-setup-state')
+    with open(setup_state, 'w') as f:
+      f.write('complete')
+    common.reset_wifi()
+    sys.exit(0)
 
 jsonrpc_set_private_ssid()

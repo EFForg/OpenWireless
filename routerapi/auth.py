@@ -238,8 +238,9 @@ class Auth:
     """
     Return the HTTP headers required to log the user out.
 
-    Specifically, delete the auth token and CSRF token.
+    Specifically, delete and invalidate the auth token and CSRF token.
     """
+    self.regenerate_authentication_token()
     return ('Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n'
             'Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n'
             'Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n' % (

@@ -1,0 +1,11 @@
+#!/usr/bin/python
+"""
+Logout endpoint.
+"""
+import auth
+
+a = auth.Auth()
+print "Content-Type: application/json"
+print a.logout_headers()
+print
+print "{}"

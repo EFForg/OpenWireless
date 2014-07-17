@@ -40,7 +40,7 @@ var ssidModule = (function() {
       if(helperModule.checkEmptyField(ssidPassphrase, ssidPassphraseError, "passphrase")){
         return;
       }
-        
+
       if ($(ssidPassphrase).val().length < 8) {
         $(ssidPassphraseError).text("Passphrase must be at least 8 characters.");
         $(ssidPassphraseError).show();
@@ -52,8 +52,8 @@ var ssidModule = (function() {
   };
 
   var setSSID = function() {
-    $(submit).val("Submitting...");
-    $(submit).prop('disabled', true);  
+    $(submit).text("Submitting...");
+    $(submit).prop('disabled', true);
 
     requestModule.submitRequest({
       url: "/cgi-bin/routerapi/set_private_ssid",
