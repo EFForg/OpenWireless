@@ -6,6 +6,7 @@
     <link rel="shortcut icon" href="images/favicon.png" media="screen" />
     <script type="text/javascript" src="lib/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/errorCallback.js"></script>
+    <script type="text/javascript" src="js/helper.js"></script>
     <script type="text/javascript" src="js/request.js"></script>
     <script type="text/javascript" src="js/logout.js"></script>
     <title>Logout</title>
@@ -15,7 +16,11 @@
     <div id="outerContainer">
       <header></header>
       <div id="genericError" class="inputError"></div>
-      <h1 id='logging_out'>Logging out...</h1>
+      <div id="logout">
+        <h1>Log out?</h1>
+        <input type="submit" value="Yes" id="yes"></input>
+        <input type="submit" value="No" id="no"></input>
+      </div>
       <h1 id='logged_out'>You are now logged out.</h1>
     </div>
   </body>
