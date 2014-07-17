@@ -64,7 +64,8 @@ patches by mail to tech@openwireless.org
 # Coding Style
 
 Two spaces for JavaScript, four for Python, no tabs. Spaces between function
-arguments, before braces, and around operators. Generally we follow the [Google
+arguments, before braces, and around operators. In Python, imports are one per
+line, and only modules, not methods or classes. Generally we follow the [Google
 Python Style Guide](http://google-styleguide.googlecode.com/svn/trunk/pyguide.html)
 and [Google JavaScript style
 guide](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml).
@@ -73,4 +74,3 @@ Try to write tests and document code well.
 Some security guidelines: Strongly avoid jQuery's .html(data) and Handlebars'
 triple-stache {{{data}}}}. They make it easy to create an XSS vulnerability by
 accident. Similarly, in Python, never set shell=True when calling binaries.
-
