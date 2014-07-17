@@ -174,7 +174,7 @@ if __name__ == '__main__':
                 print "Installing image..."
                 if not u.do_update():
                     failed("to install update")
-                subprocess.call(["/usr/bin/sudo", "reboot"])
+                subprocess.call(["/usr/bin/sudo", "/sbin/reboot"])
             else:
                 failed("to validate downloaded firmware image")
         else:
