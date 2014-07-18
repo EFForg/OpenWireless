@@ -6,6 +6,21 @@ OpenWireless router firmware, which is based off of Cerowrt and OpenWRT.
 More details about the OpenWireless project can be found at
 https://openwireless.org/.
 
+# HOPE
+
+Special for the weekend of the HOPE Conference, July 18-20, we have set up
+several instances of the web UI to be publicly accessible. Please try out one of
+these instances and report to us any vulnerabilities you find. Feel free to set
+and admin password: These instances will reset at the top of each hour.
+
+[1](http://ow.crud.net:8000)
+
+Also, if you are at the Hotel Pennsylvania, we will occasionally have the
+routers running. If you see the networks "openwireless.org" or "Hack Open
+Wireless", you have our permission to connect to them and try to break in. Let
+us know what you find! The WPA2 passphrase for "Hack Open Wireless" is "Happy
+ownage, pentest enthusiasts".
+
 # Getting Started
 
 Get the packages you need and install a git hook to run tests before push:
