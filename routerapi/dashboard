@@ -37,6 +37,15 @@ def get_dashboard():
     private_wifi_on = check_interface_connection.enabled(2)
     openwireless_on = check_interface_connection.enabled(1)
 
+    def get_openwireless_use():
+        use_since_last_reset = uci.get("openwireless.use_since_last_reset")
+        use_before_last_reset = uci.get("openwireless.use_before_last_reset")
+        use_in_bytes = float(use_since_last_reset) + float(use_before_last_reset)
+        use_in_mbs = use_in_bytes/1000000.0
+        return(str(int(use_in_mbs)))
+    
+    openwireless_use = get_openwireless_use() 
+
     result = {
         "id": 1,
         "jsonrpc": "2.0",
@@ -80,7 +89,7 @@ def get_dashboard():
                 "maxMonthlyBandwidth":
                     uci.get("openwireless.maxmonthlybandwidth"),
                 "maxMonthlyBandwidthMetric": "Mb",
-                "monthlyBandwidthUsage": "...",
+                "monthlyBandwidthUsage": openwireless_use,
                 "on": openwireless_on
             },
             "wanIp": wan_ip,
