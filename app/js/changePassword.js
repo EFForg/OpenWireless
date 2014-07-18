@@ -21,7 +21,6 @@ var changePassword = (function() {
 
   form.submit(function(event){
     event.preventDefault();
-    $("#submit").prop('disabled', true);
     newPasswordError.hide();
     retypePasswordError.hide();
     newPassword.removeClass("error");
