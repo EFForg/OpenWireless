@@ -6,21 +6,6 @@ import uci
 from subprocess import check_output
 from get_bytecounts import get_device_and_byte_counts
 
-# periodically store iptaccount_output to openwireless config file
-# and compare uptime to last_known_reset_time
-
-# if reset has occurred:
-# add use_since_last_reset to use_before_last_reset, (from iptaccount) X
-# log new use_since_last_reset, X
-# and reset last_known_reset_time X
-
-# To start this on the router:
-
-# mkdir -p /var/spool/cron/crontabs
-# sudo crontab -e
-# * 1 * * * python /www/cgi-bin/routerapi/accumulate_bytes
-# crond start
-
 def update_openwireless_usage():
 
     #times are in seconds
@@ -43,21 +28,27 @@ def update_openwireless_usage():
 
     def increment_use_since_last_reset():
         [x, upload_usage, download_usage] = get_device_and_byte_counts("open-wifi")
-        new_use_after_reset = str(int(download_usage + upload_usage))
-        uci.set("openwireless.use_since_last_reset", new_use_after_reset) 
+        new_use_after_reset = download_usage + upload_usage
+        use_before_ui_reset = float(uci.get("openwireless.use_before_last_reset"))
+        new_use = str(int(new_use_after_reset - use_before_ui_reset))
+        uci.set("openwireless.use_since_last_reset", new_use) 
 
     def reset_last_known_reset_time():
         uci.set("openwireless.last_known_reset_time", str(current_time - real_time_since_reset))
 
+    def reset_use_at_last_ui_reset():
+        uci.set("openwireless.use_at_last_ui_reset", "0")
     if time_difference > acceptable_error_between_times:
         increment_use_before_last_reset()
         increment_use_since_last_reset()
         reset_last_known_reset_time()
+        reset_use_at_last_ui_reset()
 
     else:
         increment_use_since_last_reset()
 
 update_openwireless_usage()
+#disable network if data use over limit
 uci.commit("openwireless")
 
 
