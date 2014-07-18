@@ -2,8 +2,8 @@
 
 chmod 0700 /etc/auth
 
-touch /etc/openwireless-setup-state /etc/dropbear/authorized_keys
-chown -R www-data:www-data /etc/auth /etc/openwireless-setup-state /etc/dropbear/authorized_keys
+touch /etc/openwireless-setup-state
+chown -R www-data:www-data /etc/auth /etc/openwireless-setup-state /etc/dropbear
 chmod o+rx /etc/dropbear
 
 tor
