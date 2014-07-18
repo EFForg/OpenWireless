@@ -11,6 +11,6 @@ tor
 # Reinstate this before release.
 # python /lib/update/create-crontab.py
 
-python/lib/openwireless-usage/create-usage-crontab.py
+python /lib/openwireless-usage/create-usage-crontab.py
 crond
 exit 0
