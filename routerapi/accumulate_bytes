@@ -3,8 +3,22 @@
 import datetime
 import time
 import uci
+import common
 from subprocess import check_output
 from get_bytecounts import get_device_and_byte_counts
+
+
+def disable_overutilized_network():
+    use_before_last_reset = float(uci.get("openwireless.use_before_last_reset"))
+    use_since_last_reset = float(uci.get("openwireless.use_since_last_reset"))
+    use_at_last_ui_reset = float(uci.get("openwireless.use_at_last_ui_reset"))
+    current_use = use_before_last_reset + use_since_last_reset - use_at_last_ui_reset
+    max_use = float(uci.get("openwireless.maxmonthlybandwidth"))*1000000
+    if current_use > max_use:
+        uci.set("wireless.@wifi-iface[1].disabled", "1")
+        uci.commit("wireless")
+        common.reset_wifi()
+
 
 def update_openwireless_usage():
 
@@ -29,7 +43,7 @@ def update_openwireless_usage():
     def increment_use_since_last_reset():
         [x, upload_usage, download_usage] = get_device_and_byte_counts("open-wifi")
         new_use_after_reset = download_usage + upload_usage
-        use_before_ui_reset = float(uci.get("openwireless.use_before_last_reset"))
+        use_before_ui_reset = float(uci.get("openwireless.use_at_last_ui_reset"))
         new_use = str(int(new_use_after_reset - use_before_ui_reset))
         uci.set("openwireless.use_since_last_reset", new_use) 
 
@@ -38,6 +52,7 @@ def update_openwireless_usage():
 
     def reset_use_at_last_ui_reset():
         uci.set("openwireless.use_at_last_ui_reset", "0")
+
     if time_difference > acceptable_error_between_times:
         increment_use_before_last_reset()
         increment_use_since_last_reset()
@@ -48,10 +63,5 @@ def update_openwireless_usage():
         increment_use_since_last_reset()
 
 update_openwireless_usage()
-#disable network if data use over limit
+disable_overutilized_network()
 uci.commit("openwireless")
-
-
-
-
-
