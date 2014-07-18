@@ -13,7 +13,6 @@ current_usage = float(upload_usage) + float(download_usage)
 
 uci.set("openwireless.use_at_last_ui_reset", str(current_usage))
 uci.set("openwireless.use_before_last_reset", "0")
-uci.set("openwireless.use_since_last_reset", "0")
 uci.commit("openwireless")
 
 response = {}
