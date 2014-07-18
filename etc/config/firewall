@@ -1,4 +1,3 @@
-
 config defaults
 	option input 'ACCEPT'
 	option output 'ACCEPT'
@@ -46,10 +45,6 @@ config forwarding
 
 config forwarding
 	option dest 'guest'
-	option src 'lan'
-
-config forwarding
-	option dest 'guest'
 	option src 'wan'
 
 config rule
@@ -79,26 +74,10 @@ config rule
 
 config rule
 	option target 'ACCEPT'
-	option name 'printers'
-	option proto 'tcp'
-	option src '*'
-	option dest '*'
-	option dest_port '631'
-
-config rule
-	option target 'ACCEPT'
-	option name 'Useful Services'
-	option proto 'tcp'
-	option src '*'
-	option dest '*'
-	option dest_port '80 443 873 993'
-
-config rule
-	option target 'ACCEPT'
 	option name 'ipv6 dfz'
 	option family 'ipv6'
 	option proto 'all'
-	option src '*'
+	option src 'wan'
 	option dest 'guest'
 
 config rule
@@ -112,7 +91,6 @@ config rule
 config rule
 	option src 'wan'
 	option proto 'tcpudp'
-	option dest_port '81 161 137 138 139 445 9091 8123 1900 2869 5351'
 	option name 'blockconfig'
 	option target 'DROP'
 
@@ -130,7 +108,6 @@ config rule
 config rule
 	option src 'guest'
 	option proto 'tcpudp'
-	option dest_port '81 137 138 139 445 8123 1900 2869 5351'
 	option name 'blockconfig2'
 	option target 'DROP'
 
