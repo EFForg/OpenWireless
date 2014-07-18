@@ -1,8 +1,9 @@
 $(function() {
-  if (document.location.port === '8888') {
+  if (document.location.port !== "") {
     var el = document.getElementById("continue")
     if (el) {
-      el.href = 'https://' + document.location.hostname + ':8443';
+      var httpsPort = parseInt(document.location.port) + 1;
+      el.href = 'https://' + document.location.hostname + ':' + httpsPort;
     }
   }
 });
