@@ -9,8 +9,7 @@ chmod o+rx /etc/dropbear
 tor
 # Temporarily disable updating from cron, for development.
 # Reinstate this before release.
-# python /lib/update/create-crontab.py
-
-python /lib/openwireless-usage/create-usage-crontab.py
+python /lib/update/create-crontab.py
 crond
+
 exit 0
