@@ -1,7 +1,7 @@
 $(document).on('click', '#reset-usage' , function(){
     
     var successCallback = function(){
-        $("#usage").text("Usage successfully reset"); 
+        $("#usage").text("Usage successfully reset!"); 
     };
 
     var errorCallback = function(){};
