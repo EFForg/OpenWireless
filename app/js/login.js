@@ -1,19 +1,29 @@
 var loginModule = (function() {
   var form;
   var password;
+  var showPassword;
   var passwordError;
   var genericError;
 
   var init = function(){
     initializeFields();
+    initializeEvents();
     initializeForm();
   };
 
   var initializeFields = function(){
     form = $('form');
     password = $('#password');
+    showPassword = $('#showPassword');
     passwordError = $("#passwordError");
     genericError =  $('#genericError');
+  };
+
+  var initializeEvents = function(){
+    showPassword.change(function(){
+      var type = showPassword.prop('checked') ? 'text' : 'password';
+      password.attr('type', type);
+    });
   };
 
   var initializeForm = function(){
