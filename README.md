@@ -132,10 +132,24 @@ modify files, you can run:
 
     # mount_root
 
-To copy files over, you'll need to start the ssh service, which is run by
-xineted:
+To copy files over, you'll need to start the ssh service, which you can do
+by starting dropbear.
+    
+You will need to set a password for the root account for which you can run:
 
-    # /etc/init.d/xinetd start
+    #passwd
+    
+Then start the ssh service with:
 
+    #dropbear
+    
+and e.g. copy a new image over to the /tmp directory with:
+
+    scp image_sysupgrade.bin root@172.30.42.1:/tmp
+    
+and then e.g. login to the router to reflash the router with:
+
+    sysupgrade -v /tmp/image_sysupgrade.bin
+    
 If the router does start up in failsafe mode, you can open it up and attach a
 serial cable to the motherboard during boot to further debug.
