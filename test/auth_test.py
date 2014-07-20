@@ -59,11 +59,6 @@ class TestAuth(unittest.TestCase):
     self.assertTrue(self.auth.is_password("Passw0rd"))
     self.assertFalse(self.auth.is_password("badpass"))
 
-  def test_password(self):
-    self.auth.save_password("Passw0rd")
-    self.assertTrue(os.path.isfile(os.path.join(self.path, "password")))
-    self.assertTrue(self.auth.is_password("Passw0rd"))
-
   def test_write(self):
     filename = os.path.join(self.path, "foo")
     self.auth.write(filename, "bar")
