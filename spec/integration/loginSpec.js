@@ -1,10 +1,11 @@
 describe("Login Module", function() {
-  var password, loginForm, redirect, passwordError, genericError;
+  var password, showPassword, loginForm, redirect, passwordError, genericError;
 
   beforeEach(function() {
-    affix('form input#password+input#passwordError+div#genericError');
+    affix('form input#password[type="password"]+input#showPassword+input#passwordError+div#genericError');
     loginForm = $('form');
     password = $('#password');
+    showPassword = $('#showPassword');
     passwordError = $("#passwordError");
     genericError = $("#genericError");
     helperModule.redirectTo = function(url) { redirect = url; }
@@ -48,5 +49,17 @@ describe("Login Module", function() {
     password.val('badpass');
     loginForm.submit();
     expect(genericError.text()).toEqual("Server Error: Bad password");
+  });
+
+  it("should allow showing the password", function() {
+    showPassword.prop('checked', true).change();
+    expect(password.attr('type')).toEqual("text");
+  });
+
+  it("should allow hiding the password", function() {
+    showPassword.prop('checked', true).change();
+    expect(password.attr('type')).toEqual("text");
+    showPassword.prop('checked', false).change();
+    expect(password.attr('type')).toEqual("password");
   });
 });
