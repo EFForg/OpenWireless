@@ -86,6 +86,24 @@ git submodule init / git submodule update. The build config used for
 OpenWireless is in OWrt/config-OWrt, and should be copied to cerowrt/.config to
 build.
 
+# Networking Setup
+
+We have assumed a specific networking setup in designing the software. This 
+networking setup is described in NetworkingSetup.png and the open wireless
+router should work in this standard setup. However users may be interested in 
+alternate setups (e.g No Modem-Router interfacing to ISP, instead there is a pure 
+modem and no DHCP server to allocate address to WAN port of the OpenWireless 
+router. There are several other variations possible). Since we have not designed 
+the router firmware to support such alternate setups, user effort will be 
+required to get the OpenWireless router to work for them. Typically this will 
+involve gaining root access to the router through SSH and then changing the files
+controlling network configuration to align with the setup that is desired. If
+you have gotten an alternate setup to work, we encourage you to share the
+details with other users. Even better if you can make pull requests that we 
+can include in the firmware to make things easier for future users of 
+non-standard setups.
+
+
 # Contributing and getting help
 
 We welcome contributors! Our mailing list is tech@openwireless.org. Sign up
