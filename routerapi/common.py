@@ -20,14 +20,14 @@ import traceback
 # So we have to specifically insert the override path at the beginning of
 # sys.path.
 if 'OVERRIDE_ETC' in os.environ:
-  sys.path.insert(0, os.environ['OVERRIDE_PATH'])
+    sys.path.insert(0, os.environ['OVERRIDE_PATH'])
 
 import run
 
 # The web server can pass an environment variable to change where this script
 # treats as /etc. This is useful for integration testing without a router.
 def get_etc():
-  return os.environ.get('OVERRIDE_ETC', '/etc')
+    return os.environ.get('OVERRIDE_ETC', '/etc')
 
 def reset_wifi():
     run.check_output(["/usr/bin/sudo", "/sbin/wifi", "reload"])

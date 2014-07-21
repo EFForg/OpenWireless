@@ -7,14 +7,14 @@ import auth
 import common
 
 if subprocess.call(["python", "/lib/update/update.py"]) == 0:
-  ret = "update-success" # Should never reach this line of code
+    ret = "update-success" # Should never reach this line of code
 else:
-  ret = "update-failure"
+    ret = "update-failure"
 
 result = {
-  "result": {
-    "status": ret
-  }
+    "result": {
+        "status": ret
+    }
 }
 
 common.render_success(result)

@@ -7,14 +7,14 @@ import auth
 import common
 
 if subprocess.call(["python", "/lib/update/update.py", "check"]) == 0:
-  ret = "not-up-to-date"
+    ret = "not-up-to-date"
 else:
-  ret = "up-to-date"
+    ret = "up-to-date"
 
 result = {
-  "result": {
-    "status": ret
-  }
+    "result": {
+        "status": ret
+    }
 }
 
 common.render_success(result)

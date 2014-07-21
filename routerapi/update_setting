@@ -9,136 +9,136 @@ import uci
 environ = os.environ
 params = {}
 band_5_channel_options = ['auto',
-  '36 (5.180 GHz)', '40 (5.200 GHz)', '44 (5.220 GHz)', '48 (5.240 GHz)',
-  '149 (5.745 GHz)', '153 (5.765 GHz)', '159 (5.785 GHz)', '161 (5.805 GHz)',
-  '165 (5.825 GHz)']
+    '36 (5.180 GHz)', '40 (5.200 GHz)', '44 (5.220 GHz)', '48 (5.240 GHz)',
+    '149 (5.745 GHz)', '153 (5.765 GHz)', '159 (5.785 GHz)', '161 (5.805 GHz)',
+    '165 (5.825 GHz)']
 band_2p4_channel_options = ['auto',
-  '1 (2.412 GHz)', '2 (2.417 GHz)', '3 (2.422 GHz)', '4 (2.427 GHz)',
-  '5 (2.432 GHz)', '6 (2.437 GHz)', '7 (2.442 GHz)', '8 (2.447 GHz)',
-  '9 (2.452 GHz)', '10 (2.457 GHz)', '11 (2.462 GHz)', '12 (2.467 GHz)']
+    '1 (2.412 GHz)', '2 (2.417 GHz)', '3 (2.422 GHz)', '4 (2.427 GHz)',
+    '5 (2.432 GHz)', '6 (2.437 GHz)', '7 (2.442 GHz)', '8 (2.447 GHz)',
+    '9 (2.452 GHz)', '10 (2.457 GHz)', '11 (2.462 GHz)', '12 (2.467 GHz)']
 
 def check_device(config_name):
-  return uci.get("wireless." + config_name + ".device")
+    return uci.get("wireless." + config_name + ".device")
 
 def check_param(device, param):
-  return uci.get("wireless." + device + "." + param)
+    return uci.get("wireless." + device + "." + param)
 
 def validate_channel(device, channel):
-  if device == 'radio1':
-    return channel in band_5_channel_options
-  else:
-    return channel in band_2p4_channel_options
+    if device == 'radio1':
+        return channel in band_5_channel_options
+    else:
+        return channel in band_2p4_channel_options
 
 def validate_bandwidth(new_bandwidth):
-  return new_bandwidth in ['20', '40']
+    return new_bandwidth in ['20', '40']
 
 def set_param(device, param, value):
-  uci.set("wireless." + device + "." + param, value)
-  uci.commit("wireless")
+    uci.set("wireless." + device + "." + param, value)
+    uci.commit("wireless")
 
 def set_error(param):
-  params['error'] = 'Invalid ' + param
+    params['error'] = 'Invalid ' + param
 
 def check_band(band_name, interface_name):
-  if params.get(band_name):
-      if params.get(band_name) in ["2.4", "5"]:
-        current_band = check_device(interface_name)
+    if params.get(band_name):
+            if params.get(band_name) in ["2.4", "5"]:
+                current_band = check_device(interface_name)
 
-        if current_band == "radio0":
-          new_band = "radio1"
+                if current_band == "radio0":
+                    new_band = "radio1"
 
-        else:
-          new_band = "radio0"
-          
-        if new_band != check_param(interface_name, "device"):
-          set_param(interface_name, "device", new_band)
-          common.reset_wifi()
+                else:
+                    new_band = "radio0"
 
-      else:
-        set_error('band')
+                if new_band != check_param(interface_name, "device"):
+                    set_param(interface_name, "device", new_band)
+                    common.reset_wifi()
+
+            else:
+                set_error('band')
 
 def check_channel(channel_name, interface_name):
-  if params.get(channel_name):
-    current_device = check_device(interface_name)
-    new_channel = params.get(channel_name)
-    if validate_channel(current_device, new_channel):
-      if new_channel.split(' ')[0] != check_param(current_device, 'channel'):
-        set_param(current_device, 'channel', new_channel.split(' ')[0])
-        common.reset_wifi()
+    if params.get(channel_name):
+        current_device = check_device(interface_name)
+        new_channel = params.get(channel_name)
+        if validate_channel(current_device, new_channel):
+            if new_channel.split(' ')[0] != check_param(current_device, 'channel'):
+                set_param(current_device, 'channel', new_channel.split(' ')[0])
+                common.reset_wifi()
 
-    else:
-      set_error('channel')
+        else:
+            set_error('channel')
 
 def check_channel_bandwidth(channel_name, interface_name):
-  if params.get(channel_name):
-    current_device = check_device(interface_name)
-    new_bandwidth = params.get(channel_name)
-    if validate_bandwidth(new_bandwidth):
-      if check_param(current_device, 'htmode') != "HT" + new_bandwidth:
-        set_param(current_device, 'htmode', "HT" + new_bandwidth)
-        common.reset_wifi()
-    else:
-      set_error('channel bandwidth')
+    if params.get(channel_name):
+        current_device = check_device(interface_name)
+        new_bandwidth = params.get(channel_name)
+        if validate_bandwidth(new_bandwidth):
+            if check_param(current_device, 'htmode') != "HT" + new_bandwidth:
+                set_param(current_device, 'htmode', "HT" + new_bandwidth)
+                common.reset_wifi()
+        else:
+            set_error('channel bandwidth')
 
 def set_openwireless_use_limit(option):
-    openwireless_interface = "sqm.gw00." + option
-    openwireless_percent = uci.get("openwireless.maxbandwidthpercentage")
-    total_bandwidth = float(uci.get("sqm.ge00." + option))
-    openwireless_bandwidth = total_bandwidth * float(openwireless_percent)/100
-    uci.set(openwireless_interface, str(int(openwireless_bandwidth)))
-    uci.commit("sqm")
+        openwireless_interface = "sqm.gw00." + option
+        openwireless_percent = uci.get("openwireless.maxbandwidthpercentage")
+        total_bandwidth = float(uci.get("sqm.ge00." + option))
+        openwireless_bandwidth = total_bandwidth * float(openwireless_percent)/100
+        uci.set(openwireless_interface, str(int(openwireless_bandwidth)))
+        uci.commit("sqm")
 
 def check_openwireless_bandwidth_percentage():
-  if (params.get("openwirelessBandwidth")):
-    new_percentage = params.get("openwirelessBandwidth")
+    if (params.get("openwirelessBandwidth")):
+        new_percentage = params.get("openwirelessBandwidth")
 
-    uci.set("openwireless.maxbandwidthpercentage", new_percentage)
-    uci.commit("openwireless")
+        uci.set("openwireless.maxbandwidthpercentage", new_percentage)
+        uci.commit("openwireless")
 
-    set_openwireless_use_limit("download")
-    set_openwireless_use_limit("upload")
+        set_openwireless_use_limit("download")
+        set_openwireless_use_limit("upload")
 
 def check_isp_upload_speed():
-  if (params.get("ispUploadSpeed")):
-    new_speed = int(params.get("ispUploadSpeed"))
-    new_speed_kbs = str(new_speed * 1000)
-    uci.set("sqm.ge00.upload", new_speed_kbs)
-    uci.commit("sqm")
-    set_openwireless_use_limit("upload")
-   
+    if (params.get("ispUploadSpeed")):
+        new_speed = int(params.get("ispUploadSpeed"))
+        new_speed_kbs = str(new_speed * 1000)
+        uci.set("sqm.ge00.upload", new_speed_kbs)
+        uci.commit("sqm")
+        set_openwireless_use_limit("upload")
+
 def check_isp_download_speed():
-  if (params.get("ispDownloadSpeed")):
-    new_speed = int(params.get("ispDownloadSpeed"))
-    new_speed_kbs = str(new_speed * 1000)
-    uci.set("sqm.ge00.download", new_speed_kbs)
-    uci.commit("sqm")
-    set_openwireless_use_limit("download")
-  
+    if (params.get("ispDownloadSpeed")):
+        new_speed = int(params.get("ispDownloadSpeed"))
+        new_speed_kbs = str(new_speed * 1000)
+        uci.set("sqm.ge00.download", new_speed_kbs)
+        uci.commit("sqm")
+        set_openwireless_use_limit("download")
+
 def check_openwireless_monthly_data():
-    if (params.get("openwirelessData")):
-      new_bandwidth = params.get("openwirelessData")
-      uci.set("openwireless.maxmonthlybandwidth", new_bandwidth)
-      uci.commit("openwireless")
+        if (params.get("openwirelessData")):
+            new_bandwidth = params.get("openwirelessData")
+            uci.set("openwireless.maxmonthlybandwidth", new_bandwidth)
+            uci.commit("openwireless")
 
 
 
 if environ.get('REQUEST_METHOD').lower() == 'post':
-    params = json.loads(sys.stdin.read())
+        params = json.loads(sys.stdin.read())
 
-    check_band('routerBand', "@wifi-iface[2]")
-    check_channel('routerChannel', "@wifi-iface[2]")
-    check_channel_bandwidth('routerChannelBandwidth', "@wifi-iface[0]")
+        check_band('routerBand', "@wifi-iface[2]")
+        check_channel('routerChannel', "@wifi-iface[2]")
+        check_channel_bandwidth('routerChannelBandwidth', "@wifi-iface[0]")
 
-    check_band('openwirelessBand', "@wifi-iface[1]")
-    check_channel('openwirelessChannel', "@wifi-iface[1]")
-    check_channel_bandwidth('openwirelessChannelBandwidth', "@wifi-iface[1]")
+        check_band('openwirelessBand', "@wifi-iface[1]")
+        check_channel('openwirelessChannel', "@wifi-iface[1]")
+        check_channel_bandwidth('openwirelessChannelBandwidth', "@wifi-iface[1]")
 
-    check_isp_upload_speed()
-    check_isp_download_speed()
+        check_isp_upload_speed()
+        check_isp_download_speed()
 
-    check_openwireless_bandwidth_percentage()
-    check_openwireless_monthly_data()
+        check_openwireless_bandwidth_percentage()
+        check_openwireless_monthly_data()
 else:
-  set_error('GET request')
+    set_error('GET request')
 
 common.render_success(params)

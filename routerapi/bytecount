@@ -24,25 +24,25 @@ internetDownloadUsage += privateWifiDownloadUsage
 
 
 result = {
-  "internet": {
-    "uploadUsage"   : internetUploadUsage,
-    "downloadUsage" : internetDownloadUsage
-  },
-  "lanNetwork": {
-    "uploadUsage"   : lanNetworkUploadUsage,
-    "downloadUsage" : lanNetworkDownloadUsage,
-    "devices"       : lanNetworkDevices
-  },
-  "privateWifi": {
-    "uploadUsage"   : privateWifiUploadUsage,
-    "downloadUsage" : privateWifiDownloadUsage,
-    "devices"       : privateWifiDevices
-  },
-  "openWireless": {
-    "uploadUsage"   : openWirelessUploadUsage,
-    "downloadUsage" : openWirelessDownloadUsage
-  },
-  "dateTime" : datetime.datetime.now().isoformat()
+    "internet": {
+        "uploadUsage"     : internetUploadUsage,
+        "downloadUsage" : internetDownloadUsage
+    },
+    "lanNetwork": {
+        "uploadUsage"     : lanNetworkUploadUsage,
+        "downloadUsage" : lanNetworkDownloadUsage,
+        "devices"             : lanNetworkDevices
+    },
+    "privateWifi": {
+        "uploadUsage"     : privateWifiUploadUsage,
+        "downloadUsage" : privateWifiDownloadUsage,
+        "devices"             : privateWifiDevices
+    },
+    "openWireless": {
+        "uploadUsage"     : openWirelessUploadUsage,
+        "downloadUsage" : openWirelessDownloadUsage
+    },
+    "dateTime" : datetime.datetime.now().isoformat()
 }
 
 common.render_success(result)
