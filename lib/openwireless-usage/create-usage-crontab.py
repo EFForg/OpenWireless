@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2.7
 """ Install a crontab that checks if the router has been reset and updates openwireless usage """
 
 import os

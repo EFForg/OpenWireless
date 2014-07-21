@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2.7
 """
 Install a crontab that:
   - stores accumulated bandwidth usage at a certain minute each hour,
