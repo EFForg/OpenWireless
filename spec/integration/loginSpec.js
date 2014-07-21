@@ -1,11 +1,10 @@
 describe("Login Module", function() {
-  var password, loginForm, ssid, redirect, passwordError, genericError;
+  var password, loginForm, redirect, passwordError, genericError;
 
   beforeEach(function() {
-    affix('form input#password+input#ssid+input#passwordError+div#genericError');
+    affix('form input#password+input#passwordError+div#genericError');
     loginForm = $('form');
     password = $('#password');
-    ssid     = $('#ssid');
     passwordError = $("#passwordError");
     genericError = $("#genericError");
     helperModule.redirectTo = function(url) { redirect = url; }
