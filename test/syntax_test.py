@@ -18,7 +18,8 @@ class TestCompiles(unittest.TestCase):
     for filename in os.listdir(routerapi):
       # Exclude dotfiles (e.g. Vim swap files) and *c (e.g. .pyc, or
       # fooc for script foo.
-      if not filename.startswith('.') and not filename.endswith('c'):
+      if not filename.startswith('.') and not filename.endswith('c') \
+              and not os.path.isdir(os.path.join(routerapi, filename)):
         with open(os.path.join(routerapi, filename), 'r') as f:
           contents = f.read()
           compile(contents, filename, 'exec')
