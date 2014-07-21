@@ -102,7 +102,7 @@ Content-Type: application/json
     self.assertFalse(os.path.exists(self.authorized_keys))
     self.assertError('Multiline key not allowed.')
 
-  def test_set_ssh_key_multiline(self):
+  def test_set_ssh_key_invalid(self):
     with self.assertRaises(SystemExit):
       ssh_key.jsonrpc_set_ssh_key({
         'params': [ INVALID_KEY ]
