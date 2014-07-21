@@ -31,7 +31,7 @@ def jsonrpc_set_private_ssid():
     sys.exit(0)
   else:
     sys.stdout.close()
-    time.sleep(1)
+    time.sleep(2)
     # TODO: There should be some shared setup_state code to handle this.
     setup_state = os.path.join(common.get_etc(), 'openwireless-setup-state')
     with open(setup_state, 'w') as f:
