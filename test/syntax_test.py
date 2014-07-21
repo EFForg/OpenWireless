@@ -24,6 +24,8 @@ class TestCompiles(unittest.TestCase):
           compile(contents, filename, 'exec')
           self.assertFalse('\t' in contents,
             msg = 'Tab found in %s, use spaces instead.' % filename)
+          self.assertFalse('\n  ' in contents,
+                msg = 'Indent of 2 spaces in %s, use multiple of 4 instead.' % filename)
 
   def test_notabs_js(self):
     for filename in os.listdir(js):
