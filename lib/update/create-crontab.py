@@ -24,8 +24,8 @@ if not os.path.isfile(os.path.join(CRONTABS, 'root')):
     # for updates a maximum of once per day. We check at 1200 UTC, which is 5am
     # EDT / 2am PDT.
     crontab = ("""
-%d * * * * python /www/cgi-bin/routerapi/accumulate_bytes
-%d 12 * * * python /lib/update/update.py
+%d * * * * /usr/bin/env python2.7 /www/cgi-bin/routerapi/accumulate_bytes
+%d 12 * * * /usr/bin/env python2.7 /lib/update/update.py
 """) % (minute, minute + 1)
     subprocess.Popen(['/usr/bin/crontab', '-'],
       stdin = subprocess.PIPE).communicate(crontab)

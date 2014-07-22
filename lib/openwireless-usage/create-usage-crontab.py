@@ -11,6 +11,6 @@ try:
 except OSError:
     pass
 if not os.path.isfile(os.path.join(CRONTABS, 'root')):
-    cronline = '* 1 * * * python /www/cgi-bin/routerapi/accumulate_bytes\n'
+    cronline = '* 1 * * * /usr/bin/env python2.7 /www/cgi-bin/routerapi/accumulate_bytes\n'
     subprocess.Popen(['/usr/bin/crontab', '-'],
       stdin = subprocess.PIPE).communicate(cronline)

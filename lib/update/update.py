@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
 import re, pycurl, json, StringIO, tempfile, hashlib, subprocess, sys, os
 import systemwide_lock
