@@ -6,10 +6,16 @@ import subprocess
 import auth
 import common
 
-if subprocess.call(["python", "/lib/update/update.py", "check"]) == 0:
-  ret = "not-up-to-date"
-else:
-  ret = "up-to-date"
+nullfile = open("/dev/null","w")
+ret = "error-calling-update"
+
+try:
+  if subprocess.call(["python", "/lib/update/update.py", "check"], stdout=nullfile) == 0:
+    ret = "not-up-to-date"
+  else:
+    ret = "up-to-date"
+finally:
+  nullfile.close()
 
 result = {
   "result": {
