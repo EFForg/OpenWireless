@@ -12,9 +12,6 @@ echo "change DISTRIB_RELEASE_DATE in openwrt_release ..."
 echo "push etc to build"
 cp -rp etc cerowrt/files/
 
-echo "set permissions for /etc/auth"
-chmod 0700 cerowrt/files/etc/auth
-
 echo "push lib to build"
 cp -rp lib cerowrt/files/
 
