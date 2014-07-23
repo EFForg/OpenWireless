@@ -24,8 +24,12 @@
   #./scripts/feeds install gnupg
   #./scripts/feeds install tor 
 
+
+
   #customize the file system
+  cd ..
   ./sendToBuild
+  cd cerowrt 
 
   echo "building cerowrt"
   make
