@@ -1,0 +1,10 @@
+Testing tasks before releasing a new firmware:
+
+1. ./run-tests.sh
+2. Install on router, run through setup process (set password, set SSID)
+3. Log out of web UI, visit https://gw.home.lan/dashboard.html. Verify redirects
+     to login page.
+4. Log in again, verify goes to dashboard and dashboard shows reasonable numbers
+     and refreshes periodically.
+5. Install SSH key, log in via SSH.
+6. Access the openwireless.org network, load a web site.

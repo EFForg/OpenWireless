@@ -94,6 +94,10 @@ The admin UI password is stored using 55 rounds of pbkdf2, implemented by the
 pure python pbkdf2 module. This is about 100ms of CPU time on a Netgear
 WNDR3800, or 8ms on a Core2 Duo at 1200 MHz.
 
+  Entropy
+
+  SSL Certificates
+
   Updates
 
 TBD
