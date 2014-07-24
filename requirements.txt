@@ -1,2 +1,3 @@
 mock
 pbkdf2
+selenium
