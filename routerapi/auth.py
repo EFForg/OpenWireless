@@ -241,9 +241,9 @@ class Auth:
         Specifically, delete and invalidate the auth token and CSRF token.
         """
         self.regenerate_authentication_token()
-        return ('Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n'
-                        'Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n'
-                        'Set-Cookie: %s=; expires=Thu, 01 Jan 1970 00:00:00 GMT\n' % (
+        return ('Set-Cookie: %s=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT\n'
+                        'Set-Cookie: %s=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT\n'
+                        'Set-Cookie: %s=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT\n' % (
                         self.LOGGED_IN_COOKIE_NAME, self.AUTH_COOKIE_NAME,
                         self.CSRF_COOKIE_NAME))
 
