@@ -94,6 +94,71 @@ The admin UI password is stored using 55 rounds of pbkdf2, implemented by the
 pure python pbkdf2 module. This is about 100ms of CPU time on a Netgear
 WNDR3800, or 8ms on a Core2 Duo at 1200 MHz.
 
+  Entropy
+
+Embedded devices like routers have notoriously bad entropy collection, since
+they don't have input devices like keyboards and mice. In theory the router can
+collect entropy from the network, and the Linux kernel supports this, but it may
+be disabled in our builds.
+
+We depend on good entropy to:
+  1) Generate the SSH host key.
+  2) Generate the self-signed SSL certificate.
+  3) Generate a suggested passphrase for the private network.
+  4) Choose session keys when negotiating SSL to the client and to the Tor
+     network for update checks.
+
+Items (1) and (2) happen during first boot, when even network entropy is not
+available. We should probably delay these until the last reasonable moment, e.g.
+when the user visits the welcome screen. We should also ensure that the OS
+actually does gather entropy from networks. In particular, it should be possible
+to gather entropy from neighboring WiFi networks without associating to them. We
+should also store the state of the kernel random number generator across reboots.
+
+We may want to allow the admin's browser to submit some secure random bytes from
+the Web Crypto API during setup. Since these would only get mixed into the
+random pool and not supplant it, there should not be a risk of
+attacker-controlled input.
+
+  SSL Certificates
+
+We use SSL to the admin UI by default, in order to prevent eavesdropping of
+passwords or cookies. However, because gw.home.lan is not a publicly routeable
+address, we are obliged to generate and use a self-signed certificate. There are
+some disadvantages: By presenting a certificate that triggers a browser warning,
+we may be training users to ignore warnings more frequently. Also, since the
+certificate is self-signed, an attacker could generate a different self-signed
+certificate and use it to MITM the admin. This attack would be detected by
+Firefox, which remembers the public key of self-signed certificates once they
+have been accepted once. It would probably not be detected by Chrome, which only
+remembers public keys for self-signed certificates for the duration of a browser
+session. Even under Firefox, the admin would likely click through a self-signed
+certificate warning a second time, since they would have been told to expect it.
+
+One alternative: We can pick a public DNS name that we control, e.g.
+router.openwireless.org, and get a valid CA-signed certificate for that name. We
+would then distribute that certificate and private key as part of the firmware.
+This would prevent a certificate warning but would mean that all OpenWireless
+routers use the same private key for their SSL certificate, making a silent MITM
+possible. This also means that if I am on a hostile network, an attacker can
+redirect a background HTTP request to https://router.openwireless.org, MITM that
+address, and collect the authentication cookies for my router.
+
+Another alternative: All routers can be assigned a random name under some
+domain, e.g. foo-bar.openwireless.org, and can request a valid CA-signed
+certificate for that name.
+
+For now we are sticking with the self-signed certificate approach. Since the
+router web server only negotiates forward-secret suites, passive eavesdropping
+is ruled out. But since the relevant threat model specifies that the attacker is
+on the local network already, it should be easy for them to ARP spoof in order
+to MITM the administrator.
+
   Updates
 
-TBD
+A script runs periodically to fetch update metadata via Tor, including the
+expected hash of the data. The metadata is signed by an offline GPG key, and the
+router will verify that signature before proceding.
+
+The actual updated firmware is then fetched over the public Internet. Its hash
+is verified and then it is installed.
