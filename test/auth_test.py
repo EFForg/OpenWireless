@@ -108,9 +108,9 @@ class TestAuth(unittest.TestCase):
             self.assertRaises(SystemExit, auth.check_request, self.path)
             self.assertEqual("""Status: 403 Forbidden
 Content-Type: application/json
-Set-Cookie: logged_in=; expires=Thu, 01 Jan 1970 00:00:00 GMT
-Set-Cookie: auth=; expires=Thu, 01 Jan 1970 00:00:00 GMT
-Set-Cookie: csrf_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT
+Set-Cookie: logged_in=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT
+Set-Cookie: auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT
+Set-Cookie: csrf_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT
 
 {"error": "Not authenticated."}
 """,
@@ -152,14 +152,14 @@ Content-Type: application/json
         # Should not exit
         self.assertTrue(auth.check_request(self.path))
 
-    def test_login_headers(self):
-        self.assertEqual("""Set-Cookie: logged_in=; expires=Thu, 01 Jan 1970 00:00:00 GMT
-Set-Cookie: auth=; expires=Thu, 01 Jan 1970 00:00:00 GMT
-Set-Cookie: csrf_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT
+    def test_logout_headers(self):
+        self.assertEqual("""Set-Cookie: logged_in=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT
+Set-Cookie: auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT
+Set-Cookie: csrf_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT
 """,
                 self.auth.logout_headers())
 
-    def test_logout_headers(self):
+    def test_login_headers(self):
         os.environ['HTTPS'] = 'true'
         headers_1 = self.auth.login_headers()
         pattern = re.compile(
