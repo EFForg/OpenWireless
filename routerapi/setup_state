@@ -16,9 +16,9 @@ the current state:
 
 import os
 
+import uci
 import common
 
-SETUP_STATE_PATH = os.path.join(common.get_etc(), 'openwireless-setup-state')
 VALID_SETUP_STATES = [
          'set-password',
          'setup-private-net',
@@ -26,18 +26,14 @@ VALID_SETUP_STATES = [
          'complete'
 ]
 
-DEFAULT_RESPONSE = {'state': 'set-password'}
 def get_setup_state():
-    if os.path.isfile(SETUP_STATE_PATH):
-        with open(SETUP_STATE_PATH, 'r') as f:
-            state = f.read().strip()
-        if state in VALID_SETUP_STATES:
-            common.render_success({'state': state})
-        elif state == '':
-            common.render_success(DEFAULT_RESPONSE)
-        else:
-            common.render_error('Invalid setup state')
+    state = uci.get('openwireless.setup_state')
+    if not state:
+      state = 'set-password'
+
+    if state in VALID_SETUP_STATES:
+        common.render_success({'state': state})
     else:
-        common.render_success(DEFAULT_RESPONSE)
+        common.render_error('Invalid setup state')
 
 get_setup_state()
