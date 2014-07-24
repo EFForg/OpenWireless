@@ -103,21 +103,24 @@ details with other users. Even better if you can make pull requests that we
 can include in the firmware to make things easier for future users of 
 non-standard setups.
 
-
-# Contributions and technology discussions
-
-We welcome contributors! Our mailing list is ow-tech@eff.org. Sign up
-at https://lists.eff.org/mailman/listinfo/ow-tech . Or drop into #openwireless 
-on irc.oftc.net to ask questions or discuss the project.
-
-We accept pull requests and issues at https://github.com/EFForg/OpenWireless .
-
 # Getting help
 
 If you are deploying an open wireless AP or are a user trying to connect
 to open wirless APs or have general use related questions, please check out 
 the user mailing list archives at https://openwireless.org/mailman/listinfo/user
 and if needed send mail there to get help.
+
+# Contributions 
+
+We welcome contributors! We accept pull requests and issues at https://github.com/EFForg/OpenWireless. 
+Or drop into #openwireless on irc.oftc.net to ask questions or discuss the project.
+
+
+# Technology discussions
+
+For substantive technology discussions our mailing list is ow-tech@eff.org. 
+You can review the archives and sign up at  https://lists.eff.org/mailman/listinfo/ow-tech. 
+
 
 # Coding Style
 
