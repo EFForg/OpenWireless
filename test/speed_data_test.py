@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2.7
 
 import unittest, datetime, sys, os
 sys.path.insert(0, os.path.join(
