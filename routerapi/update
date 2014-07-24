@@ -6,10 +6,16 @@ import subprocess
 import auth
 import common
 
-if subprocess.call(["python", "/lib/update/update.py"]) == 0:
-  ret = "update-success" # Should never reach this line of code
-else:
-  ret = "update-failure"
+nullfile = open("/dev/null","w")
+ret = "error-calling-update"
+
+try:
+  if subprocess.call(["python", "/lib/update/update.py"], stdout=nullfile) == 0:
+    ret = "update-success" # Should never reach this line of code
+  else:
+    ret = "update-failure"
+finally:
+  nullfile.close()
 
 result = {
   "result": {
