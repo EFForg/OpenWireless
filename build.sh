@@ -34,8 +34,10 @@
   echo "building cerowrt"
   make
 
+  cd ..
+  
   mkdir -p releases
-  mv cerowrt/bin/ar71xx/openwrt-ar71xx-generic-wndr3800-squashfs-sysupgrade.bin $IMAGE
+  cp cerowrt/bin/ar71xx/openwrt-ar71xx-generic-wndr3800-squashfs-sysupgrade.bin $IMAGE
   
   if ! [ -f $IMAGE ]; then
     echo "ERROR: For some reason $IMAGE failed to generate!"
