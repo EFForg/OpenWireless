@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2.7
 import cgi
 import datetime
 import json
@@ -10,56 +10,56 @@ import ssh_key
 import uci
 
 def openwrt_release():
-  """Returns a tuple of (software_version, release date)"""
-  items = {}
-  try:
-    with open(os.path.join(common.get_etc(), 'openwrt_release')) as f:
-      for line in f:
-        key, val = line.split('=')
-        # Strip trailing newline, and any wrapping quotes.
-        items[key] = val.strip('"\n')
-  except IOError:
-     pass
-  return (items.get('DISTRIB_DESCRIPTION', 'Unknown'),
-          items.get('DISTRIB_RELEASE_DATE', 0))
+    """Returns a tuple of (software_version, release date)"""
+    items = {}
+    try:
+        with open(os.path.join(common.get_etc(), 'openwrt_release')) as f:
+            for line in f:
+                key, val = line.split('=')
+                # Strip trailing newline, and any wrapping quotes.
+                items[key] = val.strip('"\n')
+    except IOError:
+         pass
+    return (items.get('DISTRIB_DESCRIPTION', 'Unknown'),
+                    items.get('DISTRIB_RELEASE_DATE', 0))
 
 software_version, software_update_date = openwrt_release()
 
 channels = { 'auto': 'auto', '1': '1 (2.412 GHz)', '2': '2 (2.417 GHz)', '3': '3 (2.422 GHz)', '4': '4 (2.427 GHz)',
-      '5': '5 (2.432 GHz)', '6': '6 (2.437 GHz)', '7': '7 (2.442 GHz)', '8': '8 (2.447 GHz)',
-      '9': '9 (2.452 GHz)', '10': '10 (2.457 GHz)', '11': '11 (2.462 GHz)', '12': '12 (2.467 GHz)',
-      '36': '36 (5.180 GHz)', '40': '40 (5.200 GHz)', '44': '44 (5.220 GHz)', '48': '48 (5.240 GHz)',
-      '149': '149 (5.745 GHz)', '153': '153 (5.765 GHz)', '159': '159 (5.785 GHz)', '161': '161 (5.805 GHz)',
-      '165': '165 (5.825 GHz)' }
+            '5': '5 (2.432 GHz)', '6': '6 (2.437 GHz)', '7': '7 (2.442 GHz)', '8': '8 (2.447 GHz)',
+            '9': '9 (2.452 GHz)', '10': '10 (2.457 GHz)', '11': '11 (2.462 GHz)', '12': '12 (2.467 GHz)',
+            '36': '36 (5.180 GHz)', '40': '40 (5.200 GHz)', '44': '44 (5.220 GHz)', '48': '48 (5.240 GHz)',
+            '149': '149 (5.745 GHz)', '153': '153 (5.765 GHz)', '159': '159 (5.785 GHz)', '161': '161 (5.805 GHz)',
+            '165': '165 (5.825 GHz)' }
 
 def check_device(config_name):
-  return uci.get("wireless." + config_name + ".device")
+    return uci.get("wireless." + config_name + ".device")
 
 def check_param(device, param):
-  return uci.get("wireless." + device + "." + param)
+    return uci.get("wireless." + device + "." + param)
 
 def get_attributes(interface, config_name):
-  interface["ssid"] = uci.get("wireless." + config_name + ".ssid")
-  interface["device"] = check_device(config_name)
-  if not interface["device"]:
-    return
-  if interface["device"] == "radio0":
-    interface["band"] = "2.4"
+    interface["ssid"] = uci.get("wireless." + config_name + ".ssid")
+    interface["device"] = check_device(config_name)
+    if not interface["device"]:
+        return
+    if interface["device"] == "radio0":
+        interface["band"] = "2.4"
 
-  else:
-    interface["band"] = "5"
+    else:
+        interface["band"] = "5"
 
-  channel_short_hand = check_param(interface["device"], "channel")
-  interface["channel"] = channels[channel_short_hand]
+    channel_short_hand = check_param(interface["device"], "channel")
+    interface["channel"] = channels[channel_short_hand]
 
-  if check_param(interface["device"], "htmode") == "HT20":
-    interface["channel_bandwidth"] = "20"
+    if check_param(interface["device"], "htmode") == "HT20":
+        interface["channel_bandwidth"] = "20"
 
-  elif check_param(interface["device"], "htmode") == "HT40":
-    interface["channel_bandwidth"] = "40"
+    elif check_param(interface["device"], "htmode") == "HT40":
+        interface["channel_bandwidth"] = "40"
 
-  else:
-    interface["channel_bandwidth"] = "none"
+    else:
+        interface["channel_bandwidth"] = "none"
 
 private = {}
 open_wireless = {}
@@ -74,28 +74,28 @@ isp_download_speed = int(float(uci.get("sqm.ge00.download"))/1000)
 isp_upload_speed = int(float(uci.get("sqm.ge00.upload"))/1000)
 
 result = {
-  "result": {
-    "softwareVersion"               : software_version,
-    "ispDownloadSpeed"              : isp_download_speed,
-    "ispUploadSpeed"                : isp_upload_speed,
-    "softwareVersionUpdateDate"     : datetime.datetime.fromtimestamp(int(software_update_date)).strftime('%Y-%m-%d   %H:%M:%S') + " UTC",
-    "routerSsid"                    : private.get("ssid"),
-    "routerBand"                    : private.get("band"),
-    "routerChannel"                 : private.get("channel"),
-    "routerCustomChannel"           : "??",
-    "routerChannelBandwidth"        : private.get("channel_bandwidth"),
-    "routerVpnConfiguration"        : "None",
-    "openwirelessBandwidth"         : openwireless_bandwidth_percentage,
-    "openwirelessData"              : openwireless_monthly_data,
-    "openwirelessBand"              : open_wireless.get("band"),
-    "openwirelessChannel"           : open_wireless.get("channel"),
-    "openwirelessCustomChannel"     : "??",
-    "openwirelessChannelBandwidth"  : open_wireless.get("channel_bandwidth"),
-    "openwirelessVpnConfiguration"  : "None",
-    "openwirelessProtocol"          : "HTTPS",
-    "openwirelessEncryption"        : "Unencrypted",
-    "sshKey"                        : ssh_key.ssh_key_info()
-  }
+    "result": {
+        "softwareVersion"                             : software_version,
+        "ispDownloadSpeed"                            : isp_download_speed,
+        "ispUploadSpeed"                                : isp_upload_speed,
+        "softwareVersionUpdateDate"         : datetime.datetime.fromtimestamp(int(software_update_date)).strftime('%Y-%m-%d     %H:%M:%S') + " UTC",
+        "routerSsid"                                        : private.get("ssid"),
+        "routerBand"                                        : private.get("band"),
+        "routerChannel"                                 : private.get("channel"),
+        "routerCustomChannel"                     : "??",
+        "routerChannelBandwidth"                : private.get("channel_bandwidth"),
+        "routerVpnConfiguration"                : "None",
+        "openwirelessBandwidth"                 : openwireless_bandwidth_percentage,
+        "openwirelessData"                            : openwireless_monthly_data,
+        "openwirelessBand"                            : open_wireless.get("band"),
+        "openwirelessChannel"                     : open_wireless.get("channel"),
+        "openwirelessCustomChannel"         : "??",
+        "openwirelessChannelBandwidth"    : open_wireless.get("channel_bandwidth"),
+        "openwirelessVpnConfiguration"    : "None",
+        "openwirelessProtocol"                    : "HTTPS",
+        "openwirelessEncryption"                : "Unencrypted",
+        "sshKey"                                                : ssh_key.ssh_key_info()
+    }
 }
 
 common.render_success(result)

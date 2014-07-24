@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2.7
 import cgi
 import json
 import subprocess
@@ -10,17 +10,17 @@ nullfile = open("/dev/null","w")
 ret = "error-calling-update"
 
 try:
-  if subprocess.call(["python", "/lib/update/update.py"], stdout=nullfile) == 0:
-    ret = "update-success" # Should never reach this line of code
-  else:
-    ret = "update-failure"
+    if subprocess.call(["python", "/lib/update/update.py"], stdout=nullfile) == 0:
+      ret = "update-success" # Should never reach this line of code
+    else:
+      ret = "update-failure"
 finally:
-  nullfile.close()
+    nullfile.close()
 
 result = {
-  "result": {
-    "status": ret
-  }
+    "result": {
+        "status": ret
+    }
 }
 
 common.render_success(result)
