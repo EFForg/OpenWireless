@@ -20,5 +20,5 @@ if ! ./make-templates.sh --is-updated ; then
   echo "Error: templates.js out-of-date. Run ./make-templates.sh"
   exit 1
 fi
-python -m unittest discover -s test/ -p '*_test.py'
+/usr/bin/env python2.7 -m unittest discover -s test/ -p '*_test.py'
 npm test
