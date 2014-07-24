@@ -153,7 +153,7 @@ class Auth:
     if self.rate_limit_remaining() > 0:
       with open(self.password_filename, 'r') as f:
         hashed = f.read().strip()
-      if constant_time_equals(hashed, pbkdf2.crypt(candidate, unicode(hashed))):
+      if hashed == pbkdf2.crypt(candidate, unicode(hashed)):
         return True
       else:
         # Increment rate limit on failures.
