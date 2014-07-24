@@ -10,17 +10,17 @@ nullfile = open("/dev/null","w")
 ret = "error-calling-update"
 
 try:
-  if subprocess.call(["python", "/lib/update/update.py", "check"], stdout=nullfile) == 0:
-    ret = "not-up-to-date"
-  else:
-    ret = "up-to-date"
+    if subprocess.call(["python", "/lib/update/update.py", "check"], stdout=nullfile) == 0:
+      ret = "not-up-to-date"
+    else:
+      ret = "up-to-date"
 finally:
-  nullfile.close()
+    nullfile.close()
 
 result = {
-  "result": {
-    "status": ret
-  }
+    "result": {
+        "status": ret
+    }
 }
 
 common.render_success(result)

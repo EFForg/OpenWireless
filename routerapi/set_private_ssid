@@ -9,34 +9,34 @@ import common
 import uci
 
 def jsonrpc_set_private_ssid():
-  data = json.loads(sys.stdin.read())
-  try:
-    (name, passphrase) = data['params']
-  except KeyError, e:
-    common.render_error(e.__str__())
-  except ValueError, e:
-    common.render_error(e.__str__())
+    data = json.loads(sys.stdin.read())
+    try:
+        (name, passphrase) = data['params']
+    except KeyError, e:
+        common.render_error(e.__str__())
+    except ValueError, e:
+        common.render_error(e.__str__())
 
-  # TODO: filter input
-  uci.set('wireless.@wifi-iface[2].ssid', name)
-  uci.set('wireless.@wifi-iface[2].key', passphrase)
-  uci.set('wireless.@wifi-iface[2].encryption', 'psk2+ccmp')
-  uci.set('wireless.@wifi-iface[2].disabled', '0')
-  uci.commit('wireless')
-  # We render the response but don't exit, because we still need to run
-  # `wifi reload', and if we run that before rendering, the response might not
-  # reach the client.
-  if os.fork() != 0:
-    common.render_success_no_exit({'ssid': name})
-    sys.exit(0)
-  else:
-    sys.stdout.close()
-    time.sleep(2)
-    # TODO: There should be some shared setup_state code to handle this.
-    setup_state = os.path.join(common.get_etc(), 'openwireless-setup-state')
-    with open(setup_state, 'w') as f:
-      f.write('complete')
-    common.reset_wifi()
-    sys.exit(0)
+    # TODO: filter input
+    uci.set('wireless.@wifi-iface[2].ssid', name)
+    uci.set('wireless.@wifi-iface[2].key', passphrase)
+    uci.set('wireless.@wifi-iface[2].encryption', 'psk2+ccmp')
+    uci.set('wireless.@wifi-iface[2].disabled', '0')
+    uci.commit('wireless')
+    # We render the response but don't exit, because we still need to run
+    # `wifi reload', and if we run that before rendering, the response might not
+    # reach the client.
+    if os.fork() != 0:
+        common.render_success_no_exit({'ssid': name})
+        sys.exit(0)
+    else:
+        sys.stdout.close()
+        time.sleep(2)
+        # TODO: There should be some shared setup_state code to handle this.
+        setup_state = os.path.join(common.get_etc(), 'openwireless-setup-state')
+        with open(setup_state, 'w') as f:
+            f.write('complete')
+        common.reset_wifi()
+        sys.exit(0)
 
 jsonrpc_set_private_ssid()

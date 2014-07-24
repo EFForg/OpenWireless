@@ -44,8 +44,8 @@ def get_dashboard():
         use_in_bytes = float(use_since_last_reset) + float(use_before_last_reset) - float(use_before_last_ui_reset)
         use_in_mbs = use_in_bytes/1000000.0
         return(str(int(use_in_mbs)))
-    
-    openwireless_use = get_openwireless_use() 
+
+    openwireless_use = get_openwireless_use()
 
     result = {
         "id": 1,

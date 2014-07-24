@@ -25,76 +25,76 @@ AUTHORIZED_KEYS = os.path.join(common.get_etc(), 'dropbear/authorized_keys')
 KEY_REGEX = r'^ssh-[rd]sa [A-Za-z0-9+/=]{204,760}( .{1,100})?$'
 
 def key_locked(authorized_keys = AUTHORIZED_KEYS):
-  """
-  Return whether a key is locked in place - i.e. a key is stored and
-  user has logged in once via SSH.
-  """
-  return (os.path.exists(authorized_keys) and
-     uci.get('openwireless.ssh_success') == 'true')
+    """
+    Return whether a key is locked in place - i.e. a key is stored and
+    user has logged in once via SSH.
+    """
+    return (os.path.exists(authorized_keys) and
+         uci.get('openwireless.ssh_success') == 'true')
 
 def jsonrpc_set_ssh_key(data, authorized_keys = AUTHORIZED_KEYS):
-  try:
-    key = data['params'][0].strip()
-  except KeyError, e:
-    common.render_error(e.__str__())
-  except ValueError, e:
-    common.render_error(e.__str__())
+    try:
+        key = data['params'][0].strip()
+    except KeyError, e:
+        common.render_error(e.__str__())
+    except ValueError, e:
+        common.render_error(e.__str__())
 
-  if key_locked():
-    common.render_error('SSH key already stored and used. Cannot modify.')
-  if 'PRIVATE KEY' in key:
-    common.render_error('That looks like a private key. Try ~/.ssh/id_rsa.pub')
-  if '\n' in key:
-    common.render_error('Multiline key not allowed.')
-  # Minimum key length for 1024-bit key is 204 base64 characters. We limit
-  # comment to 100 chars just for reasonableness.
-  match = re.match(KEY_REGEX, key)
-  if not match:
-    common.render_error(
-      'SSH key did not match expected format "ssh-rsa <BASE64_KEY> COMMENT".')
-  with open(authorized_keys, 'w') as f:
-    f.write(key)
-  comment = validate_key(key)
-  common.render_success({
-    'comment': comment
-  })
+    if key_locked():
+        common.render_error('SSH key already stored and used. Cannot modify.')
+    if 'PRIVATE KEY' in key:
+        common.render_error('That looks like a private key. Try ~/.ssh/id_rsa.pub')
+    if '\n' in key:
+        common.render_error('Multiline key not allowed.')
+    # Minimum key length for 1024-bit key is 204 base64 characters. We limit
+    # comment to 100 chars just for reasonableness.
+    match = re.match(KEY_REGEX, key)
+    if not match:
+        common.render_error(
+            'SSH key did not match expected format "ssh-rsa <BASE64_KEY> COMMENT".')
+    with open(authorized_keys, 'w') as f:
+        f.write(key)
+    comment = validate_key(key)
+    common.render_success({
+        'comment': comment
+    })
 
 def validate_key(key):
-  match = re.match(KEY_REGEX, key)
-  if not match:
-    common.render_error(
-      'SSH key did not match expected format "ssh-rsa <BASE64_KEY> COMMENT".')
-  comment = 'no-name'
-  if match and match.group(1):
-    return match.group(1).strip()
-  else:
-    return 'no-name'
+    match = re.match(KEY_REGEX, key)
+    if not match:
+        common.render_error(
+            'SSH key did not match expected format "ssh-rsa <BASE64_KEY> COMMENT".')
+    comment = 'no-name'
+    if match and match.group(1):
+        return match.group(1).strip()
+    else:
+        return 'no-name'
 
 def ssh_key_info(authorized_keys = AUTHORIZED_KEYS):
-  if not os.path.exists(authorized_keys):
+    if not os.path.exists(authorized_keys):
+        return {
+            'exists': False
+        }
+    with open(authorized_keys) as f:
+        # There may be multiple keys if the user has manually edited them using an
+        # SSH session. Only display the first in the web UI.
+        key = f.read().split('\n')[0]
+    comment = validate_key(key)
     return {
-      'exists': False
+        'exists': True,
+        'locked': key_locked(),
+        'comment': comment,
+        'contents': key
     }
-  with open(authorized_keys) as f:
-    # There may be multiple keys if the user has manually edited them using an
-    # SSH session. Only display the first in the web UI.
-    key = f.read().split('\n')[0]
-  comment = validate_key(key)
-  return {
-    'exists': True,
-    'locked': key_locked(),
-    'comment': comment,
-    'contents': key
-  }
 
 def jsonrpc_ssh_key():
-  data = json.loads(sys.stdin.read())
-  try:
-    if data['method'] == 'set_ssh_key':
-      jsonrpc_set_ssh_key(data)
-  except KeyError, e:
-    pass
-  common.render_error('No method available')
+    data = json.loads(sys.stdin.read())
+    try:
+        if data['method'] == 'set_ssh_key':
+            jsonrpc_set_ssh_key(data)
+    except KeyError, e:
+        pass
+    common.render_error('No method available')
 
 if __name__ == '__main__':
-  jsonrpc_ssh_key()
+    jsonrpc_ssh_key()
