@@ -7,25 +7,25 @@ import auth
 import common
 
 def jsonrpc_login():
-  """Accept a JSONRPC-style login, with parameters like so:
+    """Accept a JSONRPC-style login, with parameters like so:
 
-  {"jsonrpc":"2.0","method":"login","params":["username","password"],"id":1}
-  """
-  data = json.loads(sys.stdin.read())
-  try:
-    params = data["params"]
-    username = params[0]
-    password = params[1]
-  except KeyError, e:
-    common.render_error(e.__str__())
+    {"jsonrpc":"2.0","method":"login","params":["username","password"],"id":1}
+    """
+    data = json.loads(sys.stdin.read())
+    try:
+        params = data["params"]
+        username = params[0]
+        password = params[1]
+    except KeyError, e:
+        common.render_error(e.__str__())
 
-  a = auth.Auth()
-  if a.is_password(password):
-    print "Content-Type: application/json"
-    print a.login_headers()
-    print
-    print "{}"
-  else:
-   common.render_error("Bad password.")
+    a = auth.Auth()
+    if a.is_password(password):
+        print "Content-Type: application/json"
+        print a.login_headers()
+        print
+        print "{}"
+    else:
+     common.render_error("Bad password.")
 
 jsonrpc_login()
