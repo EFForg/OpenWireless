@@ -27,8 +27,7 @@ def jsonrpc_set_private_ssid():
     # `wifi reload', and if we run that before rendering, the response might not
     # reach the client.
     if os.fork() != 0:
-        common.render_success_no_exit({'ssid': name})
-        sys.exit(0)
+        common.render_success({'ssid': name})
     else:
         sys.stdout.close()
         time.sleep(2)
@@ -39,4 +38,5 @@ def jsonrpc_set_private_ssid():
         common.reset_wifi()
         sys.exit(0)
 
-jsonrpc_set_private_ssid()
+if __name__ == '__main__':
+    jsonrpc_set_private_ssid()
