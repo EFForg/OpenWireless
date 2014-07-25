@@ -1,10 +1,11 @@
 #!/bin/bash -e
 cd $(dirname $0)
 
-echo "remove etc and www directories in build ..."
-rm -rf cerowrt/files/etc
-rm -rf cerowrt/files/www
-rm -rf cerowrt/files/lib
+echo "remove cerowrt/files directory in build ..."
+rm -rf cerowrt/files
+
+echo "create cerowrt/files directory in build"
+mkdir -p cerowrt/files
 
 echo "change DISTRIB_RELEASE_DATE in openwrt_release ..."
 ./changeReleaseDate
