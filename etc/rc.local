@@ -1,9 +1,11 @@
 #!/bin/sh
 
+chown -R www-data:www-data /etc/auth
 chmod 0700 /etc/auth
 
-touch /etc/openwireless-setup-state
-chmod o+rx /etc/dropbear
+SSH_KEY_SCRIPT=/www/cgi-bin/routerapi/ssh_key
+chown root:root $SSH_KEY_SCRIPT
+chmod u+s $SSH_KEY_SCRIPT
 
 tor
 python /lib/update/create-crontab.py
