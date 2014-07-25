@@ -81,10 +81,24 @@ a loosely JSONRPC-esque protocol. The frontend is under app/, and the backend is
 under routerapi/. We use Handlebars (similar to Mustache) for templating on the
 client side.
 
-The CeroWRT code can be found in a submodule. To check out the CeroWRT code, run
-git submodule init / git submodule update. The build config used for
-OpenWireless is in OWrt/config-OWrt, and should be copied to cerowrt/.config to
-build.
+The CeroWRT code can be found in the submodule cerowrt. The build config used for
+OpenWireless is in OWrt/config-OWrt.
+
+#Building the image
+
+Building has been tested only on linux. Please refer to the OpenWRT build requirements
+
+http://wiki.openwrt.org/doc/howto/build#prerequisites
+
+and make sure your linux system has the prerequisites. Then for a first time build 
+from the top level run: 
+
+    # ./build.sh
+    
+A first time build may take several hours depending on your system. The resulting 
+image is in ./releases directory. After the first build, for succeding builds run: 
+
+    # ./rebuild.sh 
 
 # Networking Setup
 
