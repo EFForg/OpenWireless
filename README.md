@@ -6,12 +6,12 @@ OpenWireless router firmware, which is based off of Cerowrt and OpenWRT.
 More details about the OpenWireless project can be found at
 https://openwireless.org/.
 
-# HOPE
+# Quick Look
 
-Special for the weekend of the HOPE Conference, July 18-20, we have set up
+If you'd just like to take a quick look at the web UI, we have set up
 several instances of the web UI to be publicly accessible. Please try out one of
 these instances and report to us any vulnerabilities you find. Feel free to set
-and admin password: These instances will reset at the top of each hour.
+an admin password: These instances will reset at the top of each hour.
 
 [0](http://ow.crud.net:8000)
 [1](http://ow.crud.net:8001)
@@ -33,12 +33,6 @@ and admin password: These instances will reset at the top of each hour.
 [17](http://ow.crud.net:8017)
 [18](http://ow.crud.net:8018)
 [19](http://ow.crud.net:8019)
-
-Also, if you are at the Hotel Pennsylvania, we will occasionally have the
-routers running. If you see the networks "openwireless.org" or "Hack Open
-Wireless", you have our permission to connect to them and try to break in. Let
-us know what you find! The WPA2 passphrase for "Hack Open Wireless" is "Happy
-ownage, pentest enthusiasts".
 
 # Getting Started
 
@@ -158,7 +152,7 @@ apply](wiki.villagetelco.org/OpenWrt_Failsafe_Mode_and_Flash_Recovery). However,
 the Open Wireless firmware uses 172.30.42.1 by default, so make sure to modify
 the instructions to contact that address instead of 192.168.1.1.
 
-To enter failsafe mode, reboot the router and press one of the front buttons
+To enter failsafe mode, reboot the router and press the leftmost of the front buttons
 repeatedly. The power LED will be solid, then slow blinking, then fast blinking.
 Once it's fast blinking, the router is in failsafe mode. Plug in an ethernet
 cable and run, on your host machine:
@@ -178,11 +172,11 @@ by starting dropbear.
     
 You will need to set a password for the root account for which you can run:
 
-    #passwd
+    # passwd
     
 Then start the ssh service with:
 
-    #dropbear
+    # dropbear
     
 and e.g. copy a new image over to the /tmp directory with:
 
