@@ -6,12 +6,12 @@ OpenWireless router firmware, which is based off of Cerowrt and OpenWRT.
 More details about the OpenWireless project can be found at
 https://openwireless.org/.
 
-# HOPE
+# Quick Look
 
-Special for the weekend of the HOPE Conference, July 18-20, we have set up
+If you'd just like to take a quick look at the web UI, we have set up
 several instances of the web UI to be publicly accessible. Please try out one of
 these instances and report to us any vulnerabilities you find. Feel free to set
-and admin password: These instances will reset at the top of each hour.
+an admin password: These instances will reset at the top of each hour.
 
 [0](http://ow.crud.net:8000)
 [1](http://ow.crud.net:8001)
@@ -33,12 +33,6 @@ and admin password: These instances will reset at the top of each hour.
 [17](http://ow.crud.net:8017)
 [18](http://ow.crud.net:8018)
 [19](http://ow.crud.net:8019)
-
-Also, if you are at the Hotel Pennsylvania, we will occasionally have the
-routers running. If you see the networks "openwireless.org" or "Hack Open
-Wireless", you have our permission to connect to them and try to break in. Let
-us know what you find! The WPA2 passphrase for "Hack Open Wireless" is "Happy
-ownage, pentest enthusiasts".
 
 # Getting Started
 
@@ -81,10 +75,24 @@ a loosely JSONRPC-esque protocol. The frontend is under app/, and the backend is
 under routerapi/. We use Handlebars (similar to Mustache) for templating on the
 client side.
 
-The CeroWRT code can be found in a submodule. To check out the CeroWRT code, run
-git submodule init / git submodule update. The build config used for
-OpenWireless is in OWrt/config-OWrt, and should be copied to cerowrt/.config to
-build.
+The CeroWRT code can be found in the submodule cerowrt. The build config used for
+OpenWireless is in OWrt/config-OWrt.
+
+#Building the image
+
+Building has been tested only on linux. Please refer to the OpenWRT build requirements
+
+http://wiki.openwrt.org/doc/howto/build#prerequisites
+
+and make sure your linux system has the prerequisites. Then for a first time build 
+from the top level run: 
+
+    # ./build.sh
+    
+A first time build may take several hours depending on your system. The resulting 
+image is in ./releases directory. After the first build, for succeding builds run: 
+
+    # ./rebuild.sh 
 
 # Networking Setup
 
@@ -103,15 +111,24 @@ details with other users. Even better if you can make pull requests that we
 can include in the firmware to make things easier for future users of 
 non-standard setups.
 
+# Getting help
 
-# Contributing and getting help
+If you are deploying an open wireless AP or are a user trying to connect
+to open wirless APs or have general use related questions, please check out 
+the user mailing list archives at https://openwireless.org/mailman/listinfo/user
+and if needed send mail there to get help.
 
-We welcome contributors! Our mailing list is tech@openwireless.org. Sign up
-at https://openwireless.org/mailman/listinfo/tech. Or drop into #openwireless
-on irc.oftc.net to ask questions or discuss the project.
+# Contributions 
 
-We accept pull requests and issues on https://github.com/EFForg/OpenWireless or
-patches by mail to tech@openwireless.org
+We welcome contributors! We accept pull requests and issues at https://github.com/EFForg/OpenWireless. 
+Or drop into #openwireless on irc.oftc.net to ask questions or discuss the project.
+
+
+# Technology discussions
+
+For substantive technology discussions our mailing list is ow-tech@eff.org. 
+You can review the archives and sign up at  https://lists.eff.org/mailman/listinfo/ow-tech. 
+
 
 # Coding Style
 
@@ -135,7 +152,7 @@ apply](wiki.villagetelco.org/OpenWrt_Failsafe_Mode_and_Flash_Recovery). However,
 the Open Wireless firmware uses 172.30.42.1 by default, so make sure to modify
 the instructions to contact that address instead of 192.168.1.1.
 
-To enter failsafe mode, reboot the router and press one of the front buttons
+To enter failsafe mode, reboot the router and press the leftmost of the front buttons
 repeatedly. The power LED will be solid, then slow blinking, then fast blinking.
 Once it's fast blinking, the router is in failsafe mode. Plug in an ethernet
 cable and run, on your host machine:
@@ -155,11 +172,11 @@ by starting dropbear.
     
 You will need to set a password for the root account for which you can run:
 
-    #passwd
+    # passwd
     
 Then start the ssh service with:
 
-    #dropbear
+    # dropbear
     
 and e.g. copy a new image over to the /tmp directory with:
 
