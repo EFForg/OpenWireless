@@ -54,15 +54,17 @@ iptables -I INPUT -s172.30.42.128/27 -j DROP
 iptables -I OUTPUT -d172.30.42.128/27 -j DROP
 
 SERVER_IP="172.30.42.129"
-# Allow DHCP offers from the router to reach public network clients.
-# http://www.itgeared.com/articles/1111-dhcp-process-negotiating-lease/
-iptables -I OUTPUT -p udp --sport 67 -s $SERVER_IP -d172.30.42.128/27 -j ACCEPT
 
 # Allow public network clients to reach the DNS server on the router.
 iptables -I INPUT -p udp -s 0/0 --sport 1024:65535 -d $SERVER_IP --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -I OUTPUT -p udp -s $SERVER_IP --sport 53 -d 0/0 --dport 1024:65535 -m state --state ESTABLISHED -j ACCEPT
 iptables -I INPUT -p udp -s 0/0 --sport 53 -d $SERVER_IP --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -I OUTPUT -p udp -s $SERVER_IP --sport 53 -d 0/0 --dport 53 -m state --state ESTABLISHED -j ACCEPT
+
+#rules to accept DHCP traffic from guests
+iptables -I INPUT  -p udp -i gw+ --sport 67:68 --dport 67:68 -j ACCEPT
+iptables -I OUTPUT -p udp  --sport 67:68 --dport 67:68 -j ACCEPT
+
 
 iptables -I FORWARD -j ACCOUNT --addr 172.30.42.128/27 --tname open-wifi
 iptables -I FORWARD -s172.30.42.128/27 -d172.30.42.0/24 -j DROP
