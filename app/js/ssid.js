@@ -17,17 +17,20 @@ var ssidModule = (function() {
     form = $('form');
     ssid = $('#ssid');
     ssidPassphrase = $('#ssidPassphrase');
+    ssidError = $('#ssidError');
+    ssidPassphraseError = $('#ssidPassphraseError');
+    genericError = $('#genericError');
+    submit = $('#submit');
+    $(submit).prop('disabled', false);
+ };
+ 
+ var generatePassword = function(){
     if (window.crypto && window.crypto.getRandomValues) {
         dw = new Diceware();
         dw.load(function() { 
           ssidPassphrase.val(dw.getWords(5).join(' '));
         });
     }
-    ssidError = $('#ssidError');
-    ssidPassphraseError = $('#ssidPassphraseError');
-    genericError = $('#genericError');
-    submit = $('#submit');
-    $(submit).prop('disabled', false);
  };
  
   var initializeForm = function(){
