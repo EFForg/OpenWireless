@@ -4,6 +4,11 @@
 
 function Diceware() {
   this.wordlist = [];
+  if (typeof Math.log2 === 'undefined') {
+    Math.log2 = function(N) {
+        return Math.log(N)/Math.log(2) 
+    };
+  }
 }
 
 Diceware.prototype.load = function(callback) {
