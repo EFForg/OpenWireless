@@ -6,6 +6,7 @@ var ssidModule = (function() {
   var ssidPassphraseError;
   var genericError;
   var submit;
+  var dw;
 
   var init = function() {
     initializeFields();
@@ -22,7 +23,16 @@ var ssidModule = (function() {
     submit = $('#submit');
     $(submit).prop('disabled', false);
  };
-
+ 
+ var generatePassword = function(){
+    if (window.crypto && window.crypto.getRandomValues) {
+        dw = new Diceware();
+        dw.load(function() { 
+          ssidPassphrase.val(dw.getWords(5).join(' '));
+        });
+    }
+ };
+ 
   var initializeForm = function(){
     form.submit(function(event){
       $("input[type=submit]").addClass("submitting");
