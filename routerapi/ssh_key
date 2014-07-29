@@ -97,6 +97,11 @@ def jsonrpc_ssh_key():
     common.render_error('No method available')
 
 if __name__ == '__main__':
+    # We are initially called from CGI by www-data. After extracting the key
+    # from input, we call ourselves with again with sudo to gain root
+    # privileges. Note that we can't just grant suid (chmod u+s) on this binary,
+    # because the OS will ignore suid bits on #! executables since it would be
+    # insecure to observe them.
     if len(sys.argv) > 1:
         set_ssh_key(sys.argv[1])
     else:
