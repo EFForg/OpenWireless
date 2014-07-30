@@ -21,4 +21,10 @@ if ! ./make-templates.sh --is-updated ; then
   exit 1
 fi
 /usr/bin/env python2.7 -m unittest discover -s test/ -p '*_test.py'
-npm test
+if which nodejs ; then
+  NODEJS=nodejs
+else
+  NODEJS=node
+fi
+
+$NODEJS -e "require('grunt').tasks(['test']);"
