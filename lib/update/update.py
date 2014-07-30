@@ -7,6 +7,7 @@ openwrt_release_file = "/etc/openwrt_release"
 keyring = "/etc/update_key.gpg"
 update_url = "https://s.eff.org/files/openwireless/update.json.asc"
 sysupgrade_command = ["/usr/bin/sudo", "sysupgrade", "-v", "-n"]
+update_check_file = "/etc/last_update_check"
 
 def failed(why):
     sys.stderr.write("Failed %s\n" % why)
@@ -157,6 +158,10 @@ if __name__ == '__main__':
             # In this case, the update script is being run merely to check
             # and inform the user whether an update is available, not to
             # install it.
+            with open(update_check_file, "w") as f:
+                # Store the current time (in Javascript format) in the
+                # file that tracks when we last checked for updates.
+                f.write(repr(time.time()*1000))
             systemwide_lock.release_lock()
             if u.is_newer():
                 print "An update is available."

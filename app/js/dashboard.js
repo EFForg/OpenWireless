@@ -32,9 +32,9 @@ var dashboardModule = (function(){
     $('#wan-ip').text(wanIp);
   }
 
-  var displayDate = function(){
+  var displayDate = function(lastCheckDate){
     var m_names = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-    var d = new Date();
+    var d = new Date(lastCheckDate);
     var curr_date = d.getDate();
     var curr_month = d.getMonth();
     var curr_year = d.getFullYear();
@@ -61,7 +61,7 @@ var dashboardModule = (function(){
         displayInterface(interfaces.privateWifi);
         displayInterface(interfaces.openWireless);
         displayIpAddresses(interfaces.lanIp, interfaces.wanIp);
-        displayDate();
+        displayDate(interfaces.lastCheckDate);
         enableToggles();
         return;
       }
