@@ -30,7 +30,7 @@ def jsonrpc_set_private_ssid():
         common.render_success({'ssid': name})
     else:
         sys.stdout.close()
-        time.sleep(2)
+        time.sleep(20)
         # Indicate that setup is complete and the user should be sent straight
         # to the dashboard in the future.
         uci.set('openwireless.setup_state', 'complete')
