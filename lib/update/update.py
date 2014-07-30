@@ -161,7 +161,7 @@ if __name__ == '__main__':
             with open(update_check_file, "w") as f:
                 # Store the current time (in Javascript format) in the
                 # file that tracks when we last checked for updates.
-                f.write(str(time.time()*1000))
+                f.write(repr(time.time()*1000))
             systemwide_lock.release_lock()
             if u.is_newer():
                 print "An update is available."
