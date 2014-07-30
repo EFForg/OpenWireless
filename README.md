@@ -54,7 +54,7 @@ Sync the web UI to your router:
 
     ./run-tests.sh
 
-Continuous build at https://snap-ci.com/EFForg/OpenWireless/branch/master
+Continuous build at https://travis-ci.org/EFForg/OpenWireless
 
 # UX Starter Kit
 
@@ -78,7 +78,7 @@ client side.
 The CeroWRT code can be found in the submodule cerowrt. The build config used for
 OpenWireless is in OWrt/config-OWrt.
 
-#Building the image
+# Building the image
 
 Building has been tested only on linux. Please refer to the OpenWRT build requirements
 
