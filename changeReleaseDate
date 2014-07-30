@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 
-import datetime
+import time
 
-newEpochTime = int(datetime.datetime.now().strftime('%s')) - int(datetime.datetime(1970,1,1).strftime('%s'))
+newEpochTime = int(time.time())
 
 items = {}
 with open("etc/openwrt_release") as f:
@@ -16,4 +16,6 @@ items['DISTRIB_RELEASE_DATE'] = '\"' + str(newEpochTime) + '\"\n'
 with open("etc/openwrt_release",'w') as f:
   for key in items:
     f.write(key + '=' + items[key])
-f.close()
+
+with open("etc/last_update_check", "w") as f:
+  f.write(str(newEpochTime * 1000))
