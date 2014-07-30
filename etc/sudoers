@@ -1,4 +1,4 @@
 root ALL=(ALL) ALL
 # www-data is allowed to run as root certain commands it needs in
 # order to configure the router.
-www-data ALL=(root)NOPASSWD:/sbin/wifi,/usr/sbin/iptaccount,/sbin/uci,/bin/ping,/sbin/reboot
+www-data ALL=(root)NOPASSWD:/sbin/wifi,/usr/sbin/iptaccount,/sbin/uci,/bin/ping,/sbin/reboot,/www/cgi-bin/routerapi/ssh_key
