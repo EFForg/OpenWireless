@@ -34,11 +34,14 @@ var dashboardModule = (function(){
 
   var displayDate = function(lastCheckDate){
     var m_names = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-    var d = new Date(lastCheckDate);
+    var d = new Date(parseFloat(lastCheckDate));
     var curr_date = d.getDate();
     var curr_month = d.getMonth();
     var curr_year = d.getFullYear();
-    $('#date').text(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+    var curr_hour = d.getHours();
+    var curr_minutes = d.getMinutes();
+
+    $('#date').text(curr_date + "-" + m_names[curr_month] + "-" + curr_year + "  " + curr_hour + ":" + curr_minutes);
   };
 
   var displayInterface = function(interface) {

@@ -2,6 +2,7 @@
 
 import re, pycurl, json, StringIO, tempfile, hashlib, subprocess, sys, os
 import systemwide_lock
+import time
 
 openwrt_release_file = "/etc/openwrt_release"
 keyring = "/etc/update_key.gpg"
@@ -184,6 +185,7 @@ if __name__ == '__main__':
         else:
             print "No update was needed."
     except Exception, e:
+        print e
         failed("to update for an undetermined reason.")
     finally:
         systemwide_lock.release_lock()
