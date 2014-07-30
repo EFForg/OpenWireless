@@ -1,0 +1,38 @@
+#!/usr/bin/env python2.7
+import json
+import os
+import sys
+
+import auth
+import common
+
+def jsonrpc_set_timezone():
+    """Accept a JSONRPC-style set timezone, with parameters like so:
+
+    {"jsonrpc":"2.0","method":"use.settz","params":["timezonestring"],"id":1}
+
+    On successful login, set two cookies: The auth cookie, used for primary
+    authentication, is HttpOnly so JS cannot access it in case of an XSS. The
+    CSRF token, used to validate that POSTs come from the same origin, is
+    accessible to JS so it can be included in <form>'s.
+    """
+    a = auth.Auth()
+    data = json.loads(sys.stdin.read())
+    try:
+        params = data["params"]
+        tz_string = params[0]
+    except KeyError, e:
+        common.render_error(e.__str__())
+    except IndexError, e:
+        common.render_error(e.__str__())
+
+    with open("/etc/TZ", "w") as tz_file:
+        tz_file.write(tz_string)
+        print "Content-Type: application/json"
+        print a.login_headers()
+        print
+        print "{}"
+
+        
+
+jsonrpc_set_timezone()

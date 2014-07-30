@@ -53,13 +53,34 @@ var changePassword = (function() {
     };
 
     var successCallback = function(response) {
-      // Only redirect the user to change their SSID if the one they
-      // entered was the default.
-      if (firstTime) {
-        helperModule.redirectTo("setSSID.html");
-      } else {
-        helperModule.redirectTo("settings.html");
+      /************************************
+       * Set the timezone on the router to the 
+       * browsers local timezone
+       * **********************************/
+      //TODO: Get the real POSIX timezone string or get Olson timezone
+      var getTzString = function(){
+        var d = new Date();
+        var tzo = d.getTimezoneOffset() / 60
+        var tzstr = "EFF" + tzo + "local\n"
+        return tzstr;
       }
+      var setTzRequest = { "jsonrpc": "2.0", "method": "user.settz", "params": [getTzString()], "id": 1 };
+      var request = {
+        'data': setTzRequest,
+        'url': setTzUrl,
+        'successCallback': function(){
+          // Only redirect the user to change their SSID if the one they
+          // entered was the default.
+          if (firstTime) {
+            helperModule.redirectTo("setSSID.html");
+          } else {
+            helperModule.redirectTo("settings.html");
+          }
+        },
+      };
+      requestModule.submitRequest(request);
+
+
     };
 
     var request = {
@@ -68,21 +89,6 @@ var changePassword = (function() {
       'successCallback': successCallback,
     };
 
-    requestModule.submitRequest(request);
-
-    //TODO: Get the real POSIX timezone string or get Olson timezone
-    var getTzString = function(){
-      var d = new Date();
-      var tzo = d.getTimezoneOffset / 60
-      var tzstr = "EFF" + tzo + "local"
-      return tzstr;
-    }
-    var setTZRequest = { "jsonrpc": "2.0", "method": "user.settz", "params": [getTzString()], "id": 1 };
-    var request = {
-      'data': setTzRequest,
-      'url': setTzUrl,
-      'successCallback': function(){},
-    };
     requestModule.submitRequest(request);
 
   });
