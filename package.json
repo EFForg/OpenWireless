@@ -7,7 +7,7 @@
   "version": "0.0.0",
   "description": "",
   "scripts": {
-    "test": "js -e \"require('grunt').tasks(['test']);\""
+    "test": "nodejs -e \"require('grunt').tasks(['test']);\""
   },
   "author": "Kevin Wilson",
   "devDependencies": {
