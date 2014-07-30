@@ -90,7 +90,6 @@ var changePassword = (function() {
     };
 
     requestModule.submitRequest(request);
-
   });
 });
 
