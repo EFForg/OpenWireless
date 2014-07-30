@@ -7,6 +7,7 @@ var changePassword = (function() {
   var retypePasswordError= $("#retypePasswordError");
   var genericError =  $('#genericError');
   var changePasswordUrl = "/cgi-bin/routerapi/change_password";
+  var setTzUrl = "/cgi-bin/routerapi/set_timezone";
 
 
   var firstTime = helperModule.url().match(/[?&]first_time=true/);
@@ -68,6 +69,22 @@ var changePassword = (function() {
     };
 
     requestModule.submitRequest(request);
+
+    //TODO: Get the real POSIX timezone string or get Olson timezone
+    var getTzString = function(){
+      var d = new Date();
+      var tzo = d.getTimezoneOffset / 60
+      var tzstr = "EFF" + tzo + "local"
+      return tzstr;
+    }
+    var setTZRequest = { "jsonrpc": "2.0", "method": "user.settz", "params": [getTzString()], "id": 1 };
+    var request = {
+      'data': setTzRequest,
+      'url': setTzUrl,
+      'successCallback': function(){},
+    };
+    requestModule.submitRequest(request);
+
   });
 });
 
