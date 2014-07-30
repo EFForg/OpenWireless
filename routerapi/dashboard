@@ -47,6 +47,8 @@ def get_dashboard():
 
     openwireless_use = get_openwireless_use()
 
+    last_check_date = open("/etc/last_update_check").read()
+
     result = {
         "id": 1,
         "jsonrpc": "2.0",
@@ -93,6 +95,7 @@ def get_dashboard():
                 "monthlyBandwidthUsage": openwireless_use,
                 "on": openwireless_on
             },
+            "lastCheckDate": last_check_date,
             "wanIp": wan_ip,
             "lanIp": lan_ip
         }
