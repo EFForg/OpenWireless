@@ -1,9 +1,12 @@
 """
 Methods used by many scripts in the routerapi.
 
-All endpoints should import common. In addition to the automatic exception
-handler, they will be checked for authentication cookies and CSRF token.
-There are a handful of exceptions enumerated in auth.py.
+All endpoints should import common before any other routerapi modules.
+This way they will get:
+ - automatic exception handler
+ - checking for authentication cookies and CSRF token
+   (there are a handful of auth exceptions enumerated in auth.py)
+ - overriding of path to /etc for running locally
 """
 import sys
 import json

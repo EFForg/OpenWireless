@@ -16,8 +16,9 @@ the current state:
 
 import os
 
-import uci
 import common
+
+import uci
 
 VALID_SETUP_STATES = [
          'set-password',
