@@ -15,17 +15,13 @@ try:
 except OSError:
     pass
 # Choose a random minute so that all routers don't check for updates
-# simultaenous. Choose up to 58, so that we can safely do minute + 1.
+# simultaneously. Choose up to 58, so that we can safely do minute + 1.
 minute = int(random.uniform(0, 58))
 if not os.path.isfile(os.path.join(CRONTABS, 'root')):
-    # Temporary hack: We would like to check for updates hourly, then install
-    # them at a time convenient for the user. Right now the update metadata is
-    # triggering an update every time it is fetched, so we only want to check
-    # for updates a maximum of once per day. We check at 1200 UTC, which is 5am
-    # EDT / 2am PDT.
     crontab = ("""
 %d * * * * /usr/bin/env python2.7 /www/cgi-bin/routerapi/accumulate_bytes
-%d 12 * * * /usr/bin/env python2.7 /lib/update/update.py
-""") % (minute, minute + 1)
+%d 4 * * * /usr/bin/env python2.7 /lib/update/update.py
+%d 0,1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * * /usr/bin/env python2.7 /lib/update/update.py check
+""") % (minute, minute + 1, minute)
     subprocess.Popen(['/usr/bin/crontab', '-'],
       stdin = subprocess.PIPE).communicate(crontab)
