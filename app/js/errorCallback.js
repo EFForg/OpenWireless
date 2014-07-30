@@ -12,6 +12,7 @@ var errorCallback = function(jqXHR, textStatus, errorThrown) {
     if (jqXHR.responseJSON.error === "Not authenticated.") {
       helperModule.redirectTo('login.html?redirect_after_login=' +
         encodeURIComponent(document.location.pathname));
+      return;
     }
     errorText = 'Server Error: ' + jqXHR.responseJSON.error;
   } else {
