@@ -1,9 +1,7 @@
 #!/bin/sh
 
+chown -R www-data:www-data /etc/auth
 chmod 0700 /etc/auth
-
-touch /etc/openwireless-setup-state
-chmod o+rx /etc/dropbear
 
 tor
 python /lib/update/create-crontab.py

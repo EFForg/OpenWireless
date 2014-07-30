@@ -72,7 +72,7 @@ Content-Type: application/json
     @mock.patch('uci.get', mock.Mock(return_value = None))
     def test_set_ssh_key(self):
         with self.assertRaises(SystemExit):
-            ssh_key.jsonrpc_set_ssh_key({'params': [SMALL_KEY]},
+            ssh_key.set_ssh_key(SMALL_KEY,
                 authorized_keys = self.authorized_keys)
         self.assertEqual(SMALL_KEY, open(self.authorized_keys).read())
         self.assertFalse(ssh_key.key_locked(self.authorized_keys))
@@ -81,32 +81,29 @@ Content-Type: application/json
     @mock.patch('ssh_key.key_locked', mock.Mock(return_value = True))
     def test_set_ssh_key_already_locked(self):
         with self.assertRaises(SystemExit):
-            ssh_key.jsonrpc_set_ssh_key({'params': [SMALL_KEY]},
+            ssh_key.set_ssh_key(SMALL_KEY,
                 authorized_keys = self.authorized_keys)
         self.assertFalse(os.path.exists(self.authorized_keys))
         self.assertError('SSH key already stored and used. Cannot modify.')
 
     def test_set_ssh_key_private(self):
         with self.assertRaises(SystemExit):
-            ssh_key.jsonrpc_set_ssh_key({
-                'params': [ '-----BEGIN RSA PRIVATE KEY-----' ]
-                }, authorized_keys = self.authorized_keys)
+            ssh_key.set_ssh_key('-----BEGIN RSA PRIVATE KEY-----',
+                authorized_keys = self.authorized_keys)
         self.assertFalse(os.path.exists(self.authorized_keys))
         self.assertError('That looks like a private key. Try ~/.ssh/id_rsa.pub')
 
     def test_set_ssh_key_multiline(self):
         with self.assertRaises(SystemExit):
-            ssh_key.jsonrpc_set_ssh_key({
-                'params': [ 'multiline\nssh\nkey' ]
-                }, authorized_keys = self.authorized_keys)
+            ssh_key.set_ssh_key('multiline\nssh\nkey',
+                authorized_keys = self.authorized_keys)
         self.assertFalse(os.path.exists(self.authorized_keys))
         self.assertError('Multiline key not allowed.')
 
     def test_set_ssh_key_invalid(self):
         with self.assertRaises(SystemExit):
-            ssh_key.jsonrpc_set_ssh_key({
-                'params': [ INVALID_KEY ]
-                }, authorized_keys = self.authorized_keys)
+            ssh_key.set_ssh_key(INVALID_KEY,
+                authorized_keys = self.authorized_keys)
         self.assertFalse(os.path.exists(self.authorized_keys))
         self.assertError('SSH key did not match expected format '
             '\\"ssh-rsa <BASE64_KEY> COMMENT\\".')

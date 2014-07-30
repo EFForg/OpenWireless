@@ -32,14 +32,7 @@ def key_locked(authorized_keys = AUTHORIZED_KEYS):
     return (os.path.exists(authorized_keys) and
          uci.get('openwireless.ssh_success') == 'true')
 
-def jsonrpc_set_ssh_key(data, authorized_keys = AUTHORIZED_KEYS):
-    try:
-        key = data['params'][0].strip()
-    except KeyError, e:
-        common.render_error(e.__str__())
-    except ValueError, e:
-        common.render_error(e.__str__())
-
+def set_ssh_key(key, authorized_keys = AUTHORIZED_KEYS):
     if key_locked():
         common.render_error('SSH key already stored and used. Cannot modify.')
     if 'PRIVATE KEY' in key:
@@ -91,10 +84,25 @@ def jsonrpc_ssh_key():
     data = json.loads(sys.stdin.read())
     try:
         if data['method'] == 'set_ssh_key':
-            jsonrpc_set_ssh_key(data)
+            try:
+                key = data['params'][0].strip()
+            except KeyError, e:
+                common.render_error(e.__str__())
+            except ValueError, e:
+                common.render_error(e.__str__())
+            # Re-exec with root privileges so we can write to authorized_keys.
+            os.execl('/usr/bin/sudo', 'sudo', sys.argv[0], key)
     except KeyError, e:
         pass
     common.render_error('No method available')
 
 if __name__ == '__main__':
-    jsonrpc_ssh_key()
+    # We are initially called from CGI by www-data. After extracting the key
+    # from input, we call ourselves with again with sudo to gain root
+    # privileges. Note that we can't just grant suid (chmod u+s) on this binary,
+    # because the OS will ignore suid bits on #! executables since it would be
+    # insecure to observe them.
+    if len(sys.argv) > 1:
+        set_ssh_key(sys.argv[1])
+    else:
+        jsonrpc_ssh_key()
