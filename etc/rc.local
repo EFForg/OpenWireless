@@ -10,5 +10,8 @@ crond
 chown -R www-data:www-data /etc/TZ
 chmod 0744 /etc/TZ
 
+chown -R www-data:www-data /etc/last_update_check
+chmod 0744 /etc/last_update_check
+
 
 exit 0
