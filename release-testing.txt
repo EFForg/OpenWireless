@@ -8,3 +8,5 @@ Testing tasks before releasing a new firmware:
      and refreshes periodically.
 5. Install SSH key, log in via SSH.
 6. Access the openwireless.org network, load a web site.
+7. Access the openwireless.org network, ensure you cannot load
+   https://gw.home.lan or http://172.30.42.1/
