@@ -1,8 +1,7 @@
 var changePassword = (function() {
   var form = $('form');
   var oldPassword = $('#oldPassword');
-  var newPassword = $('#newPassword');
-  var retypePassword = $('#retypePassword');
+  var newPassword = $('#newPassword'); var retypePassword = $('#retypePassword');
   var newPasswordError= $("#newPasswordError");
   var retypePasswordError= $("#retypePasswordError");
   var genericError =  $('#genericError');
@@ -52,23 +51,33 @@ var changePassword = (function() {
       return;
     };
 
-    var successCallback = function(response) {
-      /************************************
-       * Set the timezone on the router to the 
-       * browsers local timezone
-       * **********************************/
-      //TODO: Get the real POSIX timezone string or get Olson timezone
-      var getTzString = function(){
+    /**
+     * Set the timezone on the router to the 
+     * browsers local timezone
+     * TODO: Get the real POSIX timezone string or get Olson timezone
+     *
+     * @param {Response} response - Response to JSON-RPC call
+     */
+    var setTimeZone = function(response) {
+
+
+      /**
+       * returns a POSIX compatible timezone string
+       * since we can't get the real timezone we return
+       * in the format off EFF\{offset\}local
+       */
+      var getTzString = function() {
         var d = new Date();
         var tzo = d.getTimezoneOffset() / 60
         var tzstr = "EFF" + tzo + "local\n"
         return tzstr;
-      }
-      var setTzRequest = { "jsonrpc": "2.0", "method": "user.settz", "params": [getTzString()], "id": 1 };
+      };
+
+      var setTzRequest = { "jsonrpc": "2.0", "method": "set_timezone", "params": [getTzString()], "id": 1 };
       var request = {
         'data': setTzRequest,
         'url': setTzUrl,
-        'successCallback': function(){
+        'successCallback': function() {
           // Only redirect the user to change their SSID if the one they
           // entered was the default.
           if (firstTime) {
@@ -86,7 +95,7 @@ var changePassword = (function() {
     var request = {
       'data': changePasswordRequest,
       'url': changePasswordUrl,
-      'successCallback': successCallback,
+      'successCallback': setTimeZone,
     };
 
     requestModule.submitRequest(request);

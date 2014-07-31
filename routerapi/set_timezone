@@ -3,20 +3,19 @@ import json
 import os
 import sys
 
-import auth
 import common
 
-def jsonrpc_set_timezone():
-    """Accept a JSONRPC-style set timezone, with parameters like so:
+TZ_PATH = "/etc/TZ"
 
-    {"jsonrpc":"2.0","method":"use.settz","params":["timezonestring"],"id":1}
+def jsonrpc_set_timezone(tz_path=TZ_PATH):
+    """Accept a POSIX-style set timezone, with parameters like so:
 
-    On successful login, set two cookies: The auth cookie, used for primary
-    authentication, is HttpOnly so JS cannot access it in case of an XSS. The
-    CSRF token, used to validate that POSTs come from the same origin, is
-    accessible to JS so it can be included in <form>'s.
+    {"jsonrpc":"2.0","method":"set_timezone","params":["timezonestring"],"id":1}
+
+    Set the local timezone on the router by placing the POSIX compatible timezone string
+    in the /etc/TZ file.
     """
-    a = auth.Auth()
+
     data = json.loads(sys.stdin.read())
     try:
         params = data["params"]
@@ -26,13 +25,10 @@ def jsonrpc_set_timezone():
     except IndexError, e:
         common.render_error(e.__str__())
 
-    with open("/etc/TZ", "w") as tz_file:
+    with open(tz_path, "w") as tz_file:
         tz_file.write(tz_string)
-        print "Content-Type: application/json"
-        print a.login_headers()
-        print
-        print "{}"
-
+        common.render_success({})
+        return true
         
-
-jsonrpc_set_timezone()
+if __name__ == '__main__':
+    jsonrpc_set_timezone()
