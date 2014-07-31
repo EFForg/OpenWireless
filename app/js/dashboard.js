@@ -1,3 +1,9 @@
+Number.prototype.pad = function (len) {
+    return (new Array(len+1).join("0") + this).slice(-len);
+}
+
+
+
 var dashboardModule = (function(){
   var init = function(){
     displayInterfaces();
@@ -38,10 +44,10 @@ var dashboardModule = (function(){
     var curr_date = d.getDate();
     var curr_month = d.getMonth();
     var curr_year = d.getFullYear();
-    var curr_hour = d.getHours();
-    var curr_minutes = d.getMinutes();
+    var curr_hour = d.getHours().pad(2);
+    var curr_minutes = d.getMinutes().pad(2);
 
-    $('#date').text(curr_date + "-" + m_names[curr_month] + "-" + curr_year + "  " + curr_hour + ":" + curr_minutes);
+    $('#date').text(" " + curr_date + "-" + m_names[curr_month] + "-" + curr_year + "  " + curr_hour + ":" + curr_minutes);
   };
 
   var displayInterface = function(interface) {
