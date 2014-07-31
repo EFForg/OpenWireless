@@ -3,6 +3,14 @@
 chown -R www-data:www-data /etc/auth
 chmod 0700 /etc/auth
 
+# Since lighttpd and therefore the Python routerapi runs as www-data,
+# it needs to be able to read /etc/dropbear/authorized_keys to know
+# whether SSH has been enabled. /etc/rc.d/S50dropbear sets the directory to 0700
+# but this is excessive. The host keys need to be rw-------, and they are
+# already. /etc/dropbear/authorized_keys can be world-readable since it contains
+# public keys.
+chmod 0755 /etc/dropbear
+
 tor
 python /lib/update/create-crontab.py
 crond
