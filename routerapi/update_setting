@@ -100,16 +100,16 @@ def check_openwireless_bandwidth_percentage():
 
 def check_isp_upload_speed():
     if (params.get("ispUploadSpeed")):
-        new_speed = int(params.get("ispUploadSpeed"))
-        new_speed_kbs = str(new_speed * 1000)
+        new_speed = float(params.get("ispUploadSpeed"))
+        new_speed_kbs = str(int(new_speed * 1000))
         uci.set("sqm.ge00.upload", new_speed_kbs)
         uci.commit("sqm")
         set_openwireless_use_limit("upload")
 
 def check_isp_download_speed():
     if (params.get("ispDownloadSpeed")):
-        new_speed = int(params.get("ispDownloadSpeed"))
-        new_speed_kbs = str(new_speed * 1000)
+        new_speed = float(params.get("ispDownloadSpeed"))
+        new_speed_kbs = str(int(new_speed * 1000))
         uci.set("sqm.ge00.download", new_speed_kbs)
         uci.commit("sqm")
         set_openwireless_use_limit("download")
