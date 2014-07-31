@@ -7,4 +7,8 @@ tor
 python /lib/update/create-crontab.py
 crond
 
+chown -R www-data:www-data /etc/TZ
+chmod 0744 /etc/TZ
+
+
 exit 0
