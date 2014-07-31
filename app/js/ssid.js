@@ -75,13 +75,20 @@ var ssidModule = (function() {
         "id": 1
       }
     });
+    // HACK: It's surprisingly hard to make sure we get back a response from
+    // the server before the router reboots. Set a timeout to make sure we
+    // show the 'restarting' message. We just assume that the response was
+    // successful. If not, the errorCallback will fire and we'll still see the
+    // error message.
+    setTimeout(setSSIDSuccess, 1000);
   };
 
   var setSSIDSuccess = function(response) {
+  console.log('success');
     $("input[type=submit]").removeClass("submitting");
     var template = Handlebars.templates.setSSID;
     $('.formDiv').hide();
-    $("#restarting").html(template({ssid: response.ssid}));
+    $("#restarting").html(template({ssid: ssid.val()}));
     $('#restarting').show();
   };
 
