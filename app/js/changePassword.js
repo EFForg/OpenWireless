@@ -1,7 +1,8 @@
 var changePassword = (function() {
   var form = $('form');
   var oldPassword = $('#oldPassword');
-  var newPassword = $('#newPassword'); var retypePassword = $('#retypePassword');
+  var newPassword = $('#newPassword'); 
+  var retypePassword = $('#retypePassword');
   var newPasswordError= $("#newPasswordError");
   var retypePasswordError= $("#retypePasswordError");
   var genericError =  $('#genericError');
