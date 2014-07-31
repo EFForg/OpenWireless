@@ -1,0 +1,34 @@
+#!/usr/bin/env python2.7
+import json
+import os
+import sys
+
+import common
+
+TZ_PATH = "/etc/TZ"
+
+def jsonrpc_set_timezone(tz_path=TZ_PATH):
+    """Accept a POSIX-style set timezone, with parameters like so:
+
+    {"jsonrpc":"2.0","method":"set_timezone","params":["timezonestring"],"id":1}
+
+    Set the local timezone on the router by placing the POSIX compatible timezone string
+    in the /etc/TZ file.
+    """
+
+    data = json.loads(sys.stdin.read())
+    try:
+        params = data["params"]
+        tz_string = params[0]
+    except KeyError, e:
+        common.render_error(e.__str__())
+    except IndexError, e:
+        common.render_error(e.__str__())
+
+    with open(tz_path, "w") as tz_file:
+        tz_file.write(tz_string)
+        common.render_success({})
+        return true
+        
+if __name__ == '__main__':
+    jsonrpc_set_timezone()
