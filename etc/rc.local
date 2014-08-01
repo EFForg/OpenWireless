@@ -15,11 +15,8 @@ tor
 python /lib/update/create-crontab.py
 crond
 
-chown -R www-data:www-data /etc/TZ
-chmod 0744 /etc/TZ
-
-chown -R www-data:www-data /etc/last_update_check
-chmod 0744 /etc/last_update_check
+chown www-data:www-data /etc/TZ
+chmod 0644 /etc/TZ
 
 /etc/init.d/firewall restart
 
