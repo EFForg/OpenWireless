@@ -18,4 +18,4 @@ with open("etc/openwrt_release",'w') as f:
     f.write(key + '=' + items[key])
 
 with open("etc/last_update_check", "w") as f:
-  f.write(str(newEpochTime * 1000))
+  f.write(str(newEpochTime * 1000) + "  N")
