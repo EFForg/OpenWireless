@@ -3577,7 +3577,7 @@ CONFIG_PACKAGE_multiwan=m
 CONFIG_PACKAGE_netcat=m
 # CONFIG_PACKAGE_netdiscover is not set
 # CONFIG_PACKAGE_netdiscover-to-devinfo is not set
-CONFIG_PACKAGE_netperf-latest=y
+# CONFIG_PACKAGE_netperf-latest is not set
 # CONFIG_PACKAGE_noping is not set
 CONFIG_PACKAGE_nuttcp=m
 CONFIG_PACKAGE_nuttcp-xinetd=m
