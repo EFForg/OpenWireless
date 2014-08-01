@@ -2047,7 +2047,7 @@ CONFIG_BUSYBOX_CONFIG_SH_MATH_SUPPORT_64=y
 # CONFIG_BUSYBOX_CONFIG_SYSLOGD is not set
 # CONFIG_BUSYBOX_CONFIG_KLOGD is not set
 CONFIG_BUSYBOX_CONFIG_LOGGER=y
-# CONFIG_PACKAGE_ca-certificates is not set
+CONFIG_PACKAGE_ca-certificates=y
 # CONFIG_PACKAGE_dnsmasq is not set
 # CONFIG_PACKAGE_dnsmasq-dhcpv6 is not set
 CONFIG_PACKAGE_dnsmasq-full=y
@@ -2895,7 +2895,7 @@ CONFIG_PACKAGE_libmnl=y
 CONFIG_PACKAGE_libmount=y
 # CONFIG_PACKAGE_libmysqlclient is not set
 # CONFIG_PACKAGE_libmysqlclient-r is not set
-CONFIG_PACKAGE_libncurses=m
+CONFIG_PACKAGE_libncurses=y
 CONFIG_PACKAGE_libncursesw=y
 CONFIG_PACKAGE_libnet1=m
 CONFIG_PACKAGE_libnetfilter-conntrack=y
@@ -2924,7 +2924,7 @@ CONFIG_PACKAGE_libpcre=y
 # CONFIG_PACKAGE_libpcrecpp is not set
 CONFIG_PACKAGE_libpng=m
 CONFIG_PACKAGE_libpopt=y
-CONFIG_PACKAGE_libreadline=m
+CONFIG_PACKAGE_libreadline=y
 # CONFIG_PACKAGE_libroxml is not set
 # CONFIG_PACKAGE_librpc is not set
 # CONFIG_PACKAGE_librrd is not set
@@ -3488,7 +3488,7 @@ CONFIG_PACKAGE_lighttpd-mod-simple_vhost=y
 # CONFIG_PACKAGE_lighttpd-mod-userdir is not set
 # CONFIG_PACKAGE_lighttpd-mod-usertrack is not set
 # CONFIG_PACKAGE_lighttpd-mod-webdav is not set
-CONFIG_PACKAGE_polipo=y
+# CONFIG_PACKAGE_polipo=m
 CONFIG_PACKAGE_privoxy=m
 # CONFIG_PACKAGE_sockd is not set
 # CONFIG_PACKAGE_socksify is not set
