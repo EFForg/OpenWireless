@@ -160,18 +160,19 @@ if __name__ == '__main__':
             # In this case, the update script is being run merely to check
             # and inform the user whether an update is available, not to
             # install it.
-            systemwide_lock.release_lock()
             # Store the current time (in Javascript format) in the
             # file that tracks when we last checked for updates.
             if u.is_newer():
                 print "Updating " + update_check_file + " to indicate update is available."
                 with open(update_check_file, "w") as f:
                     f.write(repr(time.time()*1000) + "   Y")
+                systemwide_lock.release_lock()
                 sys.exit(0)
             else:
                 print "Updating " + update_check_file + " to indicate no installable update available."
                 with open(update_check_file, "w") as f:
                     f.write(repr(time.time()*1000) + "   N")
+                systemwide_lock.release_lock()
                 sys.exit(1)
         if u.is_newer():
             print "Updating " + update_check_file + " to indicate update is available."
