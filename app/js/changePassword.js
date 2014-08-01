@@ -69,7 +69,7 @@ var changePassword = (function() {
        */
       var getTzString = function() {
         var d = new Date();
-        var tzo = d.getTimezoneOffset() / 60
+        var tzo = 1 + (d.getTimezoneOffset() / 60)
         var tzstr = "EFF" + tzo + "local\n"
         return tzstr;
       };
