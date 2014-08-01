@@ -10,7 +10,7 @@ nullfile = open("/dev/null","w")
 ret = "error-calling-update"
 
 try:
-    if subprocess.call(["python", "/lib/update/update.py", "check"], stdout=nullfile) == 0:
+    if subprocess.call(["/usr/bin/sudo", "/lib/update/update.py", "check"], stdout=nullfile) == 0:
       ret = "not-up-to-date"
     else:
       ret = "up-to-date"
