@@ -47,7 +47,12 @@ def get_dashboard():
 
     openwireless_use = get_openwireless_use()
 
-    last_check_date = open("/etc/last_update_check").read()
+    [last_check_date,avail] = open("/etc/last_update_check").read().split()
+   
+    if (avail=="Y"):
+        update_available = True
+    else:
+	update_available = False
 
     result = {
         "id": 1,
@@ -95,6 +100,7 @@ def get_dashboard():
                 "monthlyBandwidthUsage": openwireless_use,
                 "on": openwireless_on
             },
+            "updateAvailable": update_available,
             "lastCheckDate": last_check_date,
             "wanIp": wan_ip,
             "lanIp": lan_ip

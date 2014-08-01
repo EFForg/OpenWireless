@@ -154,23 +154,29 @@ if __name__ == '__main__':
         print "Validating update signature..."
         if not u.parse_manifest():  # includes signature validity checking
             failed("to validate signature of update metdata")
+        
         print "Checking whether to update..."
         if advise_only:
             # In this case, the update script is being run merely to check
             # and inform the user whether an update is available, not to
             # install it.
-            with open(update_check_file, "w") as f:
-                # Store the current time (in Javascript format) in the
-                # file that tracks when we last checked for updates.
-                f.write(repr(time.time()*1000))
             systemwide_lock.release_lock()
+            # Store the current time (in Javascript format) in the
+            # file that tracks when we last checked for updates.
             if u.is_newer():
-                print "An update is available."
+                print "Updating " + update_check_file + " to indicate update is available."
+                with open(update_check_file, "w") as f:
+                    f.write(repr(time.time()*1000) + "   Y")
                 sys.exit(0)
             else:
-                print "No installable update is available."
+                print "Updating " + update_check_file + " to indicate no installable update available."
+                with open(update_check_file, "w") as f:
+                    f.write(repr(time.time()*1000) + "   N")
                 sys.exit(1)
         if u.is_newer():
+            print "Updating " + update_check_file + " to indicate update is available."
+            with open(update_check_file, "w") as f:
+                f.write(repr(time.time()*1000) + "   Y")
             print "Downloading new firmware image..."
             if not u.download_file():
                 failed("to download firmware image")
@@ -183,7 +189,9 @@ if __name__ == '__main__':
             else:
                 failed("to validate downloaded firmware image")
         else:
-            print "No update was needed."
+            print "Updating " + update_check_file + " to indicate no installable update available."
+            with open(update_check_file, "w") as f:
+                f.write(repr(time.time()*1000) + "   N")
     except Exception, e:
         print e
         failed("to update for an undetermined reason.")

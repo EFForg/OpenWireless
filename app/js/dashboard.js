@@ -3,7 +3,6 @@ Number.prototype.pad = function (len) {
 }
 
 
-
 var dashboardModule = (function(){
   var init = function(){
     displayInterfaces();
@@ -38,6 +37,14 @@ var dashboardModule = (function(){
     $('#wan-ip').text(wanIp);
   }
 
+  var displayUpdateAvailability = function(updateAvailable){
+    if (updateAvailable) {
+      $('#avail').text(" is available");
+    } else {
+      $('#avail').text(" not available");
+    }
+  }
+
   var displayDate = function(lastCheckDate){
     var m_names = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
     var d = new Date(parseFloat(lastCheckDate));
@@ -70,6 +77,7 @@ var dashboardModule = (function(){
         displayInterface(interfaces.privateWifi);
         displayInterface(interfaces.openWireless);
         displayIpAddresses(interfaces.lanIp, interfaces.wanIp);
+	displayUpdateAvailability(interfaces.updateAvailable);
         displayDate(interfaces.lastCheckDate);
         enableToggles();
         return;
