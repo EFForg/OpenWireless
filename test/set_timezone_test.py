@@ -28,7 +28,7 @@ class SetTimezoneTest(unittest.TestCase):
         sys.stdin = self.saved_stdin
 
     def test_set_timezone(self):
-        setInput('{"jsonrpc":"2.0","method":"set_timezone","params":["EFF0local"],"id":1}')
+        setInput('{"jsonrpc":"2.0","method":"set_timezone","params":["America/Los_Angeles"],"id":1}')
 
         with self.assertRaises(SystemExit):
             jsonrpc_set_timezone(TZ_PATH)
@@ -36,7 +36,7 @@ class SetTimezoneTest(unittest.TestCase):
         with open(TZ_PATH, "r") as tz_file:
             tz_data = tz_file.read()
 
-        self.assertEqual(tz_data, "EFF0local")
+        self.assertEqual(tz_data, "PST8PDT,M3.2.0,M11.1.0")
 
 if __name__ == '__main__':
     unittest.main()
