@@ -22,14 +22,14 @@ def generate_dictionary_file():
     exit(1)
 
 
-def get_zone_info():
+def get_zone_info(zone_dir=TZ_DB):
     """
     get_zone_info - parse zone info from zoneinfo database into
     a python dictionary
     """
     tzd = {}
     try:
-        with open(os.path.join(TZ_DB, "zone.tab"), "r") as zonetab:
+        with open(os.path.join(zone_dir, "zone.tab"), "r") as zonetab:
             for line in zonetab:
                 #skip comments and whitespace
                 if re.match("^#", line) or re.match("^\s+$", line):
@@ -47,7 +47,7 @@ def get_zone_info():
         return tzd
 
     except EnvironmentError:
-        return false
+        return False
 
 
 def read_posix_zone(zone):
