@@ -52,7 +52,7 @@ def get_dashboard():
     if (avail=="Y"):
         update_available = True
     else:
-	update_available = False
+        update_available = False
 
     result = {
         "id": 1,

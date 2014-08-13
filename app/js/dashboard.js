@@ -77,7 +77,7 @@ var dashboardModule = (function(){
         displayInterface(interfaces.privateWifi);
         displayInterface(interfaces.openWireless);
         displayIpAddresses(interfaces.lanIp, interfaces.wanIp);
-	displayUpdateAvailability(interfaces.updateAvailable);
+        displayUpdateAvailability(interfaces.updateAvailable);
         displayDate(interfaces.lastCheckDate);
         enableToggles();
         return;
