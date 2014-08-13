@@ -18,7 +18,7 @@ def generate_dictionary_file():
         write_zone_file(get_zone_info())
         exit(0)
 
-    #exit with error status if we couldn't read zone info
+    # Exit with error status if we couldn't read zone info
     exit(1)
 
 
@@ -31,22 +31,21 @@ def get_zone_info(zone_dir=TZ_DB):
     try:
         with open(os.path.join(zone_dir, "zone.tab"), "r") as zonetab:
             for line in zonetab:
-                #skip comments and whitespace
+                # Skip comments and whitespace
                 if re.match("^#", line) or re.match("^\s+$", line):
                     continue
 
-                #olson zone paths are the third column in the table
-                sep = re.compile("\s+")
-                zone = sep.split(line)[2]
+                # Olson zone paths are the third column in the table
+                zone = re.split("\s+", line)[2]
 
                 try:
                     tzd[zone] = read_posix_zone(zone)
-                except EnvironmentError: #IOError or OSError
+                except EnvironmentError: # IOError or OSError
                     continue
                 
         return tzd
 
-    except EnvironmentError:
+    except EnvironmentError: # IOError or OSError
         return False
 
 
@@ -56,7 +55,7 @@ def read_posix_zone(zone):
     @param string zone - olson time zone string
     """
     with open(os.path.join(TZ_DB, zone), "r") as zonefile:
-        #return last line of file
+        # Return last line of file
         return list(zonefile)[-1].rstrip()
     
 
