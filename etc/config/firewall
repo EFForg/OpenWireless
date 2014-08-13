@@ -57,6 +57,14 @@ config rule
 
 config rule
 	option target 'ACCEPT'
+	option name 'domain'
+	option proto 'tcp udp'
+	option src '*'
+	option dest '*'
+	option src_port '53'
+
+config rule
+	option target 'ACCEPT'
 	option name 'ntp'
 	option proto 'udp'
 	option dest '*'
