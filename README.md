@@ -43,7 +43,7 @@ Get the packages you need and install a git hook to run tests before push:
 Try out the web UI locally:
 
     ./local-lighttpd/run-local-lighttpd.sh
-    firefox http://localhost:8888/
+    firefox http://localhost:8000/
 
 Sync the web UI to your router:
 

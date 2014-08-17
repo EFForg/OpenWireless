@@ -39,7 +39,7 @@ var loginModule = (function() {
         var candidate = decodeURIComponent(match[1]);
         // Filter for sane URLs to prevent redirect to javascript: or data:
         // URLs, or to evil.com. Only relative paths allowed.
-        if (candidate.match(/^[\/A-Za-z0-9.-]*$/)) {
+        if (candidate.match(/^(?![\/]{2,})[\/A-Za-z0-9.-]*$/)) {
           redirect = candidate;
         }
       }
