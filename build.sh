@@ -15,6 +15,8 @@
   #setup the package building system
   cd cerowrt
 
+  echo 'src-git cero https://github.com/dtaht/ceropackages-3.10' >> feeds.conf.default
+
   ./scripts/feeds update 
   #copy over python package
   cp -r ../ow-python/python-mini-eff ./feeds/oldpackages/lang/
