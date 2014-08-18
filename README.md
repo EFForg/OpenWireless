@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/EFForg/OpenWireless.svg?branch=master)](https://travis-ci.org/EFForg/OpenWireless)
+
 # Introduction
 
 This repository contains configuration, build scripts, and web UI for the
