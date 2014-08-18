@@ -16,10 +16,11 @@ else
   pip install -qr requirements.txt
 fi
 
-if ! ./make-templates.sh --is-updated ; then
-  echo "Error: templates.js out-of-date. Run ./make-templates.sh"
+if ! make assert_templates_js_up_to_date ; then
+  echo 'Error: templates.js out-of-date. Run `make app/js/templates.js`'
   exit 1
 fi
+
 /usr/bin/env python2.7 -m unittest discover -s test/ -p '*_test.py'
 if which nodejs ; then
   NODEJS=nodejs
