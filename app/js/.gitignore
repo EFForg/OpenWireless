@@ -1,0 +1,4 @@
+
+# templates.js is generated from template files
+# (see apps/templates/*.handlebars) so shouldn't be in source control
+templates.js
