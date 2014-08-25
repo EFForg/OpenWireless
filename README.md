@@ -150,7 +150,7 @@ accident. Similarly, in Python, never set shell=True when calling binaries.
 
 If something is broken on the router, often you can fix it with failsafe mode.
 Mostly the [standard OpenWRT directions
-apply](wiki.openwrt.org/doc/howto/generic.failsafe). However,
+apply](http://wiki.openwrt.org/doc/howto/generic.failsafe). However,
 the Open Wireless firmware uses 172.30.42.1 by default, so make sure to modify
 the instructions to contact that address instead of 192.168.1.1.
 
