@@ -5,9 +5,7 @@ import sys
 
 import common
 
-TZ_PATH = "/etc/TZ"
-
-def jsonrpc_set_timezone(tz_path=TZ_PATH):
+def jsonrpc_set_timezone(etc=common.get_etc()):
     """Accept a POSIX-style set timezone, with parameters like so:
 
     {"jsonrpc":"2.0","method":"set_timezone","params":["timezonestring"],"id":1}
@@ -25,7 +23,7 @@ def jsonrpc_set_timezone(tz_path=TZ_PATH):
     except IndexError, e:
         common.render_error(e.__str__())
 
-    with open(tz_path, "w") as tz_file:
+    with open(os.path.join(etc, 'TZ'), "w") as tz_file:
         tz_file.write(tz_string)
         common.render_success({})
         return true
