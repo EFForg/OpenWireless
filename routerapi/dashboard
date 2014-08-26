@@ -2,6 +2,7 @@
 """
 Initial data to display the web dashboard.
 """
+import os
 import subprocess
 
 import check_interface_connection
@@ -47,8 +48,12 @@ def get_dashboard():
 
     openwireless_use = get_openwireless_use()
 
-    [last_check_date,avail] = open("/etc/last_update_check").read().split()
-   
+    last_update_path = os.path.join(common.get_etc(), "last_check_date")
+    if os.path.exists(last_update_path):
+      [last_check_date,avail] = open(last_update_path).read().split()
+    else:
+      [last_check_date, avail] = (0, "N")
+
     if (avail=="Y"):
         update_available = True
     else:
