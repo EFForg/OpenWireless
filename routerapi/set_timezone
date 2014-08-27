@@ -1,12 +1,11 @@
 #!/usr/bin/env python2.7
 import json
 import os
-import os.path
 import sys
 
 import common
 
-TZ_PATH = os.path.join(common.get_etc(), "TZ")
+TZ_PATH = "/etc/TZ"
 
 def jsonrpc_set_timezone(tz_path=TZ_PATH):
     """Accept a POSIX-style set timezone, with parameters like so:

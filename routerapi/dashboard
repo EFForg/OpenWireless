@@ -9,7 +9,6 @@ import common
 import ip_address_retriever
 import run
 import uci
-import os.path
 
 def get_dashboard():
     """Render JSON dashboard data response."""
@@ -48,7 +47,7 @@ def get_dashboard():
 
     openwireless_use = get_openwireless_use()
 
-    [last_check_date,avail] = open(os.path.join(common.get_etc(), "last_update_check")).read().split()
+    [last_check_date,avail] = open("/etc/last_update_check").read().split()
    
     if (avail=="Y"):
         update_available = True
