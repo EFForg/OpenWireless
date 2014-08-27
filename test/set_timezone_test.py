@@ -9,7 +9,8 @@ sys.path.insert(0, os.path.join(
 
 from set_timezone import jsonrpc_set_timezone
 
-TZ_PATH = "./tz_file"
+# TODO: Use mktemp rather than storing in current dir.
+TZ_PATH = "./TZ"
 
 def setInput(input):
     sys.stdin.write(input)
@@ -31,7 +32,7 @@ class SetTimezoneTest(unittest.TestCase):
         setInput('{"jsonrpc":"2.0","method":"set_timezone","params":["EFF0local"],"id":1}')
 
         with self.assertRaises(SystemExit):
-            jsonrpc_set_timezone(TZ_PATH)
+            jsonrpc_set_timezone(".")
 
         with open(TZ_PATH, "r") as tz_file:
             tz_data = tz_file.read()
