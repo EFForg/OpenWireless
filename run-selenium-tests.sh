@@ -1,3 +1,5 @@
 #!/bin/bash -e
 
-python -m unittest discover -s selenium/ -p '*_test.py'
+# NOTE: Once all machines have been updated to use the Makefile
+# directly, remove this script.
+make test-selenium
