@@ -3,9 +3,32 @@ PIP_USER_SWITCH=$(if $(VIRTUAL_ENV),--user,)
 
 TEMPLATES_JS=app/js/templates.js
 HANDLEBARS_FILES=app/templates/*.handlebars  # Used to generate templates.js
+IMAGE=cerowrt/releases/openwireless-openwrt-squashfs-sysupgrade.bin
 
 .PHONY: all
-all: $(TEMPLATES_JS)
+all: templates image
+
+.PHONY: templates
+templates: $(TEMPLATES_JS)
+
+.PHONY: image
+image:
+	git submodule update --init
+	cp OWrt/config-OWrt cerowrt/.config
+	if ! grep '^src-git cero' cerowrt/feeds.conf.default; then \
+		echo 'src-git cero https://github.com/dtaht/ceropackages-3.10' >> cerowrt/feeds.conf.default; \
+	fi
+	./cerowrt/scripts/feeds update
+	cp -r ow-python/python-mini-eff ./cerowrt/feeds/oldpackages/lang/
+	./cerowrt/scripts/feeds update -a
+	./sendToBuild
+	make -C cerowrt
+	mkdir -p cerowrt/releases
+	cp cerowrt/bin/ar71xx/openwrt-ar71xx-generic-wndr3800-squashfs-sysupgrade.bin $(IMAGE)
+	@if [ ! -f $(IMAGE) ]; then \
+		echo "ERROR: For some reason $IMAGE failed to generate!"; \
+		exit 1; \
+	fi
 
 .PHONY: clean
 clean:
