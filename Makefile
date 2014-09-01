@@ -33,6 +33,9 @@ image:
 .PHONY: clean
 clean:
 	rm -f $(TEMPLATES_JS)
+	rm -rf cerowrt/releases/
+	grep -v '^src-git cero' cerowrt/feeds.conf.default >feeds.conf.tmp
+	mv feeds.conf.tmp cerowrt/feeds.conf.default
 
 
 $(TEMPLATES_JS): $(HANDLEBARS_FILES)
