@@ -25,7 +25,7 @@ Diceware.prototype.load = function(callback) {
       if (line === '-----BEGIN PGP SIGNATURE-----') {
           break;
       }
-      var myregexp = /^\s*?\d+\s*([^\s]+)\s*?$/;
+      var myregexp = /^\s*\d+\s*([^\s]+)\s*$/;
       var match = myregexp.exec(line);
       if (match != null) {
         // matched text: match[0]
