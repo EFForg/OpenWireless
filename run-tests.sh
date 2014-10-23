@@ -8,18 +8,18 @@
 
 # Install required packages
 npm install
-if [ ! -z "$PYTHONPATH" ] ; then
-  pip install --user -qr requirements.txt
+if [ -z "$VIRTUAL_ENV" ] ; then
+  USER=--user
 else
-  # When running on snap-ci we are in a --no-site-packages virtualenv,
-  # so pip install --user would fail.
-  pip install -qr requirements.txt
+  USER=
 fi
+pip install $USER -qr requirements.txt
 
-if ! ./make-templates.sh --is-updated ; then
-  echo "Error: templates.js out-of-date. Run ./make-templates.sh"
+if ! make assert_templates_js_up_to_date ; then
+  echo 'Error: templates.js out-of-date. Run `make app/js/templates.js`'
   exit 1
 fi
+
 /usr/bin/env python2.7 -m unittest discover -s test/ -p '*_test.py'
 if which nodejs ; then
   NODEJS=nodejs

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/EFForg/OpenWireless.svg?branch=master)](https://travis-ci.org/EFForg/OpenWireless)
+
 # Introduction
 
 This repository contains configuration, build scripts, and web UI for the
@@ -43,7 +45,7 @@ Get the packages you need and install a git hook to run tests before push:
 Try out the web UI locally:
 
     ./local-lighttpd/run-local-lighttpd.sh
-    firefox http://localhost:8888/
+    firefox http://localhost:8000/
 
 Sync the web UI to your router:
 
@@ -148,7 +150,7 @@ accident. Similarly, in Python, never set shell=True when calling binaries.
 
 If something is broken on the router, often you can fix it with failsafe mode.
 Mostly the [standard OpenWRT directions
-apply](wiki.villagetelco.org/OpenWrt_Failsafe_Mode_and_Flash_Recovery). However,
+apply](http://wiki.openwrt.org/doc/howto/generic.failsafe). However,
 the Open Wireless firmware uses 172.30.42.1 by default, so make sure to modify
 the instructions to contact that address instead of 192.168.1.1.
 
