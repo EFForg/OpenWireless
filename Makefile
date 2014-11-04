@@ -1,6 +1,6 @@
 
 TEMPLATES_JS=app/js/templates.js
-HANDLEBARS_FILES=app/templates/*.handlebars  # Used to generate templates.js
+HANDLEBARS_FILES=$(wildcard app/templates/*.handlebars) # Used to generate templates.js
 
 .PHONY: all
 all: $(TEMPLATES_JS)
