@@ -14,8 +14,8 @@ try:
       ret = "not-up-to-date"
     else:
       ret = "up-to-date"
-except:
-    # catch exception and return error message
+except OSError:
+    # catch call-errors and return error message
     pass
 finally:
     nullfile.close()
