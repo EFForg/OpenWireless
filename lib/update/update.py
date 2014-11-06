@@ -26,7 +26,8 @@ class Updater(object):
     update_url = "https://s.eff.org/files/openwireless/update.json.asc"
     sysupgrade_command = ["/usr/bin/sudo", "sysupgrade", "-v", "-n"]
     update_check_file = "/etc/last_update_check"
-
+    ca_file = "/etc/ssl/certs/StartCom_Certification_Authority.crt"
+    
     def __init__(self):
         self.firmware = None
         self.current = None
@@ -50,7 +51,7 @@ class Updater(object):
         curl.setopt(pycurl.PROXYPORT, 9050)
         curl.setopt(pycurl.PROXY, "localhost")
         curl.setopt(pycurl.PROXYTYPE, 6)   # == PROXYTYPE_SOCKS4A
-        curl.setopt(pycurl.CAINFO, "/etc/ssl/certs/StartCom_Certification_Authority.crt")
+        curl.setopt(pycurl.CAINFO, self.ca_file)
         curl.setopt(pycurl.URL, self.update_url)
         curl.setopt(pycurl.WRITEFUNCTION, buffer.write)
         try:
@@ -99,7 +100,7 @@ class Updater(object):
             curl = pycurl.Curl()
             curl.setopt(pycurl.URL, self.manifest["url"].encode("ascii"))
             curl.setopt(pycurl.WRITEFUNCTION, buffer.write)
-            curl.setopt(pycurl.CAINFO, "/etc/ssl/certs/StartCom_Certification_Authority.crt")
+            curl.setopt(pycurl.CAINFO, self.ca_file)
             try:
                 curl.perform()
             except Exception, e:
