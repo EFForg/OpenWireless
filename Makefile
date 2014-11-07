@@ -1,5 +1,5 @@
 NODEJS=$(if $(shell which nodejs),nodejs,node)
-PIP_USER_SWITCH=$(if $(VIRTUAL_ENV),--user,)
+PIP_USER_SWITCH=$(if $(VIRTUAL_ENV),,--user)
 
 TEMPLATES_JS=app/js/templates.js
 HANDLEBARS_FILES=app/templates/*.handlebars  # Used to generate templates.js
