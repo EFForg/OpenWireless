@@ -8,3 +8,4 @@
 /env/
 local-lighttpd/etc
 local-lighttpd/port-*-etc
+.vagrant
