@@ -6,6 +6,8 @@ cd $(dirname $0)
 pip install --user -qr requirements.txt
 npm install
 # Install a hook to run tests before pushing.
-ln -s ../../run-tests.sh .git/hooks/pre-push
+if [ ! -f .git/hooks/pre-push ]; then
+  ln -s ../../run-tests.sh .git/hooks/pre-push
+fi
 echo "We strongly recommend adding the lines from ./ssh-config to your" \
      "SSH config. It will make developing on a router much faster."
