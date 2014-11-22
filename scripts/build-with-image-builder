@@ -1,0 +1,50 @@
+#!/bin/sh
+
+set -e
+set -x
+
+ROOT=$(cd `dirname $0`/.. && pwd)
+CACHE=$ROOT/.cache
+TARGET=`mktemp -d /tmp/openwireless-XXXX`/target
+IMAGE_BUILDER=OpenWrt-ImageBuilder-ar71xx_generic-for-linux-x86_64
+IMAGE_BUILDER_URL=http://snapon.lab.bufferbloat.net/~cero2/cerowrt/wndr/3.10.50-1/$IMAGE_BUILDER.tar.bz2
+IMAGE_BUILDER_ARTIFACT=$IMAGE_BUILDER.tar.bz2
+REPOSITORIES_CONF=$ROOT/infra/repositories.conf
+FILES=$TARGET/files
+
+rm -Rf $TARGET
+mkdir -p $TARGET
+mkdir -p $CACHE
+if [ ! -f $CACHE/$IMAGE_BUILDER_ARTIFACT ]; then
+  curl -o $CACHE/$IMAGE_BUILDER_ARTIFACT $IMAGE_BUILDER_URL
+fi
+cp $CACHE/$IMAGE_BUILDER_ARTIFACT $TARGET
+cd $TARGET
+tar xf $IMAGE_BUILDER_ARTIFACT
+cd $ROOT
+cp $REPOSITORIES_CONF $TARGET/$IMAGE_BUILDER
+
+mkdir -p $FILES
+
+cp -rp $ROOT/etc $FILES/
+
+cp -rp $ROOT/lib $FILES/
+
+mkdir $FILES/www
+
+cp -rp $ROOT/app/* $FILES/www/
+
+mkdir $FILES/www/cgi-bin
+
+cp -rp $ROOT/routerapi $FILES/www/cgi-bin/
+
+cd $TARGET/$IMAGE_BUILDER
+
+rmdir dl
+ln -s $CACHE dl
+
+make image PROFILE=WNDR3700 PACKAGES="dropbear lighttpd lighttpd-mod-alias lighttpd-mod-cgi lighttpd-mod-expire lighttpd-mod-redirect lighttpd-mod-setenv lighttpd-mod-simple-vhost python sudo sqm-scripts rsync 6in4 6rd 6to4 ahcpd avahi-daemon block-mount ca-certificates chat comgt curl dbus ddns-scripts dnsmasq-full dropbear-xinetd ds-lite e2fsprogs etherwake ethtool fping gnupg hd-idle hostapd hostapd-utils ip ip-full ip6tables-mod-nat ipset iptables-mod-account iptables-mod-extra iptables-mod-ipmark iptables-mod-u32 iptaccount kmod-8021q kmod-ath9k-htc kmod-atm kmod-crypto-authenc kmod-crypto-hash kmod-crypto-manager kmod-crypto-pcompress kmod-fs-autofs4 kmod-fs-ext4 kmod-fs-vfat kmod-gre kmod-ip6-tunnel kmod-ipip kmod-ipt-account kmod-ipt-compat-xtables kmod-ipt-extra kmod-ipt-hashlimit kmod-ipt-ipmark kmod-ipt-ipset kmod-ipt-nat6 kmod-ipt-u32 kmod-iptunnel kmod-iptunnel4 kmod-iptunnel6 kmod-leds-gpio kmod-ledtrig-default-on kmod-ledtrig-netdev kmod-ledtrig-timer kmod-lib-crc16 kmod-libphy kmod-mii kmod-nat46 kmod-nf-conntrack-netlink kmod-nfnetlink kmod-nls-cp437 kmod-nls-iso8859-1 kmod-nls-iso8859-13 kmod-nls-iso8859-15 kmod-nls-iso8859-2 kmod-pppoa kmod-pptp kmod-scsi-cdrom kmod-scsi-core kmod-sit kmod-swconfig kmod-usb-net kmod-usb-storage lft libavahi libavahi-dbus-support libblkid libcurl libdaemon libdbus libelf1 libevent2 libexpat libext2fs libgmp libgpg-error libiwinfo libmnl libmount libncurses libncursesw libnetfilter-conntrack libnettle libnfnetlink libpcap libpolarssl libpopt libreadline librt libuuid lighttpd-mod-fastcgi linux-atm miniupnpd mount-utils ntpclient ohybridproxy openssl-util opkg-smime ppp-mod-pppoa px5g python-curl relayd rng-tools rsync tcpdump-mini terminfo time tor wireless-tools wol xinetd zile" FILES=$FILES
+
+mkdir -p $ROOT/dist
+rm -Rf $ROOT/dist/*
+cp -R $TARGET/$IMAGE_BUILDER/bin/* $ROOT/dist
