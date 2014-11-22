@@ -2,6 +2,9 @@
 # On Ubuntu and similar systems, install packages that are necessary and/or
 # useful to build and debug OpenWireless.
 sudo apt-get install -y gettext unzip libncurses-dev subversion git inotify-tools lighttpd nodejs npm python2.7 python-pip tftp libfontconfig
+if [ ! -f /usr/bin/node ]; then
+  sudo ln -s /usr/bin/nodejs /usr/bin/node
+fi
 cd $(dirname $0)
 pip install --user -qr requirements.txt
 npm install
