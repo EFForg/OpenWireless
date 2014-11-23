@@ -10,7 +10,7 @@ pip install --user -qr requirements.txt
 npm install
 # Install a hook to run tests before pushing.
 if [ ! -f .git/hooks/pre-push ]; then
-  ln -s ../../run-tests.sh .git/hooks/pre-push
+  ln -s ../../scripts/pre-commit .git/hooks/pre-push
 fi
 sudo cp infra/etc/init.d/Xvfb /etc/init.d/Xvfb
 sudo service Xvfb start
