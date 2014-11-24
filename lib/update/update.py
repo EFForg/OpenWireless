@@ -182,9 +182,9 @@ class Updater(object):
         """
         if not self.purported_manifest:
             print "Getting update metadata..."
-            if not self.get_manifest():
+            if not u.get_manifest():
                 raise UpdateError("to download update metadata")
-        print self.purported_manifest
+        print u.purported_manifest
 
         if not self.manifest:
             print "Validating update signature..."
