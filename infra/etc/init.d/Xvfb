@@ -9,17 +9,18 @@
 # Default-Stop:
 ### END INIT INFO
 
+set -e
+set -o nounset
+
 NAME=Xvfb
 INIT=/etc/init.d/$NAME
 PROGRAM=/usr/bin/$NAME
 PIDFILE=/var/run/$NAME.pid
 DISPLAY=:0
 
-set -e
-
 case "$1" in
   start)
-start-stop-daemon --oknodo --background --make-pidfile --start --exec $PROGRAM --pidfile $PIDFILE -- $DIPLAY -screen 0 1024x768x24
+start-stop-daemon --oknodo --background --make-pidfile --start --exec $PROGRAM --pidfile $PIDFILE -- $DISPLAY -screen 0 1024x768x24
 ;;
   stop)
 start-stop-daemon --oknodo --stop --pidfile $PIDFILE
