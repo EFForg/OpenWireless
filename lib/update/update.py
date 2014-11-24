@@ -4,54 +4,40 @@ import re, pycurl, json, StringIO, tempfile, hashlib, subprocess, sys, os
 import systemwide_lock
 import time
 
+openwrt_release_file = "/etc/openwrt_release"
+keyring = "/etc/update_key.gpg"
+update_url = "https://s.eff.org/files/openwireless/update.json.asc"
+sysupgrade_command = ["/usr/bin/sudo", "sysupgrade", "-v", "-n"]
+update_check_file = "/etc/last_update_check"
 
 def failed(why):
     sys.stderr.write("Failed %s\n" % why)
     systemwide_lock.release_lock()
     sys.exit(1)
 
-class UpdateError(Exception):
-    '''Exception raised if an error occures while updating.
-    '''
-    def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return ("Failed " + self.message)
-
 class Updater(object):
-
-    openwrt_release_file = "/etc/openwrt_release"
-    keyring = "/etc/update_key.gpg"
-    update_url = "https://s.eff.org/files/openwireless/update.json.asc"
-    sysupgrade_command = ["/usr/bin/sudo", "sysupgrade", "-v", "-n"]
-    update_check_file = "/etc/last_update_check"
-
     def __init__(self):
         self.firmware = None
         self.current = None
-        with open(self.openwrt_release_file) as f:
+        with open(openwrt_release_file) as f:
             for line in f:
                 m = re.match(r'^DISTRIB_RELEASE_DATE="(\d+)"$', line)
                 if m and len(m.groups()) == 1:
                     self.current = int(m.groups()[0])
                     break
-        if self.current is None:
-            raise UpdateError("to find current version in " + self.openwrt_release_file)
+            else:
+                failed("to find current version in /etc/openwrt_release")
         self.purported_manifest = None
         self.manifest = None
 
     def get_manifest(self):
-        '''Download the manifest from eff.org.
-        Returns True on success and False if the download failed.
-        '''
         buffer = StringIO.StringIO()
         curl = pycurl.Curl()
         curl.setopt(pycurl.PROXYPORT, 9050)
         curl.setopt(pycurl.PROXY, "localhost")
         curl.setopt(pycurl.PROXYTYPE, 6)   # == PROXYTYPE_SOCKS4A
         curl.setopt(pycurl.CAINFO, "/etc/ssl/certs/StartCom_Certification_Authority.crt")
-        curl.setopt(pycurl.URL, self.update_url)
+        curl.setopt(pycurl.URL, update_url)
         curl.setopt(pycurl.WRITEFUNCTION, buffer.write)
         try:
             curl.perform()
@@ -67,8 +53,7 @@ class Updater(object):
         if not self.purported_manifest:
             return False
         in_fd, out_fd = os.pipe()
-        command = ["gpg", "--keyring", self.keyring, "--no-default-keyring",
-                   "--status-fd", str(out_fd), "--decrypt"]
+        command = ["gpg", "--keyring", keyring, "--no-default-keyring", "--status-fd", str(out_fd), "--decrypt"]
         p = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         proc_stdout, proc_stderr = p.communicate(self.purported_manifest)
         if p.returncode != 0:
@@ -88,9 +73,6 @@ class Updater(object):
         return True
 
     def download_file(self):
-        '''Downloads the update image to a temporary file and saves its
-        location to the attribute `firmware`.
-        '''
         if not self.manifest or not self.manifest.has_key("url"):
             return None
         url = self.manifest["url"]
@@ -110,9 +92,7 @@ class Updater(object):
                 return True
 
     def valid_firmware(self):
-        if not self.manifest:
-            return False
-        if not ("sha256" in self.manifest and "size" in self.manifest and "timestamp" in self.manifest):
+        if not (self.manifest.has_key("sha256") and self.manifest.has_key("size") and self.manifest.has_key("timestamp")):
             return False
         if not self.is_newer():
             return False
@@ -136,82 +116,27 @@ class Updater(object):
         # This is unlikely to actually return if successful, because the
         # sysupgrade command itself will likely kill the upgrader process
         # and also reboot the device.
-        return not subprocess.call(self.sysupgrade_command + [self.firmware])
+        return not subprocess.call(sysupgrade_command + [self.firmware])
 
     def extract_manifest(self, what):
         try:
             extracted_version = json.loads(what)
             if not isinstance(extracted_version, dict):
-                raise UpdateError("to extract a JSON-structured update manifest")
+                failed("to extract a JSON-structured update manifest")
             else:
                 return extracted_version
         except ValueError, e:
-            raise UpdateError("to extract a JSON-structured update manifest")
-        raise UpdateError("not reached")
+            failed("to extract a JSON-structured update manifest")
+        failed("not reached")
 
     def parse_manifest(self):
         if not self.purported_manifest:
-            raise UpdateError("to get the manifest")
+            raise Exception, "cannot get manifest"
         if self.valid_sig():
             self.manifest = self.extract_manifest(self.signed_manifest)
             return True
         else:
             return False
-
-    @staticmethod
-    def __update_check_file(newer):
-        """Store the current time (in Javascript format) in the file that
-        tracks when we last checked for updates.
-        """
-        msg = "Updating " + self.update_check_file + " to indicate "
-        if not newer:
-            flag = "   N"
-            msg += "no installable"
-        else:
-            flag = "   Y"
-            msg += "an"
-        msg += " update is available."
-        with open(self.update_check_file, "w") as checkfile:
-            checkfile.write(repr(time.time()*1000) + flag)
-        return True
-
-    def check_for_updates(self, advise_only=False):
-        """Checks for new software version. If advise_only is True it doesn't
-        call do_update() otherwise True is returned if a new firmware version
-        is available and False if it is the current.
-        """
-        if not self.purported_manifest:
-            print "Getting update metadata..."
-            if not u.get_manifest():
-                raise UpdateError("to download update metadata")
-        print u.purported_manifest
-
-        if not self.manifest:
-            print "Validating update signature..."
-            if not self.parse_manifest():
-                # Parsing includes signature validity checking
-                raise UpdateError("to validate signature of update metdata")
-
-        print "Checking whether to update..."
-        newer = self.is_newer()
-        self.__update_check_file(newer)
-        if advise_only:
-            # In this case, the update script is being run merely to check
-            # and inform the user whether an update is available, not to
-            # install it.
-            return newer
-
-        print "Downloading new firmware image..."
-        if not self.download_file():
-            raise UpdateError("to download firmware image")
-
-        print "Validating downloaded image..."
-        if not self.valid_firmware():
-            raise UpdateError("to validate downloaded firmware image")
-
-        print "Installing image..."
-        return self.do_update()
-
 
 if __name__ == '__main__':
     advise_only = False
@@ -222,22 +147,52 @@ if __name__ == '__main__':
         if not systemwide_lock.get_lock():
             failed("to acquire update lock")
         u = Updater()
-        result = u.check_for_updates(advise_only)
+        print "Getting update metadata..."
+        if not u.get_manifest():
+            failed("to download update metadata")
+        print u.purported_manifest
+        print "Validating update signature..."
+        if not u.parse_manifest():  # includes signature validity checking
+            failed("to validate signature of update metdata")
+        
+        print "Checking whether to update..."
         if advise_only:
-            # Release lock is called in the finally block
-            if result:
-                # update is available
+            # In this case, the update script is being run merely to check
+            # and inform the user whether an update is available, not to
+            # install it.
+            # Store the current time (in Javascript format) in the
+            # file that tracks when we last checked for updates.
+            if u.is_newer():
+                print "Updating " + update_check_file + " to indicate update is available."
+                with open(update_check_file, "w") as f:
+                    f.write(repr(time.time()*1000) + "   Y")
+                systemwide_lock.release_lock()
                 sys.exit(0)
-            # current version
-            sys.exit(1)
+            else:
+                print "Updating " + update_check_file + " to indicate no installable update available."
+                with open(update_check_file, "w") as f:
+                    f.write(repr(time.time()*1000) + "   N")
+                systemwide_lock.release_lock()
+                sys.exit(1)
+        if u.is_newer():
+            print "Updating " + update_check_file + " to indicate update is available."
+            with open(update_check_file, "w") as f:
+                f.write(repr(time.time()*1000) + "   Y")
+            print "Downloading new firmware image..."
+            if not u.download_file():
+                failed("to download firmware image")
+            print "Validating downloaded image..."
+            if u.valid_firmware():
+                print "Installing image..."
+                if not u.do_update():
+                    failed("to install update")
+                subprocess.call(["/usr/bin/sudo", "/sbin/reboot"])
+            else:
+                failed("to validate downloaded firmware image")
         else:
-            if not result:
-                failed("to install update")
-            # Reboot if the installation completed but we're still alive
-            subprocess.call(["/usr/bin/sudo", "/sbin/reboot"])
-    except UpdateError as why:
-        # Catch "trusted" exception
-        failed(why.message)
+            print "Updating " + update_check_file + " to indicate no installable update available."
+            with open(update_check_file, "w") as f:
+                f.write(repr(time.time()*1000) + "   N")
     except Exception, e:
         print e
         failed("to update for an undetermined reason.")
