@@ -3,10 +3,12 @@ DIR=$(dirname $0)
 cd $DIR
 HTTP_PORT=${HTTP_PORT:-8000}
 HTTPS_PORT=$(($HTTP_PORT + 1000))
-ETC=port-$HTTP_PORT-etc
+ROOT=`mktemp -d /tmp/openwireless-frontend-XXXX`
+ETC=$ROOT/port-$HTTP_PORT-etc
 rm -rf $ETC
 mkdir -m 0700 -p $ETC/auth
 mkdir -m 0700 -p $ETC/dropbear
+cp -R *.py $ROOT
 echo '{
   "sqm.ge00.download": "0",
   "sqm.ge00.upload": "0",
