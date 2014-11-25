@@ -9,6 +9,7 @@ var updateModule = (function(){
         requestModule.submitRequest(updateRequest);
       }
     }
+    $("#check-for-updates").removeClass("loading");
   };
 
   var errorCallback = function(response){
@@ -50,6 +51,7 @@ var updateModule = (function(){
 
 $(function() {
   $('#checkForUpdate').click(function(){
+    $("#check-for-updates").addClass("loading");
     updateModule.submitUpdateRequest();
   });
 });
