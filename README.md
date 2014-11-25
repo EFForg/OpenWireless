@@ -10,21 +10,50 @@ https://openwireless.org/.
 
 # Getting Started
 
+## Ubuntu/Debian users:
+
 Get the packages you need and install a git hook to run tests before push:
 
-    ./install-dev-dependencies.sh
+```
+./install-dev-dependencies.sh
+```
 
+## Vagrant users:
+
+Requirements:
+
+* [vagrant 1.5+](https://www.vagrantup.com/)
+* [virtualbox 4.3.12+](https://www.virtualbox.org/)
+
+Getting started with vagrant is done with:
+
+```
+vagrant up
+```
+
+You can then connect with the virtual machine with:
+
+```
+vagrant ssh
+```
+
+**NOTE: the project root is mounted at ```/vagrant```**
+
+Further instructions assume you are connected to the VM in the /vagrant directory.
+
+## Boot frontend
 Try out the web UI locally:
 
     ./local-lighttpd/run-local-lighttpd.sh
     firefox http://localhost:8000/
 
+## Deploy changes to router
 Sync the web UI to your router:
 
     ./sendAppToRouter --continuous
     firefox http://gw.home.lan/
 
-# Running tests
+## Running tests
 
     ./run-tests.sh
 
