@@ -40,8 +40,8 @@ fi
 if [ -n "$INSTALL_XVFB" ]; then
   echo Okay, installing xvfb for you ':)'
   sudo apt-get install $ACCEPT_INSTALL_PROMPTS xvfb
-  sudo cp infra/etc/init.d/Xvfb /etc/init.d/Xvfb
-  sudo service Xvfb start
+  sudo cp infra/etc/init/xvfb.conf /etc/init/xvfb.conf
+  sudo service xvfb start
 fi
 
 cat <<EOD
