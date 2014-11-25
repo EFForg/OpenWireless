@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline: <<EOS
 sudo apt-get update
 
-/vagrant/install-dev-dependencies.sh
+/vagrant/install-dev-dependencies.sh -xa
 EOS
 
   config.vm.network "private_network", type: "dhcp"
