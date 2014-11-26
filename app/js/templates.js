@@ -201,7 +201,7 @@ function program1(depth0,data) {
   if (helper = helpers.contents) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.contents); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</textarea><br>\n                <button id='submit-SSH'>Submit</button>\n                <button id='cancel-SSH'>Cancel</button>\n              </div>\n            ";
+    + "</textarea><br>\n                <div class=\"controls\">\n                  <button id='submit-SSH'>Submit</button>\n                  <button id='cancel-SSH'>Cancel</button>\n                </div>\n              </div>\n            ";
   return buffer;
   }
 function program2(depth0,data) {
