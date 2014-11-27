@@ -20,7 +20,7 @@ if ! make assert_templates_js_up_to_date ; then
   exit 1
 fi
 
-/usr/bin/env python2.7 -m unittest discover -s test/ -p '*_test.py'
+scripts/unit
 if which nodejs ; then
   NODEJS=nodejs
 else
