@@ -8,7 +8,7 @@ from subprocess import check_output
 from get_bytecounts import get_device_and_byte_counts
 
 
-def disable_overutilized_network():
+def update_network_availability():
     use_before_last_reset = float(uci.get("openwireless.use_before_last_reset"))
     use_since_last_reset = float(uci.get("openwireless.use_since_last_reset"))
     use_at_last_ui_reset = float(uci.get("openwireless.use_at_last_ui_reset"))
@@ -62,6 +62,10 @@ def update_openwireless_usage():
     else:
         increment_use_since_last_reset()
 
-update_openwireless_usage()
-disable_overutilized_network()
-uci.commit("openwireless")
+def main():
+    update_openwireless_usage()
+    update_network_availability()
+    uci.commit("openwireless")
+
+if __name__ == '__main__':
+    main()

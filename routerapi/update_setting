@@ -5,6 +5,7 @@ import sys
 
 import common
 import uci
+import accumulate_bytes
 
 environ = os.environ
 band_5_channel_options = ['auto',
@@ -113,6 +114,7 @@ def check_openwireless_monthly_data(bandwidth):
     if bandwidth:
         uci.set("openwireless.maxmonthlybandwidth", bandwidth)
         uci.commit("openwireless")
+        accumulate_bytes.update_network_availability()
 
 def do_post(params):
     check_band(params.get('routerBand'), "@wifi-iface[2]")
