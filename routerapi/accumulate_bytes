@@ -18,7 +18,10 @@ def update_network_availability():
         uci.set("wireless.@wifi-iface[1].disabled", "1")
         uci.commit("wireless")
         common.reset_wifi()
-
+    if current_use < max_use:
+        uci.set("wireless.@wifi-iface[1].disabled", "0")
+        uci.commit("wireless")
+        common.reset_wifi()
 
 def update_openwireless_usage():
 
