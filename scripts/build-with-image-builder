@@ -30,8 +30,6 @@ cp -rp $ROOT/etc $FILES/
 
 $ROOT/scripts/template $ROOT/lighttpd/lighttpd.conf.template > $FILES/etc/lighttpd/lighttpd.conf < $ROOT/lighttpd/router.properties
 
-touch $FILES/etc/lighttpd/overrides.conf
-
 cp -rp $ROOT/lib $FILES/
 
 mkdir $FILES/www

@@ -93,4 +93,4 @@ server.groupname = "%(GROUP)s"
 
 server.upload-dirs = ( "/tmp" )
 
-include "overrides.conf"
+include_shell "cat conf.d/*.conf 2> /dev/null"

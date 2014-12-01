@@ -39,7 +39,8 @@ PEM_FILE=$ETC/lighttpd.pem
 APPLICATION_URL=localhost:$HTTPS_PORT
 EOS
 
-cat > $ETC/overrides.conf <<EOS
+mkdir $ETC/conf.d
+cat > $ETC/conf.d/local-test-server.conf <<EOS
 setenv.add-environment = (
   "OVERRIDE_ETC" => var.CWD,
   "OVERRIDE_PATH" => var.CWD + "/.."
