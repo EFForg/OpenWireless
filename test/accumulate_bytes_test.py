@@ -23,7 +23,8 @@ class AccumulateBytesTest(unittest.TestCase):
         uci.set("openwireless.maxmonthlybandwidth", "20")
         uci.set("wireless.@wifi-iface[1].disabled", "1")
         self.with_usage_in_mb(uci, "0")
-        uci.commit("all")
+        uci.commit("openwireless")
+        uci.commit("wireless")
 
         accumulate_bytes.update_network_availability()
 
@@ -34,7 +35,8 @@ class AccumulateBytesTest(unittest.TestCase):
         self.with_usage_in_mb(uci, "20")
         uci.set("openwireless.maxmonthlybandwidth", "20")
         uci.set("wireless.@wifi-iface[1].disabled", "0")
-        uci.commit("all")
+        uci.commit("openwireless")
+        uci.commit("wireless")
 
         accumulate_bytes.update_network_availability()
 
@@ -45,7 +47,8 @@ class AccumulateBytesTest(unittest.TestCase):
         self.with_usage_in_mb(uci, "20")
         uci.set("openwireless.maxmonthlybandwidth", "40")
         uci.set("wireless.@wifi-iface[1].disabled", "0")
-        uci.commit("all")
+        uci.commit("openwireless")
+        uci.commit("wireless")
 
         accumulate_bytes.update_network_availability()
 
@@ -55,7 +58,8 @@ class AccumulateBytesTest(unittest.TestCase):
         self.with_usage_in_mb(uci, "20")
         uci.set("openwireless.maxmonthlybandwidth", "10")
         uci.set("wireless.@wifi-iface[1].disabled", "1")
-        uci.commit("all")
+        uci.commit("openwireless")
+        uci.commit("wireless")
 
         accumulate_bytes.update_network_availability()
 
