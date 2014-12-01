@@ -9,23 +9,25 @@ server.modules = (
   "mod_setenv",
   "mod_simple_vhost",
   "mod_cgi",
+  "mod_redirect",
   "mod_expire",
 )
 
 # force use of the "write" backend (closes: #2401)
 server.network-backend = "write"
-server.document-root = "REPO_DIR/app"
+server.document-root = "%(DOC_ROOT)s"
+# Disable symlinks to be paranoid.
 server.follow-symlink = "disable"
 
 index-file.names = ( "index.html" )
-alias.url += ( "/cgi-bin/routerapi" => "REPO_DIR/routerapi" )
-$HTTP["url"] =~ "^/cgi-bin/routerapi" {
+alias.url += ( "/cgi-bin" => "%(CGI_ROOT)s" )
+$HTTP["url"] =~ "^/cgi-bin" {
     cgi.assign = ( "" => "" )
 }
 
 #### SSL engine
 ### use PFS
-# https://raymii.org/s/tutorials/Pass_the_SSL_Labs_Test_on_Lighttpd_%28Mitigate_the_CRIME_and_BEAST_attack_-_Disable_SSLv2_-_Enable_PFS%29.html
+# https://raymii.org/s/tutorials/Pass_the_SSL_Labs_Test_on_Lighttpd_%%28Mitigate_the_CRIME_and_BEAST_attack_-_Disable_SSLv2_-_Enable_PFS%%29.html
 ssl.honor-cipher-order = "enable"
 ssl.cipher-list = "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-RC4-SHA:ECDHE-RSA-RC4-SHA:ECDH-ECDSA-RC4-SHA:ECDH-RSA-RC4-SHA:ECDHE-RSA-AES256-SHA:RC4-SHA"
 ssl.use-sslv2 = "disable"
@@ -36,15 +38,24 @@ setenv.add-response-header = (
   "X-Content-Type-Options" => "nosniff"
 )
 
-server.port = HTTP_PORT
+server.port = %(HTTP_PORT)s
+server.bind = "%(BIND)s"
 
-$SERVER["socket"] == ":HTTP_PORT" {
+# When accessing on port 80, show the welcome page and warn the user that they
+# are about to get a cert warning.
+$SERVER["socket"] == "%(BIND)s:%(HTTP_PORT)s" {
   index-file.names = ( "welcome.html" )
+
+  $HTTP["cookie"] =~ "logged_in" {
+    url.redirect = (
+      "^/(.*)" => "https://%(APPLICATION_URL)s$0"
+    )
+  }
 }
 
-$SERVER["socket"] == ":HTTPS_PORT" {
+$SERVER["socket"] == "%(BIND)s:%(HTTPS_PORT)s" {
   ssl.engine = "enable"
-  ssl.pemfile = "./local-lighttpd.pem"
+  ssl.pemfile = "%(PEM_FILE)s"
 }
 
 ## mimetype mapping
@@ -69,7 +80,7 @@ mimetype.assign = (
  )
 
 ## to help the rc.scripts
-server.pid-file = "./local-lighttpd.pid"
+server.pid-file = "%(PID_FILE)s"
 
 ## virtual directory listings
 server.dir-listing = "enable"
@@ -77,12 +88,9 @@ server.dir-listing = "enable"
 ## change uid to <uid> (default: don't care)
 # We'd like to run the server as root, but a couple of commands
 # (ping and iptaccount) won't run as user www-data.
-#server.username = "www-data"
-#server.groupname = "www-data"
+server.username = "%(USER)s"
+server.groupname = "%(GROUP)s"
 
 server.upload-dirs = ( "/tmp" )
 
-setenv.add-environment = (
-  "OVERRIDE_ETC" => var.CWD,
-  "OVERRIDE_PATH" => var.CWD + "/.."
-)
+include "overrides.conf"
