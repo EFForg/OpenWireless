@@ -14,12 +14,10 @@ def update_network_availability():
     use_at_last_ui_reset = float(uci.get("openwireless.use_at_last_ui_reset"))
     current_use = use_before_last_reset + use_since_last_reset - use_at_last_ui_reset
     max_use = float(uci.get("openwireless.maxmonthlybandwidth"))*1000000
-    if current_use > max_use:
-        uci.set("wireless.@wifi-iface[1].disabled", "1")
-        uci.commit("wireless")
-        common.reset_wifi()
-    if current_use < max_use:
-        uci.set("wireless.@wifi-iface[1].disabled", "0")
+    current_state = uci.get("wireless.@wifi-iface[1].disabled")
+    new_state = "1" if current_use > max_use else "0"
+    if current_state != new_state:
+        uci.set("wireless.@wifi-iface[1].disabled", new_state)
         uci.commit("wireless")
         common.reset_wifi()
 
