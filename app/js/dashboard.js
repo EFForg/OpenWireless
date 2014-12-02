@@ -5,7 +5,21 @@ Number.prototype.pad = function (len) {
 
 var dashboardModule = (function(){
   var init = function(){
-    displayInterfaces();
+    var data =  { "jsonrpc": "2.0", "method": "dashboard"};
+    var successCallback = function(response) {
+      if(response.result != null){
+        $("#genericError").hide();
+        var dashboard = response.result;
+        displayInterfaces(dashboard);
+        displayLastLogin(dashboard.previousLogin);
+      }
+    };
+    submitRequest(data, successCallback);
+  };
+
+  var displayLastLogin = function(previousLogin) {
+    var template = Handlebars.templates.lastLogin;
+    $("#last-login").append(template(previousLogin));
   };
 
   var getConnectivity = function(connected){
@@ -71,24 +85,16 @@ var dashboardModule = (function(){
     $('#main').append(template(interface));
   };
 
-  var displayInterfaces = function(){
-    var data =  { "jsonrpc": "2.0", "method": "dashboard"};
-    var successCallback = function(response) {
-      if(response.result != null){
-        $("#genericError").hide();
-        var interfaces = response.result;
-        displayInterface(interfaces.internet);
-        displayInterface(interfaces.lanNetwork);
-        displayInterface(interfaces.privateWifi);
-        displayInterface(interfaces.openWireless);
-        displayIpAddresses(interfaces.lanIp, interfaces.wanIp);
-        displayUpdateAvailability(interfaces.updateAvailable);
-        displayDate(interfaces.lastCheckDate);
-        enableToggles();
-        return;
-      }
-    };
-    submitRequest(data, successCallback);
+  var displayInterfaces = function(interfaces){
+    displayInterface(interfaces.internet);
+    displayInterface(interfaces.lanNetwork);
+    displayInterface(interfaces.privateWifi);
+    displayInterface(interfaces.openWireless);
+    displayIpAddresses(interfaces.lanIp, interfaces.wanIp);
+    displayUpdateAvailability(interfaces.updateAvailable);
+    displayDate(interfaces.lastCheckDate);
+    enableToggles();
+    return;
   };
 
   var enableToggles = function() {

@@ -153,6 +153,23 @@ function program13(depth0,data) {
   buffer += "\n</div>\n";
   return buffer;
   });
+templates['lastLogin'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<p>Last Login From: ";
+  if (helper = helpers.address) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.address); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + " on ";
+  if (helper = helpers.timestamp) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.timestamp); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n";
+  return buffer;
+  });
 templates['setSSID'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -235,7 +252,11 @@ function program7(depth0,data) {
   return "\n              SSH not enabled <a class=\"setting links edit-ssh\">Enable</a>\n              ";
   }
 
-  buffer += "        <h2>Administration\n          <span class=\"subheading\">\n            <a href=\"./changePassword.html\" class=\"links\">Change admin password</a>\n          </span>\n        </h2>\n        <div class=\"section\">\n          <p id=\"SSH\">\n            ";
+  buffer += "        <h2>Administration\n          <span class=\"subheading\">\n            <a href=\"./changePassword.html\" class=\"links\">Change admin password</a>\n          </span>\n        </h2>\n        <div class=\"section\">\n          <p>Last Login IP<span class=\"subheading\">"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.previousLogin)),stack1 == null || stack1 === false ? stack1 : stack1.address)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</span></p>\n          <p>Last Login Time<span class=\"subheading\">"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.previousLogin)),stack1 == null || stack1 === false ? stack1 : stack1.timestamp)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</span></p>\n          <p id=\"SSH\">\n            ";
   options={hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data}
   if (helper = helpers.sshKey) { stack1 = helper.call(depth0, options); }
   else { helper = (depth0 && depth0.sshKey); stack1 = typeof helper === functionType ? helper.call(depth0, options) : helper; }

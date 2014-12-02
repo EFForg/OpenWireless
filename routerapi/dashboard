@@ -10,6 +10,7 @@ import common
 import ip_address_retriever
 import run
 import uci
+from audit import Audit
 
 def get_dashboard():
     """Render JSON dashboard data response."""
@@ -58,6 +59,8 @@ def get_dashboard():
         update_available = True
     else:
         update_available = False
+
+    audit = Audit(uci)
 
     result = {
         "id": 1,
@@ -108,7 +111,8 @@ def get_dashboard():
             "updateAvailable": update_available,
             "lastCheckDate": last_check_date,
             "wanIp": wan_ip,
-            "lanIp": lan_ip
+            "lanIp": lan_ip,
+            "previousLogin" : audit.previous_login(),
         }
     }
     common.render_success(result)

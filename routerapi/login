@@ -5,6 +5,9 @@ import sys
 
 import auth
 import common
+import uci
+from audit import Audit
+from datetime import datetime
 
 def jsonrpc_login():
     """Accept a JSONRPC-style login, with parameters like so:
@@ -18,14 +21,16 @@ def jsonrpc_login():
         password = params[1]
     except KeyError, e:
         common.render_error(e.__str__())
-
     a = auth.Auth()
     if a.is_password(password):
+        audit = Audit(uci)
+        remote_address = os.environ.get('REMOTE_ADDR')
+        audit.record_login(remote_address, datetime.utcnow())
         print "Content-Type: application/json"
         print a.login_headers()
         print
         print "{}"
     else:
-     common.render_error("Bad password.")
+        common.render_error("Bad password.")
 
 jsonrpc_login()
