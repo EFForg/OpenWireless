@@ -7,6 +7,8 @@ class FakeUci:
         return self.data.get(name)
 
     def set(self, name, value):
+        if value == None:
+            raise ValueError("value can not be None.")
         self.tmp[name] = value
 
     def commit(self, section):

@@ -44,3 +44,8 @@ class FakeUciTest(unittest.TestCase):
         uci.commit('section')
 
         self.assertEquals(1, uci.get('section.key'))
+
+    def test_set_with_none_throws_exception(self):
+        uci = FakeUci()
+
+        self.assertRaises(ValueError, uci.set, 'foo', None)
