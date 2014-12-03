@@ -1,5 +1,5 @@
 @import url(oswald-font.css);
-header, .network, footer {
+header, .network, #check-for-updates div {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -312,7 +312,7 @@ h2 small {
  display: none;
 }
 
-footer {
+#check-for-updates div {
   -ms-flex-preferred-size: 44px;
   -webkit-flex-basis: 44px;
           flex-basis: 44px;
@@ -360,4 +360,20 @@ label {
 .section {
   padding-left: 1em;
   padding-bottom: 1em;
+}
+
+#check-for-updates .loading-message {
+    display: none;
+}
+
+#check-for-updates .message {
+    display: flex;
+}
+
+#check-for-updates.loading .loading-message {
+    display: flex;
+}
+
+#check-for-updates.loading .message {
+    display: none;
 }
