@@ -4,7 +4,7 @@ class FakeUci:
         self.tmp = {}
 
     def get(self, name):
-        return self.data[name]
+        return self.data.get(name)
 
     def set(self, name, value):
         self.tmp[name] = value
