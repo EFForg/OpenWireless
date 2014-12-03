@@ -28,6 +28,8 @@ mkdir -p $FILES
 
 cp -rp $ROOT/etc $FILES/
 
+$ROOT/scripts/template $ROOT/lighttpd/lighttpd.conf.template > $FILES/etc/lighttpd/lighttpd.conf < $ROOT/lighttpd/router.properties
+
 cp -rp $ROOT/lib $FILES/
 
 mkdir $FILES/www
