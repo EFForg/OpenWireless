@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -e
+
+/usr/bin/env python2.7 -m unittest discover -s test/ -p '*_test.py'

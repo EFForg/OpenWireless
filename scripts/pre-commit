@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -ex
+
+ROOT=`pwd`
+USE_VAGRANT=`ls .vagrant &> /dev/null && test $(whoami) != "vagrant"; echo $?`
+COMMAND="./run-tests.sh"
+
+if [ "$USE_VAGRANT" -eq "0" ]; then
+  vagrant ssh -c "cd /vagrant && $COMMAND"
+else
+  $COMMAND
+fi

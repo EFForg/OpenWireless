@@ -4,20 +4,21 @@ import os
 import sys
 
 import common
+from tz_info import tz_info
 
 def jsonrpc_set_timezone(etc=common.get_etc()):
-    """Accept a POSIX-style set timezone, with parameters like so:
+    """Accept an olson-style set timezone, with parameters like so:
 
     {"jsonrpc":"2.0","method":"set_timezone","params":["timezonestring"],"id":1}
 
-    Set the local timezone on the router by placing the POSIX compatible timezone string
+    Set the local timezone on the router by looking up and placing the POSIX compatible timezone string
     in the /etc/TZ file.
     """
 
     data = json.loads(sys.stdin.read())
     try:
         params = data["params"]
-        tz_string = params[0]
+        tz_string = tz_info[params[0]]
     except KeyError, e:
         common.render_error(e.__str__())
     except IndexError, e:

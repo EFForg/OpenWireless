@@ -8,51 +8,52 @@ OpenWireless router firmware, which is based off of Cerowrt and OpenWRT.
 More details about the OpenWireless project can be found at
 https://openwireless.org/.
 
-# Quick Look
-
-If you'd just like to take a quick look at the web UI, we have set up
-several instances of the web UI to be publicly accessible. Please try out one of
-these instances and report to us any vulnerabilities you find. Feel free to set
-an admin password: These instances will reset at the top of each hour.
-
-[0](http://ow.crud.net:8000)
-[1](http://ow.crud.net:8001)
-[2](http://ow.crud.net:8002)
-[3](http://ow.crud.net:8003)
-[4](http://ow.crud.net:8004)
-[5](http://ow.crud.net:8005)
-[6](http://ow.crud.net:8006)
-[7](http://ow.crud.net:8007)
-[8](http://ow.crud.net:8008)
-[9](http://ow.crud.net:8009)
-[10](http://ow.crud.net:8010)
-[11](http://ow.crud.net:8011)
-[12](http://ow.crud.net:8012)
-[13](http://ow.crud.net:8013)
-[14](http://ow.crud.net:8014)
-[15](http://ow.crud.net:8015)
-[16](http://ow.crud.net:8016)
-[17](http://ow.crud.net:8017)
-[18](http://ow.crud.net:8018)
-[19](http://ow.crud.net:8019)
-
 # Getting Started
+
+## Ubuntu/Debian users:
 
 Get the packages you need and install a git hook to run tests before push:
 
-    ./install-dev-dependencies.sh
+```
+./install-dev-dependencies.sh
+```
 
+## Vagrant users:
+
+Requirements:
+
+* [vagrant 1.5+](https://www.vagrantup.com/)
+* [virtualbox 4.3.12+](https://www.virtualbox.org/)
+
+Getting started with vagrant is done with:
+
+```
+vagrant up
+```
+
+You can then connect with the virtual machine with:
+
+```
+vagrant ssh
+```
+
+**NOTE: the project root is mounted at ```/vagrant```**
+
+Further instructions assume you are connected to the VM in the /vagrant directory.
+
+## Boot frontend
 Try out the web UI locally:
 
     ./local-lighttpd/run-local-lighttpd.sh
     firefox http://localhost:8000/
 
+## Deploy changes to router
 Sync the web UI to your router:
 
     ./sendAppToRouter --continuous
     firefox http://gw.home.lan/
 
-# Running tests
+## Running tests
 
     ./run-tests.sh
 
