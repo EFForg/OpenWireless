@@ -28,6 +28,10 @@ import pbkdf2
 
 import common
 
+AUTH_COOKIE_NAME = 'auth'
+CSRF_COOKIE_NAME = 'csrf_token'
+LOGGED_IN_COOKIE_NAME = 'logged_in'
+
 REQUEST_URI = 'REQUEST_URI'
 REQUEST_METHOD = 'REQUEST_METHOD'
 LOGGED_OUT_ENDPOINTS = [
@@ -74,12 +78,9 @@ class Auth:
     """Password setting/checking, authentication tokens, and CSRF prevention."""
     SESSION_DURATION = 86400 # One day in seconds
     TOKEN_LENGTH = 20 # number of random bytes, pre-hex encoding
-    AUTH_COOKIE_NAME = 'auth'
-    CSRF_COOKIE_NAME = 'csrf_token'
     HTTP_X_CSRF_TOKEN = 'HTTP_X_CSRF_TOKEN'
     RATE_LIMIT_DURATION = 86400 # One day in seconds
     RATE_LIMIT_COUNT = 10
-    LOGGED_IN_COOKIE_NAME = 'logged_in'
     PASSWORD_LENGTH_MIN = 8
 
     def __init__(self, path = default_path()):
@@ -218,7 +219,7 @@ class Auth:
         else:
             common.render_error('Invalid CSRF token.')
 
-    def login_headers(self):
+    def login_headers(self, tokens):
         """
         Return the HTTP headers required to log the user in. Specifically, set the
         auth cookie, the csrf token cookie, and an unsecured cookie logged_in=true,
@@ -229,18 +230,21 @@ class Auth:
         Calling this method immediately regenerates the stored auth token,
         invalidating other active sessions.
         """
-        auth_token = self.regenerate_authentication_token()
-        csrf_token = self.get_csrf_token()
-        # Set the secure flag on the cookie if the login occurred over HTTPS.
-        secure = ''
-        if 'HTTPS' in os.environ:
-            secure = ' secure;'
+        secure = 'HTTPS' in os.environ
+        secure_suffix = ' secure;' if secure else ''
         return ('Set-Cookie: %s=true; path=/\n'
-                        'Set-Cookie: %s=%s; path=/; HttpOnly;%s\n'
-                        'Set-Cookie: %s=%s; path=/;%s\n' % (
-                        self.LOGGED_IN_COOKIE_NAME,
-                        self.AUTH_COOKIE_NAME, auth_token, secure,
-                        self.CSRF_COOKIE_NAME, csrf_token, secure))
+                  'Set-Cookie: %s=%s; path=/; HttpOnly;%s\n'
+                  'Set-Cookie: %s=%s; path=/;%s\n' % (
+                  LOGGED_IN_COOKIE_NAME,
+                  AUTH_COOKIE_NAME, tokens.auth_token, secure_suffix,
+                  CSRF_COOKIE_NAME, tokens.csrf_token, secure_suffix))
+
+    def authenticate(self, password):
+        if self.is_password(password):
+            auth_token = self.regenerate_authentication_token()
+            csrf_token = self.get_csrf_token()
+            return Tokens(auth_token, csrf_token)
+        return None
 
     def logout_headers(self):
         """
@@ -252,8 +256,8 @@ class Auth:
         return ('Set-Cookie: %s=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT\n'
                         'Set-Cookie: %s=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT\n'
                         'Set-Cookie: %s=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT\n' % (
-                        self.LOGGED_IN_COOKIE_NAME, self.AUTH_COOKIE_NAME,
-                        self.CSRF_COOKIE_NAME))
+                        LOGGED_IN_COOKIE_NAME, AUTH_COOKIE_NAME,
+                        CSRF_COOKIE_NAME))
 
     def __current_authentication_token(self):
         """Return the current authentication token if it still valid, else None."""
@@ -305,7 +309,7 @@ class Auth:
         except KeyError:
             cookies = []
         for c in cookies:
-            prefix = Auth.AUTH_COOKIE_NAME + '='
+            prefix = AUTH_COOKIE_NAME + '='
             if (c.startswith(prefix) and
                     self.is_authentication_token(c[len(prefix):])):
                 return True
@@ -314,5 +318,10 @@ class Auth:
         print self.logout_headers()
         print json.JSONEncoder().encode({'error': 'Not authenticated.'})
         sys.exit(1)
+
+class Tokens:
+    def __init__(self, auth_token, csrf_token):
+        self.auth_token = auth_token
+        self.csrf_token = csrf_token
 
 check_request()
