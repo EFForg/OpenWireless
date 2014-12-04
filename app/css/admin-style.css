@@ -333,6 +333,9 @@ footer img {
   height: 30px;
   width: 30px;
 }
+#last-login span,footer span {
+  color: #FFED21;
+}
 .inputError,
 #restartSuccess {
   display: none;

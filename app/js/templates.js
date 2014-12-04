@@ -159,14 +159,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, helper, options, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing;
 
 
-  buffer += "<p>Last Login From: ";
+  buffer += "<p>Last Login From: <span>";
   if (helper = helpers.address) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.address); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + " on ";
+    + "</span> on <span>";
   stack1 = (helper = helpers.datetime || (depth0 && depth0.datetime),options={hash:{},data:data},helper ? helper.call(depth0, (depth0 && depth0.timestamp), options) : helperMissing.call(depth0, "datetime", (depth0 && depth0.timestamp), options));
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</p>\n";
+  buffer += "</span></p>\n";
   return buffer;
   });
 templates['lastUpdate'] = template(function (Handlebars,depth0,helpers,partials,data) {
