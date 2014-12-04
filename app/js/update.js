@@ -2,7 +2,7 @@ var updateModule = (function(){
 
   var checkUpdateCallback = function(response){
     if(response.result.status == "up-to-date"){
-      dashboardModule.displayDate(new Date());
+      dashboardModule.displayLastUpdate({updateAvailable: false, lastCheckDate: new Date()});
       alert("Your software is up-to-date!");
     } else {
       if(confirm("A new version is available. Would you like to update now?")){
@@ -18,7 +18,7 @@ var updateModule = (function(){
 
   var updateCallback = function(response){
     if(response.result.status == "update-success"){
-      dashboardModule.displayDate(new Date());
+      dashboardModule.displayLastUpdate({updateAvailable: false, lastCheckDate: new Date()});
       alert("Successfully updated your software!");
     } else {
       alert("Unable to complete update.");
@@ -50,7 +50,7 @@ var updateModule = (function(){
 
 
 $(function() {
-  $('#checkForUpdate').click(function(){
+  $(document).on('click', '#checkForUpdate', function(){
     $("#check-for-updates").addClass("loading");
     updateModule.submitUpdateRequest();
   });

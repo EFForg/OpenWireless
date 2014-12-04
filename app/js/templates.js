@@ -169,6 +169,32 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   buffer += "</p>\n";
   return buffer;
   });
+templates['lastUpdate'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, options, self=this, helperMissing=helpers.helperMissing;
+
+function program1(depth0,data) {
+  
+  
+  return "is available";
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "not available";
+  }
+
+  buffer += "<div id=\"check-for-updates\">\n  <div class=\"message\">\n    <p>Update ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.updateAvailable), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += " : last checked <span id=\"date\">";
+  stack1 = (helper = helpers.datetime || (depth0 && depth0.datetime),options={hash:{},data:data},helper ? helper.call(depth0, (depth0 && depth0.lastCheckDate), options) : helperMissing.call(depth0, "datetime", (depth0 && depth0.lastCheckDate), options));
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</span></p>\n    <img id=\"checkForUpdate\" src=\"images/update.png\" alt=\"update\"/>\n  </div>\n\n  <div class=\"loading-message\"><p>Loading...</p></div>\n</div>\n";
+  return buffer;
+  });
 templates['setSSID'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};

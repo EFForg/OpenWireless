@@ -12,6 +12,7 @@ var dashboardModule = (function(){
         var dashboard = response.result;
         displayInterfaces(dashboard);
         displayLastLogin(dashboard.previousLogin);
+        displayLastUpdate(dashboard);
       }
     };
     submitRequest(data, successCallback);
@@ -51,30 +52,10 @@ var dashboardModule = (function(){
     $('#wan-ip').text(wanIp);
   }
 
-  var displayUpdateAvailability = function(updateAvailable){
-    if (updateAvailable) {
-      $('#avail').text(" is available");
-    } else {
-      $('#avail').text(" not available");
-    }
+  var displayLastUpdate = function(dashboard) {
+    var template = Handlebars.templates.lastUpdate;
+    $("#last-update").html(template(dashboard));
   }
-
-  var displayDate = function(lastCheckDate){
-    var m_names = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-    var d = lastCheckDate;
-
-    if(!(d instanceof Date)) {
-      d = new Date(parseFloat(lastCheckDate));
-    }
-
-    var curr_date = d.getDate();
-    var curr_month = d.getMonth();
-    var curr_year = d.getFullYear();
-    var curr_hour = d.getHours().pad(2);
-    var curr_minutes = d.getMinutes().pad(2);
-
-    $('#date').text(" " + curr_date + "-" + m_names[curr_month] + "-" + curr_year + "  " + curr_hour + ":" + curr_minutes);
-  };
 
   var displayInterface = function(interface) {
     var template = Handlebars.templates.dashboard;
@@ -91,8 +72,6 @@ var dashboardModule = (function(){
     displayInterface(interfaces.privateWifi);
     displayInterface(interfaces.openWireless);
     displayIpAddresses(interfaces.lanIp, interfaces.wanIp);
-    displayUpdateAvailability(interfaces.updateAvailable);
-    displayDate(interfaces.lastCheckDate);
     enableToggles();
     return;
   };
@@ -148,7 +127,7 @@ var dashboardModule = (function(){
 
   return {
     init: init,
-    displayDate: displayDate
+    displayLastUpdate: displayLastUpdate
   };
 })();
 
