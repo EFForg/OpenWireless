@@ -10,3 +10,5 @@ config 0 'use_since_last_reset'
 config 1405544872 'last_known_reset_time'
 
 config 0 'use_at_last_ui_reset'
+
+config audit 'audit'
