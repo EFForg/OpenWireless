@@ -156,10 +156,12 @@ function program13(depth0,data) {
 templates['lastLogin'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, helper, options, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing;
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing, self=this;
 
-
-  buffer += "<p>Last Login From: <span>";
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, helper, options;
+  buffer += "\n<p>Last Login From: <span>";
   if (helper = helpers.address) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.address); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -167,6 +169,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   stack1 = (helper = helpers.datetime || (depth0 && depth0.datetime),options={hash:{},data:data},helper ? helper.call(depth0, (depth0 && depth0.timestamp), options) : helperMissing.call(depth0, "datetime", (depth0 && depth0.timestamp), options));
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</span></p>\n";
+  return buffer;
+  }
+
+  stack1 = helpers['if'].call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n";
   return buffer;
   });
 templates['lastUpdate'] = template(function (Handlebars,depth0,helpers,partials,data) {
