@@ -27,6 +27,8 @@ import time
 import pbkdf2
 
 import common
+import audit
+import uci
 
 AUTH_COOKIE_NAME = 'auth'
 CSRF_COOKIE_NAME = 'csrf_token'
@@ -239,10 +241,11 @@ class Auth:
                   AUTH_COOKIE_NAME, tokens.auth_token, secure_suffix,
                   CSRF_COOKIE_NAME, tokens.csrf_token, secure_suffix))
 
-    def authenticate(self, password):
+    def authenticate(self, password, remote_address):
         if self.is_password(password):
             auth_token = self.regenerate_authentication_token()
             csrf_token = self.get_csrf_token()
+            audit.Audit(uci).record_login(remote_address)
             return Tokens(auth_token, csrf_token)
         return None
 

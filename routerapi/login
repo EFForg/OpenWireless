@@ -22,11 +22,9 @@ def jsonrpc_login():
     except KeyError, e:
         common.render_error(e.__str__())
     a = auth.Auth()
-    tokens = a.authenticate(password)
+    remote_address = os.environ.get('REMOTE_ADDR')
+    tokens = a.authenticate(password, remote_address)
     if tokens:
-        audit = Audit(uci)
-        remote_address = os.environ.get('REMOTE_ADDR')
-        audit.record_login(remote_address, datetime.utcnow())
         print "Content-Type: application/json"
         print a.login_headers(tokens)
         print

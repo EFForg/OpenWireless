@@ -13,9 +13,12 @@ sys.path.insert(0, os.path.join(
 
 import common
 import auth
+from mock import patch, call
 
 class TestAuth(unittest.TestCase):
     def setUp(self):
+        self.patcher = patch("audit.Audit")
+        self.audit = self.patcher.start()
         self.path = tempfile.mkdtemp()
         os.chmod(self.path, 0700)
         self.auth = auth.Auth(self.path)
@@ -180,14 +183,20 @@ Set-Cookie: csrf_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT
 
     def test_successful_authentication(self):
         self.auth.save_password('foobarbaz')
-        tokens = self.auth.authenticate('foobarbaz')
+        tokens = self.auth.authenticate('foobarbaz', "address")
         self.assertTrue(self.auth.is_authentication_token(tokens.auth_token))
         self.assertTrue(self.auth.is_csrf_token(tokens.csrf_token))
 
     def test_invalid_password(self):
         self.auth.save_password('foobarbaz')
-        tokens = self.auth.authenticate('totally not foobarbaz')
+        tokens = self.auth.authenticate('totally not foobarbaz', "address")
         self.assertIsNone(tokens)
+
+    def test_authentication_should_write_audit_record(self):
+        self.auth.save_password('foobarbaz')
+        self.auth.authenticate('foobarbaz', "address")
+
+        self.assertEquals(self.audit.method_calls, [call.record_login("address")])
 
 if __name__ == '__main__':
     unittest.main()
