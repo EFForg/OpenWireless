@@ -22,7 +22,9 @@ class Audit():
         timestamp = self._get_date(previous_login_timestamp)
         return self._build_login(address, timestamp)
 
-    def record_login(self, address, timestamp):
+    def record_login(self, address, timestamp = None):
+        if not timestamp:
+            timestamp = datetime.utcnow()
         if self.last_login():
             self.uci.set(previous_login_ip, self.uci.get(last_login_ip))
             self.uci.set(previous_login_timestamp, self.uci.get(last_login_timestamp))
