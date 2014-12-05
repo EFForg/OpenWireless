@@ -61,20 +61,7 @@ var changePassword = (function() {
      */
     var setTimeZone = function(response) {
 
-
-      /**
-       * returns a POSIX compatible timezone string
-       * since we can't get the real timezone we return
-       * in the format off EFF\{offset\}local
-       */
-      var getTzString = function() {
-        var d = new Date();
-        var tzo = 1 + (d.getTimezoneOffset() / 60)
-        var tzstr = "EFF" + tzo + "local\n"
-        return tzstr;
-      };
-
-      var setTzRequest = { "jsonrpc": "2.0", "method": "set_timezone", "params": [getTzString()], "id": 1 };
+      var setTzRequest = { "jsonrpc": "2.0", "method": "set_timezone", "params": [jstz.determine().name()], "id": 1 };
       var request = {
         'data': setTzRequest,
         'url': setTzUrl,

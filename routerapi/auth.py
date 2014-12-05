@@ -80,6 +80,7 @@ class Auth:
     RATE_LIMIT_DURATION = 86400 # One day in seconds
     RATE_LIMIT_COUNT = 10
     LOGGED_IN_COOKIE_NAME = 'logged_in'
+    PASSWORD_LENGTH_MIN = 8
 
     def __init__(self, path = default_path()):
         self.path = path
@@ -167,11 +168,16 @@ class Auth:
     def save_password(self, new_password):
         """
         Store a new password.
+        Returns True is the password was stored and False if the password 
+        didn't fulfil all criteria.
         """
+        if len(new_password) < self.PASSWORD_LENGTH_MIN:
+            return False
         # 55 iterations takes about 100 ms on a Netgear WNDR3800 or about 8ms on a
         # Core2 Duo at 1200 MHz.
         hashed = pbkdf2.crypt(new_password, iterations=55)
         self.write(self.password_filename, hashed)
+        return True
 
     def get_csrf_token(self):
         """

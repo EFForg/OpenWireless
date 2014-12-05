@@ -2,7 +2,7 @@ NODEJS=$(if $(shell which nodejs),nodejs,node)
 PIP_USER_SWITCH=$(if $(VIRTUAL_ENV),,--user)
 
 TEMPLATES_JS=app/js/templates.js
-HANDLEBARS_FILES=app/templates/*.handlebars  # Used to generate templates.js
+HANDLEBARS_FILES=$(wildcard app/templates/*.handlebars) # Used to generate templates.js
 IMAGE=cerowrt/releases/openwireless-openwrt-squashfs-sysupgrade.bin
 
 .PHONY: all
@@ -52,7 +52,7 @@ deps:
 # This should depend on "all" instead. See note below for assert_templates_js_up_to_date
 .PHONY: test
 test: assert_templates_js_up_to_date deps
-	/usr/bin/env python2.7 -m unittest discover -s test/ -p '*_test.py'
+	scripts/unit
 	$(NODEJS) -e "require('grunt').tasks(['test']);"
 
 .PHONY: test-selenium

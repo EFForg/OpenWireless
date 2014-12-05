@@ -16,7 +16,8 @@ def jsonrpc_set_private_ssid():
         common.render_error(e.__str__())
     except ValueError, e:
         common.render_error(e.__str__())
-
+    if len(passphrase) < 8:
+        common.render_error("Passphrase must contain at least 8 characters.")
     # TODO: filter input
     uci.set('wireless.@wifi-iface[2].ssid', name)
     uci.set('wireless.@wifi-iface[2].key', passphrase)

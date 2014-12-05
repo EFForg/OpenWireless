@@ -1,0 +1,10 @@
+#!/usr/bin/env python2.7
+
+import sys
+
+replacements = dict(i.strip().split('=') for i in sys.stdin.readlines())
+
+filename = sys.argv[1]
+
+with open(filename) as template:
+  print template.read() % replacements

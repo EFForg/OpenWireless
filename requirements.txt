@@ -1,2 +1,2 @@
 mock==1.0.1
-selenium==2.42.1
+selenium==2.44.0
