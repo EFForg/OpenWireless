@@ -17,8 +17,8 @@ from mock import patch, call
 
 class TestAuth(unittest.TestCase):
     def setUp(self):
-        self.patcher = patch("audit.Audit")
-        self.audit = self.patcher.start()
+        patcher = patch("auth.audit")
+        self.audit = patcher.start()
         self.path = tempfile.mkdtemp()
         os.chmod(self.path, 0700)
         self.auth = auth.Auth(self.path)

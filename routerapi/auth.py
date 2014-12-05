@@ -245,7 +245,7 @@ class Auth:
         if self.is_password(password):
             auth_token = self.regenerate_authentication_token()
             csrf_token = self.get_csrf_token()
-            audit.Audit(uci).record_login(remote_address)
+            audit.record_login(remote_address)
             return Tokens(auth_token, csrf_token)
         return None
 

@@ -10,7 +10,7 @@ import common
 import ip_address_retriever
 import run
 import uci
-from audit import Audit
+import audit
 
 def get_dashboard():
     """Render JSON dashboard data response."""
@@ -59,8 +59,6 @@ def get_dashboard():
         update_available = True
     else:
         update_available = False
-
-    audit = Audit(uci)
 
     result = {
         "id": 1,

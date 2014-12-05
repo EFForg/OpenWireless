@@ -5,9 +5,6 @@ import sys
 
 import auth
 import common
-import uci
-from audit import Audit
-from datetime import datetime
 
 def jsonrpc_login():
     """Accept a JSONRPC-style login, with parameters like so:
