@@ -13,9 +13,12 @@ sys.path.insert(0, os.path.join(
 
 import common
 import auth
+from mock import patch, call
 
 class TestAuth(unittest.TestCase):
     def setUp(self):
+        patcher = patch("auth.audit")
+        self.audit = patcher.start()
         self.path = tempfile.mkdtemp()
         os.chmod(self.path, 0700)
         self.auth = auth.Auth(self.path)
@@ -162,25 +165,38 @@ Set-Cookie: csrf_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT
                 self.auth.logout_headers())
 
     def test_login_headers(self):
-        os.environ['HTTPS'] = 'true'
-        headers_1 = self.auth.login_headers()
-        pattern = re.compile(
-            'Set-Cookie: logged_in=true; path=/\n'
-            'Set-Cookie: auth=(.*?); path=/; HttpOnly; secure;\n'
-            'Set-Cookie: csrf_token=(.*?); path=/; secure;\n')
-        self.assertRegexpMatches(headers_1, pattern)
-        auth_1, csrf_1 = pattern.match(headers_1).groups()
-        self.assertTrue(self.auth.is_authentication_token(auth_1))
+        tokens = auth.Tokens(auth_token = "foo", csrf_token = "bar")
+        os.environ["HTTPS"] = "True"
+        cookies = self.auth.login_headers(tokens)
+        expected_cookies = ('Set-Cookie: logged_in=true; path=/\n'
+            'Set-Cookie: auth=foo; path=/; HttpOnly; secure;\n'
+            'Set-Cookie: csrf_token=bar; path=/; secure;\n')
+        self.assertEquals(cookies, expected_cookies)
 
-        headers_2 = self.auth.login_headers()
-        self.assertRegexpMatches(headers_2, pattern)
-        auth_2, csrf_2 = pattern.match(headers_2).groups()
-        self.assertNotEqual(auth_1, auth_2)
-        self.assertNotEqual(csrf_1, csrf_2)
+    def test_login_headers_can_be_unsecure(self):
+        tokens = auth.Tokens(auth_token = "foo", csrf_token = "bar")
+        cookies = self.auth.login_headers(tokens)
+        expected_cookies = ('Set-Cookie: logged_in=true; path=/\n'
+            'Set-Cookie: auth=foo; path=/; HttpOnly;\n'
+            'Set-Cookie: csrf_token=bar; path=/;\n')
+        self.assertEquals(cookies, expected_cookies)
 
-        self.assertTrue(self.auth.is_authentication_token(auth_2))
-        self.assertFalse(self.auth.is_authentication_token(auth_1))
+    def test_successful_authentication(self):
+        self.auth.save_password('foobarbaz')
+        tokens = self.auth.authenticate('foobarbaz', "address")
+        self.assertTrue(self.auth.is_authentication_token(tokens.auth_token))
+        self.assertTrue(self.auth.is_csrf_token(tokens.csrf_token))
 
+    def test_invalid_password(self):
+        self.auth.save_password('foobarbaz')
+        tokens = self.auth.authenticate('totally not foobarbaz', "address")
+        self.assertIsNone(tokens)
+
+    def test_authentication_should_write_audit_record(self):
+        self.auth.save_password('foobarbaz')
+        self.auth.authenticate('foobarbaz', "address")
+
+        self.assertEquals(self.audit.method_calls, [call.record_login("address")])
 
 if __name__ == '__main__':
     unittest.main()

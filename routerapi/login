@@ -18,14 +18,15 @@ def jsonrpc_login():
         password = params[1]
     except KeyError, e:
         common.render_error(e.__str__())
-
     a = auth.Auth()
-    if a.is_password(password):
+    remote_address = os.environ.get('REMOTE_ADDR')
+    tokens = a.authenticate(password, remote_address)
+    if tokens:
         print "Content-Type: application/json"
-        print a.login_headers()
+        print a.login_headers(tokens)
         print
         print "{}"
     else:
-     common.render_error("Bad password.")
+        common.render_error("Bad password.")
 
 jsonrpc_login()

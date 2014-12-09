@@ -13,6 +13,7 @@ import json
 import os
 import subprocess
 import traceback
+import datetime
 
 # When running under local-lighttpd, we expect to receive a single path for
 # modules that overrides default implementations. For instance, we override
@@ -56,7 +57,12 @@ def render_success_no_exit(data):
         render_error("Tried to render non-dict as JSON output")
     print 'Content-Type: application/json'
     print
-    print json.JSONEncoder().encode(data)
+    print json.dumps(data, default = datetime_handling_serializer)
+
+def datetime_handling_serializer(obj):
+    if isinstance(obj, datetime.datetime):
+        return obj.isoformat()
+    return json.dumps(obj)
 
 def exception_handler(exc_type, exc_obj, exc_tb):
     error_text = '%s: %s, %s' % (

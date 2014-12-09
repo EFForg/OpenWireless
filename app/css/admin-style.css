@@ -21,7 +21,7 @@ footer {
   margin-bottom: 90px;
 }
 
-.ips {
+.ips, #last-login {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -312,7 +312,11 @@ h2 small {
  display: none;
 }
 
-#check-for-updates div {
+#last-login {
+  margin-bottom: 10px;
+}
+
+#check-for-updates div, #last-login {
   -ms-flex-preferred-size: 44px;
   -webkit-flex-basis: 44px;
           flex-basis: 44px;
@@ -328,6 +332,9 @@ footer p {
 footer img {
   height: 30px;
   width: 30px;
+}
+#last-login span,footer span {
+  color: #FFED21;
 }
 .inputError,
 #restartSuccess {
