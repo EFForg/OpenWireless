@@ -6,7 +6,6 @@ sync() {
   make app/js/templates.js && \
   rsync -au --no-owner --no-group app/ $TARGET:/www/ && \
   rsync -au --no-owner --no-group routerapi/ $TARGET:/www/cgi-bin/routerapi/ && \
-  rsync -au --no-owner --no-group etc/lighttpd/lighttpd.conf $TARGET:/etc/lighttpd/lighttpd.conf && \
   rsync -au --no-owner --no-group lib/update/ $TARGET:/lib/update/ && \
   date +"%Y-%m-%d %H:%M:%S synced"
 }
