@@ -11,6 +11,7 @@ import ip_address_retriever
 import run
 import uci
 import audit
+import datetime
 
 def get_dashboard():
     """Render JSON dashboard data response."""
@@ -54,6 +55,8 @@ def get_dashboard():
       [last_check_date,avail] = open(last_update_path).read().split()
     else:
       [last_check_date, avail] = (0, "N")
+
+    update_check_datetime = datetime.datetime.utcfromtimestamp(int(last_check_date)/1000)
 
     if (avail=="Y"):
         update_available = True
@@ -107,7 +110,7 @@ def get_dashboard():
                 "on": openwireless_on
             },
             "updateAvailable": update_available,
-            "lastCheckDate": last_check_date,
+            "lastCheckDate": update_check_datetime,
             "wanIp": wan_ip,
             "lanIp": lan_ip,
             "previousLogin" : audit.previous_login(),
