@@ -12,6 +12,7 @@ LIGHTTPD_CONF_TEMPLATE=$REPO_DIR/lighttpd/lighttpd.conf.template
 rm -rf $ETC
 mkdir -m 0700 -p $ETC/auth
 mkdir -m 0700 -p $ETC/dropbear
+cp $REPO_DIR/etc/last_update_check $ETC/
 cp -R *.py $ROOT
 echo '{
   "sqm.ge00.download": "0",
