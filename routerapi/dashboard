@@ -56,7 +56,7 @@ def get_dashboard():
     else:
       [last_check_date, avail] = (0, "N")
 
-    update_check_datetime = datetime.datetime.utcfromtimestamp(int(last_check_date)/1000)
+    update_check_datetime = datetime.datetime.utcfromtimestamp(float(last_check_date)/1000)
 
     if (avail=="Y"):
         update_available = True
