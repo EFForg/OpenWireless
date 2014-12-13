@@ -2,9 +2,6 @@ var initialResponse = {};
 var response1 = {};
 var response2 = {};
 var response3 = {};
-var response4 = {};
-var response5 = {};
-var response6 = {};
 var byteCountPath = "/cgi-bin/routerapi/bytecount";
 
 var replaceByteCounts = function(){
@@ -85,13 +82,12 @@ var replaceByteCounts = function(){
 
   var updateFields = function(response) {
     response1 = response2;
-    response2 = response3;
-    response3 = response;
+    response2 = response;
 
     if ($.isEmptyObject(response1)){
-        rates = getRates(response3, initialResponse);
+        rates = getRates(response2, initialResponse);
     } else {
-        rates = getRates(response3, response1);
+        rates = getRates(response2, response1);
     }
 
     updateCount('Internet', rates['internet']);
@@ -115,14 +111,14 @@ var replaceByteCounts = function(){
     try {
       updateFields(response);
     } finally {
-      setTimeout(replaceByteCounts, 1000);
+      setTimeout(replaceByteCounts, 500);
     }
   };
 
-  // When we get an error, trying in ten seconds instead of one.
+  // When we get an error, trying in five seconds instead of one.
   var retryingErrorCallback = function(jqXHR, textStatus, errorThrown) {
     errorCallback(jqXHR, textStatus, errorThrown);
-    setTimeout(replaceByteCounts, 10000);
+    setTimeout(replaceByteCounts, 5000);
   }
 
   var requestData = {
