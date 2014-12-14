@@ -1,30 +1,34 @@
 #!/bin/bash
 
-  IMAGE="releases/openwireless-openwrt-squashfs-sysupgrade.bin"
-
+  # Begin first time only steps 
   git submodule init
   git submodule update
 
-  #build  router image
-  echo "Applying openwireless customizations"
-  #customize the file system
-  ./sendToBuild
-
-  echo "Setting up feeds"
   #setup the package building system
+  echo "Setting up feeds ..."
+  cp OWrt/feeds.conf cerowrt/feeds.conf
   cd cerowrt
-  echo 'src-git cero https://github.com/dtaht/ceropackages-3.10' >> feeds.conf.default
   ./scripts/feeds update
   make package/symlinks
+  cd ..
+  #End first time only steps
 
 
-  echo "Building cerowrt"
-  #copy the config (kernel + packages)
-  cp ../OWrt/config-OWrt .config
+  #customize the target file system
+  echo "Applying openwireless customizations ..."
+  ./sendToBuild
+
+  #customize .config
+  echo "Setting up openwireless .config ..."
+  cp OWrt/config-OWrt cerowrt/.config
+
+  echo "Building cerowrt ..."
+  cd cerowrt
   make -j4
   cd ..
 
-  echo "Build completed. Copying IMAGE to release directory" 
+  echo "Build completed. Copying IMAGE to release directory ..." 
+  IMAGE="releases/openwireless-openwrt-squashfs-sysupgrade.bin"
   mkdir -p releases
   cp cerowrt/bin/ar71xx/openwrt-ar71xx-generic-wndr3800-squashfs-sysupgrade.bin $IMAGE
   if ! [ -f $IMAGE ]; then
