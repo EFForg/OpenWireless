@@ -96,7 +96,7 @@ of copying out the image you just built. If needed restart make multiple times. 
 want to be conservative and ensure the build goes to completion without a glitch run 
 "make" without the "-j" option by editing build.sh before you first execute it. 
 
-After the first build, for succeding builds, from the top level do 
+After the first build, for succeeding builds, from the top level do 
 
 	# git pull
    	# ./sendToBuild
