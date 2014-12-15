@@ -48,7 +48,10 @@ Try out the web UI locally:
     firefox http://localhost:8000/
 
 ## Deploy changes to router
-Sync the web UI to your router:
+If you are doing only Web-UI development, all you need to test your changes
+on a real router is to use the script below to sync the Web-UI under 
+development on your development machine to your router (i.e you do not need 
+to build and flash a new image to the router just to test UI changes):
 
     ./sendAppToRouter --continuous
     firefox http://gw.home.lan/
@@ -58,6 +61,53 @@ Sync the web UI to your router:
     ./run-tests.sh
 
 Continuous build at https://travis-ci.org/EFForg/OpenWireless
+
+
+# Building the image
+
+You can do all of the above without building an image to flash to the router. Here is
+what you need, if you decide you do want to build an router image. Building has been 
+tested only on linux. Please refer to the OpenWRT build requirements 
+
+http://wiki.openwrt.org/doc/howto/build#prerequisites
+
+for details of what is needed on your linux box. These OpenWRT requirements together with 
+some additional development requirements are captured in the install-dev-dependencies.sh 
+script above. So running that script is the first preparatory step on your linux box.  
+
+Then for a first time build from the top level (i.e OpenWireless directory) run: 
+
+    # ./build.sh
+    
+A first time build may take several hours depending on your system. The build has been
+optimized for quad core processors (i.e we use "make -j 4"), with which, if everything 
+goes well, a build will complete in less than an hour. You can change that "make" 
+optimization by editing the build.sh script. The resulting image is placed in the 
+./releases directory. 
+
+When using a "-j n" option with "make" for any n > 1 the build may fail. All you need 
+to do in this case is 
+
+    # cd cerowrt
+    # make [-j n]
+
+Usually that will fix things. You will then have to manually do the last part of build.sh
+of copying out the image you just built. If needed restart make multiple times. If you 
+want to be conservative and ensure the build goes to completion without a glitch run 
+"make" without the "-j" option by editing build.sh before you first execute it. 
+
+After the first build, for succeding builds, from the top level do:
+
+   # git pull
+   # ./sendToBuild
+   # cp OWrt/config-OWrt cerowrt/.config  (do this step only if config change is needed)
+   # cd cerowrt
+   # make [-j n]
+
+These steps will pull the latest changes and rebuild an image without updating your packages 
+from the openwrt feeds you are using. If you want to update the openwrt package feeds and/or 
+the linux kernel, refer to openwrt documentation. 
+
 
 # UX Starter Kit
 
@@ -81,21 +131,6 @@ client side.
 The CeroWRT code can be found in the submodule cerowrt. The build config used for
 OpenWireless is in OWrt/config-OWrt.
 
-# Building the image
-
-Building has been tested only on linux. Please refer to the OpenWRT build requirements
-
-http://wiki.openwrt.org/doc/howto/build#prerequisites
-
-and make sure your linux system has the prerequisites. Then for a first time build 
-from the top level run: 
-
-    # ./build.sh
-    
-A first time build may take several hours depending on your system. The resulting 
-image is in ./releases directory. After the first build, for succeding builds run: 
-
-    # ./rebuild.sh 
 
 # Networking Setup
 
