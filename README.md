@@ -100,7 +100,10 @@ After the first build, for succeding builds, from the top level do
 
    # git pull
    # ./sendToBuild
-   # cp OWrt/config-OWrt cerowrt/.config --do this step only if config change is needed--
+   # --optionally-- cp OWrt/config-OWrt cerowrt/.config 
+
+then
+
    # cd cerowrt
    # make [-j n]
 
