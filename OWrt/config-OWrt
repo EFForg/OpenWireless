@@ -2209,14 +2209,14 @@ CONFIG_PACKAGE_kmod-crypto-wq=m
 # CONFIG_PACKAGE_kmod-fs-afs is not set
 CONFIG_PACKAGE_kmod-fs-autofs4=y
 # CONFIG_PACKAGE_kmod-fs-btrfs is not set
-# CONFIG_PACKAGE_kmod-fs-cifs is not set
-# CONFIG_PACKAGE_kmod-fs-configfs is not set
-# CONFIG_PACKAGE_kmod-fs-cramfs is not set
-# CONFIG_PACKAGE_kmod-fs-exportfs is not set
+CONFIG_PACKAGE_kmod-fs-cifs=m
+CONFIG_PACKAGE_kmod-fs-configfs=m
+CONFIG_PACKAGE_kmod-fs-cramfs=m
+CONFIG_PACKAGE_kmod-fs-exportfs=m
 CONFIG_PACKAGE_kmod-fs-ext4=y
-# CONFIG_PACKAGE_kmod-fs-fscache is not set
+CONFIG_PACKAGE_kmod-fs-fscache=m
 CONFIG_PACKAGE_kmod-fs-hfs=m
-# CONFIG_PACKAGE_kmod-fs-hfsplus=m
+CONFIG_PACKAGE_kmod-fs-hfsplus=m
 CONFIG_PACKAGE_kmod-fs-isofs=m
 CONFIG_PACKAGE_kmod-fs-jfs=m
 CONFIG_PACKAGE_kmod-fs-minix=m
@@ -2868,7 +2868,7 @@ CONFIG_LIBCURL_PROXY=y
 # CONFIG_LIBCURL_TLS-SRP is not set
 # CONFIG_LIBCURL_ZLIB is not set
 CONFIG_PACKAGE_libdaemon=y
-# CONFIG_PACKAGE_libdaq is not set
+CONFIG_PACKAGE_libdaq=m
 CONFIG_PACKAGE_libdb47=y
 # CONFIG_PACKAGE_libdb47xx is not set
 # CONFIG_PACKAGE_libdbi is not set
@@ -2890,7 +2890,7 @@ CONFIG_PACKAGE_libffi=y
 # CONFIG_PACKAGE_libflac is not set
 # CONFIG_PACKAGE_libfreetype is not set
 # CONFIG_PACKAGE_libgcrypt is not set
-# CONFIG_PACKAGE_libgd is not set
+CONFIG_PACKAGE_libgd=m
 CONFIG_PACKAGE_libgdbm=y
 CONFIG_PACKAGE_libgmp=y
 CONFIG_PACKAGE_libgpg-error=y
@@ -2904,12 +2904,12 @@ CONFIG_PACKAGE_libgpg-error=y
 # CONFIG_PACKAGE_libintl-full is not set
 CONFIG_PACKAGE_libiw=m
 CONFIG_PACKAGE_libiwinfo=y
-# CONFIG_PACKAGE_libjpeg is not set
+CONFIG_PACKAGE_libjpeg=m
 # CONFIG_PACKAGE_libjson is not set
 CONFIG_PACKAGE_libjson-c=y
-# CONFIG_PACKAGE_libltdl is not set
+CONFIG_PACKAGE_libltdl=m
 # CONFIG_PACKAGE_liblua is not set
-# CONFIG_PACKAGE_liblzo is not set
+CONFIG_PACKAGE_liblzo=m
 # CONFIG_PACKAGE_libmad is not set
 CONFIG_PACKAGE_libminiupnpc=m
 CONFIG_PACKAGE_libmnl=y
@@ -2919,7 +2919,7 @@ CONFIG_PACKAGE_libmount=y
 # CONFIG_PACKAGE_libmysqlclient-r is not set
 CONFIG_PACKAGE_libncurses=y
 CONFIG_PACKAGE_libncursesw=y
-# CONFIG_PACKAGE_libnet1 is not set
+CONFIG_PACKAGE_libnet1=m
 CONFIG_PACKAGE_libnetfilter-conntrack=y
 CONFIG_PACKAGE_libnetsnmp=y
 CONFIG_PACKAGE_libnettle=y
@@ -2944,13 +2944,13 @@ CONFIG_PACKAGE_libpcap=y
 # CONFIG_PCAP_HAS_USB is not set
 CONFIG_PACKAGE_libpcre=y
 # CONFIG_PACKAGE_libpcrecpp is not set
-# CONFIG_PACKAGE_libpng is not set
+CONFIG_PACKAGE_libpng=m
 CONFIG_PACKAGE_libpopt=y
 CONFIG_PACKAGE_libreadline=y
 # CONFIG_PACKAGE_libroxml is not set
 # CONFIG_PACKAGE_librpc is not set
 # CONFIG_PACKAGE_librrd is not set
-# CONFIG_PACKAGE_librrd1 is not set
+CONFIG_PACKAGE_librrd1=m
 # CONFIG_PACKAGE_libsasl2 is not set
 # CONFIG_PACKAGE_libscamperfile is not set
 # CONFIG_PACKAGE_libsensors is not set
@@ -2982,7 +2982,7 @@ CONFIG_PACKAGE_linux-atm=y
 # CONFIG_PACKAGE_protobuf is not set
 # CONFIG_PACKAGE_pydnet is not set
 CONFIG_PACKAGE_terminfo=y
-# CONFIG_PACKAGE_uclibcxx is not set
+CONFIG_PACKAGE_uclibcxx=m
 CONFIG_PACKAGE_zlib=y
 
 #
@@ -3828,7 +3828,7 @@ CONFIG_PACKAGE_openssl-util=y
 # CONFIG_PACKAGE_pfstore is not set
 # CONFIG_PACKAGE_procps is not set
 # CONFIG_PACKAGE_psmisc is not set
-CONFIG_PACKAGE_px5g=y
+# CONFIG_PACKAGE_px5g is not set
 # CONFIG_PACKAGE_px5g-standalone is not set
 # CONFIG_PACKAGE_rbcfg is not set
 # CONFIG_PACKAGE_rename is not set
