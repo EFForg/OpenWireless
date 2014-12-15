@@ -98,14 +98,13 @@ want to be conservative and ensure the build goes to completion without a glitch
 
 After the first build, for succeding builds, from the top level do 
 
-   # git pull
-   # ./sendToBuild
-   # --optionally-- cp OWrt/config-OWrt cerowrt/.config 
+	# git pull
+   	# ./sendToBuild
+   	# [optionally] cp OWrt/config-OWrt cerowrt/.config
 
 then
-
-   # cd cerowrt
-   # make [-j n]
+	# cd cerowrt
+	# make [-j n]
 
 These steps will pull the latest changes and rebuild an image without updating your packages 
 from the openwrt feeds you are using. If you want to update the openwrt package feeds and/or 
