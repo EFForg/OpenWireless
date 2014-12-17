@@ -372,9 +372,9 @@ CONFIG_TARGET_INIT_CMD="/sbin/init"
 CONFIG_TARGET_INIT_SUPPRESS_STDERR=y
 CONFIG_VERSIONOPT=y
 CONFIG_VERSION_DIST="OWrt"
-CONFIG_VERSION_NICK="MVP-HOPE"
-CONFIG_VERSION_NUMBER="3.10.44-6"
-CONFIG_VERSION_REPO="http://snapon.lab.bufferbloat.net/~cero2/cerowrt/wndr/3.10.44-6/packages"
+CONFIG_VERSION_NICK="MVP-EarlyAdopter"
+CONFIG_VERSION_NUMBER="3.10.50-1"
+CONFIG_VERSION_REPO="http://snapon.lab.bufferbloat.net/~cero2/cerowrt/wndr/3.10.50-1/packages"
 # CONFIG_SMIMEOPT is not set
 # CONFIG_OPKGSMIME_CERT="/build/cero2/cero2.pem"
 # CONFIG_OPKGSMIME_KEY="/build/cero2/cero2.key"
