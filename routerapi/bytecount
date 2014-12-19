@@ -4,6 +4,20 @@ import json
 import common
 from get_bytecounts import get_device_and_byte_counts
 
+leasedSuffixes = []
+try:
+    with open("/var/dhcp.leases",'r') as leasesfile:
+      leases = leasesfile.readlines()
+      for line in leases:
+        leasedSuffixes.append(int(line.split()[2].split('.')[3]))
+except:
+    pass
+finally:
+    leasesfile.close()     
+lanLeases = len([i for i in leasedSuffixes if 1 < i < 31])
+privatewifiLeases = len([i for i in leasedSuffixes if 97 < i < 127])
+
+
 [dev, privateWifiToLan, x] = get_device_and_byte_counts("privatewifitolan")
 [dev, lanToPrivateWifi, x] = get_device_and_byte_counts("lantoprivatewifi")
 
@@ -31,12 +45,12 @@ result = {
     "lanNetwork": {
         "uploadUsage"     : lanNetworkUploadUsage,
         "downloadUsage" : lanNetworkDownloadUsage,
-        "devices"             : lanNetworkDevices
+        "devices"             : lanLeases
     },
     "privateWifi": {
         "uploadUsage"     : privateWifiUploadUsage,
         "downloadUsage" : privateWifiDownloadUsage,
-        "devices"             : privateWifiDevices
+        "devices"             : privatewifiLeases
     },
     "openWireless": {
         "uploadUsage"     : openWirelessUploadUsage,
