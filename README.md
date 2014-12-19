@@ -198,3 +198,10 @@ it creates. You can still use the tftp approach described here,
 http://wiki.openwrt.org/toh/netgear/wndr3800
 
 in the section "Recovery flash in failsafe mode".
+
+If you want to restore the router to its factory image you can use the TFTP 
+instructions above with firmware from Netgear which can be found here:
+
+http://support.netgear.com/product/WNDR3800
+
+
