@@ -188,44 +188,13 @@ accident. Similarly, in Python, never set shell=True when calling binaries.
 # Failsafe and recovery
 
 If something is broken on the router, often you can fix it with failsafe mode.
-Mostly the [standard OpenWRT directions
-apply](http://wiki.openwrt.org/doc/howto/generic.failsafe). However,
-the Open Wireless firmware uses 172.30.42.1 by default, so make sure to modify
-the instructions to contact that address instead of 192.168.1.1.
+Mostly the [standard OpenWRT directions apply]
 
-To enter failsafe mode, reboot the router and press the leftmost of the front buttons
-repeatedly. The power LED will be solid, then slow blinking, then fast blinking.
-Once it's fast blinking, the router is in failsafe mode. Plug in an ethernet
-cable and run, on your host machine:
+(http://wiki.openwrt.org/doc/howto/generic.failsafe). 
 
-    sudo service networking stop
-    ifconfig eth0 172.30.42.2
-    route add default gw 172.30.42.1
-    telnet 172.30.42.1
+The telnet based failsafe has been disabled on the builds due to a security hole 
+it creates. You can still use the tftp approach described here, 
 
-This should get you a root shell on the machine. From there, if you need to
-modify files, you can run:
+http://wiki.openwrt.org/toh/netgear/wndr3800
 
-    # mount_root
-
-To copy files over, you'll need to start the ssh service, which you can do
-by starting dropbear.
-    
-You will need to set a password for the root account for which you can run:
-
-    # passwd
-    
-Then start the ssh service with:
-
-    # dropbear
-    
-and e.g. copy a new image over to the /tmp directory with:
-
-    scp image_sysupgrade.bin root@172.30.42.1:/tmp
-    
-and then e.g. login to the router to reflash the router with:
-
-    sysupgrade -v /tmp/image_sysupgrade.bin
-    
-If the router does start up in failsafe mode, you can open it up and attach a
-serial cable to the motherboard during boot to further debug.
+in the section "Recovery flash in failsafe mode".
