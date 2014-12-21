@@ -15,6 +15,7 @@ $(TEMPLATES_JS): $(HANDLEBARS_FILES)
 
 	./node_modules/handlebars/bin/handlebars -f $(TEMPFILE) $(HANDLEBARS_FILES)
 	mv -f $(TEMPFILE) $(TEMPLATES_JS)
+	chmod 644 $(TEMPLATES_JS)
 
 
 # NOTE: assert_templates_js_up_to_date is a temporary workaround to confirm
