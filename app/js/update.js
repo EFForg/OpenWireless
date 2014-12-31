@@ -14,6 +14,7 @@ var updateModule = (function(){
 
   var errorCallback = function(response){
     alert("Unable to update - check your internet connection");
+    $("#check-for-updates").removeClass("loading");
   };
 
   var updateCallback = function(response){
