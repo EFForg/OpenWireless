@@ -143,27 +143,36 @@ small {
   font-size: 17px;
 }
 
-select, .editable {
+.editable {
   outline: none;
   background: rgb(0, 173, 238);
-  border: 2px solid rgb(0, 173, 238);
+  border: 1px solid rgb(0, 173, 238);
   color: white;
   -webkit-appearance: none;
-  padding: 0em .2em 0em .2em;
+  padding: 0em .3em 0em .3em;
   font-size: 13px;
-}
-
-.setting {
-  display: inline;
-  float: right;
-}
-
-.editable {
   border-radius: 5px;
   font: -webkit-small-control;
   line-height: normal;
-  font-size: 13;
   margin-bottom: 5px;
+}
+
+select {
+  outline: none;
+  background: rgb(0, 173, 238);
+  border: 1px solid rgb(0, 173, 238);
+  color: white;
+  -webkit-appearance: none;
+  padding: 0em .3em 0em .3em;
+  font-size: 13px;
+}
+
+.inline-style {
+  display: inline;
+}
+
+.setting {
+  float: right;
 }
 
 .editable form {

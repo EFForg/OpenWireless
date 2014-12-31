@@ -1,4 +1,6 @@
 
+config Yes 'activatedatacap'
+
 config 600 'maxmonthlybandwidth'
 
 config 20 'maxbandwidthpercentage'
@@ -7,8 +9,17 @@ config 0 'use_before_last_reset'
 
 config 0 'use_since_last_reset'
 
-config 1405544872 'last_known_reset_time'
+config 1419890702.89 'last_known_reset_time'
 
 config 0 'use_at_last_ui_reset'
 
 config audit 'audit'
+	option last_login_ip '172.30.42.120'
+	option previous_login_ip '172.30.42.120'
+	option previous_login_timestamp '2014-12-29T22:09:01'
+	option last_login_timestamp '2014-12-30T03:25:21'
+
+config complete 'setup_state'
+
+config true 'ssh_success'
+

@@ -64,9 +64,10 @@ def update_openwireless_usage():
         increment_use_since_last_reset()
 
 def main():
-    update_openwireless_usage()
-    update_network_availability()
-    uci.commit("openwireless")
+    if uci.get("openwireless.activatedatacap") == "Yes":
+        update_openwireless_usage()
+        update_network_availability()
+        uci.commit("openwireless")
 
 if __name__ == '__main__':
     main()

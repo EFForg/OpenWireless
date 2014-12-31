@@ -1,29 +1,31 @@
 var settingsModule = (function(){
 
   var config = {};
-  var routerBandOptions = ["5", "2.4"];
-  var router5ChannelOptions = ['auto',
-    '36 (5.180 GHz)', '40 (5.200 GHz)', '44 (5.220 GHz)', '48 (5.240 GHz)',
+  var routerBandOptions = ['5 GHz', '2.4 GHz'];
+  var router5ChannelOptions = ['AUTO SELECT',
+    '036 (5.180 GHz)', '040 (5.200 GHz)', '044 (5.220 GHz)', '048 (5.240 GHz)',
     '149 (5.745 GHz)', '153 (5.765 GHz)', '159 (5.785 GHz)', '161 (5.805 GHz)',
     '165 (5.825 GHz)',
-    '-- custom --'];
-  var router24ChannelOptions = ['auto',
-    '1 (2.412 GHz)', '2 (2.417 GHz)', '3 (2.422 GHz)', '4 (2.427 GHz)',
-    '5 (2.432 GHz)', '6 (2.437 GHz)', '7 (2.442 GHz)', '8 (2.447 GHz)',
-    '9 (2.452 GHz)', '10 (2.457 GHz)', '11 (2.462 GHz)', '12 (2.467 GHz)',
-    '-- custom --'];
+    '--- custom ---'];
+  var router24ChannelOptions = ['AUTO SELECT',
+    '01 (2.412 GHz)', '02 (2.417 GHz)', '03 (2.422 GHz)', '04 (2.427 GHz)',
+    '05 (2.432 GHz)', '06 (2.437 GHz)', '07 (2.442 GHz)', '08 (2.447 GHz)',
+    '09 (2.452 GHz)', '10 (2.457 GHz)', '11 (2.462 GHz)', '12 (2.467 GHz)',
+    '--- custom ---'];
   var routerChannelBandwidthOptions = ['20', '40'];
-  var routerVpnConfigurationOptions = ['None', 'TOR', 'VPN', 'VPN 2'];
+  var routerVpnConfigurationOptions = ['None', 'TOR', 'VPN1', 'VPN2'];
   var encryptionOptions = ['Unencrypted', 'EAP-TLS'];
+  var activateDataCapOptions = ['No', 'Yes'];
 
   var menus = [
     { tag: "routerBand",                    options: routerBandOptions },
     { tag: "routerChannelBandwidth",        options: routerChannelBandwidthOptions },
     { tag: "routerVpnConfiguration",        options: routerVpnConfigurationOptions },
+    { tag: "openwirelessActivateDataCap",   options: activateDataCapOptions },
     { tag: "openwirelessBand",              options: routerBandOptions },
     { tag: "openwirelessChannelBandwidth",  options: routerChannelBandwidthOptions },
     { tag: "openwirelessVpnConfiguration",  options: routerVpnConfigurationOptions },
-    { tag: "openwirelessEncryption",  options: encryptionOptions }
+    { tag: "openwirelessEncryption",        options: encryptionOptions }
   ];
 
   var init = function(data){
@@ -40,6 +42,7 @@ var settingsModule = (function(){
 
     var tags = ["router", "openwireless"];
     setDependentDropDownMenus(tags);
+    showOrHideDataCapControls(config["openwirelessActivateDataCap"])
   };
 
     var disableVPNAndTORConfig = function() {
@@ -123,7 +126,7 @@ var settingsModule = (function(){
   var setDependentDropDownMenus = function(tags) {
     for (var index in tags) {
       var dropDown = $('#' + tags[index] + 'Band');
-      if (dropDown.val() === "5") {
+      if (dropDown.val() === '5 GHz') {
         setDropDownMenu(tags[index] + "Channel", router5ChannelOptions);
       } else {
         setDropDownMenu(tags[index] + "Channel", router24ChannelOptions);
@@ -131,6 +134,15 @@ var settingsModule = (function(){
     }
     disableCustomChannel();
   };
+
+
+  var showOrHideDataCapControls = function(activateDataCap) {
+      if (activateDataCap=="Yes") {
+      $('#DataCap').show();
+      } else {
+      $('#DataCap').hide();
+      }
+  }
 
   var setDropDownMenu = function(tag, options) {
     var template = Handlebars.templates["settings-dropdown"];
@@ -144,6 +156,9 @@ var settingsModule = (function(){
       if (tag.substr(-4,4) === "Band") {
         config[tag.replace("Band", "Channel")] = "auto";
         setDependentDropDownMenus([tag.replace("Band", "")]);
+      }
+      if (tag.substr(-7,7) === "DataCap") {
+    showOrHideDataCapControls(config[tag])
       }
     });
   };

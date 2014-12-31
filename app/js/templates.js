@@ -142,7 +142,7 @@ function program13(depth0,data) {
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.maxBandwidthPercent), {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n        ";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.maxMonthlyBandwidth), {hash:{},inverse:self.noop,fn:self.program(9, program9, data),data:data});
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.activateDataCap), {hash:{},inverse:self.noop,fn:self.program(9, program9, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    </div>\n    ";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.connectivity), {hash:{},inverse:self.noop,fn:self.program(11, program11, data),data:data});
@@ -285,17 +285,28 @@ function program7(depth0,data) {
   return "\n              SSH not enabled <a class=\"setting links edit-ssh\">Enable</a>\n              ";
   }
 
+function program9(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\n             <div id=\"DataCap\">\n               <p>\n		            <label for=\"openwirelessData\">Max total data per month</label>\n            	    <span class=\"setting\"><span class=\"editable\" id=\"openwirelessData\">";
+  if (helper = helpers.openwirelessData) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.openwirelessData); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</span> MB </span>\n	             </p>\n               <p>\n		              <span id=\"usage\">Usage counter reset </span><span class=\"subheading\"><a id=\"reset-usage\" href=\"#\" class=\"links\">Reset usage counter</a></span>\n               </p>\n             </div>\n          ";
+  return buffer;
+  }
+
   buffer += "        <h2>Administration\n          <span class=\"subheading\">\n            <a href=\"./changePassword.html\" class=\"links\">Change admin password</a>\n          </span>\n        </h2>\n        <div class=\"section\">\n          <p id=\"SSH\">\n            ";
   options={hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data}
   if (helper = helpers.sshKey) { stack1 = helper.call(depth0, options); }
   else { helper = (depth0 && depth0.sshKey); stack1 = typeof helper === functionType ? helper.call(depth0, options) : helper; }
   if (!helpers.sshKey) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data}); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n          </p>\n          <p>Software Version <span class=\"subheading\"> ";
+  buffer += "\n          </p>\n          <p>Software Version <span class=\"setting\"> ";
   if (helper = helpers.softwareVersion) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.softwareVersion); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span></p>\n          <p>Software Version date <span class=\"subheading\"> ";
+    + "</span></p>\n          <p>Software Version date <span class=\"setting\"> ";
   if (helper = helpers.softwareVersionUpdateDate) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.softwareVersionUpdateDate); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -311,15 +322,14 @@ function program7(depth0,data) {
   if (helper = helpers.routerSsid) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.routerSsid); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span> &nbsp &nbsp\n            <a href=\"./setSSID.html\" class=\"links\">Edit</a>\n          </span>\n        </h2>\n\n        <div class=\"section\">\n          <p>\n            <label for=\"routerBand\">Frequency Band</label>\n            <span class=\"selector\">\n              <select class=\"setting\" id=\"routerBand\">RouterBand</select>\n            </span>\n          </p>\n          <p>\n            <label for=\"routerChannel\">Channel</label>\n            <select class=\"setting\" id=\"routerChannel\">RouterChannel</select>\n          </p>\n          <p>\n            <label for=\"routerChannelBandwidth\">Channel bandwidth</label>\n            <select class=\"setting\" id=\"routerChannelBandwidth\">RouterChannelBandwidth</select>\n          </p>\n          <p>\n            <label for=\"routerVpnConfiguration\">VPN/TOR Configuration</label>\n            <select class=\"setting\" id=\"routerVpnConfiguration\">RouterVpnConfiguration</select>\n          </p>\n        </div>\n\n        <h2>Open Wireless</h2>\n        <div class=\"section\">\n          <p>\n            <label for=openwirelessBandwidth>Max bandwidth fraction</label>\n            <span class=\"setting\"><span class=\"editable\" id=\"openwirelessBandwidth\">";
+    + "</span> &nbsp &nbsp\n            <a href=\"./setSSID.html\" class=\"links\">Edit</a>\n          </span>\n        </h2>\n\n        <div class=\"section\">\n          <p>\n            <label for=\"routerBand\">Frequency Band</label>\n              <select class=\"setting\" id=\"routerBand\">RouterBand</select>\n          </p>\n          <p>\n            <label for=\"routerChannel\">Channel</label>\n	            <select class=\"setting\" id=\"routerChannel\">RouterChannel</select>\n          </p>\n          <p>\n            <label for=\"routerChannelBandwidth\">Channel bandwidth</label>\n              <select class=\"setting\" id=\"routerChannelBandwidth\">RouterChannelBandwidth</select>\n	        </p>\n          <p>\n            <label for=\"routerVpnConfiguration\">VPN/TOR Configuration</label>\n              <select class=\"setting\" id=\"routerVpnConfiguration\">RouterVpnConfiguration</select>\n	        </p>\n        </div>\n\n        <h2>Open Wireless</h2>\n        <div class=\"section\">\n          <p>\n            <label for=openwirelessBandwidth>Max bandwidth fraction</label>\n            <span class=\"setting\"><span class=\"editable\" id=\"openwirelessBandwidth\">";
   if (helper = helpers.openwirelessBandwidth) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.openwirelessBandwidth); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</span>%\n              </span></p>\n          <p>\n            <label for=\"openwirelessData\">Max total data per month</label>\n            <span class=\"setting\"><span class=\"editable\" id=\"openwirelessData\">";
-  if (helper = helpers.openwirelessData) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.openwirelessData); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "</span> MB\n          </span></p>\n          <p><span id=\"usage\">Usage counter reset </span><span class=\"subheading\"><a id=\"reset-usage\" href=\"#\" class=\"links\">Reset usage counter</a></span></p>\n	      <br>\n          <p>\n            <label for=\"openwirelessBand\">Frequency Band</label>\n            <select class=\"setting\" id=\"openwirelessBand\">OpenwirelessBand</select>\n          </p>\n          <p>\n            <label for=\"openwirelessChannel\">Channel</label>\n            <select class=\"setting\" id=\"openwirelessChannel\">OpenwirelessChannel</select>\n          </p>\n          <p>\n            <label for=\"openwirelessChannelBandwidth\">Channel bandwidth</label>\n            <select class=\"setting\" id=\"openwirelessChannelBandwidth\">OpenwirelessChannelBandwidth</select>\n          </p>\n          <p>\n            <label for=\"openwirelessVpnConfiguration\">VPN/TOR Configuration</label>\n            <select class=\"setting\" id=\"openwirelessVpnConfiguration\">OpenwirelessVpnConfiguration</select>\n          </p>\n          <p>\n            <label for=\"openwirelessEncryption\">WiFi security</label>\n            <select class=\"setting\" id=\"openwirelessEncryption\">OpenwirelessEncryption</select>\n          </p>\n        </div>\n";
+    + "</span> % </span>\n          </p>\n          <p>\n            <label for=\"openwirelessActivateDataCap\">Activate Data Cap</label>\n            <select class=\"setting\" id=\"openwirelessActivateDataCap\">openwirelessActivateDataCap</select>\n          </p>\n\n          ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.openwirelessActivateDataCap), {hash:{},inverse:self.noop,fn:self.program(9, program9, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n\n\n	  <br>\n\n          <p>\n            <label for=\"openwirelessBand\">Frequency Band</label>\n	            <select class=\"setting\" id=\"openwirelessBand\">OpenwirelessBand</select>\n          </p>\n          <p>\n            <label for=\"openwirelessChannel\">Channel</label>\n            <select class=\"setting\" id=\"openwirelessChannel\">OpenwirelessChannel</select>\n          </p>\n          <p>\n            <label for=\"openwirelessChannelBandwidth\">Channel bandwidth</label>\n            <select class=\"setting\" id=\"openwirelessChannelBandwidth\">OpenwirelessChannelBandwidth</select>\n          </p>\n          <p>\n            <label for=\"openwirelessVpnConfiguration\">VPN/TOR Configuration</label>\n            <select class=\"setting\" id=\"openwirelessVpnConfiguration\">OpenwirelessVpnConfiguration</select>\n          </p>\n          <p>\n            <label for=\"openwirelessEncryption\">WiFi security</label>\n            <select class=\"setting\" id=\"openwirelessEncryption\">OpenwirelessEncryption</select>\n          </p>\n        </div>\n";
   return buffer;
   });
 })();

@@ -34,8 +34,8 @@
               </div>
             {{/sshKey}}
           </p>
-          <p>Software Version <span class="subheading"> {{softwareVersion}}</span></p>
-          <p>Software Version date <span class="subheading"> {{softwareVersionUpdateDate}}</span></p>
+          <p>Software Version <span class="setting"> {{softwareVersion}}</span></p>
+          <p>Software Version date <span class="setting"> {{softwareVersionUpdateDate}}</span></p>
         </div>
 
         <h2>ISP Speeds
@@ -57,39 +57,51 @@
         <div class="section">
           <p>
             <label for="routerBand">Frequency Band</label>
-            <span class="selector">
               <select class="setting" id="routerBand">RouterBand</select>
-            </span>
           </p>
           <p>
             <label for="routerChannel">Channel</label>
-            <select class="setting" id="routerChannel">RouterChannel</select>
+	            <select class="setting" id="routerChannel">RouterChannel</select>
           </p>
           <p>
             <label for="routerChannelBandwidth">Channel bandwidth</label>
-            <select class="setting" id="routerChannelBandwidth">RouterChannelBandwidth</select>
-          </p>
+              <select class="setting" id="routerChannelBandwidth">RouterChannelBandwidth</select>
+	        </p>
           <p>
             <label for="routerVpnConfiguration">VPN/TOR Configuration</label>
-            <select class="setting" id="routerVpnConfiguration">RouterVpnConfiguration</select>
-          </p>
+              <select class="setting" id="routerVpnConfiguration">RouterVpnConfiguration</select>
+	        </p>
         </div>
 
         <h2>Open Wireless</h2>
         <div class="section">
           <p>
             <label for=openwirelessBandwidth>Max bandwidth fraction</label>
-            <span class="setting"><span class="editable" id="openwirelessBandwidth">{{openwirelessBandwidth}}</span>%
-              </span></p>
+            <span class="setting"><span class="editable" id="openwirelessBandwidth">{{openwirelessBandwidth}}</span> % </span>
+          </p>
           <p>
-            <label for="openwirelessData">Max total data per month</label>
-            <span class="setting"><span class="editable" id="openwirelessData">{{openwirelessData}}</span> MB
-          </span></p>
-          <p><span id="usage">Usage counter reset </span><span class="subheading"><a id="reset-usage" href="#" class="links">Reset usage counter</a></span></p>
-	      <br>
+            <label for="openwirelessActivateDataCap">Activate Data Cap</label>
+            <select class="setting" id="openwirelessActivateDataCap">openwirelessActivateDataCap</select>
+          </p>
+
+          {{#if openwirelessActivateDataCap}}
+             <div id="DataCap">
+               <p>
+		            <label for="openwirelessData">Max total data per month</label>
+            	    <span class="setting"><span class="editable" id="openwirelessData">{{openwirelessData}}</span> MB </span>
+	             </p>
+               <p>
+		              <span id="usage">Usage counter reset </span><span class="subheading"><a id="reset-usage" href="#" class="links">Reset usage counter</a></span>
+               </p>
+             </div>
+          {{/if}}
+
+
+	  <br>
+
           <p>
             <label for="openwirelessBand">Frequency Band</label>
-            <select class="setting" id="openwirelessBand">OpenwirelessBand</select>
+	            <select class="setting" id="openwirelessBand">OpenwirelessBand</select>
           </p>
           <p>
             <label for="openwirelessChannel">Channel</label>

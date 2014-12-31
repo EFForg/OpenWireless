@@ -63,6 +63,8 @@ def get_dashboard():
     else:
         update_available = False
 
+    activateCap = (uci.get("openwireless.activatedatacap") == "Yes")
+
     result = {
         "id": 1,
         "jsonrpc": "2.0",
@@ -103,6 +105,7 @@ def get_dashboard():
                 "downloadSpeedMetric": "Mb/s",
                 "maxBandwidthPercent":
                     uci.get("openwireless.maxbandwidthpercentage"),
+                "activateDataCap": activateCap,
                 "maxMonthlyBandwidth":
                     uci.get("openwireless.maxmonthlybandwidth"),
                 "maxMonthlyBandwidthMetric": "Mb",

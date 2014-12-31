@@ -8,14 +8,14 @@ import uci
 import accumulate_bytes
 
 environ = os.environ
-band_5_channel_options = ['auto',
-    '36 (5.180 GHz)', '40 (5.200 GHz)', '44 (5.220 GHz)', '48 (5.240 GHz)',
+band_5_channel_options = ['AUTO SELECT',
+    '036 (5.180 GHz)', '040 (5.200 GHz)', '044 (5.220 GHz)', '048 (5.240 GHz)',
     '149 (5.745 GHz)', '153 (5.765 GHz)', '159 (5.785 GHz)', '161 (5.805 GHz)',
     '165 (5.825 GHz)']
-band_2p4_channel_options = ['auto',
-    '1 (2.412 GHz)', '2 (2.417 GHz)', '3 (2.422 GHz)', '4 (2.427 GHz)',
-    '5 (2.432 GHz)', '6 (2.437 GHz)', '7 (2.442 GHz)', '8 (2.447 GHz)',
-    '9 (2.452 GHz)', '10 (2.457 GHz)', '11 (2.462 GHz)', '12 (2.467 GHz)']
+band_2p4_channel_options = ['AUTO SELECT',
+    '01 (2.412 GHz)', '02 (2.417 GHz)', '03 (2.422 GHz)', '04 (2.427 GHz)',
+    '05 (2.432 GHz)', '06 (2.437 GHz)', '07 (2.442 GHz)', '08 (2.447 GHz)',
+    '09 (2.452 GHz)', '10 (2.457 GHz)', '11 (2.462 GHz)', '12 (2.467 GHz)']
 
 def check_device(config_name):
     return uci.get("wireless." + config_name + ".device")
@@ -41,19 +41,17 @@ def set_error(param):
 
 def check_band(band_name, interface_name):
     if band_name:
-        if band_name in ["2.4", "5"]:
+        if band_name in ["2.4 GHz", "5 GHz"]:
             current_band = check_device(interface_name)
 
             if current_band == "radio0":
                 new_band = "radio1"
-
             else:
                 new_band = "radio0"
 
             if new_band != check_param(interface_name, "device"):
                 set_param(interface_name, "device", new_band)
                 common.reset_wifi()
-
         else:
             set_error('band')
 
@@ -63,9 +61,8 @@ def check_channel(channel_name, interface_name):
         new_channel = channel_name
         if validate_channel(current_device, new_channel):
             if new_channel.split(' ')[0] != check_param(current_device, 'channel'):
-                set_param(current_device, 'channel', new_channel.split(' ')[0])
+                set_param(current_device, 'channel', new_channel.split(' ')[0].lstrip('0'))
                 common.reset_wifi()
-
         else:
             set_error('channel')
 
@@ -110,11 +107,24 @@ def check_isp_download_speed(speed):
         uci.commit("sqm")
         set_openwireless_use_limit("download")
 
+def checkset_openwireless_activate_data_cap(selection):
+    if selection:
+        try:
+            if (selection == 'Yes' or selection=='No'):
+                if(uci.get("openwireless.activatedatacap")!= selection):
+                    uci.set("openwireless.activatedatacap", selection)
+                    uci.commit("openwireless")
+            else:
+                raise Exception('Setting is neither Yes nor No')
+        except Exception as e:
+            common.render_error(e.__str__())    
+
 def check_openwireless_monthly_data(bandwidth):
     if bandwidth:
         uci.set("openwireless.maxmonthlybandwidth", bandwidth)
         uci.commit("openwireless")
         accumulate_bytes.update_network_availability()
+
 
 def do_post(params):
     check_band(params.get('routerBand'), "@wifi-iface[2]")
@@ -129,6 +139,8 @@ def do_post(params):
     check_isp_download_speed(params.get("ispDownloadSpeed"))
 
     check_openwireless_bandwidth_percentage(params.get("openwirelessBandwidth"))
+
+    checkset_openwireless_activate_data_cap(params.get("openwirelessActivateDataCap"))
 
     check_openwireless_monthly_data(params.get("openwirelessData"))
 
