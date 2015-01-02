@@ -2,16 +2,11 @@
 """
 Initial data to display the web dashboard.
 """
-import os
-import subprocess
-
-import check_interface_connection
 import common
+import check_interface_connection
 import ip_address_retriever
-import run
 import uci
 import audit
-import datetime
 
 def get_dashboard():
     """Render JSON dashboard data response."""
