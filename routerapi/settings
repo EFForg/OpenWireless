@@ -1,5 +1,9 @@
 #!/usr/bin/env python2.7
 import cgi
+import datetime
+import json
+import os
+import subprocess
 import common
 import ssh_key
 import uci
@@ -16,7 +20,7 @@ def openwrt_release():
     except IOError:
          pass
     return (items.get('DISTRIB_DESCRIPTION', 'Unknown'),
-                    items.get('DISTRIB_RELEASE_DATE', 0))
+                    int(items.get('DISTRIB_RELEASE_DATE', 0)))
 
 software_version, software_update_date = openwrt_release()
 
@@ -76,7 +80,7 @@ result = {
         "softwareVersion"                       : software_version,
         "ispDownloadSpeed"                      : isp_download_speed,
         "ispUploadSpeed"                        : isp_upload_speed,
-        "softwareVersionUpdateDate"             : datetime.datetime.utcfromtimestamp(int(software_update_date)),
+        "softwareVersionUpdateDate"             : software_update_date,
         "routerSsid"                            : private.get("ssid"),
         "routerBand"                            : private.get("band"),
         "routerChannel"                         : private.get("channel"),

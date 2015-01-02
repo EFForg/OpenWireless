@@ -1,5 +1,7 @@
 #!/usr/bin/env python2.7
 import cgi
+import json
+import subprocess
 import common
 
 nullfile = open("/dev/null","w")
