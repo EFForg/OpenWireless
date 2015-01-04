@@ -239,7 +239,7 @@ function program1(depth0,data) {
 templates['settings'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, helper, options, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing;
+  var buffer = "", stack1, helper, options, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing, helperMissing=helpers.helperMissing;
 
 function program1(depth0,data) {
   
@@ -307,10 +307,9 @@ function program9(depth0,data) {
   else { helper = (depth0 && depth0.softwareVersion); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
     + "</span></p>\n          <p>Software Version date <span class=\"setting\"> ";
-  if (helper = helpers.softwareVersionUpdateDate) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.softwareVersionUpdateDate); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "</span></p>\n        </div>\n\n        <h2>ISP Speeds\n          <span class=\"subheading\">Set these to help optimize your router</span>\n        </h2>\n        <div class=\"section\">\n          <p>ISP Download Speed <span class=\"setting\" ><span id=\"ispDownloadSpeed\" class=\"editable\">";
+  stack1 = (helper = helpers.datetime || (depth0 && depth0.datetime),options={hash:{},data:data},helper ? helper.call(depth0, (depth0 && depth0.softwareVersionUpdateDate), options) : helperMissing.call(depth0, "datetime", (depth0 && depth0.softwareVersionUpdateDate), options));
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</span></p>\n        </div>\n\n        <h2>ISP Speeds\n          <span class=\"subheading\">Set these to help optimize your router</span>\n        </h2>\n        <div class=\"section\">\n          <p>ISP Download Speed <span class=\"setting\" ><span id=\"ispDownloadSpeed\" class=\"editable\">";
   if (helper = helpers.ispDownloadSpeed) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.ispDownloadSpeed); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)

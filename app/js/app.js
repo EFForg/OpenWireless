@@ -1,3 +1,8 @@
+Number.prototype.pad = function (len) {
+    return (new Array(len+1).join("0") + this).slice(-len);
+}
+
+
 Handlebars.registerHelper('datetime', function(datetimeString, options) {
   var m_names = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
 

@@ -30,6 +30,7 @@ var settingsModule = (function(){
 
   var init = function(data){
     config = data;
+    config["softwareVersionUpdateDate"]=new Date(config["softwareVersionUpdateDate"]);
     displaySettings();
     initializeEditableFields();
   };

@@ -1,8 +1,3 @@
-Number.prototype.pad = function (len) {
-    return (new Array(len+1).join("0") + this).slice(-len);
-}
-
-
 var dashboardModule = (function(){
   var init = function(){
     var data =  { "jsonrpc": "2.0", "method": "dashboard"};
