@@ -20,7 +20,7 @@ def openwrt_release():
     except IOError:
          pass
     return (items.get('DISTRIB_DESCRIPTION', 'Unknown'),
-                    int(items.get('DISTRIB_RELEASE_DATE', 0)))
+                    items.get('DISTRIB_RELEASE_DATE', 0))
 
 software_version, software_update_date = openwrt_release()
 
@@ -80,7 +80,7 @@ result = {
         "softwareVersion"                       : software_version,
         "ispDownloadSpeed"                      : isp_download_speed,
         "ispUploadSpeed"                        : isp_upload_speed,
-        "softwareVersionUpdateDate"             : software_update_date,
+        "softwareVersionUpdateDate"             : int(1000*float(software_update_date)),
         "routerSsid"                            : private.get("ssid"),
         "routerBand"                            : private.get("band"),
         "routerChannel"                         : private.get("channel"),
