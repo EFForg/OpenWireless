@@ -188,9 +188,9 @@ accident. Similarly, in Python, never set shell=True when calling binaries.
 # Failsafe and recovery
 
 If something is broken on the router, often you can fix it with failsafe mode.
-Mostly the [standard OpenWRT directions apply]
+Mostly the standard OpenWRT directions apply: 
 
-(http://wiki.openwrt.org/doc/howto/generic.failsafe). 
+http://wiki.openwrt.org/doc/howto/generic.failsafe 
 
 The telnet based failsafe has been disabled on the builds due to a security hole 
 it creates. You can still use the tftp approach described here, 
@@ -199,8 +199,8 @@ http://wiki.openwrt.org/toh/netgear/wndr3800
 
 in the section "Recovery flash in failsafe mode".
 
-If you want to restore the router to its factory image you can use the TFTP 
-instructions above with firmware from Netgear which can be found here:
+If you want to restore the router to its manufacturer factory image you can use the TFTP 
+instructions above with firmware from Netgear, which can be found here:
 
 http://support.netgear.com/product/WNDR3800
 
