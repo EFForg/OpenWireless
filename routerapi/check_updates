@@ -2,28 +2,38 @@
 import cgi
 import json
 import subprocess
-
-import auth
 import common
+
+update_check_file = "/etc/last_update_check"
 
 nullfile = open("/dev/null","w")
 ret = "error-calling-update"
+last_update_check = None
 
 try:
-    if subprocess.call(["/usr/bin/sudo", "/lib/update/update.py", "check"], stdout=nullfile) == 0:
-      ret = "not-up-to-date"
-    else:
-      ret = "up-to-date"
+    exitcode=subprocess.call(["/usr/bin/sudo", "/lib/update/update.py", "check"], stdout=nullfile)
+    if exitcode == 0:
+        ret = "not-up-to-date"
+    elif exitcode == 1:
+        ret = "up-to-date"
+    elif exitcode == 2:
+        raise IOError(errno.ENETDOWN, 'Network is down')
+    elif exitcode == 3:
+        ret = "system-busy-try-again"
+    else: #exit codes 4 or higher
+        ret = "system-error-check-router-log"
 except OSError:
     # catch call-errors and return error message
     pass
 finally:
     nullfile.close()
+    with open(update_check_file, "r") as f:
+        last_update_check = int(float(f.read().split(' ')[0]))
 
 result = {
     "result": {
-        "status": ret
+        "status": ret,
+        "last_update_check": last_update_check
     }
 }
-
 common.render_success(result)

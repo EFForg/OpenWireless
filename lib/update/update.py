@@ -10,10 +10,10 @@ update_url = "https://s.eff.org/files/openwireless/update.json.asc"
 sysupgrade_command = ["/usr/bin/sudo", "sysupgrade", "-v", "-n"]
 update_check_file = "/etc/last_update_check"
 
-def failed(why):
+def failed(why, exitcode):
     sys.stderr.write("Failed %s\n" % why)
     systemwide_lock.release_lock()
-    sys.exit(1)
+    sys.exit(exitcode)
 
 class Updater(object):
     def __init__(self):
@@ -26,7 +26,7 @@ class Updater(object):
                     self.current = int(m.groups()[0])
                     break
             else:
-                failed("to find current version in /etc/openwrt_release")
+                failed("to find current version in /etc/openwrt_release", 4)
         self.purported_manifest = None
         self.manifest = None
 
@@ -122,12 +122,12 @@ class Updater(object):
         try:
             extracted_version = json.loads(what)
             if not isinstance(extracted_version, dict):
-                failed("to extract a JSON-structured update manifest")
+                failed("to extract a JSON-structured update manifest", 4)
             else:
                 return extracted_version
         except ValueError, e:
-            failed("to extract a JSON-structured update manifest")
-        failed("not reached")
+            failed("to extract manifest", 4)
+        failed("not reached", 4)
 
     def parse_manifest(self):
         if not self.purported_manifest:
@@ -145,15 +145,15 @@ if __name__ == '__main__':
         print "Advise-only mode (checking whether update is available)"
     try:
         if not systemwide_lock.get_lock():
-            failed("to acquire update lock")
+            failed("to acquire update lock",3)
         u = Updater()
         print "Getting update metadata..."
         if not u.get_manifest():
-            failed("to download update metadata")
+            failed("to download update metadata", 2)
         print u.purported_manifest
         print "Validating update signature..."
         if not u.parse_manifest():  # includes signature validity checking
-            failed("to validate signature of update metdata")
+            failed("to validate signature of update metdata", 4)
         
         print "Checking whether to update..."
         if advise_only:
@@ -180,21 +180,21 @@ if __name__ == '__main__':
                 f.write(repr(time.time()*1000) + "   Y")
             print "Downloading new firmware image..."
             if not u.download_file():
-                failed("to download firmware image")
+                failed("to download firmware image", 2)
             print "Validating downloaded image..."
             if u.valid_firmware():
                 print "Installing image..."
                 if not u.do_update():
-                    failed("to install update")
+                    failed("to install update", 4)
                 subprocess.call(["/usr/bin/sudo", "/sbin/reboot"])
             else:
-                failed("to validate downloaded firmware image")
+                failed("to validate downloaded firmware image", 4)
         else:
             print "Updating " + update_check_file + " to indicate no installable update available."
             with open(update_check_file, "w") as f:
                 f.write(repr(time.time()*1000) + "   N")
     except Exception, e:
         print e
-        failed("to update for an undetermined reason.")
+        failed("to update for an undetermined reason.", 4)
     finally:
         systemwide_lock.release_lock()
