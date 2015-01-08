@@ -17,9 +17,11 @@ except OSError:
 
 if not os.path.isfile(os.path.join(CRONTABS, 'root')):
     crontab = """
-0 * * * * /usr/bin/env python2.7 /www/cgi-bin/routerapi/accumulate_bytes
+0,10,20,30,40,50 * * * * /usr/bin/env python2.7 /www/cgi-bin/routerapi/accumulate_bytes
 0 3 * * * /usr/bin/env python2.7 /lib/update/delayed-action.py 7200 /lib/update/update.py
 0 0,1,2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * * /usr/bin/env python2.7 /lib/update/delayed-action.py 3600 /usr/bin/env python2.7 /lib/update/update.py check
 """
     subprocess.Popen(['/usr/bin/crontab', '-'],
       stdin = subprocess.PIPE).communicate(crontab)
+
+          
