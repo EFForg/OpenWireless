@@ -5,15 +5,17 @@ import os
 import common
 import sys
 import uci
-from get_bytecounts import get_device_and_byte_counts
 
-[x, upload_usage, download_usage] = get_device_and_byte_counts("open-wifi")
-
-current_usage = float(upload_usage) + float(download_usage)
-
-uci.set("openwireless.use_at_last_ui_reset", str(current_usage))
-uci.set("openwireless.use_before_last_reset", "0")
+max_use = float(uci.get("openwireless.maxmonthlybandwidth"))*1000000
+uci.set("openwireless.use_since_last_ui_reset", "0")
 uci.commit("openwireless")
+
+current_state = uci.get("wireless.@wifi-iface[1].disabled")
+new_state = "0" if max_use > 0 else "1"
+if current_state != new_state:
+    uci.set("wireless.@wifi-iface[1].disabled", new_state)
+    uci.commit("wireless")
+    common.reset_wifi()
 
 response = {}
 

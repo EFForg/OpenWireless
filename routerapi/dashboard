@@ -40,10 +40,7 @@ def get_dashboard():
     openwireless_on = check_interface_connection.enabled(1)
 
     def get_openwireless_use():
-        use_since_last_reset = uci.get("openwireless.use_since_last_reset")
-        use_before_last_reset = uci.get("openwireless.use_before_last_reset")
-        use_before_last_ui_reset = uci.get("openwireless.use_at_last_ui_reset")
-        use_in_bytes = float(use_since_last_reset) + float(use_before_last_reset) - float(use_before_last_ui_reset)
+        use_in_bytes = float(uci.get("openwireless.use_since_last_ui_reset"))
         use_in_mbs = use_in_bytes/1000000.0
         return(str(int(use_in_mbs)))
 

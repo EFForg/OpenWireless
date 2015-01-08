@@ -14,9 +14,7 @@ from fake_uci import FakeUci
 @mock.patch('accumulate_bytes.uci', new_callable = FakeUci)
 class AccumulateBytesTest(unittest.TestCase):
     def with_usage_in_mb(self, uci, usage):
-        uci.set("openwireless.use_before_last_reset", "0")
-        uci.set("openwireless.use_since_last_reset", float(usage) * 1024 * 1024)
-        uci.set("openwireless.use_at_last_ui_reset", "0")
+        uci.set("openwireless.use_since_last_ui_reset", float(usage) * 1024 * 1024)
         uci.commit("openwireless")
 
     def test_turn_on_adapter_if_off_and_sufficient_bandwidth(self, uci, reset):

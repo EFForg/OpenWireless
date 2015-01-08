@@ -9,10 +9,7 @@ from get_bytecounts import get_device_and_byte_counts
 
 
 def update_network_availability():
-    use_before_last_reset = float(uci.get("openwireless.use_before_last_reset"))
-    use_since_last_reset = float(uci.get("openwireless.use_since_last_reset"))
-    use_at_last_ui_reset = float(uci.get("openwireless.use_at_last_ui_reset"))
-    current_use = use_before_last_reset + use_since_last_reset - use_at_last_ui_reset
+    current_use = float(uci.get("openwireless.use_since_last_ui_reset"))
     max_use = float(uci.get("openwireless.maxmonthlybandwidth"))*1000000
     current_state = uci.get("wireless.@wifi-iface[1].disabled")
     new_state = "1" if current_use > max_use else "0"
@@ -22,46 +19,11 @@ def update_network_availability():
         common.reset_wifi()
 
 def update_openwireless_usage():
-
-    #times are in seconds
-    last_known_reset_time = float(uci.get("openwireless.last_known_reset_time"))
-    current_time = time.time()
-    recorded_time_since_reset = current_time - last_known_reset_time
-    
-    uptime_output = check_output(["cat", "/proc/uptime"])
-    real_time_since_reset = float(uptime_output.split(" ")[0])
-    
-    time_difference = abs(real_time_since_reset - recorded_time_since_reset)
-    acceptable_error_between_times = 3600
-    
-    def increment_use_before_last_reset():
-        use_since_reset = float(uci.get("openwireless.use_since_last_reset"))
-        use_before_reset = float(uci.get("openwireless.use_before_last_reset"))
-
-        new_use_before_reset = str(int(use_since_reset + use_before_reset))
-        uci.set("openwireless.use_before_last_reset", new_use_before_reset)
-
-    def increment_use_since_last_reset():
-        [x, upload_usage, download_usage] = get_device_and_byte_counts("open-wifi")
-        new_use_after_reset = download_usage + upload_usage
-        use_before_ui_reset = float(uci.get("openwireless.use_at_last_ui_reset"))
-        new_use = str(int(new_use_after_reset - use_before_ui_reset))
-        uci.set("openwireless.use_since_last_reset", new_use) 
-
-    def reset_last_known_reset_time():
-        uci.set("openwireless.last_known_reset_time", str(current_time - real_time_since_reset))
-
-    def reset_use_at_last_ui_reset():
-        uci.set("openwireless.use_at_last_ui_reset", "0")
-
-    if time_difference > acceptable_error_between_times:
-        increment_use_before_last_reset()
-        increment_use_since_last_reset()
-        reset_last_known_reset_time()
-        reset_use_at_last_ui_reset()
-
-    else:
-        increment_use_since_last_reset()
+    [x, upload_usage, download_usage] = get_device_and_byte_counts("open-wifi",True) #get count and flush
+    additional_use = download_usage + upload_usage
+    use = int(uci.get("openwireless.use_since_last_ui_reset"))
+    new_use = str(use + additional_use)
+    uci.set("openwireless.use_since_last_ui_reset", new_use) 
 
 def main():
     if uci.get("openwireless.activatedatacap") == "Yes":
