@@ -47,6 +47,9 @@ def set_ssh_key(key, authorized_keys = AUTHORIZED_KEYS):
             'SSH key did not match expected format "ssh-rsa <BASE64_KEY> COMMENT".')
     with open(authorized_keys, 'w') as f:
         f.write(key)
+    #ensure that the file is world readable
+    os.chmod(os.path.dirname(authorized_keys), 0755)
+    os.chmod(authorized_keys,0644)
     comment = validate_key(key)
     common.render_success({
         'comment': comment
