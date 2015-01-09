@@ -2,8 +2,7 @@
 
 
 import time
-
-newEpochTime = int(time.time())
+import subprocess
 
 items = {}
 with open("etc/openwrt_release") as f:
@@ -11,11 +10,17 @@ with open("etc/openwrt_release") as f:
     (key, val) = line.split('=')
     items[key] = val
 
-items['DISTRIB_RELEASE_DATE'] = '\"' + str(newEpochTime) + '\"\n'
+items['DISTRIB_CODENAME'] = '\"' + subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'])[:-1] + '\"\n' 
+
+items['DISTRIB_RELEASE_DATE'] = '\"' + subprocess.check_output(['git','log','-1','--pretty=format:%ct']) + '\"\n'
+
+version_tuple = items['DISTRIB_DESCRIPTION'].split('  ')
+
+items['DISTRIB_DESCRIPTION'] = version_tuple[0] + '  ' + subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'])[:-1] + '  ' + version_tuple[2] + '  ' + version_tuple[3]
 
 with open("etc/openwrt_release",'w') as f:
   for key in items:
     f.write(key + '=' + items[key])
 
 with open("etc/last_update_check", "w") as f:
-  f.write(str(newEpochTime * 1000) + "  N")
+  f.write(subprocess.check_output(['git','log','-1','--pretty=format:%ct']) + '000' + "  N")
