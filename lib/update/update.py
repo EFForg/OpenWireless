@@ -7,7 +7,7 @@ import time
 openwrt_release_file = "/etc/openwrt_release"
 keyring = "/etc/update_key.gpg"
 update_url = "https://s.eff.org/files/openwireless/update.json.asc"
-sysupgrade_command = ["/usr/bin/sudo", "sysupgrade", "-v", "-n"]
+sysupgrade_command = ["/usr/bin/sudo", "sysupgrade", "-v"]
 update_check_file = "/etc/last_update_check"
 
 def failed(why, exitcode):
