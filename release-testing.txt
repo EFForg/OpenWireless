@@ -10,9 +10,8 @@ Testing tasks before releasing a new firmware:
 6. Access the openwireless.org network, load a web site. Make sure the admin website is 
      not accesible from openwireless.org.
 7. Click the circular "Check for update" button at bottom of dashboard page and verify 
-     that pop up box appears. Then refresh dashboard to check that the last checked 
-     date next to button updates to the current time. TODO in future the last checked 
-     time should auto update without having to refresh dashboard page. 
+     that pop up box appears. The last checked time should auto update if router was 
+     connected to internet.
 8. On settings page change upload/download speeds, openwireless.org limits. Refresh
      settings page and check the changes are retained. 
 9. Turn off and on openwireless.org network. Verify SSID disappears and reappears. 
