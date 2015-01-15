@@ -66,7 +66,7 @@ Continuous build at https://travis-ci.org/EFForg/OpenWireless
 # Building the image
 
 You can do all of the above without building an image to flash to the router. Here is
-what you need, if you decide you do want to build an router image. Building has been 
+what you need, if you decide you want to build a router image. Building has been 
 tested only on linux. Please refer to the OpenWRT build requirements 
 
 http://wiki.openwrt.org/doc/howto/build#prerequisites
