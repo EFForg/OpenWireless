@@ -33,6 +33,11 @@ import run
 def get_etc():
     return os.environ.get('OVERRIDE_ETC', '/etc')
 
+# The web server can pass an environment variable to change where this script
+# treats as /var. This is useful for integration testing without a router.
+def get_var():
+    return os.environ.get('OVERRIDE_VAR', '/var')
+
 def reset_wifi():
     run.check_output(["/usr/bin/sudo", "/sbin/wifi", "reload"])
 

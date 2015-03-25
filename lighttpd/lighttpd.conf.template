@@ -94,4 +94,4 @@ server.groupname = "%(GROUP)s"
 server.upload-dirs = ( "/tmp" )
 
 # @rangak : Commented out line below as it is causing Web-UI not to show up on the router
-#include_shell "cat conf.d/*.conf 2> /dev/null"
+include_shell "cat conf.d/*.conf 2> /dev/null"

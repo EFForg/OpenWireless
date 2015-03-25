@@ -1,12 +1,15 @@
 #!/usr/bin/env python2.7
+
+import os
 import datetime
 import json
 import common
 from get_bytecounts import get_device_and_byte_counts
 
 leasedSuffixes = []
+
 try:
-    with open("/var/dhcp.leases",'r') as leasesfile:
+    with open(os.path.join(common.get_var(), 'dhcp.leases'),'r') as leasesfile:
       leases = leasesfile.readlines()
       for line in leases:
         leasedSuffixes.append(int(line.split()[2].split('.')[3]))
