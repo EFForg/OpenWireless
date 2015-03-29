@@ -130,10 +130,11 @@ var replaceByteCounts = function(){
   requestModule.submitRequest(requestData);
 };
 
-$(function(){
+var initializeByteCounts = function(){
 
   var initialSuccessCallback = function(response){
     initialResponse = response;
+    replaceByteCounts();
   };
 
   var initialRequestData = {
@@ -143,5 +144,4 @@ $(function(){
   };
 
   requestModule.submitRequest(initialRequestData);
-  replaceByteCounts();
-});
+};

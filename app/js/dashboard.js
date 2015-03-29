@@ -8,6 +8,7 @@ var dashboardModule = (function(){
         displayInterfaces(dashboard);
         displayLastLogin(dashboard.previousLogin);
         displayLastUpdate(dashboard);
+        initializeByteCounts()
       }
     };
     submitRequest(data, successCallback);
