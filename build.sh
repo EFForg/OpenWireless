@@ -10,6 +10,10 @@
   cd cerowrt
   ./scripts/feeds update
   make package/symlinks
+  #work around for packages that break but are not needed
+  rm -rf feeds/oldpackages/libs/libnet-1.1.x
+  rm -rf feeds/cero/net/inetdxtra
+
   cd ..
   #End first time only steps
 
