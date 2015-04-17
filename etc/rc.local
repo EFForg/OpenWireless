@@ -20,4 +20,7 @@ chmod 0644 /etc/TZ
 
 /etc/init.d/firewall restart
 
+rm /etc/lighttpd/conf.d/*
+/etc/init.d/lighttpd restart
+
 exit 0
