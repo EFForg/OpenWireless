@@ -1,15 +1,20 @@
 describe("Login Module", function() {
-  var password, showPassword, loginForm, redirect, passwordError, genericError;
+  var root, password, showPassword, loginForm, redirect, passwordError, genericError;
 
   beforeEach(function() {
-    affix('form input#password[type="password"]+input#showPassword+input#passwordError+div#genericError');
-    loginForm = $('form');
-    password = $('#password');
-    showPassword = $('#showPassword');
-    passwordError = $("#passwordError");
-    genericError = $("#genericError");
+    root = $("<div/>");
+    $('body').append(root);
+    loginModule.init(root);
+    loginForm = $('form', root);
+    password = $('#password', root);
+    showPassword = $('#showPassword', root);
+    passwordError = $("#passwordError", root);
+    genericError = $("#genericError", root);
     helperModule.redirectTo = function(url) { redirect = url; }
-    loginModule.init();
+  });
+
+  afterEach(function() {
+    root.remove();
   });
 
   it("should show the user an error if password field is empty", function() {
