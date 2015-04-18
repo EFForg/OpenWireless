@@ -1,9 +1,3 @@
-[submodule "cerowrt"]
-	path = cerowrt
-	url = https://github.com/dtaht/cerowrt-3.10.git
-[submodule "ow-python"]
-	path = ow-python
-	url = https://github.com/EFForg/ow-python
 [submodule "openwrt"]
 	path = openwrt
 	url = git://git.openwrt.org/openwrt
