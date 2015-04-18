@@ -6,7 +6,18 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
+  
+  config.vm.box_url = [
+   'http://dev.home.lan/virtualbox.box',
+   'https://vagrantcloud.com/ubuntu/boxes/trusty64/versions/14.04/providers/virtualbox.box'
+  ]  
+  config.vm.box_download_checksum_type='sha1'
+  config.vm.box_download_checksum='51db35afc1730ed0fdc49f88836aff088e97ca3d'
 
+  if Vagrant.has_plugin?("vagrant-cachier")
+   config.cache.scope = :box
+  end
+ 
   config.vm.provider "virtualbox" do |v|
     v.memory = 4048
     v.cpus = 4
