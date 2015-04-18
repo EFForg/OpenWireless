@@ -1,5 +1,13 @@
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['changePassword'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<h1 class=\"setPassword\">Set Administrator Password</h1>\n<form>\n  <div id=\"genericError\" class=\"inputError\"></div>\n  <input type=\"password\" id=\"oldPassword\" class=\"changePassword\" placeholder=\"Old password\"/><br>\n  <br>\n  <input type=\"password\" id=\"newPassword\" placeholder=\"New password\"/><br>\n  <div id=\"newPasswordError\" class=\"inputError\"></div>\n  <input type=\"password\" id=\"retypePassword\" placeholder=\"Retype new password\"/><br>\n  <div id=\"retypePasswordError\" class=\"inputError\"></div>\n  <input type=\"submit\" value=\"Submit\"></input>\n</form>\n";
+  });
 templates['lastLogin'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};

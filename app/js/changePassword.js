@@ -1,4 +1,6 @@
-var changePassword = (function() {
+var changePassword = (function(root) {
+  var changePasswordTemplate = Handlebars.templates.changePassword;
+  root.html(changePasswordTemplate());
   var form = $('form');
   var oldPassword = $('#oldPassword');
   var newPassword = $('#newPassword');
@@ -92,5 +94,5 @@ var changePassword = (function() {
 });
 
 $(function() {
-  changePassword();
+  changePassword($('.formDiv'));
 });
