@@ -1,32 +1,32 @@
 #!/bin/bash -e
 cd $(dirname $0)
 
-echo "remove cerowrt/files directory in build ..."
-rm -rf cerowrt/files
+echo "remove openwrt/files directory in build ..."
+rm -rf openwrt/files
 
-echo "create cerowrt/files directory in build"
-mkdir -p cerowrt/files
+echo "create openwrt/files directory in build"
+mkdir -p openwrt/files
 
 echo "change DISTRIB_RELEASE_DATE in openwrt_release ..."
 ./changeReleaseDate
 
 echo "push etc to build"
-cp -rp etc cerowrt/files/
+cp -rp etc openwrt/files/
 
 echo "push lib to build"
-cp -rp lib cerowrt/files/
+cp -rp lib openwrt/files/
 
 echo "make www directory in build..."
-mkdir cerowrt/files/www
+mkdir openwrt/files/www
 
 echo "pushing frontend to build..."
-cp -rp app/* cerowrt/files/www/
+cp -rp app/* openwrt/files/www/
 
 echo "make cgi-bin directory in build..."
-mkdir cerowrt/files/www/cgi-bin
+mkdir openwrt/files/www/cgi-bin
 
 echo "pushing routerapi to build..."
-cp -rp routerapi cerowrt/files/www/cgi-bin/
+cp -rp routerapi openwrt/files/www/cgi-bin/
 
 echo "building lighttpd config..."
-cat lighttpd/router.properties | scripts/template lighttpd/lighttpd.conf.template > cerowrt/files/etc/lighttpd/lighttpd.conf
+cat lighttpd/router.properties | scripts/template lighttpd/lighttpd.conf.template > openwrt/files/etc/lighttpd/lighttpd.conf

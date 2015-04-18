@@ -88,7 +88,7 @@ optimization by editing the build.sh script. The resulting image is placed in th
 When using a "-j n" option with "make" for any n > 1 the build may fail. All you need 
 to do in this case is 
 
-    # cd cerowrt
+    # cd openwrt
     # make [-j n]
 
 Usually that will fix things. You will then have to manually do the last part of build.sh
@@ -100,11 +100,11 @@ After the first build, for succeeding builds, from the top level do
 
 	# git pull
    	# ./sendToBuild
-   	# [optionally] cp OWrt/config-OWrt cerowrt/.config
+   	# [optionally] cp OWrt/config-OWrt openwrt/.config
 
 then
 
-	# cd cerowrt
+	# cd openwrt
 	# make [-j n]
 
 These steps will pull the latest changes and rebuild an image without updating your packages 
@@ -123,16 +123,16 @@ There's a detailed writeup of our threats and mitigations in security.txt.
 
 # System Overview
 
-The Open Wireless router firmware is built on top of CeroWRT, with some
-modifications to the firewall and services configs for better security and
-usability with guest networks. The web administration UI is unique to Open
+The Open Wireless router firmware is built on top of OpenWRT deriative CeroWRT, 
+with some modifications to the firewall and services configs for better security 
+and usability with guest networks. The web administration UI is unique to Open
 Wireless, and consists of an HTML + JS frontend calling a Python backend with
 a loosely JSONRPC-esque protocol. The frontend is under app/, and the backend is
 under routerapi/. We use Handlebars (similar to Mustache) for templating on the
 client side.
 
-The CeroWRT code can be found in the submodule cerowrt. The build config used for
-OpenWireless is in OWrt/config-OWrt.
+The OpenWRT code can be found in the submodule openwrt. The build config used by
+openwrt for OpenWireless is in OWrt/config-OWrt.
 
 
 # Networking Setup
