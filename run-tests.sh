@@ -15,10 +15,7 @@ else
 fi
 pip install $USER -qr requirements.txt
 
-if ! make assert_templates_js_up_to_date ; then
-  echo 'Error: templates.js out-of-date. Run `make app/js/templates.js`'
-  exit 1
-fi
+make
 
 scripts/unit
 if which nodejs ; then
