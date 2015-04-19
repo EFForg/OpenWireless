@@ -22,7 +22,7 @@ var replaceByteCounts = function(){
       var oldVal = lastResponse[networkName];
       if (newVal && oldVal) {
         var rate = conversion * (newVal[key] - oldVal[key]);
-        roundedRate = roundToDecimal(rate, 1);
+        roundedRate = roundToDecimal(rate, 2);
         if (roundedRate == 0) {
           return "0.0";
         }
