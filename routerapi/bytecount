@@ -4,62 +4,71 @@ import os
 import datetime
 import json
 import common
+import time
+
 from get_bytecounts import get_device_and_byte_counts
 
-leasedSuffixes = []
-
-try:
-    with open(os.path.join(common.get_var(), 'dhcp.leases'),'r') as leasesfile:
-      leases = leasesfile.readlines()
-      for line in leases:
-        leasedSuffixes.append(int(line.split()[2].split('.')[3]))
-except:
-    pass
-finally:
-    leasesfile.close()     
-lanLeases = len([i for i in leasedSuffixes if 1 < i < 31])
-privatewifiLeases = len([i for i in leasedSuffixes if 97 < i < 127])
 
 
-[dev, privateWifiToLan, x] = get_device_and_byte_counts("privatewifitolan")
-[dev, lanToPrivateWifi, x] = get_device_and_byte_counts("lantoprivatewifi")
+def sendBytecounts ():
+    leasedSuffixes = []
+    try:
+        with open(os.path.join(common.get_var(), 'dhcp.leases'),'r') as leasesfile:
+            leases = leasesfile.readlines()
+            for line in leases:
+                leasedSuffixes.append(int(line.split()[2].split('.')[3]))
+    except:
+        pass
+    finally:
+        leasesfile.close()
 
-[openWirelessDevices, openWirelessUploadUsage, openWirelessDownloadUsage] = get_device_and_byte_counts("open-wifi")
-[internetUploadUsage, internetDownloadUsage] = [openWirelessUploadUsage, openWirelessDownloadUsage] 
+    lanLeases = len([i for i in leasedSuffixes if 1 < i < 31])
+    privatewifiLeases = len([i for i in leasedSuffixes if 97 < i < 127])
 
-[lanNetworkDevices, lanNetworkUploadUsage, lanNetworkDownloadUsage] = get_device_and_byte_counts("wired-lan")
-lanNetworkUploadUsage -= lanToPrivateWifi
-lanNetworkDownloadUsage -= privateWifiToLan
-internetUploadUsage += lanNetworkUploadUsage
-internetDownloadUsage += lanNetworkDownloadUsage
+    [dev, privateWifiToLan, x] = get_device_and_byte_counts("privatewifitolan")
+    [dev, lanToPrivateWifi, x] = get_device_and_byte_counts("lantoprivatewifi")
 
-[privateWifiDevices, privateWifiUploadUsage, privateWifiDownloadUsage] = get_device_and_byte_counts("private-wifi")
-privateWifiUploadUsage -= privateWifiToLan
-privateWifiDownloadUsage -= lanToPrivateWifi
-internetUploadUsage += privateWifiUploadUsage
-internetDownloadUsage += privateWifiDownloadUsage
+    [openWirelessDevices, openWirelessUploadUsage, openWirelessDownloadUsage] = get_device_and_byte_counts("open-wifi")
+    [internetUploadUsage, internetDownloadUsage] = [openWirelessUploadUsage, openWirelessDownloadUsage]
+
+    [lanNetworkDevices, lanNetworkUploadUsage, lanNetworkDownloadUsage] = get_device_and_byte_counts("wired-lan")
+    lanNetworkUploadUsage -= lanToPrivateWifi
+    lanNetworkDownloadUsage -= privateWifiToLan
+    internetUploadUsage += lanNetworkUploadUsage
+    internetDownloadUsage += lanNetworkDownloadUsage
+
+    [privateWifiDevices, privateWifiUploadUsage, privateWifiDownloadUsage] = get_device_and_byte_counts("private-wifi")
+    privateWifiUploadUsage -= privateWifiToLan
+    privateWifiDownloadUsage -= lanToPrivateWifi
+    internetUploadUsage += privateWifiUploadUsage
+    internetDownloadUsage += privateWifiDownloadUsage
 
 
-result = {
-    "internet": {
-        "uploadUsage"     : internetUploadUsage,
-        "downloadUsage" : internetDownloadUsage
-    },
-    "lanNetwork": {
-        "uploadUsage"     : lanNetworkUploadUsage,
-        "downloadUsage" : lanNetworkDownloadUsage,
-        "devices"             : lanLeases
-    },
-    "privateWifi": {
-        "uploadUsage"     : privateWifiUploadUsage,
-        "downloadUsage" : privateWifiDownloadUsage,
-        "devices"             : privatewifiLeases
-    },
-    "openWireless": {
-        "uploadUsage"     : openWirelessUploadUsage,
-        "downloadUsage" : openWirelessDownloadUsage
-    },
-    "dateTime" : datetime.datetime.now().isoformat()
-}
+    result = {
+        "internet": {
+            "uploadUsage"     : internetUploadUsage,
+            "downloadUsage" : internetDownloadUsage
+        },
+        "lanNetwork": {
+            "uploadUsage"     : lanNetworkUploadUsage,
+            "downloadUsage" : lanNetworkDownloadUsage,
+            "devices"             : lanLeases
+        },
+        "privateWifi": {
+            "uploadUsage"     : privateWifiUploadUsage,
+            "downloadUsage" : privateWifiDownloadUsage,
+            "devices"             : privatewifiLeases
+        },
+        "openWireless": {
+            "uploadUsage"     : openWirelessUploadUsage,
+            "downloadUsage" : openWirelessDownloadUsage
+        },
+        "dateTime" : datetime.datetime.now().isoformat()
+    }
 
-common.render_success(result)
+    common.render_success_no_exit(result)
+
+
+while (1):
+    sendBytecounts()
+    time.sleep(2)

@@ -3,6 +3,7 @@ var response1 = {};
 var response2 = {};
 var response3 = {};
 var byteCountPath = "/cgi-bin/routerapi/bytecount";
+var keepAliveIntervalMs = 10000;
 
 var replaceByteCounts = function(){
   var roundToDecimal = function(num, dec) {
@@ -72,7 +73,7 @@ var replaceByteCounts = function(){
   };
 
   var updateCount = function(htmlTitle, network){
-    $("h2:contains('" + htmlTitle + "')").parent().parent().children("header").find(".upload-speed").text(network["uploadUsage"]);  
+    $("h2:contains('" + htmlTitle + "')").parent().parent().children("header").find(".upload-speed").text(network["uploadUsage"]);
     $("h2:contains('" + htmlTitle + "')").parent().parent().children("header").find(".download-speed").text(network["downloadUsage"]);
   };
 
@@ -101,47 +102,23 @@ var replaceByteCounts = function(){
     updateCount('Openwireless.org', rates['openWireless']);
   };
 
-  var successCallback = function(response) {
-    // We use a setTimeout rather than a setInterval because sometimes the
-    // server responses are consistently slower than a second. Under
-    // setInterval that would result in lots of stacked requests, exacerbating
-    // the slowness.
-    // We use a try...finally to make sure that an exception does not stop the
-    // updating.
-    try {
-      updateFields(response);
-    } finally {
-      setTimeout(replaceByteCounts, 500);
-    }
-  };
-
   // When we get an error, trying in five seconds instead of one.
   var retryingErrorCallback = function(jqXHR, textStatus, errorThrown) {
+    // [SJP] TODO rewrite error callback/retrying error callback to follow websocket protocol
     errorCallback(jqXHR, textStatus, errorThrown);
     setTimeout(replaceByteCounts, 5000);
   }
 
-  var requestData = {
-    "data" : {},
-    "successCallback" : successCallback,
-    "url" : byteCountPath
-  };
-
-  requestModule.submitRequest(requestData);
-};
-
-var initializeByteCounts = function(){
-
-  var initialSuccessCallback = function(response){
-    initialResponse = response;
-    replaceByteCounts();
-  };
-
-  var initialRequestData = {
-    "data" : {},
-    "successCallback" : initialSuccessCallback,
-    "url" : byteCountPath
-  };
-
-  requestModule.submitRequest(initialRequestData);
+  requestModule.openWebsocket(byteCountPath, keepAliveIntervalMs, {
+    message: function(response) {
+      jsonResponse = JSON.parse(response);
+      if (initialResponse === null){
+        initialResponse = jsonResponse;
+      } else {
+        updateFields(response);
+      }
+    },
+    open: function(){},
+    close: retryingErrorCallback
+  });
 };

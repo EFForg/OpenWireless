@@ -11,6 +11,7 @@ server.modules = (
   "mod_cgi",
   "mod_redirect",
   "mod_expire",
+  "mod_websocket"
 )
 
 # force use of the "write" backend (closes: #2401)
