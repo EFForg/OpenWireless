@@ -94,5 +94,18 @@ server.groupname = "%(GROUP)s"
 
 server.upload-dirs = ( "/tmp" )
 
+websocket.server = ( "/bytecount" =>
+                    (
+                     "host" => "127.0.0.1",
+                     "port" => "80"
+                    )
+                   )
+
+# @ThePletch : Timeout for websocket connections in seconds
+websocket.timeout = 20
+
+websocket.debug = 4
+
+
 # @rangak : Commented out line below as it is causing Web-UI not to show up on the router
 include_shell "cat conf.d/*.conf 2> /dev/null"

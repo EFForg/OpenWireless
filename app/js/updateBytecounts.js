@@ -2,7 +2,7 @@ var initialResponse = {};
 var response1 = {};
 var response2 = {};
 var response3 = {};
-var byteCountPath = "/cgi-bin/routerapi/bytecount";
+var byteCountPath = "/bytecount";
 var keepAliveIntervalMs = 10000;
 
 var replaceByteCounts = function(){
