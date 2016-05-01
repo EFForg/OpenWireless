@@ -26,8 +26,37 @@ var requestModule = (function(){
     });
   };
 
+  var openWebsocket = function(url, keepAliveInterval, callbacks){
+    socket = new WebSocket(url);
+    socket.onopen = function(e){
+      verifyClient(socket);
+      callbacks.open(e);
+    };
+    socket.onclose = callbacks.close;
+    socket.onmessage = callbacks.message;
+
+    setInterval(function(){
+      keepAlive(socket, keepAliveInterval);
+    }, keepAliveInterval);
+  };
+
+  var keepAlive = function(socket, interval){
+    sendSocketMessage(socket);
+  };
+
+  var sendSocketMessage = function(socket, message){
+    var parcel = {
+      csrf: getCsrfToken(),
+      message: message || ""
+    };
+
+    socket.send(JSON.stringify(parcel));
+  }
+
   return {
-    submitRequest: submitRequest
+    submitRequest: submitRequest,
+    openWebsocket: openWebsocket,
+    sendSocketMessage: sendSocketMessage
   };
 
 })();
