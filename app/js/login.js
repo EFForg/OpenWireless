@@ -5,11 +5,17 @@ var loginModule = (function() {
   var passwordError;
   var genericError;
 
-  var init = function(){
+  var init = function(root){
+    initializeTemplate(root);
     initializeFields();
     initializeEvents();
     initializeForm();
   };
+
+  var initializeTemplate = function(root) {
+    var loginTemplate = Handlebars.templates.login;
+    root.html(loginTemplate());
+  }
 
   var initializeFields = function(){
     form = $('form');
@@ -69,6 +75,6 @@ var loginModule = (function() {
 })();
 
 $(document).ready(function() {
-  loginModule.init();
+  loginModule.init($(".formDiv"));
 });
 

@@ -18,7 +18,6 @@ module.exports = function(config) {
         'app/lib/jquery-2.1.0.min.js',
         'app/lib/*.js',
         'app/js/*.js',
-        'spec/jasmine-fixture.min.js',
         'spec/**/*.js'
     ],
 

@@ -1,19 +1,29 @@
 describe("Change password page", function() {
-  var newPassword, retypePassword, passwordForm, newPasswordError, retypePasswordError;
+  var newPassword, retypePassword, passwordForm, newPasswordError, retypePasswordError, root, initTest;
 
   beforeEach(function() {
-    affix('form input#newPassword+input#retypePassword+input#newPasswordError+input#retypePasswordError+input#oldPassword+div#genericError');
-    passwordForm   = $('form');
-    oldPassword = $("#oldPassword");
-    newPassword    = $("#newPassword");
-    retypePassword = $("#retypePassword");
-    newPasswordError = $("#newPasswordError");
-    retypePasswordError = $("#retypePasswordError");
-    genericError = $("#genericError");
+    root = $('<div />');
+    $('body').append(root);
+
     spyOn(helperModule, "redirectTo").andCallFake(function(url) {
       redirect = url;
     });
-    changePassword();
+
+    initTest = function() {
+      changePassword(root);
+      passwordForm   = $('form', root);
+      oldPassword = $("#oldPassword", root);
+      newPassword    = $("#newPassword", root);
+      retypePassword = $("#retypePassword", root);
+      newPasswordError = $("#newPasswordError", root);
+      retypePasswordError = $("#retypePasswordError", root);
+      genericError = $("#genericError", root);
+    }
+    initTest();
+  });
+
+  afterEach(function() {
+    root.remove();
   });
 
   it("should show the user an error if the password field is empty", function() {
@@ -75,10 +85,11 @@ describe("Change password page", function() {
 
   it("should redirect to setSSID page on first time change", function() {
     spyOn($, "ajax").andCallFake(function(params){
-        params.success({});
+      params.success({});
     });
     spyOn(helperModule, "url").andReturn("https://gw.home.lan/changePassword.html?first_time=true");
-    changePassword();
+    initTest();
+
     newPassword.val("asdfghjkl12P");
     retypePassword.val("asdfghjkl12P");
     passwordForm.submit();
@@ -87,7 +98,7 @@ describe("Change password page", function() {
 
   it("should redirect to settings page on change that's not the first time", function() {
     spyOn($, "ajax").andCallFake(function(params){
-        params.success({});
+      params.success({});
     });
     newPassword.val("asdfghjkl12P");
     retypePassword.val("asdfghjkl12P");
@@ -98,7 +109,7 @@ describe("Change password page", function() {
 
   it("should stay on page and display error if old password was incorrect", function() {
     spyOn($, "ajax").andCallFake(function(params){
-        params.error({responseJSON: {'error': 'Bad password'}});
+      params.error({responseJSON: {'error': 'Bad password'}});
     });
     oldPassword.val("badpass");
     newPassword.val("asdfghjkl12P");
