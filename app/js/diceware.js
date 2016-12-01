@@ -58,7 +58,7 @@ Diceware.prototype.getWords = function(words) {
 
 Diceware.prototype.random = function (min, max) {
     var rval = 0;
-    var range = max - min;
+    var range = max - min + 1;
     
     var bits_needed = Math.ceil(Math.log2(range));
     if (bits_needed > 53) {
@@ -93,6 +93,6 @@ Diceware.prototype.getSingleWord = function() {
   if (!window.crypto || !window.crypto.getRandomValues) {
     return null;
   }
-  var index = this.random(0, this.wordlist.length);
+  var index = this.random(0, this.wordlist.length - 1);
   return this.wordlist[index];
 };
