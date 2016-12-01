@@ -65,7 +65,7 @@ Diceware.prototype.random = function (min, max) {
       throw new Exception("We cannot generate numbers larger than 53 bits.");
     }
     var bytes_needed = Math.ceil(bits_needed / 8);
-    var mask = Math.pow(2, bits_needed) - 1; 
+    var mod = Math.pow(2, bits_needed); 
     // 7776 -> (2^13 = 8192) -1 == 8191 or 0x00001111 11111111
     
     // Create byte array and fill with N random numbers
@@ -78,8 +78,8 @@ Diceware.prototype.random = function (min, max) {
       p -= 8;   
     }
     
-    // Use & to apply the mask and reduce the number of recursive lookups
-    rval = rval & mask;
+    // Use % to reduce the number of recursive lookups
+    rval = rval % mod;
     
     if (rval >= range) {
       // Integer out of acceptable range
